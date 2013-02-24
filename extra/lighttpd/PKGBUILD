@@ -6,7 +6,7 @@ license=('custom')
 arch=('i686' 'x86_64')
 url="http://www.lighttpd.net/"
 depends=('pcre' 'libldap')
-makedepends=('fcgi' 'libmysqlclient' 'lua' 'libxml2' 'gdbm')
+makedepends=('fcgi' 'libmysqlclient' 'lua51' 'libxml2' 'gdbm')
 optdepends=('libxml2: mod_webdav'
             'lua51: mod_cml/mod_magnet'
             'libmysqlclient: mod_mysql_vhost')
