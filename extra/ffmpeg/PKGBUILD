@@ -12,26 +12,25 @@ url="http://ffmpeg.org/"
 license=('GPL')
 depends=(alsa-lib gsm lame libpulse libtheora libva libvorbis libvpx opencore-amr openjpeg rtmpdump schroedinger sdl speex v4l-utils x264 xvidcore zlib)
 depends=(alsa-lib gsm lame          libtheora libva libvorbis libvpx opencore-amr openjpeg rtmpdump schroedinger sdl speex           x264 xvidcore)
-makedepends=('yasm' 'git' 'libvdpau' 'gmake')
+makedepends=('yasm' 'git' 'libvdpau' 'gmake' 'perl')
 source=(http://ffmpeg.org/releases/$pkgname-$pkgver.tar.bz2
         patch-configure
-        patch-libavdevice-bktr.c
-        patch-libavdevice-oss_audio.c
         patch-libavformat-udp.c
-        patch-libavutil-common.h
         )
-md5sums=('dbbb88ce5525dea22b24aaa098a9bcc2')
+md5sums=('dbbb88ce5525dea22b24aaa098a9bcc2'
+         '1751f81ce815674c163c25444bb22922'
+         'cc370b2b72b6e3b94f516990cbc0b89e')
 
 build() {
   cd $pkgname-$pkgver
-  for i in patch-configure patch-libavdevice-bktr.c \
-           patch-libavdevice-oss_audio.c patch-libavformat-udp.c \
-           patch-libavutil-common.h
+  for i in patch-configure \
+           patch-libavformat-udp.c
   do
+    msg "patch $i"
     patch -p0 -i "${srcdir}/$i"
   done
 
-  sed -i '' -e 's|$$(LIBDIR)/pkgconfig|${PREFIX}/libdata/pkgconfig|' subdir.mak
+  sed -i '' -e 's|$$(LIBDIR)/pkgconfig|$(PREFIX)/libdata/pkgconfig|' library.mak
   sed -i '' -e 's|/etc/ffserver.conf|${PREFIX}/etc/ffserver.conf|' ffserver.c
   sed -i '' -E \
     -e "s|(EXTRALIBS[[:space:]]*=)|\1-L/usr/local/lib |g" \
@@ -40,8 +39,11 @@ build() {
   sed -i '' -e 's|-ldl||;' configure
   sed -i '' -e 's|/usr/bin/perl|/usr/local/bin/perl}|g' doc/texi2pod.pl
 
+  export CPPFLAGS="$CPPFLAGS -I/usr/local/include"
+  export LDFLAGS="$LDFLAGS -L/usr/local/lib"
+  export PATH="${PATH}:/usr/local/bin/core_perl"
   ./configure \
-    --prefix=/usr \
+    --prefix=/usr/local \
     --enable-libmp3lame \
     --enable-libvorbis \
     --enable-libxvid \
@@ -58,8 +60,8 @@ build() {
     --enable-libschroedinger \
     --enable-libopenjpeg \
     --enable-librtmp \
-    --enable-libpulse \
-    --enable-libv4l2 \
+    --disable-libpulse \
+    --disable-libv4l2 \
     --enable-gpl \
     --enable-version3 \
     --enable-runtime-cpudetect \
