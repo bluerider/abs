@@ -11,6 +11,7 @@ arch=('i686' 'x86_64')
 url="http://ffmpeg.org/"
 license=('GPL')
 depends=(alsa-lib gsm lame libpulse libtheora libva libvorbis libvpx opencore-amr openjpeg rtmpdump schroedinger sdl speex v4l-utils x264 xvidcore zlib)
+depends=(alsa-lib gsm lame          libtheora libva libvorbis libvpx opencore-amr openjpeg rtmpdump schroedinger sdl speex           x264 xvidcore)
 makedepends=('yasm' 'git' 'libvdpau' 'gmake')
 source=(http://ffmpeg.org/releases/$pkgname-$pkgver.tar.bz2
         patch-configure
