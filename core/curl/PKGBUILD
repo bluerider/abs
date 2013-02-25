@@ -8,7 +8,7 @@
 
 pkgname=curl
 pkgver=7.28.1
-pkgrel=1
+pkgrel=2
 pkgdesc="An URL retrieval utility and library"
 arch=('i686' 'x86_64')
 url="http://curl.haxx.se"
@@ -79,6 +79,6 @@ package() {
   install -m644 COPYING "$pkgdir/usr/local/share/licenses/$pkgname/COPYING"
 
   # devel
-  install -dm755 "$pkgdir/usr/local/share/aclocal/libcurl.m4"
+  install -dm755 "$pkgdir/usr/local/share/aclocal/"
   install -m644 docs/libcurl/libcurl.m4 "$pkgdir/usr/local/share/aclocal/libcurl.m4"
 }
