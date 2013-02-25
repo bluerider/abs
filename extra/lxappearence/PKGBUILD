@@ -1,25 +1,42 @@
+#$Id$
+# Maintainer: Bart?omiej Piotrowski <barthalion@gmail.com>
+# Contributor: Angel Velasquez <angvp@archlinux.org>
+# Contributor: Geoffroy Carrier <geoffroy.carrier@koon.fr>
+
 pkgname=lxappearance
 pkgver=0.5.2
 pkgrel=1
-category=x11-themes
 pkgdesc="Feature-rich GTK+ theme switcher of the LXDE Desktop"
 arch=('i686' 'x86_64')
 license=('GPL2')
 url="http://lxde.org/"
 groups=('lxde')
-depends=('gtk2')
-makedepends=('pkgconfig')
+depends=('gtk2' 'intltool')
+makedepends=('pkgconf')
+source=(http://downloads.sourceforge.net/sourceforge/lxde/${pkgname}-${pkgver}.tar.gz
+	'extra-src-utils.c')
+md5sums=('a088c6ef08fd25df7dc3be5b07168bbe'
+         'd4e340232b743292f8ba19b3eafbe18f')
 
 build() {
-  cd "${portsdir}/${category}/${pkgname}"
-  make clean
-  make
-  make deinstall
-  make package PACKAGES="${srcdir}"
+    cd "$srcdir/$pkgname-$pkgver"
+     
+    patch -p0 -i ${srcdir}/extra-src-utils.c
+
+    find "$srcdir"/$pkgname-$pkgver  -name "intltool-merge.in" | xargs  sed -i '' \
+                                -e  's|mkdir $$lang or|mkdir $$lang, 0777 or|'  \
+                                -e  's|^push @INC, "/.*|push @INC, "/usr/local/share/intltool" |'  \
+                                -e  's|/usr/bin/iconv|/usr/local/bin/iconv|g'  \
+                                -e  's|unpack *[(]'"'"'U\*'"'"'|unpack ('"'"'C*'"'"'|'
+
+    ./configure --sysconfdir=/usr/local/etc --prefix=/usr/local
+    gmake 
 }
 
 package() {
-  cd "${pkgdir}"
-  tar xpf "${srcdir}/${category}/${pkgname}-${pkgver}_${pkgrel}.txz"
-}
+    cd "$srcdir/$pkgname-$pkgver"
 
+    gmake DESTDIR="$pkgdir" install 
+    install -dm755 ${pkgdir}/usr/local/libdata/
+    mv ${pkgdir}/usr/local/lib/pkgconfig ${pkgdir}/usr/local/libdata/
+}
