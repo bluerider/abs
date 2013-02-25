@@ -16,6 +16,11 @@ build() {
 
 #	patch -Np1 -i "$srcdir"/shift-keybinds.patch
 
+find "$srcdir"/$pkgname-$pkgver  -name "intltool-merge.in" | xargs  sed -i '' \
+                                -e  's|mkdir $$lang or|mkdir $$lang, 0777 or|'  \
+                                -e  's|^push @INC, "/.*|push @INC, "/usr/local/share/intltool" |'  \
+                                -e  's|/usr/bin/iconv|/usr/local/bin/iconv|g'  \
+                                -e  's|unpack *[(]'"'"'U\*'"'"'|unpack ('"'"'C*'"'"'|'
 	./configure --sysconfdir=/usr/local/etc --prefix=/usr/local
 	gmake
 }
