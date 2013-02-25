@@ -1,19 +1,11 @@
-Status as of: Sat Feb 23 10:31:09 CET 2013
+Status as of: Mon Feb 25 17:16:07 CET 2013
 
 There are:
-0 [core]  Ports-Packages out of       35 total
-                 Done:  100%
-6 [extra] Ports-Packages out of      260 total
-                 Done:  99%
-That's a total of 6 Ports-PKGBUILDs which need to be converted on this branch.
-There are a total of 295 packages.
-The total conversion progress is: 99%
+[core] finished
+3 [extra] Ports-Packages out of      294 total
 
 Here's the TODO:
     
     extra/consolekit
     extra/hal
-    extra/lxappearence
-    extra/lxinput
     extra/polkit
-    extra/slim
