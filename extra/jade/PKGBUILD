@@ -1,0 +1,80 @@
+pkgname=jade
+pkgver=1.2.1
+pkgrel=8
+_bsdpatch=35
+pkgdesc="James Clark's DSSSL Engine"
+url='http://www.jclark.com/jade/'
+arch=('i686' 'x86_64')
+license=('custom')
+replaces=('openjade')
+options=('!libtool' '!makeflags')
+source=("ftp://ftp.jclark.com/pub/${pkgname}/${pkgname}-${pkgver}.tar.gz"
+        "http://dist.bsdlab.org/jade_${pkgver}-${_bsdpatch}.diff.gz"
+	patch-CharsetRegistry.cxx
+	patch-CharsetRegistry.h
+	patch-CodingSystemKit.cxx
+	patch-Makefile.in
+	patch-Ptr.cxx
+	patch-Ptr.h
+	patch-TeXFOTBuilder.cxx
+	patch-TransformFOTBuilder.cxx
+	patch-ac
+	patch-config.h
+	patch-koi8-r.h
+	patch-koi8r.dcl
+	patch-assert.cxx)
+md5sums=('4239670ca6b578bff68b8c2e7cd1225f'
+         '5e4397961036d32a314afb88d8212b31'
+         'b3962d24efab99ae9734c86d31374bd5'
+         '2304ce3d75a7973b74cc226515af7ae8'
+         '86407a1a9d32fab9675b59bf63b675d8'
+         'c0e71f29706fc258f9c8521fbca26143'
+         '847fe1f5beaec192eb6c8042a947c443'
+         '68042255327be9be4a30742dba2a70bd'
+         '908cb66ec1b30c2bd648fa41091cabdf'
+         '5ebac36e7924fbd2dbab4e9b2a46d8e1'
+         'e4e37bdb8a9db6fd27c9f5643b4ca010'
+         'bbde75a752cedc180a46cd3df58b1fc6'
+         '7ce31a2b85b14e66e1be1b2bc68de6bd'
+         '4e06bff26ffbd14e0371f308831b3822'
+         '17b515e45bd88b7e81c977034962bf2f')
+
+build() {
+  cd "${srcdir}"/${pkgname}-${pkgver}
+  patch -p1 -i "${srcdir}"/jade_${pkgver}-${_bsdpatch}.diff
+
+  for i in patch-CharsetRegistry.cxx \
+	patch-CharsetRegistry.h \
+	patch-CodingSystemKit.cxx \
+	patch-Makefile.in \
+	patch-Ptr.cxx \
+	patch-Ptr.h \
+	patch-TeXFOTBuilder.cxx \
+	patch-TransformFOTBuilder.cxx \
+	patch-ac \
+	patch-config.h \
+	patch-koi8-r.h \
+	patch-koi8r.dcl \
+	patch-assert.cxx; do
+  patch -p0 -i ${srcdir}/${i}
+  done
+  unset LDFLAGS
+  unset CXX
+
+  chmod 755 configure
+  ./configure --prefix=/usr/local --enable-default-catalog=/usr/local/share/sgml/catalog
+
+  gmake
+}
+
+package() {
+  cd "${srcdir}"/${pkgname}-${pkgver}
+  find  "${srcdir}"/${pkgname}-${pkgver} \( -name \*.orig -o -name \*~ \) \
+		-exec rm -f \{} \;
+
+  install -d -m755 "${pkgdir}"/usr/local/lib
+  gmake prefix="${pkgdir}"/usr/local install
+  mv "${pkgdir}"/usr/local/bin/sx "${pkgdir}"/usr/local/bin/sgml2xml
+  install -dm755 "${pkgdir}"/usr/share/licenses/${pkgname}
+  install -m644  COPYING "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
+}
