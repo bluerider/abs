@@ -1,0 +1,39 @@
+pkgname=rarian
+pkgver=0.8.1
+pkgrel=3
+pkgdesc="Documentation meta-data library, designed as a replacement for Scrollkeeper."
+arch=('i686' 'x86_64')
+url="http://rarian.freedesktop.org/"
+license=('GPL')
+makedepends=('libxslt')
+options=('!libtool')
+source=(http://ftp.gnome.org/pub/gnome/sources/${pkgname}/0.8/${pkgname}-${pkgver}.tar.bz2
+	patch-docs_Makefile.in
+	patch-util_Makefile.in
+	patch-util_rarian-sk-config.in)
+md5sums=('75091185e13da67a0ff4279de1757b94'
+         '08bd7f79cd1b51769eaff09575aa29ec'
+         '6fd7300e8d6bb71dbe0211170ee3026c'
+         'aaa947184d307c9c28335aa1c8765542')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+	sed  -i '' -e 's|/lib/rarian|/db/rarian|' "${srcdir}/${pkgname}-${pkgver}"/util/Makefile.in
+	sed  -i '' -e 's|@localstatedir@/lib/rarian|@localstatedir@/db/rarian|g' "${srcdir}/${pkgname}-${pkgver}"/util/rarian-sk-config.in  "${srcdir}/${pkgname}-${pkgver}"/util/rarian-sk-extract.in "${srcdir}/${pkgname}-${pkgver}"/util/rarian-sk-rebuild.in "${srcdir}/${pkgname}-${pkgver}"/util/rarian-sk-update.in
+	sed  -i '' -e 's|/usr/local|/usr/local/|' "${srcdir}/${pkgname}-${pkgver}"/librarian/rarian-main.c "${srcdir}/${pkgname}-${pkgver}"/librarian/rarian-man.c "${srcdir}/${pkgname}-${pkgver}"/librarian/rarian-info.c
+
+  for i in patch-docs_Makefile.in \
+	patch-util_Makefile.in \
+	patch-util_rarian-sk-config.in; do
+  patch -p0 -i ${srcdir}/${i}
+  done
+
+  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc \
+     --localstatedir=/var --disable-static
+  gmake
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  gmake DESTDIR="${pkgdir}" install
+}
