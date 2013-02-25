@@ -60,6 +60,7 @@ package() {
   cd ${srcdir}/pinard-Recode-2127b34
   make DESTDIR=${pkgdir} install
 
+  rm -f "${pkgdir}/usr/local/lib/charset.alias"
   rm ${pkgdir}/usr/local/info/dir
   gzip ${pkgdir}/usr/local/info/*
 }
