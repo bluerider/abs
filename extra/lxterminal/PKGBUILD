@@ -1,6 +1,6 @@
 pkgname=lxterminal
 pkgver=0.1.11
-pkgrel=2
+pkgrel=3
 pkgdesc="VTE-based terminal emulator (part of LXDE)"
 arch=('i686' 'x86_64')
 license=('GPL2')
@@ -13,8 +13,6 @@ md5sums=('fd9140b45c0f28d021253c4aeb8c4aea')
 
 build() {
 	cd "$srcdir"/$pkgname-$pkgver
-
-#	patch -Np1 -i "$srcdir"/shift-keybinds.patch
 
 find "$srcdir"/$pkgname-$pkgver  -name "intltool-merge.in" | xargs  sed -i '' \
                                 -e  's|mkdir $$lang or|mkdir $$lang, 0777 or|'  \
