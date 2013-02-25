@@ -44,7 +44,7 @@ build() {
 
   sed -i '' -E -e 's|PY_LIBS=.*|PY_LIBS="-L\$PY_EXEC_PREFIX/lib/python\$PY_VER/config -lpython\$PY_VER -pthread -lutil"|' ${srcdir}/${pkgname}-${pkgver}/configure
 
-  LIBS+="-lgmodule-2.0" ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc --datadir=/usr/local/share/xchat \
+  LIBS+="-lgmodule-2.0" ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc --datadir=/usr/local/share \
     --enable-openssl --enable-dbus --disable-textfe --enable-ipv6 --enable-spell=static
   gmake
 }
@@ -61,5 +61,8 @@ package() {
   install -m644 ../xchat-cloned.svg "${pkgdir}/usr/share/icons/hicolor/scalable/apps/"
   install -dm755 "${pkgdir}/usr/share/icons/hicolor/scalable/apps/"
   install -m644 ../xchat-used.svg "${pkgdir}/usr/share/icons/hicolor/scalable/apps/"
+
+  #These files are owned / installed by gettext - Removing to prevent conflicts.
   rm -f "${pkgdir}"/usr/local/lib/charset.alias
+  rm -f "${pkgdir}"/usr/local/share/locale/locale.alias 
 }
