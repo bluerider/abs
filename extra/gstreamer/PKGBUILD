@@ -1,6 +1,6 @@
 pkgname=gstreamer0.10
 pkgver=0.10.36
-pkgrel=1
+pkgrel=2
 pkgdesc="GStreamer Multimedia Framework"
 arch=('i686' 'x86_64')
 license=('LGPL')
@@ -37,4 +37,7 @@ package() {
   for bins in `ls *-0.10`; do
     rm -f ${bins/-0.10/}
   done
+
+  install -dm755 ${pkgdir}/usr/local/libdata
+  mv ${pkgdir}/usr/local/lib/pkgconfig ${pkgdir}/usr/local/libdata
 }
