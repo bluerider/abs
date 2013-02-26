@@ -10,14 +10,14 @@ arch=('i686' 'x86_64')
 license=('GPL')
 url="http://www.mplayer2.org/"
 install=$pkgname.install
-#        'a52dec'
-#                    'jack'                          'libbluray'
-#                                                            'libpulse'
-#                                                                  'lirc-utils' 'mpg123'
+# 'a52dec'
+# 'jack' 'libbluray'
+# 'libpulse'
+# 'lirc-utils' 'mpg123'
 depends=(         'aalib' 'cdparanoia' 'desktop-file-utils' 'enca' 'faad2' 'ffmpeg' 'fontconfig'
          'freetype2'        'ladspa' 'lame' 'libass'             'libcaca' 'libcdio-paranoia' 'libdca' 'libdvdcss'
          'libdvdnav' 'libdvdread' 'libgl' 'libjpeg' 'libmad'            'libquvi' 'libtheora' 'libvdpau'
-         'libxinerama' 'libxss' 'libxv' 'libxxf86dga' 'libxxf86vm'                       'ncurses' 'sdl' 'ttf-dejavu')
+         'libxinerama' 'libxss' 'libxv' 'libxxf86dga' 'libxxf86vm' 'lcms2' 'ncurses' 'sdl' 'ttf-dejavu')
 makedepends=('mesa' 'unzip' 'yasm' 'python' 'python-docutils')
 backup=('usr/local/etc/mplayer/codecs.conf' 'usr/local/etc/mplayer/input.conf')
 provides=('mplayer')
