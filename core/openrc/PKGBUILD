@@ -1,6 +1,6 @@
 pkgname=openrc
 pkgver=0.11.8
-pkgrel=4
+pkgrel=5
 pkgdesc='Dependency based init system that works with sysvinit.'
 arch=('i686' 'x86_64')
 groups=('base')
@@ -57,7 +57,7 @@ package() {
     done
 
     # For which there is no conf.d
-    for i in cron
+    for i in cron pflog
     do
         install -m755 "${srcdir}/init.d-$i" "${pkgdir}/etc/init.d/$i"
     done
