@@ -15,8 +15,8 @@ md5sums=('f4e78547c79ea8a8ad111cf8b85011bb'
 build()
 {
   cd ${srcdir}/${pkgname}-${pkgver}
-  sed -i '' -e 's|-Wno-unused-variable||g' -e 's|-O3|${CFLAGS}|g' libvisual/Makefile.in
-   patch -p0 -i ${srcdir}/patch-libvisual-lv_cpu.c
+   sed -i '' -e 's|-Wno-unused-variable||g' -e 's|-O3|${CFLAGS}|g' libvisual/Makefile.in
+#   patch -p0 -i ${srcdir}/patch-libvisual-lv_cpu.c
    patch -p0 -i ${srcdir}/patch-configure
 
     find "$srcdir/$pkgname-$pkgver" -name "Makefle.in*" -type f | xargs sed -i '' -e \
