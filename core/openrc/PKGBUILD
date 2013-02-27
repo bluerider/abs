@@ -18,6 +18,7 @@ source=(http://dev.gentoo.org/~williamh/dist/$pkgname-$pkgver.tar.bz2
 	{init,conf}.d-modules
 	{init,conf}.d-ntp-client
 	init.d-cron
+	init.d-pflog
 )
 md5sums=('d896371d533a22de4cf57c7371c4d6e8'
          '2ea45acde0757636ca4f0265121174d6'
