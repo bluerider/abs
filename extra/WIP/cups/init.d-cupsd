@@ -6,7 +6,7 @@ command_args=""
 
 depend() {
 	use net
-	#need dbus
+	need dbus
 	before nfs
 	after logger
 }
