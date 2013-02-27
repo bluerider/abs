@@ -21,7 +21,7 @@ source=(http://dev.gentoo.org/~williamh/dist/$pkgname-$pkgver.tar.bz2
 )
 md5sums=('d896371d533a22de4cf57c7371c4d6e8'
          '2ea45acde0757636ca4f0265121174d6'
-         '29f5aaefd9fc245a61535a19bab75b30'
+         'a116b4dd1504f38aad78c682ef446410'
          'b35e9f3829f4cfca07168fcba98749c7'
          '82a9ad9fd7d59c9bb911a5c80b403f90'
          '0e7438caba45a532c4470a507451158e'
