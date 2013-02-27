@@ -1,7 +1,7 @@
 # Maintainer: Andreas Radke <andyrtr@archlinux.org>
 
 pkgname=cups-filters
-pkgver=1.0.29
+pkgver=1.0.20
 pkgrel=3
 pkgdesc="OpenPrinting CUPS Filters"
 arch=('i686' 'x86_64')
@@ -17,8 +17,8 @@ backup=(etc/fonts/conf.d/99pdftoopvp.conf)
 options=(!libtool)
 source=(http://www.openprinting.org/download/cups-filters/$pkgname-$pkgver.tar.gz
         poppler_buildfix.diff)
-md5sums=('0640a02a3fb88d3dbdb224e3becd400d'
-         'bd97d1d9dbd4feec3a0330fd9fb7a03c')
+md5sums=('fc1d2b8cb5b0513224d7e2b01f900704'
+         'a2e2bce9ae0a65f86148f76631baaa5a')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
@@ -29,6 +29,9 @@ build() {
 #  sed -i '' -e 's/AM_CONFIG_HEADER/AC_CONFIG_HEADER/g' configure.ac
 #  sed -i '' -e 's/_PROGRAMS = pdftoopvp/_PROGRAMS = /' Makefile.am
 #  autoreconf --install
+#  CXXFLAGS="$CXXFLAGS -stdlib=libc++ -std=c++11" 
+
+  sed -i '' -e '/^pkgconfdir/s|\$(libdir)|$(libdir)data|' Makefile.in
 
   ZLIB_CFLAGS=" " \
   ZLIB_LIBS="-lz" \
@@ -36,14 +39,15 @@ build() {
   LIBQPDF_LIBS="`pkg-config --libs libqpdf`" \
   PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:/usr/local/libdata/pkgconfig" \
   CFLAGS="$CFLAGS" \
-  CXXFLAGS="$CXXFLAGS -stdlib=libc++ -std=c++11" \
   CPPFLAGS="$CPPFLAGS -I/usr/local/include" \
   LDFLAGS="$LDFLAGS -L/usr/local/lib" \
+  LIBS="$LIBS -L/usr/local/lib" \
   ./configure --prefix=/usr/local \
     --sysconfdir=/usr/local/etc \
     --with-rcdir=no \
-    --with-test-font-path=/usr/local/lib/X11/fonts/dejavu/DejaVuSans.ttf
+    --with-test-font-path=/usr/local/share/fonts/dejavu/DejaVuSans.ttf
   sed -i '' -e 's/^\(DLOPEN_LIBS =\).*$/\1/' Makefile
+  export LDFLAGS
   gmake
 }
 

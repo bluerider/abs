@@ -70,6 +70,9 @@ build() {
       ;;
   esac
 
+  export CLFAGS="$CFLAGS -fPIC"
+  export LDFLAGS="$LDFLAGS -fPIC"
+
   ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc --localstatedir=/var \
      --libdir=/usr/local/lib \
      --with-docdir=/usr/local/share/doc/cups \
