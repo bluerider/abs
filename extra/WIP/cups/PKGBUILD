@@ -19,14 +19,15 @@ source=(ftp://ftp.easysw.com/pub/cups/${pkgver}/cups-${pkgver}-source.tar.bz2
         recognize-remote-cups-queue-via-dnssd-uri.patch
         usb-backend-reset-after-job-only-for-specific-devices.patch
         patch-conf-Makefile patch-configure patch-cups.pam
+        init.d-cupsd
 )
 md5sums=('87ade07e3d1efd03c9c3add949cf9c00' '9b8467a1e51d360096b70e2c3c081e6c'
          '3733c23e77eb503bd94cc368e02830dc' '90c30380d4c8cd48a908cfdadae1ea24'
          'f861b18f4446c43918c8643dcbbd7f6d' '96f82c38f3f540b53f3e5144900acf17'
          '6bef262b5081051e88cd2ae94fed1867' 'dcef8dd5614461166cada8a706eebb49'
-         '0779ef8ba1d724ebb3b9bf360deba52b'
-         '4b6e3f84afd79a27e684ce205435a465' 'c2db88eae4fe61346ba50254f39a14e0'
-         'a1a50f06dc2cb5567301ec0f2ae12aa2')
+         '0779ef8ba1d724ebb3b9bf360deba52b' '4b6e3f84afd79a27e684ce205435a465'
+         'c2db88eae4fe61346ba50254f39a14e0' 'a1a50f06dc2cb5567301ec0f2ae12aa2'
+         '309cb2dcc4c0dfc34e9c6cd06c9f23a2')
 #options=('!emptydirs')
 
 build() {
@@ -159,6 +160,9 @@ optdepends=('xdg-utils: xdg .desktop file support')
   install -dm700 ${pkgdir}/usr/local/etc/cups/ssl
   # remove directory from package, we create it in cups rc.d file
   rm -rf ${pkgdir}/var/run
+
+  install -dm755 "${pkgdir}/usr/local/etc/init.d"
+  install -m755 "${srcdir}/init.d-cupsd" "${pkgdir}/usr/local/etc/init.d/cupsd"
 
   # install some more configuration files that will get filled by cupsd
   touch ${pkgdir}/usr/local/etc/cups/printers.conf
