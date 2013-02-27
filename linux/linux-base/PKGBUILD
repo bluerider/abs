@@ -109,6 +109,6 @@ build() {
 }
 
 package() {
-	install -dm755 "${pkgdir}"/usr/compat/linux
-	cp -Ra "${srcdir}"/* "${pkgdir}"/usr/compat/linux
+	install -dm755 "${pkgdir}"/compat/linux
+	cp -Ra "${srcdir}"/* "${pkgdir}"/compat/linux
 }

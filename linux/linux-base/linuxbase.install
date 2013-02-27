@@ -17,6 +17,6 @@ post_install() {
 		fi
 	fi
 	
-	usr/compat/linux/sbin/ldconfig -r usr/compat/linux/
+	compat/linux/sbin/ldconfig -r compat/linux/
 }
 
