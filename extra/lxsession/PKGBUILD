@@ -1,6 +1,6 @@
 pkgname=lxsession
 pkgver=0.4.6.1
-pkgrel=3
+pkgrel=4
 pkgdesc='Lightweight X11 session manager'
 arch=('i686' 'x86_64')
 url="http://lxde.org/"
@@ -15,7 +15,15 @@ md5sums=('e456b64c5ab3652a4dec661ec706dc6e')
 
 build() {
   cd $srcdir/$pkgname-$pkgver
-  ./configure --sysconfdir=/usr/local/etc --prefix=/usr/local/
+
+  find "$srcdir"/$pkgname-$pkgver  -name "intltool-merge.in" | xargs  sed -i '' \
+                                -e  's|mkdir $$lang or|mkdir $$lang, 0777 or|'  \
+                                -e  's|^push @INC, "/.*|push @INC, "/usr/local/share/intltool" |'  \
+                                -e  's|/usr/bin/iconv|/usr/local/bin/iconv|g'  \
+                                -e  's|unpack *[(]'"'"'U\*'"'"'|unpack ('"'"'C*'"'"'|'
+
+
+  ./configure 
   gmake
 }
 

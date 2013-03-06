@@ -15,7 +15,7 @@ md5sums=('af0cff78690e658f3c06ceabf27bc71a')
 build() {
   cd $srcdir/$pkgname-$pkgver
 
-  ./configure --sysconfdir=/usr/local/etc --prefix=/usr/local 
+  ./configure
   gmake LDFLAGS+=' -lm'
 }
 

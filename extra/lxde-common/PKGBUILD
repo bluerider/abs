@@ -1,6 +1,6 @@
 pkgname=lxde-common
 pkgver=0.5.5
-pkgrel=2
+pkgrel=3
 pkgdesc='Common files of the LXDE Desktop'
 arch=('any')
 url='http://lxde.org/'
@@ -11,15 +11,33 @@ backup=(usr/local/etc/xdg/lxsession/LXDE/desktop.conf
 depends=('libx11' 'glib2' 'lxde-icon-theme' 'lxsession')
 makedepends=('automake')
 source=(http://downloads.sourceforge.net/lxde/${pkgname}-${pkgver}.tar.gz
-        startlxde.patch)
+        patch-Makefile-am
+	patch-Makefile-in
+	patch-configure
+	patch-configure-ac)
 md5sums=('e51a6b2a815a89fda1f497b509465a97'
-         '13fd5edbe6f4b57cc14447712c9d6209')
+         '49e0ffa5f42f2d9bc479f3ac7543a3c6'
+         '4773071bdcd77cff6c37cef43ab7313f'
+         '69aac43a0571e0ed5176223ab01e915f'
+         '74dafb4ece61fba8a688b310b0bbb061')
 
 build() {
     cd $srcdir/$pkgname-$pkgver
-    ./configure --sysconfdir=/usr/local/etc --prefix=/usr/local
+	
+    patch -p0 -i ${srcdir}/patch-Makefile-am
+    patch -p0 -i ${srcdir}/patch-Makefile-in
+    patch -p0 -i ${srcdir}/patch-configure
+    patch -p0 -i ${srcdir}/patch-configure-ac
+
+    ./configure --prefix=/usr/local \
+		CPPFLAGS="-I/usr/local/include" \
+		LDFLAGS="-L/usr/local/lib" \
+		GMSGFMT="/usr/local/bin/msgfmt" \
+		--with-xsession-path=/usr/local/share/xsessions \
+		--with-xdg-path=/usr/local/share/applications \
+		--sysconfdir=/usr/local/etc \
+		--datadir=/usr/local/share
     gmake
-#    patch -Np0 -i $srcdir/startlxde.patch
 }
 
 package() {

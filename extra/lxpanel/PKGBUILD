@@ -41,7 +41,8 @@ build() {
       --prefix=/usr/local \
       --with-plugins=volume,deskno,kbled,xkb,batt \
       --disable-alsa \
-      --enable-man
+      --enable-man \
+      --datarootdir=/usr/local/share
     gmake
 }
 

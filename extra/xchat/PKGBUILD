@@ -43,7 +43,7 @@ build() {
   patch -p0 -i "${srcdir}/patch-src_common_xchat.h"
 
   sed -i '' -E -e 's|PY_LIBS=.*|PY_LIBS="-L\$PY_EXEC_PREFIX/lib/python\$PY_VER/config -lpython\$PY_VER -pthread -lutil"|' ${srcdir}/${pkgname}-${pkgver}/configure
-
+  CFLAGS="$CFLAGS -fPIC"
   LIBS+="-lgmodule-2.0" ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc --datadir=/usr/local/share \
     --enable-openssl --enable-dbus --disable-textfe --enable-ipv6 --enable-spell=static
   gmake
