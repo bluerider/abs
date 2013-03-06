@@ -5,11 +5,7 @@ pkgdesc="Cross-platform NPAPI compatible plugin viewer"
 arch=('any')
 url="http://nspluginwrapper.davidben.net/"
 license=('GPL')
-depends=(
-  'curl'
-  'libxt'
-  'gtk2'
-)
+depends=('curl' 'libxt' 'gtk2' 'linux-gtk2')
 install="install"
 source=(http://nspluginwrapper.davidben.net/download/$pkgname-$pkgver.tar.gz
 	patch-configure
