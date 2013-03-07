@@ -21,4 +21,7 @@ build() {
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
+
+  install -dm755 "${pkgdir}/usr/local/libdata"
+  cp -Ra "${pkgdir}/usr/local/share/pkgconfig" "${pkgdir}/usr/local/libdata"
 }
