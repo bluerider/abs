@@ -1,0 +1,26 @@
+pkgname=p11-kit
+pkgver=0.13
+pkgrel=1
+pkgdesc="Library to work with PKCS#11 modules"
+arch=(i686 x86_64)
+url="http://p11-glue.freedesktop.org"
+license=('BSD')
+options=(!libtool)
+source=($url/releases/$pkgname-$pkgver.tar.gz)
+md5sums=('3892bc07ff54b1b391aad4628911801d')
+
+build() {
+  cd $pkgname-$pkgver
+  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc \
+    --with-module-path=/usr/local/lib/pkcs11
+  gmake
+}
+
+package() {
+  cd  $pkgname-$pkgver
+  gmake DESTDIR="$pkgdir" install
+
+  install -dm755 "${pkgdir}/usr/local/libdata"
+  cp -Ra "${pkgdir}/usr/local/lib/pkgconfig" "${pkgdir}/usr/local/libdata"
+  rm -rf "${pkgdir}/usr/local/lib/pkgconfig"
+}
