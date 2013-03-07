@@ -1,0 +1,28 @@
+pkgname=libidn
+pkgver=1.26
+pkgrel=1
+pkgdesc="Implementation of the Stringprep, Punycode and IDNA specifications"
+url="http://www.gnu.org/software/libidn/"
+arch=('i686' 'x86_64')
+license=('GPL3' 'LGPL')
+depends=('texinfo')
+makedepends=('pkgconf')
+options=('!libtool')
+source=(http://ftp.gnu.org/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz)
+install=libidn.install
+sha1sums=('b1cb40646a96dadbfc41d060d23dfb382eec1128')
+	
+build() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+  ./configure --prefix=/usr/local
+  make
+}
+
+package() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+  make DESTDIR=${pkgdir} install
+
+  install -dm755 "${pkgdir}/usr/local/libdata"
+  cp -Ra "${pkgdir}/usr/local/lib/pkgconfig" "${pkgdir}/usr/local/libdata"
+  rm -rf "${pkgdir}/usr/local/lib/pkgconfig"
+}
