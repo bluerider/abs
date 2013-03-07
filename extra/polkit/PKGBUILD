@@ -43,6 +43,9 @@ build() {
 package() {
   cd $pkgname-$pkgver
   gmake DESTDIR="$pkgdir" install
+
+  install -dm755 "${pkgdir}/usr/local/libdata"
+  cp -Ra "${pkgdir}/usr/local/lib/pkgconfig" "${pkgdir}/usr/local/libdata"
   
   install -dm755 "${pkgdir}/usr/local/etc/dbus-1/system.d/"   
   install "${srcdir}/${pkgname}-${pkgver}/data/org.freedesktop.PolicyKit1.conf" \
