@@ -1,0 +1,44 @@
+pkgname=gconf
+pkgver=3.2.6
+pkgrel=1
+pkgdesc="A configuration database system"
+arch=(i686 x86_64)
+license=('LGPL')
+depends=('libxml2' 'polkit' 'libldap' 'dbus-glib' 'gtk3')
+makedepends=('intltool' 'gtk-doc' 'gobject-introspection')
+options=('!libtool')
+install=gconf.install
+url="http://www.gnome.org"
+source=(http://ftp.gnome.org/pub/gnome/sources/GConf/3.2/GConf-$pkgver.tar.xz
+        patch-gsettings_gconfsettingsbackend.c
+	gconf-merge-scheme
+	gconfpkg)
+sha256sums=('1912b91803ab09a5eed34d364bf09fe3a2a9c96751fde03a4e0cfa51a04d784c'
+            '01a60b8f66abb9d3c88c17189091b51284688a30531557ff8d9ce322075e7e6c'
+            '815821cdf7de10c1c3752f21d815d3167792eab5beed843fde80bfe59bb6da61'
+            '5af7e39b7db6b915d5aac7863bd8bf376634f2a84bdae5768d8513be99d62667')
+
+build() {
+  cd "GConf-$pkgver"
+
+  patch -p0 -i "${srcdir}/patch-gsettings_gconfsettingsbackend.c"
+  # Python2 fix
+  sed -i '' -e '1s|#!/usr/bin/env python$|&2|' gsettings/gsettings-schema-convert
+
+  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc \
+      --localstatedir=/var --libexecdir=/usr/local/lib/GConf \
+      --disable-static --enable-defaults-service --with-gtk=3.0 \
+      --disable-orbit
+
+  gmake pkglibdir=/usr/local/lib/GConf
+}
+
+package() {
+  cd "GConf-$pkgver"
+  gmake DESTDIR="$pkgdir" install
+
+  install -m755 -d "$pkgdir/usr/local/etc/gconf/gconf.xml.system"
+  install -m755 "$srcdir/gconf-merge-scheme" "$pkgdir/usr/local/bin/"
+  install -dm755 "$pkgdir/usr/local/sbin/gconfpkg"
+  install -m755 "$srcdir/gconfpkg" "$pkgdir/usr/local/sbin/gconfpkg"
+}
