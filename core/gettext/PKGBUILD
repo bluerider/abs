@@ -4,7 +4,7 @@
 
 pkgname=gettext
 pkgver=0.18.1
-pkgrel=1
+pkgrel=2
 pkgdesc="GNU internationalization library"
 arch=('i686' 'x86_64')
 url="http://www.gnu.org/software/gettext/"
@@ -26,8 +26,7 @@ source=(ftp://ftp.gnu.org/pub/gnu/gettext/${pkgname}-${pkgver}.tar.gz{,.sig}
         patch-gettext-tools_man_Makefile.in
         patch-gettext-tools_src_Makefile.in
         patch-gettext-tools_src_msginit.c
-        patch-gettext-tools_src_x-glade.c
-        )
+        patch-gettext-tools_src_x-glade.c)
 md5sums=('2ae04f960d5fa03774636ddef19ebdbf'
          '0367a32ae6c1c5f7b203a9b6b4344280'
          '0c5b2727be692452be283ce8cf046a9e'
@@ -45,8 +44,7 @@ md5sums=('2ae04f960d5fa03774636ddef19ebdbf'
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-# Ports patches
-  # patch -p0 -i extra-patch-nodocs
+
   patch -p0 -i ${srcdir}/patch-ad
   patch -p0 -i ${srcdir}/patch-ak
   patch -p0 -i ${srcdir}/patch-gettext-runtime_configure
@@ -60,17 +58,13 @@ build() {
   patch -p0 -i ${srcdir}/patch-gettext-tools_src_msginit.c
   patch -p0 -i ${srcdir}/patch-gettext-tools_src_x-glade.c
 
-  export CPPFLAGS="-I/usr/local/include"
-  export LDFLAGS="-L/usr/local/lib"
-
-# ports does this
   find . -name configure -print | xargs sed -i '' -e 's|mkdir gmkdir|mkdir|'
-# from ports: EMACS line
+
   EMACS="no" \
-  ./configure --prefix=/usr/local \
-              --sysconfdir=/usr/local/etc \
-              --mandir=/usr/local/man \
-              --infodir=/usr/local/info \
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --mandir=/usr/share/man \
+              --infodir=/usr/share/info \
               --disable-csharp --disable-threads --disable-openmp \
            	  --with-included-gettext --with-included-glib \
            	  --with-included-libcroco --with-included-libxml \
