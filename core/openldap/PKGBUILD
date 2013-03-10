@@ -55,8 +55,7 @@ build() {
   sed -i '' -e 's|-$(MKDIR) $(DESTDIR)$(localstatedir)/run|-$(MKDIR) $(DESTDIR)/var/db|' servers/slapd/Makefile.in
 
 export LDFLAGS="$LDFLAGS -L\"${pkgdir}/libldap/usr/lib\""
-#  export CFLAGS="${CFLAGS} -I/usr/local/include"
-#  export CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
+
 # have to explicitly disable libmdb - it's not built anywhere in ports/archlinux
 # but it seems to still try anyway - but it requires O_DSYNC which does not exist on BSD
   ./configure --prefix=/usr --mandir=/usr/share/man --libexecdir=/usr/libexec \
@@ -66,7 +65,7 @@ export LDFLAGS="$LDFLAGS -L\"${pkgdir}/libldap/usr/lib\""
     --enable-crypt --enable-dynamic \
     --with-threads --disable-wrappers \
     --without-fetch \
-    --enable-lmpasswd \
+    --enable-lmpasswd --with-cyrus-sasl \
     --enable-overlays=mod --enable-modules=yes \
     --enable-rewrite --enable-null=mod --enable-ldap=mod \
     --enable-meta=mod --enable-monitor=mod \
@@ -119,16 +118,10 @@ package_openldap() {
 
   ln -s ../lib/slapd "${pkgdir}"/usr/sbin/slapd
 
-#  chown root:ldap "${pkgdir}"/etc/openldap/{slapd.conf,DB_CONFIG.example}
   chmod 640 "${pkgdir}"/etc/openldap/{slapd.conf,DB_CONFIG.example}
 
 # FIXME: init scripts
   install -dm755 "${pkgdir}/etc/init.d"
-# install -m755 "${srcdir}/slapd" "${pkgdir}/etc/init.d/slapd"
-# install -Dm644 "${srcdir}"/slapd.default "${pkgdir}"/etc/conf.d/slapd
-
-# install -Dm644 "${srcdir}"/slapd.tmpfiles "${pkgdir}"/usr/lib/tmpfiles.d/slapd.conf
-
   install -dm755 "${pkgdir}"/usr/share/licenses/${pkgname}
   install -m644 LICENSE "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
 }
