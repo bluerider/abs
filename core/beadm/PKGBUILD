@@ -17,8 +17,8 @@ build() {
 
 package() {
   cd "${srcdir}/${_pkgsrcname}"
-  install -dm755 "${pkgdir}/usr/local/bin"
-  install -m755 beadm "${pkgdir}/usr/local/bin/beadm"
-  install -dm755 "${pkgdir}/usr/local/man/man1"
-  install -m644 beadm.1 "${pkgdir}/usr/local/man/man1/beadm.1"
+  install -dm755 "${pkgdir}/usr/bin"
+  install -m755 beadm "${pkgdir}/usr/bin/beadm"
+  install -dm755 "${pkgdir}/usr/share/man/man1"
+  install -m644 beadm.1 "${pkgdir}/usr/share/man/man1/beadm.1"
 }
