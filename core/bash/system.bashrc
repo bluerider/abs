@@ -20,4 +20,4 @@ case ${TERM} in
     ;;
 esac
 
-[ -r /usr/local/share/bash-completion/bash_completion   ] && . /usr/local/share/bash-completion/bash_completion
+[ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
