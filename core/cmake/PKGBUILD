@@ -18,16 +18,12 @@ source=("http://www.cmake.org/files/v2.8/${pkgname}-${pkgver}.tar.gz"
         patch-Modules_FindDCMTK.cmake
         patch-Modules_FindJava.cmake
         patch-Modules_FindQt4.cmake
-        patch-Modules_FindSDL.cmake
         patch-Modules_FindwxWidgets.cmake
-        patch-Modules_FindwxWindows.cmake
-        )
+        patch-Modules_FindwxWindows.cmake)
 md5sums=('801f4c87f8b604f727df5bf1f05a59e7'
-         '464365b9a4f9dd111a420bdf2fe86221'
          'a58b1e1abe2c3cf9b81a225928725e01'
          'f5efcae8c3d35575b93172cec7d6af59'
          '715efdbe373b9c40249dde17fc2a998b'
-         'df0075e161f0e710b34d98bdd6a6eda2'
          'c717a03d877f6e248a09c3592ef5d098'
          '3d54a7a68af89b8d9a8c51c6579c1461')
 
@@ -38,36 +34,17 @@ build() {
   patch -p0 -i "${srcdir}/patch-Modules_FindDCMTK.cmake"
   patch -p0 -i "${srcdir}/patch-Modules_FindJava.cmake"
   patch -p0 -i "${srcdir}/patch-Modules_FindQt4.cmake"
-  patch -p0 -i "${srcdir}/patch-Modules_FindSDL.cmake"
   patch -p0 -i "${srcdir}/patch-Modules_FindwxWidgets.cmake"
   patch -p0 -i "${srcdir}/patch-Modules_FindwxWindows.cmake"
 
-# From ports:
-  (find Modules -name "*.cmake" -print0; \
-   find Tests -name "CMakeLists.txt" -print0 \
-  ) | xargs -0 -n 100 sed -i '' -e 's,/usr/X11R6,/usr/local,g'
-  sed -i '' -e 's,/opt/kde4,/usr/local/kde4,g' Modules/FindKDE4.cmake
-  sed -i '' -e 's,/usr/include,/usr/local/include,' Modules/FindDCMTK.cmake
-  find . -name "*.bak" -delete -o -name "*.orig" -delete
-
-  ./configure --prefix=/usr/local \
+  ./configure --prefix=/usr \
     --mandir=/man \
     --docdir=/doc/cmake \
     --datadir=/share \
     --system-libs
 
-# Disabled for now
-#    --qt-gui \
-
   gmake
 }
-
-# I assume Arch doesn't have this here because it takes really long...
-# 1 test failed for me though - yet again... so I'll leave this here for later
-# check() {
-#   cd "${srcdir}/${pkgbase}-${pkgver}"
-#   make test
-# }
 
 package() {
   pkgname="cmake"
@@ -78,7 +55,7 @@ package() {
   cd "${srcdir}/${pkgbase}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
 
-  vimpath="${pkgdir}/usr/local/share/vim/vimfiles"
+  vimpath="${pkgdir}/usr/share/vim/vimfiles"
   install -dm755 "${vimpath}"/indent
   install -m644 Docs/cmake-indent.vim "${vimpath}"/indent/cmake-indent.vim
   install -dm755 "${vimpath}"/syntax
@@ -87,6 +64,6 @@ package() {
 # install -Dm644 Docs/cmake-mode.el "${pkgdir}"/usr/share/emacs/site-lisp/cmake-mode.el
 # emacs -batch -f batch-byte-compile "${pkgdir}"/usr/share/emacs/site-lisp/cmake-mode.el
 
-  install -dm755 "${pkgdir}"/usr/local/share/licenses/${pkgname}-${pkgver}
-  install -m644 Copyright.txt "${pkgdir}"/usr/local/share/licenses/${pkgname}-${pkgver}/LICENSE
+  install -dm755 "${pkgdir}"/usr/share/licenses/${pkgname}-${pkgver}
+  install -m644 Copyright.txt "${pkgdir}"/usr/share/licenses/${pkgname}-${pkgver}/LICENSE
 }
