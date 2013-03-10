@@ -87,7 +87,7 @@ package() {
   # user configuration file skeletons
   install -m644 ${srcdir}/dot.bashrc ${pkgdir}/etc/skel/.bashrc
   install -m644 ${srcdir}/dot.bash_profile ${pkgdir}/etc/skel/.bash_profile
-  install -m644 ${srcdir}/dot.bash_logout ${pkgdir}/usr/local/etc/skel/.bash_logout
+  install -m644 ${srcdir}/dot.bash_logout ${pkgdir}/etc/skel/.bash_logout
 }
 
 md5sums=('3fb927c7c33022f1c327f14a81c0d4b0'
