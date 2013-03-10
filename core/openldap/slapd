@@ -11,10 +11,10 @@ start() {
     ebegin "Starting OpenLDAP"
     if [ -z "$SLAPD_SERVICES" ]; then
       start-stop-daemon --start --pidfile /var/run/slapd.pid --exec \
-        /usr/local/sbin/slapd -u ldap -g ldap $SLAPD_OPTIONS
+        /usr/sbin/slapd -u ldap -g ldap $SLAPD_OPTIONS
     else
       start-stop-daemon --start --pidfile /var/run/slapd.pid --exec \
-        /usr/local/sbin/slapd -u ldap -g ldap -h "$SLAPD_SERVICES" $SLAPD_OPTIONS
+        /usr/sbin/slapd -u ldap -g ldap -h "$SLAPD_SERVICES" $SLAPD_OPTIONS
     fi
     eend $?
 }

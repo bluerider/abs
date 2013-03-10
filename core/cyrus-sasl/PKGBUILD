@@ -27,8 +27,7 @@ source=(ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-${pkgver}.tar.gz
         patch-saslauthd__configure
         patch-saslauthd__saslcache.c
         init.d-saslauthd
-        conf.d-saslauthd
-)
+        conf.d-saslauthd)
 md5sums=('a7f4e5e559a0e37b3ffc438c9456e425'
          '3abc193f270d40d161b62dd7f119a979'
          'ac577b3126b4311c2aaa2a698ca98e7f'
@@ -38,7 +37,7 @@ md5sums=('a7f4e5e559a0e37b3ffc438c9456e425'
          'b0d10569abda1a8f96989518b4cf81b1'
          '7cb4b0eae7fda2c0ea691ffb00b79db4'
          'd77fcea8493e1662b4b44beefed1a592'
-         'd769ac0b5b9baf340a972988710bf6ab'
+         '8a0c94ee9f75ce35a42d8d6491354794'
          'c934b02b98f72b6d99fa78037d7691b7')
 
 build() {

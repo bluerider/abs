@@ -22,7 +22,7 @@ source=(ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/${pkgbase}-${pkgver
         patch-shlib-version
         patch-smbk5pwd-Makefile)
 md5sums=('5adae44897647c15ce5abbff313bc85a'
-         '45bed248696619c1264c49ad38b6cb1b'
+         '196fff41172fd4705fd74f3841253cdf'
          '95b229974560ba834355feb218e0cb50'
          '60bcedc409be38a7c89d193ce15d2188'
          'cf3c4f921c130530f2ee424b79d5d9a5'
@@ -54,13 +54,13 @@ build() {
   sed -i '' -e 's|%LOCALSTATEDIR%/run|/var/db|' servers/slapd/slapd.conf
   sed -i '' -e 's|-$(MKDIR) $(DESTDIR)$(localstatedir)/run|-$(MKDIR) $(DESTDIR)/var/db|' servers/slapd/Makefile.in
 
-  export LDFLAGS="$LDFLAGS -L/usr/local/lib -L\"${pkgdir}/libldap/usr/local/lib\""
-  export CFLAGS="${CFLAGS} -I/usr/local/include"
-  export CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
+#  export LDFLAGS="$LDFLAGS -L/usr/local/lib -L\"${pkgdir}/libldap/usr/local/lib\""
+#  export CFLAGS="${CFLAGS} -I/usr/local/include"
+#  export CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
 # have to explicitly disable libmdb - it's not built anywhere in ports/archlinux
 # but it seems to still try anyway - but it requires O_DSYNC which does not exist on BSD
-  ./configure --prefix=/usr/local --mandir=/usr/local/man --libexecdir=/usr/local/libexec \
-    --sysconfdir=/usr/local/etc --localstatedir=/var/db \
+  ./configure --prefix=/usr --mandir=/usr/share/man --libexecdir=/usr/libexec \
+    --sysconfdir=/etc --localstatedir=/var/db \
     --enable-ipv6 --enable-syslog --enable-local \
     --enable-bdb --enable-hdb \
     --enable-crypt --enable-dynamic \
@@ -77,7 +77,7 @@ build() {
 package_libldap() {
   pkgdesc="Lightweight Directory Access Protocol (LDAP) client libraries"
   depends=('cyrus-sasl')
-  backup=('usr/local/etc/openldap/ldap.conf')
+  backup=('etc/openldap/ldap.conf')
 
   cd "${srcdir}"/${pkgbase}-${pkgver}
   for dir in include libraries doc/man/man3 ; do
@@ -85,24 +85,24 @@ package_libldap() {
     make DESTDIR="${pkgdir}" install
     popd
   done
-  install -dm755 "${pkgdir}"/usr/local/man/man5
-  install -m644 doc/man/man5/ldap.conf.5.tmp "${pkgdir}"/usr/local/man/man5/ldap.conf.5
+  install -dm755 "${pkgdir}"/usr/share/man/man5
+  install -m644 doc/man/man5/ldap.conf.5.tmp "${pkgdir}"/usr/share/man/man5/ldap.conf.5
 
 # get rid of duplicate default conf files
-  rm "${pkgdir}"/usr/local/etc/openldap/*.default
+  rm "${pkgdir}"/etc/openldap/*.default
 
-  ln -sf liblber.so "${pkgdir}"/usr/local/lib/liblber.so.2
-  ln -sf libldap.so "${pkgdir}"/usr/local/lib/libldap.so.2
+  ln -sf liblber.so "${pkgdir}"/usr/lib/liblber.so.2
+  ln -sf libldap.so "${pkgdir}"/usr/lib/libldap.so.2
 
-  install -dm755 "${pkgdir}"/usr/local/share/licenses/${pkgname}
-  install -m644 LICENSE "${pkgdir}"/usr/local/share/licenses/${pkgname}/LICENSE
+  install -dm755 "${pkgdir}"/usr/share/licenses/${pkgname}
+  install -m644 LICENSE "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
 }
 
 package_openldap() {
   pkgdesc="Lightweight Directory Access Protocol (LDAP) client and server"
   depends=("libldap>=${pkgver}" 'libltdl')
-  # FIXME: backup=('usr/local/etc/openldap/slapd.conf' 'usr/local/etc/conf.d/slapd')
-  backup=('usr/local/etc/openldap/slapd.conf')
+  # FIXME: backup=('etc/openldap/slapd.conf' 'etc/conf.d/slapd')
+  backup=('etc/openldap/slapd.conf')
   options=('emptydirs')
   install=openldap.install
 
@@ -112,23 +112,23 @@ package_openldap() {
     make DESTDIR="${pkgdir}" install
     popd
   done
-  rm "${pkgdir}"/usr/local/man/man5/ldap.conf.5
+  rm "${pkgdir}"/usr/share/man/man5/ldap.conf.5
 
 # get rid of duplicate default conf files
-  rm "${pkgdir}"/usr/local/etc/openldap/*.default
+  rm "${pkgdir}"/etc/openldap/*.default
 
-  ln -s ../lib/slapd "${pkgdir}"/usr/local/sbin/slapd
+  ln -s ../lib/slapd "${pkgdir}"/usr/sbin/slapd
 
-#  chown root:ldap "${pkgdir}"/usr/local/etc/openldap/{slapd.conf,DB_CONFIG.example}
-  chmod 640 "${pkgdir}"/usr/local/etc/openldap/{slapd.conf,DB_CONFIG.example}
+#  chown root:ldap "${pkgdir}"/etc/openldap/{slapd.conf,DB_CONFIG.example}
+  chmod 640 "${pkgdir}"/etc/openldap/{slapd.conf,DB_CONFIG.example}
 
 # FIXME: init scripts
-  install -dm755 "${pkgdir}/usr/local/etc/init.d"
-# install -m755 "${srcdir}/slapd" "${pkgdir}/usr/local/etc/init.d/slapd"
-# install -Dm644 "${srcdir}"/slapd.default "${pkgdir}"/usr/local/etc/conf.d/slapd
+  install -dm755 "${pkgdir}/etc/init.d"
+# install -m755 "${srcdir}/slapd" "${pkgdir}/etc/init.d/slapd"
+# install -Dm644 "${srcdir}"/slapd.default "${pkgdir}"/etc/conf.d/slapd
 
-# install -Dm644 "${srcdir}"/slapd.tmpfiles "${pkgdir}"/usr/local/lib/tmpfiles.d/slapd.conf
+# install -Dm644 "${srcdir}"/slapd.tmpfiles "${pkgdir}"/usr/lib/tmpfiles.d/slapd.conf
 
-  install -dm755 "${pkgdir}"/usr/local/share/licenses/${pkgname}
-  install -m644 LICENSE "${pkgdir}"/usr/local/share/licenses/${pkgname}/LICENSE
+  install -dm755 "${pkgdir}"/usr/share/licenses/${pkgname}
+  install -m644 LICENSE "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
 }
