@@ -54,7 +54,7 @@ build() {
   sed -i '' -e 's|%LOCALSTATEDIR%/run|/var/db|' servers/slapd/slapd.conf
   sed -i '' -e 's|-$(MKDIR) $(DESTDIR)$(localstatedir)/run|-$(MKDIR) $(DESTDIR)/var/db|' servers/slapd/Makefile.in
 
-#  export LDFLAGS="$LDFLAGS -L/usr/local/lib -L\"${pkgdir}/libldap/usr/local/lib\""
+export LDFLAGS="$LDFLAGS -L\"${pkgdir}/libldap/usr/lib\""
 #  export CFLAGS="${CFLAGS} -I/usr/local/include"
 #  export CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
 # have to explicitly disable libmdb - it's not built anywhere in ports/archlinux
@@ -66,7 +66,7 @@ build() {
     --enable-crypt --enable-dynamic \
     --with-threads --disable-wrappers \
     --without-fetch \
-    --enable-lmpasswd --with-cyrus-sasl \
+    --enable-lmpasswd \
     --enable-overlays=mod --enable-modules=yes \
     --enable-rewrite --enable-null=mod --enable-ldap=mod \
     --enable-meta=mod --enable-monitor=mod \

@@ -48,11 +48,6 @@ build() {
     patch -p0 -i "$srcdir/$i"
   done
 
-#  sed -i '' -e \
-#    "/^ltmain=/!s|\$ac_aux_dir/ltmain.sh| /usr/share/libtool/config/ltmain.sh|g; \
-#    /^LIBTOOL=/s|\$(top_builddir)/libtool|/usr/bin/libtool|g" \
-#    configure saslauthd/configure
-
 # We need to fix up a wrong library name
   find . ! -type d -exec sed -i '' -e 's/libsasldb\.al/libsasldb.a/g' '{}' ';'
 
@@ -148,7 +143,7 @@ package_cyrus-sasl-gssapi() {
 
   cd "${srcdir}/cyrus-sasl-${pkgver}/plugins"
   install -m755 -d "${pkgdir}/usr/lib/sasl2"
-  cp -a .libs/libgssapiv2.so* "${pkgdir}/usr/lib/sasl2/"
+  cp -a libgssapiv2.* "${pkgdir}/usr/lib/sasl2/"
 
   install -m755 -d "${pkgdir}/usr/share/licenses/cyrus-sasl-gssapi"
   ln -sf ../libsasl/COPYING "${pkgdir}/usr/share/licenses/cyrus-sasl-gssapi/"
@@ -161,7 +156,7 @@ package_cyrus-sasl-ldap() {
 
   cd "${srcdir}/cyrus-sasl-${pkgver}/plugins"
   install -m755 -d "${pkgdir}/usr/lib/sasl2"
-  cp -a .libs/libldapdb.so* "${pkgdir}/usr/lib/sasl2/"
+  cp -a libldapdb* "${pkgdir}/usr/lib/sasl2/"
 
   install -m755 -d "${pkgdir}/usr/share/licenses/cyrus-sasl-ldap"
   ln -sf ../libsasl/COPYING "${pkgdir}/usr/share/licenses/cyrus-sasl-ldap/"
@@ -174,7 +169,7 @@ package_cyrus-sasl-sql() {
 
   cd "${srcdir}/cyrus-sasl-${pkgver}/plugins"
   install -m755 -d "${pkgdir}/usr/lib/sasl2"
-  cp -a .libs/libsql.so* "${pkgdir}/usr/lib/sasl2/"
+  cp -a libsql* "${pkgdir}/usr/lib/sasl2/"
 
   install -m755 -d "${pkgdir}/usr/share/licenses/cyrus-sasl-sql"
   ln -sf ../libsasl/COPYING "${pkgdir}/usr/share/licenses/cyrus-sasl-sql/"
