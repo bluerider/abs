@@ -27,8 +27,8 @@ build() {
 }
 
 package() {
-   install -dm755 ${pkgdir}/usr/local/share/certs
-   install -m644 ${srcdir}/ca-root-nss.crt ${pkgdir}/usr/local/share/certs
-   install -dm755 ${pkgdir}/usr/local/share/license/${_downloadname}
-   install -m644 ${srcdir}/${_downloadname}-${pkgver}/mozilla/security/nss/COPYING ${pkgdir}/usr/local/share/license/${_downloadname}/LICENSE
+   install -dm755 ${pkgdir}/usr/share/certs
+   install -m644 ${srcdir}/ca-root-nss.crt ${pkgdir}/usr/share/certs
+   install -dm755 ${pkgdir}/usr/share/license/${_downloadname}
+   install -m644 ${srcdir}/${_downloadname}-${pkgver}/mozilla/security/nss/COPYING ${pkgdir}/usr/share/license/${_downloadname}/LICENSE
 }
