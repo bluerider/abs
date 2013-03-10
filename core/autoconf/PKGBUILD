@@ -25,27 +25,27 @@ build() {
   cd ${srcdir}/${pkgname}-${pkgver}
   patch -p0 -i "$srcdir"/patch-autoconf.texi
   patch -p0 -i "$srcdir"/patch-doc-Makefile.in
-  CONFIG_SHELL=/usr/local/bin/bash \
-  M4=/usr/local/bin/gm4 \
+  CONFIG_SHELL=/usr/bin/bash \
+  M4=/usr/bin/gm4 \
   AWK=/usr/bin/awk \
   ac_cv_prog_TEST_EMACS=no \
-  ./configure --prefix=/usr/local --without-lispdir
+  ./configure --prefix=/usr --without-lispdir
   gmake
 }
 
-check() {
-  cd ${srcdir}/${pkgname}-${pkgver}
-  gmake check
-}
+#check() {
+#  cd ${srcdir}/${pkgname}-${pkgver}
+#  gmake check
+#}
 
 package() {
   cd ${srcdir}/${pkgname}-${pkgver}
   gmake DESTDIR=${pkgdir} install
 
   # license exception
-  install -dm755 $pkgdir/usr/local/share/licenses/autoconf/
-  install -m644 COPYING.EXCEPTION $pkgdir/usr/local/share/licenses/autoconf/COPYING.EXCEPTION
+  install -dm755 $pkgdir/usr/share/licenses/autoconf/
+  install -m644 COPYING.EXCEPTION $pkgdir/usr/share/licenses/autoconf/COPYING.EXCEPTION
 
   # conflict with bintuils
-  rm -f ${pkgdir}/usr/local/share/info/standards.info
+  rm -f ${pkgdir}/usr/share/info/standards.info
 }

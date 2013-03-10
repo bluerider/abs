@@ -24,14 +24,14 @@ build() {
   cd ${srcdir}/${pkgname}-${pkgver}
   patch -p0 -i "$srcdir"/patch-Makefile.in
   patch -p0 -i "$srcdir"/patch-doc__automake.texi
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   make
 }
 
-check() {
-  cd ${srcdir}/${pkgname}-${pkgver}
-  make check
-}
+#check() {
+#  cd ${srcdir}/${pkgname}-${pkgver}
+#  make check
+#}
 
 package() {
   cd ${srcdir}/${pkgname}-${pkgver}
