@@ -1,4 +1,4 @@
-PKG_PREFIX=${PKG_PREFIX:=/usr/local}
+PKG_PREFIX=${PKG_PREFIX:=/usr}
 
 SASLDB_NAME=${PKG_PREFIX}/etc/sasldb2.db
 

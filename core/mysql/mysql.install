@@ -1,7 +1,7 @@
 post_install() {
 	getent group mysql >/dev/null || /usr/sbin/pw groupadd mysql
 	getent passwd mysql >/dev/null || /usr/sbin/pw useradd mysql -g mysql -d /var/lib/mysql -s /bin/false
-	usr/local/bin/mysql_install_db --user=mysql --basedir=/usr/local --datadir=/var/lib/mysql
+	usr/bin/mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 	chown -R mysql:mysql var/lib/mysql
 }
 

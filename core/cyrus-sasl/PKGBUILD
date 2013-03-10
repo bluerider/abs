@@ -49,10 +49,10 @@ build() {
     patch -p0 -i "$srcdir/$i"
   done
 
-  sed -i '' -e \
-    "/^ltmain=/!s|\$ac_aux_dir/ltmain.sh| /usr/local/share/libtool/config/ltmain.sh|g; \
-    /^LIBTOOL=/s|\$(top_builddir)/libtool|/usr/local/bin/libtool|g" \
-    configure saslauthd/configure
+#  sed -i '' -e \
+#    "/^ltmain=/!s|\$ac_aux_dir/ltmain.sh| /usr/share/libtool/config/ltmain.sh|g; \
+#    /^LIBTOOL=/s|\$(top_builddir)/libtool|/usr/bin/libtool|g" \
+#    configure saslauthd/configure
 
 # We need to fix up a wrong library name
   find . ! -type d -exec sed -i '' -e 's/libsasldb\.al/libsasldb.a/g' '{}' ';'
@@ -62,16 +62,16 @@ build() {
   unset LDFLAGS
   unset CPPFLAGS
 
-  ./configure --prefix=/usr/local \
-      --sysconfdir=/usr/local/etc \
-      --mandir=/usr/local/man \
-      --infodir=/usr/local/info \
-      --with-configdir=/usr/local/etc/sasl2:/usr/local/lib/sasl2 \
-      --with-plugindir=/usr/local/lib/sasl2 \
-      --with-dbpath=/usr/local/etc/sasldb2 \
+  ./configure --prefix=/usr \
+      --sysconfdir=/etc \
+      --mandir=/usr/share/man \
+      --infodir=/usr/share/info \
+      --with-configdir=/etc/sasl2:/usr/lib/sasl2 \
+      --with-plugindir=/usr/lib/sasl2 \
+      --with-dbpath=/etc/sasldb2 \
       --with-lib-subdir=lib \
-      --with-pkgconfigdir=/usr/local/libdata/pkgconfig \
-      --includedir=/usr/local/include \
+      --with-pkgconfigdir=/usr/lib/pkgconfig \
+      --includedir=/usr/include \
       --enable-static \
       --enable-auth-sasldb \
       --with-rc=openssl \
@@ -85,7 +85,7 @@ build() {
       --with-openssl=yes \
       --enable-gssapi \
       --enable-ldapdb \
-      --with-ldap=/usr/local \
+      --with-ldap=/usr \
       --enable-alwaystrue \
       --enable-checkapop \
       --enable-cram \
@@ -101,7 +101,7 @@ build() {
       --with-pam \
       --build=amd64-portbld-freebsd9.1 \
       CFLAGS="-O2 -pipe -fno-strict-aliasing" \
-      LDFLAGS="-Wl,-rpath,/usr/lib:/usr/local/lib" \
+      LDFLAGS="-Wl,-rpath,/usr/lib" \
       CPPFLAGS="-fPIC"
 
   gmake
@@ -117,28 +117,28 @@ package_libsasl() {
     gmake DESTDIR="${pkgdir}" install
     popd
   done
-  rm -f "${pkgdir}"/usr/local/lib/sasl2/libsql.so*
-  rm -f "${pkgdir}"/usr/local/lib/sasl2/libgssapiv2.so*
-  rm -f "${pkgdir}"/usr/local/lib/sasl2/libldapdb.so*
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/libsasl"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/libsasl/"
+  rm -f "${pkgdir}"/usr/lib/sasl2/libsql.so*
+  rm -f "${pkgdir}"/usr/lib/sasl2/libgssapiv2.so*
+  rm -f "${pkgdir}"/usr/lib/sasl2/libldapdb.so*
+  install -m755 -d "${pkgdir}/usr/share/licenses/libsasl"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/libsasl/"
 }
 
 package_cyrus-sasl() {
   depends=("libsasl=${pkgver}")
   pkgdesc="Cyrus saslauthd SASL authentication daemon"
-  backup=('usr/local/etc/conf.d/saslauthd')
+  backup=('etc/conf.d/saslauthd')
 
   cd "${srcdir}/cyrus-sasl-${pkgver}/saslauthd"
   gmake DESTDIR="${pkgdir}" install
 
-  install -dm755 -d "${pkgdir}/usr/local/etc/init.d"
-  install -m644 "${srcdir}/init.d-saslauthd" "${pkgdir}/usr/local/etc/init.d/saslauthd"
-  install -dm755 -d "${pkgdir}/usr/local/etc/conf.d"
-  install -m644 "${srcdir}/conf.d-saslauthd" "${pkgdir}/usr/local/etc/conf.d/saslauthd"
+  install -dm755 -d "${pkgdir}/etc/init.d"
+  install -m644 "${srcdir}/init.d-saslauthd" "${pkgdir}/etc/init.d/saslauthd"
+  install -dm755 -d "${pkgdir}/etc/conf.d"
+  install -m644 "${srcdir}/conf.d-saslauthd" "${pkgdir}/etc/conf.d/saslauthd"
 
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/cyrus-sasl"
-  ln -sf ../libsasl/COPYING "${pkgdir}/usr/local/share/licenses/cyrus-sasl/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/cyrus-sasl"
+  ln -sf ../libsasl/COPYING "${pkgdir}/usr/share/licenses/cyrus-sasl/"
 }
 
 package_cyrus-sasl-gssapi() {
@@ -148,11 +148,11 @@ package_cyrus-sasl-gssapi() {
   replaces=('cyrus-sasl-plugins')
 
   cd "${srcdir}/cyrus-sasl-${pkgver}/plugins"
-  install -m755 -d "${pkgdir}/usr/local/lib/sasl2"
-  cp -a .libs/libgssapiv2.so* "${pkgdir}/usr/local/lib/sasl2/"
+  install -m755 -d "${pkgdir}/usr/lib/sasl2"
+  cp -a .libs/libgssapiv2.so* "${pkgdir}/usr/lib/sasl2/"
 
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/cyrus-sasl-gssapi"
-  ln -sf ../libsasl/COPYING "${pkgdir}/usr/local/share/licenses/cyrus-sasl-gssapi/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/cyrus-sasl-gssapi"
+  ln -sf ../libsasl/COPYING "${pkgdir}/usr/share/licenses/cyrus-sasl-gssapi/"
 }
 
 package_cyrus-sasl-ldap() {
@@ -161,11 +161,11 @@ package_cyrus-sasl-ldap() {
   replaces=('cyrus-sasl-plugins')
 
   cd "${srcdir}/cyrus-sasl-${pkgver}/plugins"
-  install -m755 -d "${pkgdir}/usr/local/lib/sasl2"
-  cp -a .libs/libldapdb.so* "${pkgdir}/usr/local/lib/sasl2/"
+  install -m755 -d "${pkgdir}/usr/lib/sasl2"
+  cp -a .libs/libldapdb.so* "${pkgdir}/usr/lib/sasl2/"
 
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/cyrus-sasl-ldap"
-  ln -sf ../libsasl/COPYING "${pkgdir}/usr/local/share/licenses/cyrus-sasl-ldap/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/cyrus-sasl-ldap"
+  ln -sf ../libsasl/COPYING "${pkgdir}/usr/share/licenses/cyrus-sasl-ldap/"
 }
 
 package_cyrus-sasl-sql() {
@@ -174,9 +174,9 @@ package_cyrus-sasl-sql() {
   replaces=('cyrus-sasl-plugins')
 
   cd "${srcdir}/cyrus-sasl-${pkgver}/plugins"
-  install -m755 -d "${pkgdir}/usr/local/lib/sasl2"
-  cp -a .libs/libsql.so* "${pkgdir}/usr/local/lib/sasl2/"
+  install -m755 -d "${pkgdir}/usr/lib/sasl2"
+  cp -a .libs/libsql.so* "${pkgdir}/usr/lib/sasl2/"
 
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/cyrus-sasl-sql"
-  ln -sf ../libsasl/COPYING "${pkgdir}/usr/local/share/licenses/cyrus-sasl-sql/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/cyrus-sasl-sql"
+  ln -sf ../libsasl/COPYING "${pkgdir}/usr/share/licenses/cyrus-sasl-sql/"
 }

@@ -5,7 +5,7 @@ depend() {
 	need net
 }
 
-SASLAUTHD_BIN=${SASLAUTHD_BIN:-/usr/local/sbin/saslauthd}
+SASLAUTHD_BIN=${SASLAUTHD_BIN:-/usr/sbin/saslauthd}
 SASLAUTHD_RUN=${SASLAUTHD_RUN:-/var/run/saslauthd}
 SASLAUTHD_PID=${SASLAUTHD_RUN}/saslauthd.pid
 
