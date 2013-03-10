@@ -36,18 +36,11 @@ build() {
   sed -i '' -e '/^SUBDIRS = / s|$$| docs|; /^DIST_SUBDIRS = / s| docs||; /cd docs &&/d' Makefile.in
   sed -i '' -e '/require "valgrind.pm";/d' tests/runtests.pl
 
-# difference between ports and Arch:
-# ports: --disable-threaded-resolver
-#        --enable-rtsp --enable-pop3 --disable-werror
-#        --enable-smtp --enable-imap
-# different --with-ca-bundle
-# added --without-{libssh2,librtmp,libidn}
-#     since those not there to add to the deps yet
   ./configure \
-      --prefix=/usr/local \
-      --mandir=/usr/local/man \
-      --sysconfdir=/usr/local/etc \
-      --infodir=/usr/local/info \
+      --prefix=/usr \
+      --mandir=/usr/share/man \
+      --sysconfdir=/etc \
+      --infodir=/usr/share/info \
       --disable-dependency-tracking \
       --disable-ldap \
       --disable-ldaps \
@@ -59,7 +52,7 @@ build() {
       --enable-pop3 --enable-imap \
       --without-libidn \
       --with-random=/dev/urandom \
-      --with-ca-bundle=/usr/local/share/certs/ca-root-nss.crt \
+      --with-ca-bundle=/usr/share/certs/ca-root-nss.crt \
       --without-libssh2 --without-librtmp --without-libidn
 
   make
@@ -71,14 +64,14 @@ package() {
   make DESTDIR="$pkgdir" install
 
   # pkgconfdir
-  install -dm755 "$pkgdir/usr/local/libdata"
-  mv "$pkgdir/usr/local/lib/pkgconfig" "$pkgdir/usr/local/libdata/pkgconfig"
+  install -dm755 "$pkgdir/usr/share/libdata"
+  mv "$pkgdir/usr/lib/pkgconfig" "$pkgdir/usr/share/libdata/pkgconfig"
 
   # license
-  install -dm755 "$pkgdir/usr/local/share/licenses/$pkgname/COPYING"
-  install -m644 COPYING "$pkgdir/usr/local/share/licenses/$pkgname/COPYING"
+  install -dm755 "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+  install -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
 
   # devel
-  install -dm755 "$pkgdir/usr/local/share/aclocal/"
-  install -m644 docs/libcurl/libcurl.m4 "$pkgdir/usr/local/share/aclocal/libcurl.m4"
+  install -dm755 "$pkgdir/usr/share/aclocal/"
+  install -m644 docs/libcurl/libcurl.m4 "$pkgdir/usr/share/aclocal/libcurl.m4"
 }
