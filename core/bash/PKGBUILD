@@ -50,44 +50,43 @@ build() {
     patch -Np0 -i $srcdir/xpatch-implicitcd
     patch -Np0 -i $srcdir/patch-config-top.h
 
-  _bashconfig=(-DDEFAULT_PATH_VALUE=\'\"/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin\"\'
+  _bashconfig=(-DDEFAULT_PATH_VALUE=\'\"/usr/bin:/bin:/usr/sbin:/sbin\"\'
                -DSTANDARD_UTILS_PATH=\'\"/usr/bin:/bin:/usr/sbin:/sbin\"\'
-               -DSYS_BASHRC=\'\"/usr/local/etc/bash.bashrc\"\'
-               -DSYS_BASH_LOGOUT=\'\"/usr/local/etc/bash.bash_logout\"\')
+               -DSYS_BASHRC=\'\"/etc/bash.bashrc\"\'
+               -DSYS_BASH_LOGOUT=\'\"/etc/bash.bash_logout\"\')
 
-  export CFLAGS="${CFLAGS} ${_bashconfig[@]} -I/usr/local/include"
-  export CPPFLAGS="${CFLAGS} -I/usr/local/include"
+  export CFLAGS="${CFLAGS} ${_bashconfig[@]}"
 
-  ./configure --prefix=/usr/local --without-bash-malloc \
-              --sysconfdir=/usr/local/etc \
-              --mandir=/usr/local/man \
-              --infodir=/usr/local/info \
+  ./configure --prefix=/usr --without-bash-malloc \
+              --sysconfdir=/etc \
+              --mandir=/usr/share/man \
+              --infodir=/usr/share/info \
               --disable-rpath \
               --enable-disabled-builtins
   make
 }
 
-#check() {
-#  cd ${srcdir}/${pkgname}-$_basever
-#  make check
-#}
+check() {
+  cd ${srcdir}/${pkgname}-$_basever
+  make check
+}
 
 package() {
   cd ${srcdir}/${pkgname}-$_basever
   make DESTDIR=${pkgdir} install
 
   # Don't know why it does that...
-  rm -f ${pkgdir}/usr/local/info/dir
+  rm -f ${pkgdir}/usr/share/info/dir
 
-  install -dm755 ${pkgdir}/usr/local/etc/skel/
+  install -dm755 ${pkgdir}/etc/skel/
   
   # system-wide configuration files
-  install -m644 ${srcdir}/system.bashrc ${pkgdir}/usr/local/etc/bash.bashrc
-  install -m644 ${srcdir}/system.bash_logout ${pkgdir}/usr/local/etc/bash.bash_logout
+  install -m644 ${srcdir}/system.bashrc ${pkgdir}/etc/bash.bashrc
+  install -m644 ${srcdir}/system.bash_logout ${pkgdir}/etc/bash.bash_logout
   
   # user configuration file skeletons
-  install -m644 ${srcdir}/dot.bashrc ${pkgdir}/usr/local/etc/skel/.bashrc
-  install -m644 ${srcdir}/dot.bash_profile ${pkgdir}/usr/local/etc/skel/.bash_profile
+  install -m644 ${srcdir}/dot.bashrc ${pkgdir}/etc/skel/.bashrc
+  install -m644 ${srcdir}/dot.bash_profile ${pkgdir}/etc/skel/.bash_profile
   install -m644 ${srcdir}/dot.bash_logout ${pkgdir}/usr/local/etc/skel/.bash_logout
 }
 

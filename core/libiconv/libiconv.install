@@ -1,5 +1,5 @@
 post_install() {
-	/sbin/ldconfig -m /usr/local/lib
+	/sbin/ldconfig -m /usr/lib
 }
 
 post-remove() {

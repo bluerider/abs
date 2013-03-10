@@ -1,7 +1,7 @@
 --- libcharset/lib/Makefile.in.orig	2009-03-26 08:01:00.000000000 -0400
 +++ libcharset/lib/Makefile.in	2009-06-06 15:28:00.000000000 -0400
 @@ -10,6 +10,7 @@ prefix = @prefix@
- local_prefix = /usr/local
+ local_prefix = /usr
  exec_prefix = @exec_prefix@
  libdir = @libdir@
 +sysconfdir = ${exec_prefix}/libdata

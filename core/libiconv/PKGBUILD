@@ -2,7 +2,7 @@
 
 pkgname=libiconv
 pkgver=1.14
-pkgrel=1
+pkgrel=2
 pkgdesc="A character set conversion library"
 arch=('i686' 'x86_64')
 license=('GPL3')
@@ -15,11 +15,10 @@ source=(http://ftp.gnu.org/pub/gnu/libiconv/${pkgname}-${pkgver}.tar.gz{,.sig}
         patch-libcharset__lib__Makefile.in
         patch-libcharset__lib__config.charset
         patch-src__Makefile.in
-        patch-test__Makefile.in
-        )
+        patch-test__Makefile.in)
 md5sums=('e34509b1623cec449dfeb73d7ce9c6c6'
          '7485aa1ddf6c98fb88931e454edc1810'
-         '852b6b5288df838741363504f08068b6'
+         '39ca7b713d449e99d42664004dda1947'
          'aadb01243fb9cc25dced1f528b5518d1'
          '9fd5f8910e24564fefd4c2e68377d7f8'
          '5718cda2e2d1561bb86c7a6a1a0b4c3d'
@@ -35,9 +34,9 @@ build() {
   done
 
   export gl_cv_cc_visibility="no" am_cv_func_iconv="yes" am_cv_proto_iconv_arg1="const"
-  ./configure   --prefix=/usr/local --enable-static \
+  ./configure   --prefix=/usr --enable-static \
                 --without-libintl-prefix \
-                --docdir=/usr/local/doc \
+                --docdir=/usr/share/doc \
                 --enable-extra-encodings
 
   unset gl_cv_cc_visibility am_cv_func_iconv am_cv_proto_iconv_arg1
@@ -47,6 +46,6 @@ build() {
 package() {
   cd ${srcdir}/${pkgname}-${pkgver}
   gmake DESTDIR=${pkgdir} install
-  install -dm755 ${pkgdir}/usr/local/share/licenses/${pkgname}
-  install -m655 ${srcdir}/${pkgname}-${pkgver}/COPYING ${pkgdir}/usr/local/share/licenses/${pkgname}
+  install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}
+  install -m655 ${srcdir}/${pkgname}-${pkgver}/COPYING ${pkgdir}/usr/share/licenses/${pkgname}
 }
