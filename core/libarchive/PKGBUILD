@@ -23,14 +23,13 @@ build() {
   patch -p1 -i $srcdir/patch-libarchive-archive_read_disk_entry_from_file.c
   patch -p1 -i $srcdir/libarchive-3.0.x-fix-mtree-writer.patch
 
-  CFLAGS="${CFLAGS} -I/usr/local/include -DHAVE_BSDXML_H=1"
-  CPPFLAGS="${CFLAGS} -I/usr/local/include"
-  LDFLAGS="${LDFLAGS} -L/usr/local/lib -lbsdxml"
+  CFLAGS="${CFLAGS} -DHAVE_BSDXML_H=1"
+  LDFLAGS="${LDFLAGS} -lbsdxml"
 
-  ./configure --prefix=/usr/local \
-              --sysconfdir=/usr/local/etc \
-              --mandir=/usr/local/man \
-              --infodir=/usr/local/info \
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --mandir=/usr/share/man \
+              --infodir=/usr/share/info \
               --with-openssl --without-nettle \
               --without-expat --without-xml2
   make
@@ -46,10 +45,6 @@ package() {
   cd "$srcdir/$pkgname-$pkgver"
   make DESTDIR="$pkgdir" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -d -m755 "$pkgdir"/usr/local/share/licenses/libarchive/COPYING
-  install    -m644 COPYING "$pkgdir"/usr/local/share/licenses/libarchive/COPYING
+  install -d -m755 "$pkgdir"/usr/share/licenses/libarchive/COPYING
+  install    -m644 COPYING "$pkgdir"/usr/share/licenses/libarchive/COPYING
 }
