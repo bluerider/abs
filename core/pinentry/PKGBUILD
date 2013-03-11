@@ -16,8 +16,7 @@ install=pinentry.install
 source=(ftp://ftp.gnupg.org/gcrypt/$pkgname/$pkgname-$pkgver.tar.bz2
         qt4-pinentry-window.patch
         patch-more_sec_mem
-        patch-qt4__Makefile.in
-        )
+        patch-qt4__Makefile.in)
 md5sums=('82e6114e5e27a8ab36f314b332a6e024'
          '450b8713fe42f1bd93311ef84767c3d8'
          '0b799bb1fb6ea6c1256c7c651be683c9'
@@ -26,10 +25,7 @@ md5sums=('82e6114e5e27a8ab36f314b332a6e024'
 build() {
   cd $srcdir/$pkgname-$pkgver
 
-  CFLAGS="${CFLAGS} -I/usr/local/include"
-  LDFLAGS="${LDFLAGS} -L/usr/local/lib"
-
-# ports patches
+  # ports patches
   # ports patch patch-curses-utf is already merged into 0.8.2
   msg "Applying ports patches"
   patch -p0 -i "${srcdir}/patch-more_sec_mem"
@@ -40,22 +36,21 @@ build() {
   #fix: https://bugs.archlinux.org/task/29998
   patch -Np1 -i ../qt4-pinentry-window.patch
 
-# FIXME: when we have extra/qt
-# for file in qt4/*.moc; do
-#      /usr/bin/moc ${file/.moc/.h} > ${file}
-# done
+  # FIXME: when we have extra/qt
+  # for file in qt4/*.moc; do
+  #      /usr/bin/moc ${file/.moc/.h} > ${file}
+  # done
 
   sed -i '' -e "s@-lpthread@-pthread@g" m4/qt.m4 configure
-  ./configure --prefix=/usr/local \
-              --infodir=/usr/local/info \
+  ./configure --prefix=/usr \
+              --infodir=/usr/share/info \
               --enable-pinentry-curses \
               --disable-pinentry-gtk \
               --disable-pinentry-qt \
-              --enable-pinentry-gtk2 \
               --enable-fallback-curses
 
 # FIXME: when we have extra/qt
-#              --enable-pinentry-qt4
+#              --enable-pinentry-qt4 --enable-pinentry-gtk
 
   make
 }
