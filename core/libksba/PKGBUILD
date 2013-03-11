@@ -16,8 +16,8 @@ install=libksba.install
 
 build() {
   cd $srcdir/$pkgname-$pkgver
-  ./configure --prefix=/usr/local \
-              --infodir=/usr/local/info \
+  ./configure --prefix=/usr \
+              --infodir=/usr/share/info \
               --enable-static
   make
 }
