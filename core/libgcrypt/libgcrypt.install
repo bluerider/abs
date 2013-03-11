@@ -1,19 +1,19 @@
 post_install() {
-	/sbin/ldconfig -m /usr/local/lib
-	install-info --quiet /usr/local/info/gcrypt.info.gz /usr/local/info/dir
+	/sbin/ldconfig -m /usr/lib
+	install-info --quiet /usr/share/info/gcrypt.info.gz /usr/share/info/dir
 }
 
 pre-remove() {
 	/sbin/ldconfig -R
-	install-info --quiet --delete /usr/local/info/gcrypt.info.gz /usr/local/info/dir
+	install-info --quiet --delete /usr/share/info/gcrypt.info.gz /usr/share/info/dir
 }
 
 post_remove() {
-	if [ -f /usr/local/info/dir ]; then 
-		if sed -e '1,/Menu:/d' /usr/local/info/dir | grep -q '^[*] '; then 
+	if [ -f /usr/share/info/dir ]; then 
+		if sed -e '1,/Menu:/d' /usr/share/info/dir | grep -q '^[*] '; then 
 			true; 
 		else 
-			rm /usr/local/info/dir; 
+			rm /usr/share/info/dir; 
 		fi; 
 	fi
 }

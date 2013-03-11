@@ -41,9 +41,9 @@ build() {
 
   rm -f doc/gcrypt.info*
 
-  ./configure --prefix=/usr/local \
-    --mandir=/usr/local/man \
-    --infodir=/usr/local/info \
+  ./configure --prefix=/usr \
+    --mandir=/usr/share/man \
+    --infodir=/usr/share/info \
     --disable-padlock-support \
     --enable-shared --enable-static \
     CFLAGS="${CFLAGS} -std=gnu89"
@@ -59,6 +59,6 @@ package() {
   cd ${srcdir}/${pkgname}-${pkgver}
   make DESTDIR=${pkgdir} install
 
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}-${pkgver}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}-${pkgver}/LICENSE"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}-${pkgver}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}-${pkgver}/LICENSE"
 }
