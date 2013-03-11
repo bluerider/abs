@@ -15,32 +15,32 @@ depends=('gnupg>=2' 'libldap' 'pinentry' 'gettext' 'libassuan' 'libgcrypt' 'libg
 install=${pkgname}.install
 options=('!emptydirs')
 source=(ftp://ftp.gnupg.org/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2{,.sig}
-        patch-src__engine-uiserver.c
-        )
+        patch-src__engine-uiserver.c)
 md5sums=('326fe97077141713f0930aa87949a287'
          '4849bea218571c5ab6094d77049bd5d7'
          '6c020038355dda8806c60fe8b3d2b15c')
 
 build() {
   cd ${srcdir}/${pkgname}-${pkgver}
-# ports patches
+
+  # ports patches
   patch -p0 -i "${srcdir}/patch-src__engine-uiserver.c"
 
-# from ports
-  sed -i '' -e 's|-lpthread|-pthread|g' \
-                configure \
-                src/Makefile.in \
-                src/gpgme-config.in \
-                tests/gpg/Makefile.in
+  # from ports
+#  sed -i '' -e 's|-lpthread|-pthread|g' \
+#                configure \
+#                src/Makefile.in \
+#                src/gpgme-config.in \
+#                tests/gpg/Makefile.in
 
   sed -i '' -e 's|^clfilesdir.*|clfilesdir=$\(libdir\)/common-lisp/gpgme|g' \
                 lang/cl/Makefile.in
 
-  ./configure --prefix=/usr/local --enable-static \
-              --includedir=/usr/local/include/gpgme \
+  ./configure --prefix=/usr --enable-static \
+              --includedir=/usr/include/gpgme \
               --with-g13=no \
-              --with-gpg=/usr/local/bin/gpg2 \
-              --with-gpgconf=/usr/local/bin/gpgconf \
+              --with-gpg=/usr/bin/gpg2 \
+              --with-gpgconf=/usr/bin/gpgconf \
               --enable-fd-passing \
               --without-gpgsm
   gmake
