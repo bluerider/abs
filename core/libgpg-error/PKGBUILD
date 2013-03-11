@@ -26,9 +26,9 @@ build() {
   sed -i '' -e 's/\(LIBGPG_ERROR_LT_AGE\)=8/\1=0/' configure
   sed -i '' -e 's/\(LIBGPG_ERROR_LT_REVISION\)=0/\1=8/' configure
 
-  ./configure --prefix=/usr/local \
-              --with-libiconv-prefix=/usr/local \
-              --with-libintl-prefix=/usr/local \
+  ./configure --prefix=/usr \
+              --with-libiconv-prefix=/usr \
+              --with-libintl-prefix=/usr \
               --enable-static --enable-shared
   gmake
 }

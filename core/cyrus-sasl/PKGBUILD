@@ -116,6 +116,13 @@ package_libsasl() {
   rm -f "${pkgdir}"/usr/lib/sasl2/libldapdb.so*
   install -m755 -d "${pkgdir}/usr/share/licenses/libsasl"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/libsasl/"
+
+  #Fix ldconfig not finding libraries
+  for i in libsasl2.so.3.0; do
+        x=`echo $i | cut -d. -f1,2,3`
+        mv "${pkgdir}/usr/lib/$i" "${pkgdir}/usr/lib/$x"
+	ln -s "${pkgdir}/usr/lib/$x" "${pkgdir}/usr/lib/libsasl2.so"
+  done
 }
 
 package_cyrus-sasl() {
