@@ -9,7 +9,7 @@ groups=('base')
 depends=('bash' 'libarchive>=3.0.2' 'curl>=7.19.4' 'gpgme' 'pacman-mirrorlist' 'archbsd-keyring')
 makedepends=('asciidoc' 'gsed' 'gmake')
 optdepends=('fakeroot: for makepkg usage as normal user')
-backup=(usr/local/etc/pacman.conf usr/local/etc/makepkg.conf)
+backup=(etc/pacman.conf etc/makepkg.conf)
 install=pacman.install
 source=(ftp://ftp.archlinux.org/other/pacman/$pkgname-$pkgver.tar.gz
         0001-Add-conflict-for-replacing-owned-empty-directory.patch
@@ -23,10 +23,10 @@ md5sums=('387965c7125e60e5f0b9ff3b427fe0f9'
          'e0c7c9026dfbb5a042a6cb05c3810fd6'
          '02db451be806335ce189ffadb5cf84b9'
          '9926eb703225b8e34d54e222685d63d8'
-         'cf1c19a9c10154103825fc68d480e9f0'
-         '3f2aa60e0ca732c5b380fdd859ac80d6'
+         'aab0c0c1e41faa79380cf241848ed02d'
+         'c6e25f79c32b1ab331c30e2f771eb03e'
          'a4a3867810d26de84ba52ce123d02658'
-         '556dec34824e44600409b28ab88fc8ba')
+         'c45e6ec22b452d8da91eac9f35d2cc2e')
 
 build() {
   cd $srcdir/$pkgname-$pkgver
@@ -35,14 +35,11 @@ build() {
   patch -p1 -i $srcdir/0002-Check-empty-subdirectory-ownership.patch
   patch -p1 -i $srcdir/0003-Ensure-pre_upgrade-scriptlet-gets-old-package-version.patch
  
-
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc \
-    --localstatedir=/var --disable-doc LDFLAGS="-L/usr/local/lib" \
-   CPPFLAGS="-I/usr/local/include -I/usr/local/include/curl -I/usr/local/include/gpgme"
+  export CPPFLAGS="$CPPFLAGS -I/usr/include/gpgme"
+  ./configure --prefix=/usr --sysconfdir=/etc \
+    --localstatedir=/var --disable-doc 
 
   sed -i ' ' -e '/m4.*-P/ s/m4/gm4/' scripts/Makefile
-  sed -i ' ' -e 's|statusfile=$(mktemp)|statusfile=$(mktemp $RANDOM)|' scripts/makepkg.sh.in
-  
   gmake
 }
 
@@ -51,40 +48,37 @@ package() {
   gmake DESTDIR=$pkgdir install
 
   # install Arch specific stuff
-  mkdir -p $pkgdir/usr/local/etc
+  mkdir -p $pkgdir/etc
   case "$CARCH" in
     i686)
-      install -m644 $srcdir/pacman.conf $pkgdir/usr/local/etc/pacman.conf
+      install -m644 $srcdir/pacman.conf $pkgdir/etc/pacman.conf
       mycarch="i686"
       mychost="i686-archbsd-freebsd"
       myflags="-march=i686"
       ;;
     x86_64)
-      install -m644 $srcdir/pacman.conf.x86_64 $pkgdir/usr/local/etc/pacman.conf
+      install -m644 $srcdir/pacman.conf.x86_64 $pkgdir/etc/pacman.conf
       mycarch="x86_64"
       mychost="x86_64-archbsd-freebsd"
       myflags="-march=x86-64"
       ;;
   esac
-  install -m644 $srcdir/makepkg.conf $pkgdir/usr/local/etc/
+  install -m644 $srcdir/makepkg.conf $pkgdir/etc/
   # set things correctly in the default conf file
   sed -i '' -e "s|@CARCH@|$mycarch|g" \
-      $pkgdir/usr/local/etc/makepkg.conf
+      $pkgdir/etc/makepkg.conf
   sed -i '' -e "s|@CHOST@|$mychost|g" \
-      $pkgdir/usr/local/etc/makepkg.conf
+      $pkgdir/etc/makepkg.conf
   sed -i '' -e "s|@CARCHFLAGS@|$myflags|g" \
-      $pkgdir/usr/local/etc/makepkg.conf
-
-  install -dm755 "${pkgdir}/usr/local/share/pacman"
-  install -m644 "${srcdir}/makepkg.site" "${pkgdir}/usr/local/share/pacman/makepkg.site"
+      $pkgdir/etc/makepkg.conf
 
   # install completion files
-  install -dm755 "$pkgdir/usr/local/etc/bash_completion.d"
-  install -m755 contrib/bash_completion "$pkgdir/usr/local/etc/bash_completion.d/bash_completion.sh"
+  install -dm755 "$pkgdir/etc/bash_completion.d"
+  install -m755 contrib/bash_completion "$pkgdir/etc/bash_completion.d/bash_completion.sh"
   for f in makepkg pacman-key; do
-    ln -s pacman "$pkgdir/usr/local/etc/bash_completion.d/${f}.sh"
+    ln -s pacman "$pkgdir/etc/bash_completion.d/${f}.sh"
   done
 
-  install -dm755 $pkgdir/usr/local/share/zsh/site-functions
-  install -m644 contrib/zsh_completion $pkgdir/usr/local/share/zsh/site-functions/_pacman
+  install -dm755 $pkgdir/usr/share/zsh/site-functions
+  install -m644 contrib/zsh_completion $pkgdir/usr/share/zsh/site-functions/_pacman
 }

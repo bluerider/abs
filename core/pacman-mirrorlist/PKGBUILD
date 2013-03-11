@@ -5,7 +5,7 @@ pkgdesc="Arch BSD mirror list for use by pacman"
 arch=('any')
 url="http://www.archbsd.net/mirrorlist/"
 license=('GPL')
-backup=(usr/local/etc/pacman.d/mirrorlist)
+backup=(etc/pacman.d/mirrorlist)
 source=(mirrorlist)
 
 # NOTE on building this package:
@@ -15,8 +15,8 @@ source=(mirrorlist)
 # * Build the package
 
 build() {
-  install -dm755 $pkgdir/usr/local/etc/pacman.d/
-  install -m644 $srcdir/mirrorlist $pkgdir/usr/local/etc/pacman.d/
+  install -dm755 $pkgdir/etc/pacman.d/
+  install -m644 $srcdir/mirrorlist $pkgdir/etc/pacman.d/
 }
 
 md5sums=('03e2157a5b53cb3374407d31898ec9c2')
