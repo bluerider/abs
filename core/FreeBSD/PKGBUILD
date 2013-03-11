@@ -1,6 +1,6 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source')
-pkgver=20130221
-pkgrel=1
+pkgver=20130311
+pkgrel=2
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -14,14 +14,13 @@ source=('ARCHBSD_i686'
         'src.conf'
         'beastie.4th'
         'brand.4th')
-
 md5sums=('1da3141782687c8d455b63ae747d6c32'
          'a5ecdc82304d6ff426fdb4182f9adc10'
          '92f91f5796ed8e59c666a7b4909d454b'
          '9ab0e68675bab4a90a07dc7f0ae19d79'
          '40aae455d07111b6a38a2792f3dccb66'
          '461507865683b0d07a090df9bcef6e16'
-         '920ec7eb5ef71c8356e6cef8a191c66d'
+         '67745d5f32c6691f7b7d202ab839a452'
          '0e9495f2a632d85404634fdbc2eb0850'
          'c3146af4b1ba8467d6b27a1fc22e322e')
 
@@ -40,6 +39,8 @@ build() {
   else
     git clone --depth=1 -b $_gitbranch ${_gitroot} ${_gitname}
   fi
+
+  sed -i '' -e 's|db.h|fdb.h|g' "${srcdir}/${_gitname}/sys/dev/aic7xxx/aicasm/aicasm_symbol.c"
 
   unset LDFLAGS CXXFLAGS CPPFLAGS CFLAGS M4 LD RANLIB
   cd ${srcdir}/${_gitname}
@@ -105,6 +106,10 @@ package_freebsd-world() {
   make TARGET=$TARGET DESTDIR="$pkgdir"  SRCONF=${srcdir}/src.conf installworld distribution || (echo buildworld failed... && return 1)
 
   msg "Installed. Cleaning up and configuring..."
+
+#solve some conflicts
+  rm -rf "${pkgdir}/usr/share/man/man3/pthread.3.gz"
+  mv "${pkgdir}/usr/include/db.h" "${pkgdir}/usr/include/fdb.h"
 
 #remove rc tools for openrc
   rm -rf ${pkgdir}/etc/rc*
