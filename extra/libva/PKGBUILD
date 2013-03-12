@@ -31,14 +31,6 @@ build() {
     patch -p0 -i "${srcdir}/$i"
   done
 
-	sed -i '' \
-	  -e 's|\(\$libdir\)/dri|\1/va|' \
-		-e 's|\${libdir}/\(pkgconfig\)|${prefix}/libdata/\1|' \
-		-e 's/\(LIBVA_LT_CURRENT\)=libva_lt_current/\1=1/' \
-		-e 's/\(LIBVA_LT_REV\)=libva_lt_revision/\1=3300/' \
-		-e 's/\(LIBVA_LT_AGE\)=libva_lt_age/\1=0/' \
-		-e 's/AM_CONFIG_HEADER/AC_CONFIG_HEADER/' \
-		configure.ac
 	sed -i '' -e 's/va\(info\)/\1/g' -e 's/info\.c/vainfo\.c/' test/vainfo/Makefile.am
 	sed -i '' -e '/^export VA_HEADER_/d' doc/Makefile.am
 	sed -i '' -e 's/-ldl//' va/Makefile.am
@@ -47,8 +39,8 @@ build() {
   autoreconf -v --install
   msg "Going"
 
-  CPPFLAGS="$CPPFLAGS -isystem/usr/local/include" \
-  LDFLAGS="$LDFLAGS -L/usr/local/lib" \
+  CPPFLAGS="$CPPFLAGS -isystem/usr/include" \
+  LDFLAGS="$LDFLAGS -L/usr/lib" \
   CFLAGS="$CFLAGS -DNDEBUG -DHAVE_LINUX_INTEGER_TYPES" \
   ./configure --program-prefix=va
   make
@@ -57,8 +49,8 @@ build() {
 package() {
   cd "$pkgname-$pkgver"
   make DESTDIR="$pkgdir" install
-  install -dm755 "$pkgdir/usr/local/share/licenses/$pkgname"
-  install -m644 COPYING "$pkgdir/usr/local/share/licenses/$pkgname/COPYING"
+  install -dm755 "$pkgdir/usr/share/licenses/$pkgname"
+  install -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
 }
 
 # vim:set ts=2 sw=2 et:

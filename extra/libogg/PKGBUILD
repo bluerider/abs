@@ -17,7 +17,7 @@ build() {
             -e 's@CFLAGS="-O20 -fsigned-char"@CFLAGS="-fsigned-char"@' \
             -e 's@PROFILE="-O20 -g -pg -fsigned-char"@CFLAGS="-g -pg -fsigned-char"@' \
             configure
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   make
 }
 
@@ -26,10 +26,7 @@ package() {
   make DESTDIR="$pkgdir" install
 
 # install BSD license
-  install -dm755 "$pkgdir/usr/local/share/licenses/$pkgname/"
-  install -m644 COPYING "$pkgdir/usr/local/share/licenses/$pkgname/COPYING"
+  install -dm755 "$pkgdir/usr/share/licenses/$pkgname/"
+  install -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

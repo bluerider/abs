@@ -17,11 +17,7 @@ sha1sums=('8dcaa8e61cd86eb1244467c0b64b9ddac04ae262')
 build() {
   cd "${srcdir}/libtheora-${pkgver}"
 
-  sed -i '' \
-      -e 's@pkgconfigdir = \$(libdir)/pkgconfig@pkgconfigdir = $(prefix)/libdata/pkgconfig@' \
-      Makefile.in
-
-  ./configure --disable-sdltest --enable-shared --disable-examples
+  ./configure --prefix=/usr --disable-sdltest --enable-shared --disable-examples
   make
 }
 
@@ -29,6 +25,6 @@ package() {
   cd "${srcdir}/libtheora-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 LICENSE COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 LICENSE COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

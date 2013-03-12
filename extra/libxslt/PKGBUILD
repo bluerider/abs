@@ -29,8 +29,8 @@ md5sums=('9667bf6f9310b957254fdcf6596600b7'
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  sed -i '' -e 's|/usr/bin/python -u|/usr/local/bin/python2 -u|g' \
-            -e 's|/usr/bin/python$|/usr/local/bin/python2|g' \
+  sed -i '' -e 's|/usr/bin/python -u|/usr/bin/python2 -u|g' \
+            -e 's|/usr/bin/python$|/usr/bin/python2|g' \
       python/tests/*.py
 
   for i in patch-aa patch-ab patch-configure patch-python__Makefile.in patch-python__tests__Makefile.in
@@ -43,8 +43,8 @@ build() {
   sed -i '' -e 's|[$](bindir)/xsltproc|../xsltproc/xsltproc|g ; s|[$](bindir)/xmllint|../xmllint/xmllint|g' \
       doc/Makefile.in
 
-  ./configure --prefix=/usr/local --with-python=/usr/local/bin/python2 \
-              --with-html-dir=/usr/local/share/doc
+  ./configure --prefix=/usr --with-python=/usr/bin/python2 \
+              --with-html-dir=/usr/share/doc
 
   sed -i '' -e 's|\(XSLTPROC = \).*$|\1../xsltproc/xsltproc|' doc/Makefile
   make
@@ -59,11 +59,8 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" "${pkgdir}/usr/local/libdata/pkgconfig"
+  install -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 
-  install -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-
-  rm -f "${pkgdir}"/usr/local/lib/python*/site-packages/*.a
+  rm -f "${pkgdir}"/usr/lib/python*/site-packages/*.a
 }

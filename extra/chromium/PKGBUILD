@@ -95,8 +95,6 @@ build() {
 
   msg "Setting up a relative python path"
   # There are still a lot of relative calls which need a workaround
-  mkdir "$srcdir/python2-path"
-  ln -s /usr/bin/python2 "$srcdir/python2-path/python"
   export PATH="$srcdir/python2-path:$PATH"
 
   CFLAGS="${CFLAGS} -Wno-error"

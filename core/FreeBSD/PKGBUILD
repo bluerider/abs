@@ -1,6 +1,6 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source')
-pkgver=20130311
-pkgrel=2
+pkgver=20130312
+pkgrel=1
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -84,6 +84,30 @@ package_freebsd-kernel() {
     KERNCONF=ARCHBSD_i686
   fi
   make TARGET=$TARGET KERNCONF=${KERNCONF} DESTDIR=${pkgdir} -DWITHOUT_TOOLCHAIN -DLIB32 installkernel || (echo installkernel failed... && return 1)
+
+  #Remove files provided by other packages
+
+  msg "Removing files provided by cups"
+  for i in lp lpq lpr lprm; do
+	rm -f "${pkgdir}/usr/bin/$i"
+  done
+
+  rm -f "${pkgdir}"/usr/sbin/lpc
+
+  rm -f "${pkgdir}"/usr/share/man/man1/lp.1.gz
+  rm -f "${pkgdir}"/usr/share/man/man1/lpq.1.gz
+  rm -f "${pkgdir}"/usr/share/man/man1/lpr.1.gz
+  rm -f "${pkgdir}"/usr/share/man/man1/lprm.1.gz
+  rm -f "${pkgdir}"/usr/share/man/man8/lpc.8.gz
+
+  #Some needed links
+
+  ln -s "${pkgdir}"/usr/lib/libm.so "${pkgdir}"/usr/lib/libm.so.5
+  ln -s "${pkgdir}"/usr/lib/libthr.so "${pkgdir}"/usr/lib/libthr.so.3
+  ln -s "${pkgdir}"/usr/lib/libz.so "${pkgdir}"/usr/lib/libz.so.6
+
+  #remove getopt binary
+  rm -rf "${pkgdir}/usr/bin/getopt"
 }
 
 package_freebsd-world() {

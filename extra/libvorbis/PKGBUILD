@@ -25,8 +25,8 @@ build() {
   #-march=i686 optimizes too much, strip it out
   # LIBS+="-lm" ./configure --prefix=/usr --disable-static
   CFLAGS=${CFLAGS/-march=$CARCH} \
-  ./configure --prefix=/usr/local \
-              --with-ogg=/usr/local \
+  ./configure --prefix=/usr \
+              --with-ogg=/usr \
               --disable-docs
   make
 }
@@ -39,10 +39,7 @@ check() {
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  install -dm755 "${pkgdir}/usr/local/share/licenses/$pkgname/"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/$pkgname/LICENSE"
+  install -dm755 "${pkgdir}/usr/share/licenses/$pkgname/"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/$pkgname/LICENSE"
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }
