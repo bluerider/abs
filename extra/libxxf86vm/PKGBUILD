@@ -15,7 +15,7 @@ sha1sums=('57bbf3bb69a49f6a6dec515813394a383f85502f')
 
 build() {
   cd "${srcdir}/libXxf86vm-${pkgver}"
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   make
 }
 
@@ -24,10 +24,6 @@ package()
   cd "${srcdir}/libXxf86vm-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/COPYING"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }

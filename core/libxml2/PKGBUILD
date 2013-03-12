@@ -17,17 +17,14 @@ source=(ftp://ftp.xmlsoft.org/${pkgname}/${pkgname}-${pkgver}.tar.gz
     patch-config.h.in
     patch-doc_devhelp_Makefile.in
     patch-python__Makefile.in
-    patch-python__tests__Makefile.in
-    patch-xml2Conf.sh.in
-    )
+    patch-python__tests__Makefile.in)
 md5sums=('c62106f02ee00b6437f0fb9d370c1093'
          'b255be9a1c7f7021e52448e4ec8d7a0d'
          '37752819e3d4211c01e367e69abbaa19'
          'f323d88a8beecf355f77ccb3d0afffb6'
          'c719e018f075cec722c5619837b90805'
          '550a4d6f95b1d43b650ca1ab5f4c931b'
-         '40c179289cff4b586aa6c7a85d96c03a'
-         '92ef057cba6f53f0b6b2cb4c86fce684')
+         '40c179289cff4b586aa6c7a85d96c03a')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
@@ -38,7 +35,7 @@ build() {
 		${d}/Makefile.in
 	done
 
-   for i in patch-aa patch-config.h.in patch-doc_devhelp_Makefile.in patch-python__Makefile.in patch-python__tests__Makefile.in patch-xml2Conf.sh.in
+   for i in patch-aa patch-config.h.in patch-doc_devhelp_Makefile.in patch-python__Makefile.in patch-python__tests__Makefile.in
    do
 	patch -Np0 -i ${srcdir}/${i}
    done
@@ -58,7 +55,8 @@ build() {
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
-
+  
+  mv "${pkgdir}/usr/etc" "${pkgdir}"
   install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
   install -m644  COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

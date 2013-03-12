@@ -15,7 +15,7 @@ sha256sums=('7c3fe7c657e83547f4822bfde30a90d84524efb56365448768409b77f05355ad')
 
 build() {
   cd "${srcdir}/libXdamage-${pkgver}"
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc
+  ./configure --prefix=/usr --sysconfdir=/etc
   make
 }
 
@@ -23,10 +23,6 @@ package() {
   cd "${srcdir}/libXdamage-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/COPYING"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }

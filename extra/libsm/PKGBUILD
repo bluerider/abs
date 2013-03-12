@@ -23,7 +23,7 @@ build() {
   cd "${srcdir}/libSM-${pkgver}"
   patch -p0 -i "$srcdir"/patch-Makefile.am
   patch -p0 -i "$srcdir"/patch-sm_genid.c
-  ./configure --prefix=/usr/local --sysconfdir=/sur/local/etc \
+  ./configure --prefix=/usr --sysconfdir=/etc \
               --disable-docs --without-xmlto
   make
 }
@@ -32,10 +32,6 @@ package() {
   cd "${srcdir}/libSM-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/COPYING"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }

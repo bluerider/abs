@@ -3,15 +3,15 @@ post_install() {
     usr/sbin/pw groupadd cups
   fi
   if ! getent passwd cups >/dev/null; then
-  	usr/sbin/pw useradd cups -g cups -d / -s /usr/local/bin/bash -c 'cups daemon user'
+  	usr/sbin/pw useradd cups -g cups -d / -s /usr/bin/bash -c 'cups daemon user'
   fi
 
   for i in printers.conf classes.conf subscriptions.conf; do
-    chgrp cups usr/local/etc/cups/$i
+    chgrp cups etc/cups/$i
   done
-  chgrp cups usr/local/etc/cups/ssl
+  chgrp cups etc/cups/ssl
 
-  if [ -x usr/local/bin/xdg-icon-resource ]; then
+  if [ -x usr/bin/xdg-icon-resource ]; then
     xdg-icon-resource forceupdate --theme hicolor 2> /dev/null
   fi
   echo ">> If you use an HTTPS connection to CUPS, the first time you access"
@@ -21,13 +21,13 @@ post_install() {
 }
 
 post_upgrade() {
-  if [ -x usr/local/bin/xdg-icon-resource ]; then
+  if [ -x usr/bin/xdg-icon-resource ]; then
     xdg-icon-resource forceupdate --theme hicolor 2> /dev/null
   fi
 }
 
 post_remove() {
-  if [ -x usr/local/bin/xdg-icon-resource ]; then
+  if [ -x usr/bin/xdg-icon-resource ]; then
 	xdg-icon-resource forceupdate --theme hicolor 2> /dev/null
   fi
 

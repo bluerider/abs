@@ -37,15 +37,14 @@ build() {
   ZLIB_LIBS="-lz" \
   LIBQPDF_CFLAGS="`pkg-config --cflags libqpdf`" \
   LIBQPDF_LIBS="`pkg-config --libs libqpdf`" \
-  PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:/usr/local/libdata/pkgconfig" \
   CFLAGS="$CFLAGS" \
-  CPPFLAGS="$CPPFLAGS -I/usr/local/include" \
-  LDFLAGS="$LDFLAGS -L/usr/local/lib" \
-  LIBS="$LIBS -L/usr/local/lib" \
-  ./configure --prefix=/usr/local \
-    --sysconfdir=/usr/local/etc \
+  CPPFLAGS="$CPPFLAGS -I/usr/include" \
+  LDFLAGS="$LDFLAGS -L/usr/lib" \
+  LIBS="$LIBS -L/usr/lib" \
+  ./configure --prefix=/usr \
+    --sysconfdir=/etc \
     --with-rcdir=no \
-    --with-test-font-path=/usr/local/share/fonts/dejavu/DejaVuSans.ttf
+    --with-test-font-path=/usr/share/fonts/dejavu/DejaVuSans.ttf
   sed -i '' -e 's/^\(DLOPEN_LIBS =\).*$/\1/' Makefile
   export LDFLAGS
   gmake

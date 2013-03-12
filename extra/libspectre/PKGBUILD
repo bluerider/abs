@@ -14,9 +14,7 @@ sha1sums=('a7efd97b82b84ff1bb7a0d88c7e35ad10cc84ea8')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  CPPFLAGS="${CPPFLAGS} -I/usr/local/include" \
-  LDFLAGS="${LDFLAGS} -L/usr/local/lib" \
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
 # ltverhack:
   for i in ltmain.sh libtool; do
     sed -i '' -e '/freebsd-elf)/,/;;/ s|major="\.$current"|major=.1|' \
@@ -30,7 +28,4 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

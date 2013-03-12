@@ -15,7 +15,7 @@ sha1sums=('3e4d374e9026111a04cd669d4b3434273fc34fe0')
 
 build() {
   cd "${srcdir}/libXfixes-${pkgver}"
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc
+  ./configure --prefix=/usr --sysconfdir=/etc
   make
 }
 
@@ -23,10 +23,6 @@ package() {
   cd "${srcdir}/libXfixes-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

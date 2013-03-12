@@ -15,13 +15,13 @@ sha1sums=('ba021369ae3b364ba083b9eb5e570e54b21fd583')
 
 build() {
   cd "${srcdir}/mkfontscale-${pkgver}"
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   make
 }
 
 package() {
   cd "${srcdir}/mkfontscale-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

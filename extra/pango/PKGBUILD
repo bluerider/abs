@@ -17,19 +17,16 @@ sha256sums=('3a8c061e143c272ddcd5467b3567e970cfbb64d1d1600a8f8e62435556220cbe')
 build() {
   cd ${pkgname}-${pkgver}
 
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc \
+  ./configure --prefix=/usr --sysconfdir=/etc \
       --localstatedir=/var --with-included-modules=basic-fc \
       --enable-static \
-      --with-html-dir=/usr/local/share/doc
+      --with-html-dir=/usr/share/doc
   gmake
 }
 
 package() {
   cd ${pkgname}-${pkgver}
   gmake -j1 DESTDIR="${pkgdir}" install
-  install -m755 -d "${pkgdir}/usr/local/etc/pango"
+  install -m755 -d "${pkgdir}/etc/pango"
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

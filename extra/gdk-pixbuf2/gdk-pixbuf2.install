@@ -1,9 +1,9 @@
 post_install() {
-    usr/local/bin/gdk-pixbuf-query-loaders > /dev/null 2>&1 && usr/local/bin/gdk-pixbuf-query-loaders > usr/local/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache 2>/dev/null || /usr/bin/true
-    /sbin/ldconfig -m /usr/local/lib
+    usr/bin/gdk-pixbuf-query-loaders > /dev/null 2>&1 && usr/bin/gdk-pixbuf-query-loaders > usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache 2>/dev/null || /usr/bin/true
+    /sbin/ldconfig -m /usr/lib
 }
 
 post_remove() {
-    rm /usr/local/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
+    rm /usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache
     /sbin/ldconfig -R
 }

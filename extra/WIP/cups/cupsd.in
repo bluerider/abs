@@ -10,7 +10,7 @@ depend() {
 start() {
     ebegin "Starting cupsd system messagebus"
 
-    start-stop-daemon --start --pidfile /var/run/cups.pid --exec /usr/local/bin/cupsd -- --system
+    start-stop-daemon --start --pidfile /var/run/cups.pid --exec /usr/bin/cupsd -- --system
     eend $?
 }
 

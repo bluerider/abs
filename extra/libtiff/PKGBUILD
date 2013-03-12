@@ -17,8 +17,7 @@ sha1sums=('652e97b78f1444237a82cbcfe014310e776eb6f0')
 
 build() {
   cd "${srcdir}/tiff-${pkgver}"
-  sed -i '' -e 's|^\(pkgconfigdir = \).*$|\1$(prefix)/libdata/pkgconfig|' Makefile.in
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   make
 }
 
@@ -30,6 +29,6 @@ check() {
 package() {
   cd "${srcdir}/tiff-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  install -d -m755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install    -m644 COPYRIGHT "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install    -m644 COPYRIGHT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

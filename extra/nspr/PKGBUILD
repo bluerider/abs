@@ -62,9 +62,9 @@ build() {
 
   sed -i '' -e 's,-lpthread,-pthread,g ; s,echo aout,echo elf,g' mozilla/nsprpub/configure
   PTHREAD_LIBS=-pthread BSD_PTHREAD_LIBS=-pthread ./mozilla/nsprpub/configure \
-      --prefix=/usr/local \
-      --libdir=/usr/local/lib \
-      --includedir=/usr/local/include/nspr \
+      --prefix=/usr \
+      --libdir=/usr/lib \
+      --includedir=/usr/include/nspr \
       --enable-optimize \
       --with-pthreads \
       --disable-debug ${confflags} \
@@ -80,27 +80,25 @@ package() {
   NSPR_LIBS=`./config/nspr-config --libs`
   NSPR_CFLAGS=`./config/nspr-config --cflags`
   NSPR_VERSION=`./config/nspr-config --version`
-  install -m755 -d "${pkgdir}/usr/local/libdata/pkgconfig"
-  sed -e "s,%libdir%,/usr/local/lib," \
-    -e "s,%prefix%,/usr/local," \
-    -e "s,%exec_prefix%,/usr/local/bin," \
-    -e "s,%includedir%,/usr/local/include/nspr," \
+  sed -e "s,%libdir%,/usr/lib," \
+    -e "s,%prefix%,/usr," \
+    -e "s,%exec_prefix%,/usr/bin," \
+    -e "s,%includedir%,/usr/include/nspr," \
     -e "s,%NSPR_VERSION%,${NSPR_VERSION}," \
     -e "s,%FULL_NSPR_LIBS%,${NSPR_LIBS}," \
     -e "s,%FULL_NSPR_CFLAGS%,${NSPR_CFLAGS}," \
-    "${srcdir}/nspr.pc.in" > "${pkgdir}/usr/local/libdata/pkgconfig/nspr.pc"
-  chmod 644 "${pkgdir}/usr/local/libdata/pkgconfig/nspr.pc"
-  ln -sf nspr.pc "${pkgdir}/usr/local/libdata/pkgconfig/mozilla-nspr.pc"
+    "${srcdir}/nspr.pc.in" > "${pkgdir}/usr/lib/pkgconfig/nspr.pc"
+  chmod 644 "${pkgdir}/usr/lib/pkgconfig/nspr.pc"
+  ln -sf nspr.pc "${pkgdir}/usr/lib/pkgconfig/mozilla-nspr.pc"
 
-  chmod 644 ${pkgdir}/usr/local/lib/*.a
+  chmod 644 ${pkgdir}/usr/lib/*.a
 
-  rm -rf "${pkgdir}/usr/local/bin/compile-et.pl" \
-    "${pkgdir}/usr/local/bin/prerr.properties" \
-    "${pkgdir}/usr/local/share/aclocal/nspr.m4" \
-    "${pkgdir}/usr/local/include/nspr/md" \
-    "${pkgdir}/usr/local/lib/pkgconfig"
+  rm -rf "${pkgdir}/usr/bin/compile-et.pl" \
+    "${pkgdir}/usr/bin/prerr.properties" \
+    "${pkgdir}/usr/share/aclocal/nspr.m4" \
+    "${pkgdir}/usr/include/nspr/md"
 
-  cd "${pkgdir}/usr/local/lib/"
+  cd "${pkgdir}/usr/lib/"
   for i in libnspr4 libplc4 libplds4; do
     ln -sf ${i}.so{.1,}
   done

@@ -17,8 +17,8 @@ post_install() {
 	GROUP=${USER}
 	usr/bin/install -d -o ${USER} -g ${GROUP} var/run/dbus
 	usr/bin/install -d -o ${USER} -g ${GROUP} var/db/dbus
-	usr/bin/chgrp ${GROUP} usr/local/libexec/dbus-daemon-launch-helper
-	usr/local/bin/dbus-uuidgen --ensure
+	usr/bin/chgrp ${GROUP} usr/libexec/dbus-daemon-launch-helper
+	usr/bin/dbus-uuidgen --ensure
 	exit 0
 }
 

@@ -14,8 +14,7 @@ source=(http://dri.freedesktop.org/$pkgname/$pkgname-$pkgver.tar.bz2
         no-pthread-stubs.patch
         COPYING
         buildfix.diff
-        extra-xf86drmMode.c
-        )
+        extra-xf86drmMode.c)
 sha256sums=('52b3ca670df43fc9f5164f0f55fa40b008de297c0ceedab7c77c30bf9022f212'
             '3915aaff4d5b0ed523c3144911e7f79ee812dece0e3933c13a88dddcf5912ded'
             '9631d4f694952e3e6ae5a05534c2e93e994e47d3413677a3a00e45c8cef6db93'
@@ -36,9 +35,8 @@ build() {
 
   #libtoolize --force
   autoreconf --force --install
-  PCIACCESS_CFLAGS="-I/usr/local/include" \
   PCIACCESS_LIBS="-lpciaccess" \
-  ./configure --prefix=/usr/local \
+  ./configure --prefix=/usr \
       --enable-nouveau-experimental-api
   make
   cd intel
@@ -55,10 +53,6 @@ package() {
   make DESTDIR="$pkgdir" install
   make -C intel DESTDIR="$pkgdir" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -m755 -d "$pkgdir/usr/local/share/licenses/$pkgname"
-  install -m644 ../COPYING "$pkgdir/usr/local/share/licenses/$pkgname/"
+  install -m755 -d "$pkgdir/usr/share/licenses/$pkgname"
+  install -m644 ../COPYING "$pkgdir/usr/share/licenses/$pkgname/"
 }

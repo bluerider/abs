@@ -20,26 +20,17 @@ md5sums=('093baece867a0a7e07774bd4008156b3')
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
-  CONFIG_SHELL=/usr/local/bin/bash \
-  CPPFLAGS="-I/usr/local/include" \
-  ./configure --prefix=/usr/local CONFIG_SHELL=/usr/local/bin/bash
-  sed -i '' -e 's|^\(SHELL=\).*$|\1/usr/local/bin/bash|' make/libtool.mk
+  CONFIG_SHELL=/usr/bin/bash \
+  CPPFLAGS="-I/usr/include" \
+  ./configure --prefix=/usr CONFIG_SHELL=/usr/bin/bash
+  sed -i '' -e 's|^\(SHELL=\).*$|\1/usr/bin/bash|' make/libtool.mk
   gmake
-}
-
-check() {
-  cd "$srcdir/$pkgname-$pkgver"
-  gmake -k check
 }
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   gmake DESTDIR="${pkgdir}/" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  mkdir -m755 -p ${pkgdir}/usr/local/share/licenses/${pkgname}
-  install -m644 Artistic-2.0 ${pkgdir}/usr/local/share/licenses/${pkgname}/
+  mkdir -m755 -p ${pkgdir}/usr/share/licenses/${pkgname}
+  install -m644 Artistic-2.0 ${pkgdir}/usr/share/licenses/${pkgname}/
 }

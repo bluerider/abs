@@ -27,12 +27,12 @@ build() {
   do
     patch -p0 -i "${srcdir}/$i"
   done
-  ./configure --prefix=/usr/local --infodir=/usr/local/info --program-suffix=-2.13
+  ./configure --prefix=/usr --infodir=/usr/share/info --program-suffix=-2.13
   make
 }
 
 package() {
   cd "${srcdir}/autoconf-${pkgver}"
-  make prefix="${pkgdir}/usr/local" infodir="${pkgdir}/usr/local/info" install
-  rm -rf "${pkgdir}/usr/local/info"
+  make prefix="${pkgdir}/usr" infodir="${pkgdir}/usr/share/info" install
+  rm -rf "${pkgdir}/usr/share/info"
 }

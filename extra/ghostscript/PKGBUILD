@@ -7,8 +7,6 @@ pkgrel=2
 pkgdesc="An interpreter for the PostScript language"
 arch=('i686' 'x86_64')
 license=('GPL3' 'custom')
-#depends=('libxt' 'libcups' 'fontconfig' 'jasper' 'libpng>=1.5.7' 'libjpeg' 'libtiff>=4.0.0' 'lcms') # 'lcms2' won't get used) # move in libpaper from community?
-#depends=('libxt' 'libcups' 'fontconfig' 'libpng>=1.5.7' 'libjpeg' 'libtiff>=4.0.0' 'lcms' 'lcms2')
 depends=('libxt' 'fontconfig' 'libpng>=1.5.7' 'libjpeg' 'libtiff>=4.0.0' 'lcms' 'lcms2')
 makedepends=('gtk2') # 'gnutls')
 optdepends=('texlive-core:      needed for dvipdf'
@@ -82,18 +80,14 @@ build() {
   # rm -rf jpeg libpng zlib jasper expat tiff lcms freetype 
   rm -rf jpeg libpng zlib expat tiff freetype lcms lcms2 jasper openjpeg
 
-  export CFLAGS="${CFLAGS} -I/usr/local/include"
-  export CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
-
-	#--enable-contrib 
   autoreconf
-  ./configure --prefix=/usr/local \
+  ./configure --prefix=/usr \
 	--with-ijs \
 	--with-jbig2dec \
 	--with-omni \
 	--with-x \
 	--with-drivers=ALL \
-	--with-fontpath=/usr/local/share/fonts/Type1:/usr/local/share/fonts \
+	--with-fontpath=/usr/share/fonts/Type1:/usr/local/share/fonts \
 	--with-install-cups \
 	--enable-fontconfig \
 	--enable-freetype \
@@ -110,34 +104,31 @@ build() {
   cd ${srcdir}/ghostscript-${pkgver}/ijs
   sed -i '' -e 's@AM_PROG_CC_STDC@AC_PROG_CC_STDC@g' configure.ac
   ./autogen.sh
-  ./configure --prefix=/usr/local --enable-shared --disable-static
+  ./configure --prefix=/usr --enable-shared --disable-static
   gmake
 }
 
 package() {
   cd ${srcdir}/ghostscript-${pkgver}
   gmake DESTDIR=${pkgdir} install soinstall
-#   cups_serverroot=${pkgdir}/usr/local/etc/cups \
-#   cups_serverbin=${pkgdir}/usr/local/lib/cups install soinstall
+#   cups_serverroot=${pkgdir}/etc/cups \
+#   cups_serverbin=${pkgdir}/usr/lib/cups install soinstall
 
   # install missing doc files # http://bugs.archlinux.org/task/18023
-  install -dm755 ${pkgdir}/usr/local/share/ghostscript/$pkgver/doc/
+  install -dm755 ${pkgdir}/usr/share/ghostscript/$pkgver/doc/
   for i in ${srcdir}/ghostscript-${pkgver}/doc/{Ps2ps2.htm,gs-vms.hlp,gsdoc.el,pscet_status.txt}
   do
-    install -m644 "$i" ${pkgdir}/usr/local/share/ghostscript/$pkgver/doc/
+    install -m644 "$i" ${pkgdir}/usr/share/ghostscript/$pkgver/doc/
   done
   
-  mkdir -p ${pkgdir}/usr/local/share/licenses/${pkgname}
-  install -m644 LICENSE ${pkgdir}/usr/local/share/licenses/${pkgname}/
+  mkdir -p ${pkgdir}/usr/share/licenses/${pkgname}
+  install -m644 LICENSE ${pkgdir}/usr/share/licenses/${pkgname}/
 
   # remove unwanted localized man-pages
-  rm -rf $pkgdir/usr/local/share/man/[^man1]*
+  rm -rf $pkgdir/usr/share/man/[^man1]*
 
   # install IJS
   cd ${srcdir}/ghostscript-${pkgver}/ijs
   gmake DESTDIR=${pkgdir} install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

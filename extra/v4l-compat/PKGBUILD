@@ -21,20 +21,20 @@ build() {
 
 package() {
   cd "$srcdir/$_pkgsrcname-$pkgver"
-  install -dm755 "${pkgdir}/usr/local/include/linux/dvb"
+  install -dm755 "${pkgdir}/usr/include/linux/dvb"
 # linux headers
   for i in input.h uinput.h videodev.h videodev2.h
   do
-    install -m644 "$i" "${pkgdir}/usr/local/include/linux/$i"
+    install -m644 "$i" "${pkgdir}/usr/include/linux/$i"
   done
 # dvb headers
   for i in audio.h ca.h dmx.h frontend.h net.h osd.h version.h video.h
   do
-    install -m644 "dvb/$i" "${pkgdir}/usr/local/include/linux/dvb/$i"
+    install -m644 "dvb/$i" "${pkgdir}/usr/include/linux/dvb/$i"
   done
 
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 
 # vim:set ts=2 sw=2 et:

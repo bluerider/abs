@@ -17,8 +17,8 @@ sha256sums=('eff663f90847620bb68c9c2cbaaf7f45e2ff44163b9ab3f10d15be763680491f')
 
 build() {
   cd "$pkgname-$pkgver"
-  ./configure --prefix=/usr/local --enable-static \
-              --with-html-dir=/usr/local/share/doc
+  ./configure --prefix=/usr --enable-static \
+              --with-html-dir=/usr/share/share/doc
               # the glib-test uses variables from the glib-library but doesn -lglib
   gmake
 }
@@ -27,10 +27,7 @@ package() {
   cd "$pkgname-$pkgver"
   gmake DESTDIR="$pkgdir" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  cd "${pkgdir}/usr/local/lib"
+  cd "${pkgdir}/usr/lib"
   ln -sf libatk-1.0.so.20609 libatk-1.0.so.10
   ln -sf libatk-1.0.so.20609 libatk-1.0.so.0
   ln -sf libatk-1.0.so.20609 libatk-1.0.so

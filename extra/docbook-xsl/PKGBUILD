@@ -12,7 +12,7 @@ source=("http://downloads.sourceforge.net/docbook/${pkgname}-${pkgver}.tar.bz2")
 package() {
 	cd ${srcdir}/${pkgname}-${pkgver}
 
-	_pkgroot=${pkgdir}/usr/local/share/xml/docbook/xsl-stylesheets-${pkgver}
+	_pkgroot=${pkgdir}/usr/share/xml/docbook/xsl-stylesheets-${pkgver}
 
 	install -m755 -d ${_pkgroot}
 	install -m644 VERSION VERSION.xsl ${_pkgroot}
@@ -23,8 +23,8 @@ package() {
 		install -m644 ${fn}/*.{xml,xsl,dtd,ent} ${_pkgroot}/${fn} || true  # ignore missing files
 	done
 
-	install -m755 -d ${pkgdir}/usr/local/etc/xml
-	install -m644 -d ${pkgdir}/usr/local/share/licenses/${pkgname}/
-	install -m644 COPYING ${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE
+	install -m755 -d ${pkgdir}/etc/xml
+	install -m644 -d ${pkgdir}/usr/share/licenses/${pkgname}/
+	install -m644 COPYING ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
 }
 md5sums=('a88dbdc0cd74702656083b6e4e4241d8')

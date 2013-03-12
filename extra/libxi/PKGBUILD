@@ -14,7 +14,7 @@ sha256sums=('3250fd34cdd099a15b78abdb87c7e1a9b7a2188ab893f273e90d831dbc604058')
 
 build() {
   cd "${srcdir}/libXi-${pkgver}"
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc \
+  ./configure --prefix=/usr --sysconfdir=/etc \
               --disable-specs --without-xmlto
   make
 }
@@ -23,10 +23,6 @@ package() {
   cd "${srcdir}/libXi-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

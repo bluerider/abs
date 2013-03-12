@@ -15,7 +15,7 @@ md5sums=('4cfc0686cf5350dd1305c4d905eb55a6')
 
 build() {
   cd ${srcdir}/${pkgname}-${pkgver}
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   make
 }
 
@@ -27,6 +27,6 @@ check() {
 package() {
   cd ${srcdir}/${pkgname}-${pkgver}
   make DESTDIR=${pkgdir} install
-  install -dm755 ${pkgdir}/usr/local/share/licenses/${pkgname}/
-  install -m644 COPYING ${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE
+  install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}/
+  install -m644 COPYING ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
 }

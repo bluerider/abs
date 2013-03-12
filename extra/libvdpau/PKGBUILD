@@ -9,18 +9,14 @@ arch=(i686 x86_64)
 url='http://cgit.freedesktop.org/~aplattner/libvdpau'
 conflicts=('nvidia-utils<190.42-2')
 license=('custom')
-source=(http://people.freedesktop.org/~aplattner/vdpau/${pkgname}-${pkgver}.tar.gz
-        libvdpau.install)
+source=(http://people.freedesktop.org/~aplattner/vdpau/${pkgname}-${pkgver}.tar.gz)
 makedepends=('libx11')
-sha1sums=('255c9bddbfa5575ab08e91dd1e315a693256a7dc'
-          'f99b42ac4fb5318724382c2d8956a5cc7699a89f')
-backup=('/usr/local/etc/vdpau_wrapper.cfg')
+sha1sums=('255c9bddbfa5575ab08e91dd1e315a693256a7dc')
+backup=('etc/vdpau_wrapper.cfg')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
-  sed -i '' -e 's|\$(libdir)/\(pkgconfig\)|$(prefix)/libdata/\1|' \
-    Makefile.am
   sed -i '' -e '/^export /d' doc/Makefile.am
 
   mv src/vdpau_wrapper.cfg src/vdpau_wrapper.cfg.sample
@@ -28,7 +24,7 @@ build() {
 # but this is nicer - autotools as makedepnds is nasty
   sed -i '' -e 's/vdpau_wrapper.cfg/&.sample/' src/Makefile.in
 
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc --disable-documentation
+  ./configure --prefix=/usr --sysconfdir=/etc --disable-documentation
   gmake
 }
 
@@ -36,10 +32,6 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -d -m755 "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

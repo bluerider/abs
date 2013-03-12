@@ -21,10 +21,10 @@ build() {
 	cd "${srcdir}/font-util-${pkgver}"
 
 	./configure \
-		--prefix=/usr/local \
-		--mandir=/usr/local/man \
-		--with-mapdir=/usr/local/lib/X11/fonts/util \
-		--with-fontrootdir=/usr/local/share/fonts
+		--prefix=/usr \
+		--mandir=/usr/share/man \
+		--with-mapdir=/usr/lib/X11/fonts/util \
+		--with-fontrootdir=/usr/share/fonts
 
 	make
 }
@@ -33,10 +33,6 @@ package() {
 	cd "${srcdir}/font-util-${pkgver}"
 	make DESTDIR="${pkgdir}" install
 
-    install -dm755 "${pkgdir}/usr/local/libdata"
-    mv "${pkgdir}/usr/local/lib/pkgconfig" \
-       "${pkgdir}/usr/local/libdata/pkgconfig"
-
-	install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-	install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/COPYING"
+	install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+	install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }

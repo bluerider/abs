@@ -10,7 +10,7 @@
  #if defined(GOOGLE_CHROME_BUILD)
        cur = FilePath(FILE_PATH_LITERAL("/etc/opt/chrome/policies"));
 +#elif defined(OS_BSD)
-+      cur = FilePath(FILE_PATH_LITERAL("/usr/local/etc/chrome/policies"));
++      cur = FilePath(FILE_PATH_LITERAL("/etc/chrome/policies"));
  #else
        cur = FilePath(FILE_PATH_LITERAL("/etc/chromium/policies"));
  #endif

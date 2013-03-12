@@ -17,12 +17,12 @@ build() {
 
 package() {
   cd "$srcdir/$pkgname-$pkgver"
-  install -dm755 "${pkgdir}/usr/local/bin"
-  install -dm755 "${pkgdir}/usr/local/man/man1"
+  install -dm755 "${pkgdir}/usr/bin"
+  install -dm755 "${pkgdir}/usr/share/man/man1"
 # I know this MANDIR looks odd but it works...
   make DESTDIR="${pkgdir}" \
-       BINDIR="/usr/local/bin" \
-       MANDIR="/usr/local/man/man1/flock." \
+       BINDIR="/usr//bin" \
+       MANDIR="/usr/share/man/man1/flock." \
        install
 }
 

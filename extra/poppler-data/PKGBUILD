@@ -14,9 +14,9 @@ md5sums=('448dd7c5077570e340340706cef931aa')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  make prefix=/usr/local DESTDIR="${pkgdir}" install
+  make prefix=/usr DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING COPYING.adobe \
-    "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+    "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

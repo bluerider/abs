@@ -1,3 +1,7 @@
+# $Id$
+# Maintainer: dorphell <dorphell@archlinux.org>
+# Committer: Judd Vinet <jvinet@zeroflux.org>
+
 pkgname=docbook-xml
 pkgver=4.5
 pkgrel=5
@@ -27,7 +31,7 @@ package() {
     pushd docbook-xml-${ver}
     bsdtar xf "${srcdir}/docbook-xml-${ver}.zip"
     mkdir -p "${pkgdir}/usr/share/xml/docbook/xml-dtd-${ver}"
-    cp -LRf docbook.cat *.dtd ent/ *.mod \
+    cp -Rf docbook.cat *.dtd ent/ *.mod \
         "${pkgdir}/usr/share/xml/docbook/xml-dtd-${ver}/"
     popd
   done
@@ -35,7 +39,7 @@ package() {
   pushd docbook-xml-4.1.2
   bsdtar xf "${srcdir}/docbkx412.zip"
   mkdir -p "${pkgdir}/usr/share/xml/docbook/xml-dtd-4.1.2"
-  cp -LRf docbook.cat *.dtd ent/ *.mod \
+  cp -Rf docbook.cat *.dtd ent/ *.mod \
       "${pkgdir}/usr/share/xml/docbook/xml-dtd-4.1.2/"
   popd
 
@@ -265,8 +269,6 @@ package() {
     "${pkgdir}/etc/xml/docbook-xml"
 
 # license
-  install -m644 -d "${pkgdir}/usr/share/licenses/${pkgname}"	
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
-
-

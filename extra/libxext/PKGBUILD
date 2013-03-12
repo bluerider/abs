@@ -16,7 +16,7 @@ sha1sums=('764ac472ae19a0faade193717a9e0938d3430aaa')
 
 build() {
   cd "${srcdir}/libXext-${pkgver}"
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc \
+  ./configure --prefix=/usr --sysconfdir=/etc \
               --disable-specs --without-xmlto
   make
 }
@@ -25,10 +25,6 @@ package() {
   cd "${srcdir}/libXext-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

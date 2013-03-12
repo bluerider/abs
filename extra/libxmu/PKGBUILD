@@ -13,7 +13,7 @@ sha1sums=('3e280aa927d78c05f94db6c7ae606f7ad132b495')
 
 build() {
   cd "${srcdir}/libXmu-${pkgver}"
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc --disable-static
+  ./configure --prefix=/usr --sysconfdir=/etc --disable-static
   gmake
 }
 
@@ -21,10 +21,6 @@ package() {
   cd "${srcdir}/libXmu-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

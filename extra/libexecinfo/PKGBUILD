@@ -18,14 +18,14 @@ build() {
   cd "$srcdir/$pkgname-$pkgver"
   patch -p0 -i "$srcdir"/patch-Makefile
   patch -p0 -i "$srcdir"/patch-execinfo.c
-  make LIBDIR=/usr/local/lib INCLUDEDIR=/usr/local/include
+  make LIBDIR=/usr/lib INCLUDEDIR=/usr/include
 }
 
 package() {
   cd "$srcdir/$pkgname-$pkgver"
-  install -dm755 "${pkgdir}/usr/local/lib"
-  install -dm755 "${pkgdir}/usr/local/include"
-  make LIBDIR=/usr/local/lib INCLUDEDIR=/usr/local/include \
+  install -dm755 "${pkgdir}/usr/lib"
+  install -dm755 "${pkgdir}/usr/include"
+  make LIBDIR=/usr/lib INCLUDEDIR=/usr/include \
        DESTDIR="${pkgdir}" install
 }
 

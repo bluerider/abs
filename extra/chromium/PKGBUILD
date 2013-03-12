@@ -17,12 +17,11 @@ depends=('gtk2' 'nss' 'xdg-utils' 'libevent' 'libxss'
          'bash'
          'alsa-lib' 'libxslt' 'libvpx'
          'alsa-plugins'
-         'libxml2'
-         )
+         'libxml2')
 makedepends=('python2' 'perl' 'gperf' 'yasm' 'mesa' 'libgnome-keyring'
              'flock' 'v4l-compat>=1.0.20110603')
 optdepends=('kdebase-kdialog: needed for file dialogs in KDE')
-backup=('usr/local/etc/chromium/default')
+backup=('etc/chromium/default')
 install=chromium.install
 port_patches=(
         patch-base__base.gyp patch-base__debug__stack_trace_posix.cc patch-base__sys_byteorder.h
@@ -94,18 +93,10 @@ build() {
   sed -i '' -e "s|linux|freebsd|" \
 		tools/gyp/pylib/gyp/generator/make.py
 
-###  NOTE: this part seems to not work / not be necessary on BSD
-#  # Use Python 2
-#  msg "Replacing python paths"
-#  find . -type f -exec sed -i '' -r \
-#    -e 's|/usr/local/bin/python$|&2|g' \
-#    -e 's|(/usr/local/bin/python2)\.4$|\1|g' \
-#    {} +
-
   msg "Setting up a relative python path"
   # There are still a lot of relative calls which need a workaround
   mkdir "$srcdir/python2-path"
-  ln -s /usr/local/bin/python2 "$srcdir/python2-path/python"
+  ln -s /usr/bin/python2 "$srcdir/python2-path/python"
   export PATH="$srcdir/python2-path:$PATH"
 
   CFLAGS="${CFLAGS} -Wno-error"
@@ -135,7 +126,7 @@ build() {
     -Denable_openmax=1 \
     -Denable_one_click_signin=1 \
     -Dno_gc_sections=1 \
-    -Dprefix_dir=/usr/local \
+    -Dprefix_dir=/usr \
     -Dpython_ver=2.7 \
     -Drelease_extra_cflags="$CFLAGS" \
     -Dwerror= \
@@ -145,55 +136,55 @@ build() {
     
   #make chrome chrome_sandbox BUILDTYPE=Release
   msg "Running make:"
-  gmake chrome BUILDTYPE=Release GPERF=/usr/local/bin/gperf
+  gmake chrome BUILDTYPE=Release GPERF=/usr/bin/gperf
 }
 
 package() {
   cd "$srcdir/chromium-$pkgver"
 
-  install -dm755 "$pkgdir/usr/local/lib/chromium/"
-  install out/Release/chrome "$pkgdir/usr/local/lib/chromium/chromium"
+  install -dm755 "$pkgdir/usr/lib/chromium/"
+  install out/Release/chrome "$pkgdir/usr/lib/chromium/chromium"
 
   cp out/Release/{*.pak,libffmpegsumo.so} \
-    "$pkgdir/usr/local/lib/chromium/"
+    "$pkgdir/usr/lib/chromium/"
 
   # Allow users to override command-line options
-  install -dm755 "$pkgdir/usr/local/etc/chromium/"
-  install -m644 "$srcdir/chromium.default" "$pkgdir/usr/local/etc/chromium/default"
+  install -dm755 "$pkgdir/etc/chromium/"
+  install -m644 "$srcdir/chromium.default" "$pkgdir/etc/chromium/default"
 
-  cp -a out/Release/locales "$pkgdir/usr/local/lib/chromium/"
+  cp -a out/Release/locales "$pkgdir/usr/lib/chromium/"
 
-  install -dm755 "$pkgdir/usr/local/man/man1/"
-  install -m644 out/Release/chrome.1 "$pkgdir/usr/local/man/man1/chromium.1"
+  install -dm755 "$pkgdir/usr/share/man/man1/"
+  install -m644 out/Release/chrome.1 "$pkgdir/usr/share/man/man1/chromium.1"
 
-  install -dm755 "$pkgdir/usr/local/share/applications/"
+  install -dm755 "$pkgdir/usr/share/applications/"
   install -m644 "$srcdir/chromium.desktop" \
-    "$pkgdir/usr/local/share/applications/chromium.desktop"
+    "$pkgdir/usr/share/applications/chromium.desktop"
 
   for size in 22 24 48 64 128 256; do
-    install -dm755 "$pkgdir/usr/local/share/icons/hicolor/${size}x${size}/apps/"
+    install -dm755 "$pkgdir/usr/share/icons/hicolor/${size}x${size}/apps/"
     install -m644 "chrome/app/theme/chromium/product_logo_$size.png" \
-      "$pkgdir/usr/local/share/icons/hicolor/${size}x${size}/apps/chromium.png"
+      "$pkgdir/usr/share/icons/hicolor/${size}x${size}/apps/chromium.png"
   done
 
   for size in 16 32; do
-    install -dm755 "$pkgdir/usr/local/share/icons/hicolor/${size}x${size}/apps/"
+    install -dm755 "$pkgdir/usr/share/icons/hicolor/${size}x${size}/apps/"
     install -m644 "chrome/app/theme/default_100_percent/chromium/product_logo_$size.png" \
-      "$pkgdir/usr/local/share/icons/hicolor/${size}x${size}/apps/chromium.png"
+      "$pkgdir/usr/share/icons/hicolor/${size}x${size}/apps/chromium.png"
   done
 
-  install -d "$pkgdir/usr/local/bin/"
-  install    "$srcdir/chromium.sh" "$pkgdir/usr/local/bin/chromium"
+  install -d "$pkgdir/usr/bin/"
+  install    "$srcdir/chromium.sh" "$pkgdir/usr/bin/chromium"
 
-  install -dm755 "$pkgdir/usr/local/share/licenses/chromium/"
-  install -m644 LICENSE "$pkgdir/usr/local/share/licenses/chromium/LICENSE"
+  install -dm755 "$pkgdir/usr/share/licenses/chromium/"
+  install -m644 LICENSE "$pkgdir/usr/share/licenses/chromium/LICENSE"
 }
 
 # vim:set ts=2 sw=2 et:
 sha256sums=('a2cad6470c643e0399ccd081cdc1bf293510aba174331a10857cc426fe71d5b1'
             '09bfac44104f4ccda4c228053f689c947b3e97da9a4ab6fa34ce061ee83d0322'
             '478340d5760a9bd6c549e19b1b5d1c5b4933ebf5f8cfb2b3e2d70d07443fe232'
-            '1d5378845ea0be8acefa1ee71f92cd1d7bff428f16b0a8ca471326ace5d03155'
+            'e807f1aa17e34d7762eda54c36afdddc1eb2de4e717f5de61820d158f96d2b9a'
             '73bf3e22c4507ca6e81886c7121ab0a4e0e83994a2858f93428de61562fed7f8'
             '4abfc6189fe78bb269146141f6003cbf1452d5ffc0e48972384e46b2c1af64d3'
             '102b62506bbf64aa3f1d6edd061aef1f1893941d26284418c41bf0f07a6bd98b'
@@ -218,7 +209,7 @@ sha256sums=('a2cad6470c643e0399ccd081cdc1bf293510aba174331a10857cc426fe71d5b1'
             '5f3feb0863edbcb7df738c95baffb363482bdaef915de896cdc9ed3e38135cde'
             'e1ff14466d2eb217ab5997e5b4543ed06a1bd4347dded475733fcb1c49473f5e'
             '835f183d9d0f95aad4d0002bdf191ca6360c885354e389fddbcb0167f5e12e0d'
-            'd3ef56f0233c95d1e761530eed4a17969d1157e1e8cda4b25fff3f8a8f73b25a'
+            '97bf975fe8a6818fede6301bb165a272f42059f1c626c2abe33ebb734951c83e'
             'b2a5c9126844c320ce2d1f446135101e859a4b8b164b849b015b39027569a0f8'
             '724d3b425fdad1f7b661b7b024e4b28f593cfcde758f39d9bcc0b2fa3fb0ee5a'
             'e7f45d4f6c31b2abbcc677fd5065749cc40f9e7e552e8d0a8287e8350c63ea98'
@@ -293,3 +284,4 @@ sha256sums=('a2cad6470c643e0399ccd081cdc1bf293510aba174331a10857cc426fe71d5b1'
             '7037bfe5a639760e56f080ef2c8377193d907e8a45d7bdc51413d86e95758202'
             'dd592576a508266f7db7488718068d2914d15c02b17b03b580ec9154478871e9'
             '2aac013653939253df14977d7b952dfcbba98393c09f0cf99cf1e53f401c2542')
+

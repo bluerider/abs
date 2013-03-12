@@ -30,17 +30,16 @@ build() {
   cd "$srcdir"/sqlite-autoconf-$_amalgamationver
   # ports uses a patch for this, but it's the only thing they do, and simple
   # doing it with sed now to avoid any patch conflicts
-  sed -i '' -e 's|^\(pkgconfigdir = \).*$|\1${prefix}/libdata/pkgconfig|' Makefile.in
-  ./configure --prefix=/usr/local \
+  ./configure --prefix=/usr \
 	--enable-static
   gmake
   
   # build the tcl extension    
   cd "$srcdir"/sqlite-autoconf-$_amalgamationver/tea
-  ./configure --prefix=/usr/local \
+  ./configure --prefix=/usr \
 	--with-system-sqlite \
-	--with-tclinclude=/usr/local/include/tcl8.6 \
-	--with-tcl=/usr/local/lib/tcl8.6
+	--with-tclinclude=/usr/include/tcl8.6 \
+	--with-tcl=/usr/lib/tcl8.6
   gmake
 
 }
@@ -54,8 +53,8 @@ package_sqlite() {
   make DESTDIR=${pkgdir} install
   
   # license
-  install -d -m755 ${pkgdir}/usr/local/share/licenses/${pkgname}/license.txt
-  install    -m644 ${srcdir}/license.txt ${pkgdir}/usr/local/share/licenses/${pkgname}/license.txt
+  install -d -m755 ${pkgdir}/usr/share/licenses/${pkgname}/license.txt
+  install    -m644 ${srcdir}/license.txt ${pkgdir}/usr/share/licenses/${pkgname}/license.txt
 }
 
 package_sqlite-tcl() {
@@ -78,8 +77,8 @@ package_sqlite-doc() {
  
   #cd ${srcdir}/sqlite-doc-${_amalgamationver}
   cd ${srcdir}/sqlite-doc-${_docver}
-  mkdir -p ${pkgdir}/usr/local/share/doc/${pkgbase}
-  cp -R *  ${pkgdir}/usr/local/share/doc/${pkgbase}/
+  mkdir -p ${pkgdir}/usr/share/doc/${pkgbase}
+  cp -R *  ${pkgdir}/usr/share/doc/${pkgbase}/
   
   # fix permissions and remove obsolete files; https://bugs.archlinux.org/task/24605
   find ${pkgdir} -type f -perm 755 -exec ls -lha {} \;

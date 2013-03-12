@@ -22,7 +22,7 @@ build() {
   cd "${srcdir}/${pkgbase}-${pkgver}"
   patch -p0 -i "$srcdir"/patch-output+outelf32.c
   patch -p0 -i "$srcdir"/patch-output+outelf64.c
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   gmake
   gmake -C doc info
 }
@@ -30,8 +30,8 @@ build() {
 package() {
   cd "${srcdir}/${pkgbase}-${pkgver}"
   gmake INSTALLROOT="${pkgdir}" install install_rdf
-  install -dm755 "${pkgdir}"/usr/local/info
-  install -m644 doc/info/* "${pkgdir}"/usr/local/info/
-  install -d -m755 "${pkgdir}"/usr/local/share/licenses/nasm/
-  install    -m644 LICENSE "${pkgdir}"/usr/local/share/licenses/nasm/LICENSE
+  install -dm755 "${pkgdir}"/usr/share/info
+  install -m644 doc/info/* "${pkgdir}"/usr/share/info/
+  install -d -m755 "${pkgdir}"/usr/share/licenses/nasm/
+  install    -m644 LICENSE "${pkgdir}"/usr/share/licenses/nasm/LICENSE
 }

@@ -15,8 +15,7 @@ source=(https://github.com/downloads/${pkgname}/${pkgname}/${pkgname}-$pkgver-st
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}-stable"
-  sed -i '' -E -e "s,^pkgconfigdir =.*,pkgconfigdir = /usr/local/libdata/pkgconfig,g" Makefile.in
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc
+  ./configure --prefix=/usr --sysconfdir=/etc
   make
 }
 

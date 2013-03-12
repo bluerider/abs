@@ -1,8 +1,8 @@
-info_dir=usr/local/info
+info_dir=usr/info
 info_file=indent.info.gz
 
 post_install() {
-    [ -x usr/local/bin/install-info ] || return 0
+    [ -x usr/bin/install-info ] || return 0
     install-info ${info_dir}/$info_file ${info_dir}/dir 2> /dev/null
 }
 
@@ -11,6 +11,6 @@ post_upgrade() {
 }
 
 pre_remove() {
-    [ -x usr/local/bin/install-info ] || return 0
+    [ -x usr/bin/install-info ] || return 0
     install-info --delete ${info_dir}/$info_file ${info_dir}/dir 2> /dev/null
 }

@@ -60,18 +60,18 @@ build() {
   	patch -p0 -i "${srcdir}/$i"
   done
 
-  sed -e 's|@exec_prefix@|/usr/local|' \
-      -e 's|@includedir@|/usr/local/include/nss|' \
-      -e 's|@libdir@|/usr/local/lib/nss|' \
-      -e 's|@prefix@|/usr/local|' \
+  sed -e 's|@exec_prefix@|/usr|' \
+      -e 's|@includedir@|/usr/include/nss|' \
+      -e 's|@libdir@|/usr/lib/nss|' \
+      -e 's|@prefix@|/usr|' \
     "$srcdir"/nss-config.in > nss-config
-  sed -i '' -e '/NSS_DEFAULT_SYSTEM/s,/etc,/usr/local&,' \
+  sed -i '' -e '/NSS_DEFAULT_SYSTEM/s,/etc,/usr&,' \
     lib/sysinit/nsssysinit.c
 
   find . -name '*.c' -o -name '*.h' | xargs sed -i '' -e 's|"nspr.h"|<nspr.h>|'
 
   find tests -name '*.sh' | xargs grep -l -F '/bin/bash' | \
-  	xargs sed -i '' -e 's|#! */bin/bash|#!/usr/local/bin/bash|'
+  	xargs sed -i '' -e 's|#! */bin/bash|#!/usr/bin/bash|'
 
   cd "${srcdir}/${pkgname}-${_pkgver}/mozilla"
   # Respect LDFLAGS
@@ -86,7 +86,7 @@ build() {
   #  cd security/nss/lib/ckfw/builtins
   #  make generate
 
-  find . -name '*.c' -o -name '*.h' | xargs sed -i '' -e 's@<sqlite3.h>@</usr/local/include/sqlite3.h>@'
+  find . -name '*.c' -o -name '*.h' | xargs sed -i '' -e 's@<sqlite3.h>@</usr/include/sqlite3.h>@'
 
   cd "${srcdir}/${pkgname}-${_pkgver}"
   unset CFLAGS CPPFLAGS
@@ -100,10 +100,12 @@ build() {
   export XCFLAGS="${CFLAGS}"
   export NSS_USE_SYSTEM_SQLITE=1
   export NSS_ENABLE_ECC=1
-  export CFLAGS="${CFLAGS} -L/usr/local/lib"
-  export BSD_LDOPTS="-pthread -L/usr/local/lib"
+  export BSD_LDOPTS="-pthread"
 
   [ "$CARCH" = "x86_64" ] && export USE_64=1
+
+  #db.h is moved to fdb.h
+  sed -i '' -e 's|<db.h>|<fdb.h>|g' "${srcdir}"/nss-3.14.1/mozilla/security/nss/lib/softoken/legacydb/*.{h,c}
 
   gmake -j 1 -C mozilla/security/coreconf
   gmake -j 1 -C mozilla/security/dbm
@@ -112,55 +114,53 @@ build() {
 
 package() {
   cd "${srcdir}/${pkgname}-${_pkgver}"
-  install -m755 -d "${pkgdir}/usr/local/lib/pkgconfig"
-  install -m755 -d "${pkgdir}/usr/local/bin"
-  install -m755 -d "${pkgdir}/usr/local/include/nss"
+  install -m755 -d "${pkgdir}/usr/lib/pkgconfig"
+  install -m755 -d "${pkgdir}/usr/bin"
+  install -m755 -d "${pkgdir}/usr/include/nss"
 
   NSS_VMAJOR=`grep "#define.*NSS_VMAJOR" mozilla/security/nss/lib/nss/nss.h | awk '{print $3}'`
   NSS_VMINOR=`grep "#define.*NSS_VMINOR" mozilla/security/nss/lib/nss/nss.h | awk '{print $3}'`
   NSS_VPATCH=`grep "#define.*NSS_VPATCH" mozilla/security/nss/lib/nss/nss.h | awk '{print $3}'`
 
 msg "pkgconf files"
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" "${pkgdir}/usr/local/libdata/pkgconfig"
-  sed -e "s,%libdir%,/usr/local/lib,g" \
-  	  -e "s,%prefix%,/usr/local,g" \
-	  -e "s,%exec_prefix%,/usr/local/bin,g" \
-	  -e "s,%includedir%,/usr/local/include/nss,g" \
+  sed -e "s,%libdir%,/usr/lib,g" \
+  	  -e "s,%prefix%,/usr,g" \
+	  -e "s,%exec_prefix%,/usr/bin,g" \
+	  -e "s,%includedir%,/usr/include/nss,g" \
 	  -e "s,%NSPR_VERSION%,${_pkgver},g" \
 	  -e "s,%NSS_VERSION%,${_pkgver},g" \
-	  "${srcdir}/nss.pc.in" > "${pkgdir}/usr/local/libdata/pkgconfig/nss.pc"
-  ln -sf nss.pc "${pkgdir}/usr/local/libdata/pkgconfig/mozilla-nss.pc"
-  chmod 644 ${pkgdir}/usr/local/libdata/pkgconfig/*.pc
+	  "${srcdir}/nss.pc.in" > "${pkgdir}/usr/lib/pkgconfig/nss.pc"
+  ln -sf nss.pc "${pkgdir}/usr/lib/pkgconfig/mozilla-nss.pc"
+  chmod 644 ${pkgdir}/usr/lib/pkgconfig/*.pc
 
 msg "nss-config"
-  sed -e "s,@libdir@,/usr/local/lib,g" \
-  	  -e "s,@prefix@,/usr/local/bin,g" \
-	  -e "s,@exec_prefix@,/usr/local/bin,g" \
-	  -e "s,@includedir@,/usr/local/include/nss,g" \
+  sed -e "s,@libdir@,/usr/lib,g" \
+  	  -e "s,@prefix@,/usr/bin,g" \
+	  -e "s,@exec_prefix@,/usr/bin,g" \
+	  -e "s,@includedir@,/usr/include/nss,g" \
 	  -e "s,@MOD_MAJOR_VERSION@,${NSS_VMAJOR},g" \
 	  -e "s,@MOD_MINOR_VERSION@,${NSS_VMINOR},g" \
 	  -e "s,@MOD_PATCH_VERSION@,${NSS_VPATCH},g" \
 	  -e "s,@MAJOR@,${NSS_VMAJOR},g" \
 	  -e "s,@MINOR@,${NSS_VMINOR},g" \
 	  -e "s,@PATCH@,${NSS_VPATCH},g" \
-	  "${srcdir}/nss-config.in" > "${pkgdir}/usr/local/bin/nss-config"
-  chmod 755 "${pkgdir}/usr/local/bin/nss-config"
+	  "${srcdir}/nss-config.in" > "${pkgdir}/usr/bin/nss-config"
+  chmod 755 "${pkgdir}/usr/bin/nss-config"
 
 
   for file in libsoftokn3.so libfreebl3.so libnss3.so libnssutil3.so \
               libssl3.so libsmime3.so libnssckbi.so libnssdbm3.so
   do
-    install -m755 mozilla/dist/*.OBJ/lib/${file} "${pkgdir}/usr/local/lib/${file}.1"
-    ln -sf ${file}.1 "${pkgdir}/usr/local/lib/${file}"
+    install -m755 mozilla/dist/*.OBJ/lib/${file} "${pkgdir}/usr/lib/${file}.1"
+    ln -sf ${file}.1 "${pkgdir}/usr/lib/${file}"
   done
 
-  install -m644 mozilla/dist/*.OBJ/lib/libcrmf.a "${pkgdir}/usr/local/lib/"
-  install -m644 mozilla/dist/*.OBJ/lib/*.chk "${pkgdir}/usr/local/lib/"
+  install -m644 mozilla/dist/*.OBJ/lib/libcrmf.a "${pkgdir}/usr/lib/"
+  install -m644 mozilla/dist/*.OBJ/lib/*.chk "${pkgdir}/usr/lib/"
 
   for file in certutil cmsutil crlutil modutil pk12util shlibsign signtool signver ssltap; do
-    install -m755 mozilla/dist/*.OBJ/bin/${file} "${pkgdir}/usr/local/bin/"
+    install -m755 mozilla/dist/*.OBJ/bin/${file} "${pkgdir}/usr/bin/"
   done
 
-  install -m644 mozilla/dist/public/nss/*.h "${pkgdir}/usr/local/include/nss/"
+  install -m644 mozilla/dist/public/nss/*.h "${pkgdir}/usr/include/nss/"
 }

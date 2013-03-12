@@ -21,21 +21,18 @@ md5sums=('50c259fdda538c1ba94b62aa25f7ec87'
 build() {
   cd "${srcdir}/${pkgbase}-${pkgver}"
   sed -i '' -e '/AC_PATH_XTRA/d' configure.ac
-# using undocumented AC_CONFIG_HEADER, since AC_CONFIG_HEADERS (note: plural) has different usage
   sed -i '' -e 's/AM_CONFIG_HEADER/AC_CONFIG_HEADER/' configure.ac
 
   autoreconf -fi
 
-  CPPFLAGS="${CPPFLAGS} -I/usr/local/include" \
-  LDFLAGS="${LDFLAGS} -L/usr/local/lib" \
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc \
+  ./configure --prefix=/usr --sysconfdir=/etc \
       --localstatedir=/var --disable-static \
       --enable-zlib \
       --enable-xpdf-headers \
       --enable-libjpeg --enable-zlib \
-      --enable-poppler-glib \
       --disable-gtk-test \
-      --with-html-dir=/usr/local/share/doc/poppler \
+      --enable-poppler-glib \
+      --with-html-dir=/usr/share/doc/poppler \
       --enable-cairo-output
 # FIXME: needs qt4 (obviously) --enable-poppler-qt4 \
 
@@ -68,11 +65,8 @@ package_poppler() {
       -e 's/^qt4_subdir =.*/qt4_subdir =/' Makefile
   gmake DESTDIR="${pkgdir}" install
 
-  rm -f "${pkgdir}"/usr/local/lib/pkgconfig/poppler-{glib,qt4}.pc
+  rm -f "${pkgdir}"/usr/lib/pkgconfig/poppler-{glib,qt4}.pc
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }
 
 package_poppler-glib() {
@@ -83,21 +77,21 @@ package_poppler-glib() {
   gmake DESTDIR="${pkgdir}" install-libLTLIBRARIES
   cd "${srcdir}/${pkgbase}-${pkgver}/glib"
   gmake DESTDIR="${pkgdir}" install
-  install -m755 -d "${pkgdir}/usr/local/libdata/pkgconfig"
-  install -m644 ../poppler-glib.pc "${pkgdir}/usr/local/libdata/pkgconfig/"
-  rm -f "${pkgdir}"/usr/local/lib/libpoppler.*
-  rm -f "${pkgdir}/usr/local/bin/poppler-glib-demo"
+  install -m755 -d "${pkgdir}/usr/lib/pkgconfig"
+  install -m644 ../poppler-glib.pc "${pkgdir}/usr/lib/pkgconfig/"
+  rm -f "${pkgdir}"/usr/lib/libpoppler.*
+  rm -f "${pkgdir}/usr/bin/poppler-glib-demo"
 }
 
-package_poppler-qt() {
-  pkgdesc="Poppler Qt bindings"
-  depends=("poppler=${pkgver}" 'qt')
+#package_poppler-qt() {
+#  pkgdesc="Poppler Qt bindings"
+#  depends=("poppler=${pkgver}" 'qt')
 
-  cd "${srcdir}/${pkgbase}-${pkgver}/poppler"
-  gmake DESTDIR="${pkgdir}" install-libLTLIBRARIES
-  cd "${srcdir}/${pkgbase}-${pkgver}/qt4"
-  gmake DESTDIR="${pkgdir}" install
-  install -m755 -d "${pkgdir}/usr/local/lib/pkgconfig"
-  install -m644 ../poppler-qt4.pc "${pkgdir}/usr/local/libdata/pkgconfig/"
-  rm -f "${pkgdir}"/usr/local/libdata/libpoppler.*
-}
+#  cd "${srcdir}/${pkgbase}-${pkgver}/poppler"
+#  gmake DESTDIR="${pkgdir}" install-libLTLIBRARIES
+#  cd "${srcdir}/${pkgbase}-${pkgver}/qt4"
+#  gmake DESTDIR="${pkgdir}" install
+#  install -m755 -d "${pkgdir}/usr/lib/pkgconfig"
+#  install -m644 ../poppler-qt4.pc "${pkgdir}/usr/lib/pkgconfig/"
+#  rm -f "${pkgdir}"/usr/libdata/libpoppler.*
+#}

@@ -38,10 +38,10 @@ build() {
   sed -i '' -e 's|-lpthread|-pthread|g' configure
 
   [[ $CARCH == "x86_64" ]] && BIT="--enable-64bit"
-  ./configure --prefix=/usr/local --mandir=/usr/local/man \
+  ./configure --prefix=/usr --mandir=/usr/share/man \
               --enable-threads \
               --enable-shared \
-              --includedir=/usr/local/include/tcl${_includever} \
+              --includedir=/usr/include/tcl${_includever} \
               --build=$CHOST \
               $BIT \
               PTHREAD_LIBS="-pthread" PTHREAD_CFLAGS="-pthread"
@@ -63,13 +63,13 @@ package()
   cd ${srcdir}/tcl${pkgver}/unix
 
   make INSTALL_ROOT=${pkgdir} install install-private-headers SHORT_TCL_VER=86
-  ln -sf tclsh8.6 ${pkgdir}/usr/local/bin/tclsh
+  ln -sf tclsh8.6 ${pkgdir}/usr/bin/tclsh
 
   # install license
-  install -dm755 ${pkgdir}/usr/local/share/licenses/${pkgname}/
-  install -m644 ../license.terms ${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE
+  install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}/
+  install -m644 ../license.terms ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
 
   # remove buildroot traces
-  #sed -i '' -e "s#${srcdir}#/usr/src#" ${pkgdir}/usr/local/lib/{tcl,tdbc1.0.0/tdbc,itcl4.0.0/itcl}Config.sh
-  sed -i '' -e "s#${srcdir}#/usr/src#" ${pkgdir}/usr/local/lib/tcl8.6/tclConfig.sh
+  #sed -i '' -e "s#${srcdir}#/usr/src#" ${pkgdir}/usr/lib/{tcl,tdbc1.0.0/tdbc,itcl4.0.0/itcl}Config.sh
+  sed -i '' -e "s#${srcdir}#/usr/src#" ${pkgdir}/usr/lib/tcl8.6/tclConfig.sh
 }

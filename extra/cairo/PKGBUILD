@@ -19,10 +19,9 @@ replaces=('cairo-xcb')
 source=(http://cairographics.org/releases/$pkgname-$pkgver.tar.xz
   	revert-xlib-map-to-image-requires-an-extents.patch
   	revert-xlib-Simplify-source-creation-by-use-of-map-to-image.patch
-    patch-src_cairo-wideint-type-private.h
-    patch-src_cairo-xlib-display.c
-    patch-src_cairoint.h
-    )
+	patch-src_cairo-wideint-type-private.h
+	patch-src_cairo-xlib-display.c
+	patch-src_cairoint.h)
 sha1sums=('be06d5aaa272bbbd08380f71ca710d5612881493'
           '8bc096dd16a885ad041cb2137a64757f32d1cc88'
           'fd8ffd9aba3679c344e4f25494f199a51b0ae62c'
@@ -38,14 +37,14 @@ build() {
   do
     patch -p0 -i "${srcdir}/$i"
   done
-  ./configure --prefix=/usr/local \
-	--sysconfdir=/usr/local/etc \
+  ./configure --prefix=/usr \
+	--sysconfdir=/etc \
 	--localstatedir=/var \
 	--disable-static \
 	--enable-tee \
 	--enable-gobject \
 	--enable-xcb \
-	--with-html-dir=/usr/local/share/doc \
+	--with-html-dir=/usr/share/doc \
 	--disable-directfb
 	# --enable-test-surfaces \ takes ages
 	#--enable-drm # breaks build
@@ -67,7 +66,4 @@ package() {
   cd "$srcdir/$pkgname-$pkgver"
   make DESTDIR="$pkgdir" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

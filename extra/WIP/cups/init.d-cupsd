@@ -1,7 +1,7 @@
 #!/sbin/runscript
 
 name="CUPS Printing Service"
-command="/usr/local/sbin/cupsd"
+command="/usr/sbin/cupsd"
 command_args=""
 
 depend() {

@@ -3,9 +3,7 @@
 # Contributor: Wolfgang Bumiller <blub@speed.at>
 
 pkgbase=mesa
-#pkgname=('libglapi' 'libgl' 'mesa' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel' 'ati-dri' 'intel-dri' 'svga-dri' 'nouveau-dri')
 pkgname=('libgl' 'mesa')
-
 pkgver=9.0.2
 pkgrel=3
 arch=('i686' 'x86_64')
@@ -14,10 +12,8 @@ makedepends=('glproto>=1.4.16' 'libdrm>=2.4.39' 'libxxf86vm>=1.1.2' 'libxdamage>
 url="http://mesa3d.sourceforge.net"
 license=('custom')
 options=('!libtool')
-        # "ftp://ftp.fu-berlin.de/pub/unix/X11/graphics/Mesa/MesaLib/${pkgver}/MesaLib-${pkgver}.tar.bz2"
 source=(LICENSE llvm32.patch
-	    "ftp://ftp.freedesktop.org/pub/mesa/${pkgver}/MesaLib-${pkgver}.tar.bz2"
-)
+	"ftp://ftp.freedesktop.org/pub/mesa/${pkgver}/MesaLib-${pkgver}.tar.bz2")
 md5sums=('5c65a0fe315dd347e09b1f2826a1df5a'
          '5fe9ad0c5beed19bc98d8c34aaad4ade'
          'dc45d1192203e418163e0017640e1cfc')
@@ -27,26 +23,17 @@ build() {
     
     patch -Np1 -i ${srcdir}/llvm32.patch
 
-    export CFLAGS="${CFLAGS} -I/usr/local/include -fPIC"
-    export CXXFLAGS="${CXXFLAGS} -I/usr/local/include -fPIC"
-    export CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
-    export LDFLAGS="${LDFLAGS} -I/usr/local/lib"
-
-    export INDENT=/usr/local/bin/gindent
+    export CFLAGS="${CFLAGS} -fPIC"
+    export CXXFLAGS="${CXXFLAGS} -fPIC"
+    export INDENT=/usr/bin/gindent
 
     unset CC
     unset CXX
     unset CPP
 
-#    --enable-egl \
-#    --enable-gallium-egl \
-#    --with-egl-platforms=x11,drm \
-#    --enable-gallium-llvm \
-#    --with-gallium-drivers=r300,r600,radeonsi,nouveau,swrast \
-#
-    COMMONOPTS="--prefix=/usr/local \
-    --sysconfdir=/usr/local/etc \
-    --with-dri-driverdir=/usr/local/lib/dri \
+    COMMONOPTS="--prefix=/usr/ \
+    --sysconfdir=/etc \
+    --with-dri-driverdir=/usr/lib/dri \
     --with-gallium-drivers=nouveau,swrast \
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
     --enable-shared-glapi \
@@ -106,11 +93,11 @@ package_libgl() {
   gmake -C ${srcdir}/?esa-*/src/gallium/targets/dri-swrast DESTDIR="${pkgdir}" install
 
   # See FS#26284
-  install -m755 -d "${pkgdir}/usr/local/lib/xorg/modules/extensions"
-  ln -s libglx.xorg "${pkgdir}/usr/local/lib/xorg/modules/extensions/libglx.so"
+  install -m755 -d "${pkgdir}/usr/lib/xorg/modules/extensions"
+  ln -s libglx.xorg "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so"
 
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/libgl"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/local/share/licenses/libgl/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/libgl"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/libgl/"
 }
 
 package_mesa() {
@@ -149,88 +136,12 @@ package_mesa() {
 # }}
 
 # khrplatform-devel {{
-  install -m755 -d "${pkgdir}/usr/local/include/KHR"
-  install -m644 ${srcdir}/?esa-*/include/KHR/khrplatform.h "${pkgdir}/usr/local/include/KHR/" 
+  install -m755 -d "${pkgdir}/usr/include/KHR"
+  install -m644 ${srcdir}/?esa-*/include/KHR/khrplatform.h "${pkgdir}/usr/include/KHR/" 
 
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/khrplatform-devel"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/local/share/licenses/khrplatform-devel/"
-# }}
+  install -m755 -d "${pkgdir}/usr/share/licenses/khrplatform-devel"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/khrplatform-devel/"
 
-# libgl without symlinks {{
-# }}
-
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/mesa"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/local/share/licenses/mesa/"
-
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
+  install -m755 -d "${pkgdir}/usr/share/licenses/mesa"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/mesa/"
 }
-
-##  package_libegl() {
-##    # check also egl.pc
-##    depends=('libx11' 'libxext' 'libxdamage' 'libxfixes' 'libxxf86vm' 'libxcb' 'khrplatform-devel')
-##    pkgdesc="Mesa EGL libraries and headers"
-##  
-##    gmake -C ${srcdir}/?esa-*/src/gallium/targets/egl-static DESTDIR="${pkgdir}" install
-##    install -m755 -d "${pkgdir}/usr/local/share/doc/libegl"
-##    install -m644 ${srcdir}/?esa-*/docs/egl.html "${pkgdir}/usr/local/share/doc/libegl/"
-##    
-##    # fix linking because of splitted package
-##    gmake -C ${srcdir}/?esa-*/src/mapi/shared-glapi DESTDIR="${pkgdir}" install
-##    
-##    gmake -C ${srcdir}/?esa-*/src/egl DESTDIR="${pkgdir}" install
-##  
-##    # fix linking because of splitted package - cleanup
-##    gmake -C ${srcdir}/?esa-*/src/mapi/shared-glapi DESTDIR="${pkgdir}" uninstall
-##  
-##    install -m755 -d "${pkgdir}/usr/local/share/licenses/libegl"
-##    install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/local/share/licenses/libegl/"
-##    
-##    # fix file conflicts
-##    rm -rf ${pkgdir}/usr/include/KHR
-##  }
-##  
-##  package_ati-dri() {
-##    depends=("libgl=${pkgver}")
-##    pkgdesc="Mesa DRI radeon/r200 + Gallium3D r300,r600 drivers for AMD/ATI Radeon"
-##    conflicts=('xf86-video-ati<6.9.0-6')
-##  
-##    # fix linking because of splitted package
-##    gmake -C ${srcdir}/?esa-*/src/mesa/libdricore DESTDIR="${pkgdir}" install
-##    
-##    # classic mesa drivers for radeon,r200
-##    gmake -C ${srcdir}/?esa-*/src/mesa/drivers/dri/radeon DESTDIR="${pkgdir}" install
-##    gmake -C ${srcdir}/?esa-*/src/mesa/drivers/dri/r200 DESTDIR="${pkgdir}" install
-##    # gallium3D driver for r300,r600,radeonsi
-##    gmake -C ${srcdir}/?esa-*/src/gallium/targets/dri-r300 DESTDIR="${pkgdir}" install
-##  #  gmake -C ${srcdir}/?esa-*/src/gallium/targets/dri-r600 DESTDIR="${pkgdir}" install
-##  #  gmake -C ${srcdir}/?esa-*/src/gallium/targets/dri-radeonsi DESTDIR="${pkgdir}" install
-##    # vdpau driver
-##    gmake -C ${srcdir}/?esa-*/src/gallium/targets/vdpau-r300 DESTDIR="${pkgdir}" install
-##  #  gmake -C ${srcdir}/?esa-*/src/gallium/targets/vdpau-r600 DESTDIR="${pkgdir}" install
-##  #  gmake -C ${srcdir}/?esa-*/src/gallium/targets/vdpau-radeonsi DESTDIR="${pkgdir}" install
-##  
-##    # fix linking because of splitted package - cleanup
-##    gmake -C ${srcdir}/?esa-*/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall
-##  
-##    install -m755 -d "${pkgdir}/usr/local/share/licenses/ati-dri"
-##    install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/local/share/licenses/ati-dri/"
-##  }
-##  
-##  package_intel-dri() {
-##    depends=("libgl=${pkgver}")
-##    pkgdesc="Mesa DRI drivers for Intel"
-##  
-##    # fix linking because of splitted package
-##    gmake -C ${srcdir}/?esa-*/src/mesa/libdricore DESTDIR="${pkgdir}" install
-##  
-##    gmake -C ${srcdir}/?esa-*/src/mesa/drivers/dri/i915 DESTDIR="${pkgdir}" install
-##    gmake -C ${srcdir}/?esa-*/src/mesa/drivers/dri/i965 DESTDIR="${pkgdir}" install
-##  
-##    # fix linking because of splitted package - cleanup
-##    gmake -C ${srcdir}/?esa-*/src/mesa/libdricore DESTDIR="${pkgdir}" uninstall
-##    
-##    install -m755 -d "${pkgdir}/usr/local/share/licenses/intel-dri"
-##    install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/local/share/licenses/intel-dri/"
-##  }

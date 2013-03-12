@@ -37,8 +37,8 @@ build() {
   sed -i '' -e 's_sys:python_sys:python2_g' xhtml11-quirks.conf 
 
   ./configure \
-    --prefix=/usr/local \
-    --sysconfdir=/usr/local/etc
+    --prefix=/usr \
+    --sysconfdir=/etc
 }
 
 package() {
@@ -46,18 +46,18 @@ package() {
 
   gmake install DESTDIR=${pkgdir}
 
-  install -dm755 ${pkgdir}/usr/local/lib/python2.7/site-packages
+  install -dm755 ${pkgdir}/usr/lib/python2.7/site-packages
   install -m644 asciidocapi.py \
-    ${pkgdir}/usr/local/lib/python2.7/site-packages/asciidocapi.py
+    ${pkgdir}/usr/lib/python2.7/site-packages/asciidocapi.py
 
-  install -dm755 ${pkgdir}/usr/local/share/vim/vimfiles/syntax
+  install -dm755 ${pkgdir}/usr/share/vim/vimfiles/syntax
   install -m644 vim/syntax/asciidoc.vim \
-    ${pkgdir}/usr/local/share/vim/vimfiles/syntax/asciidoc.vim
+    ${pkgdir}/usr/share/vim/vimfiles/syntax/asciidoc.vim
 
-  install -dm755 ${pkgdir}/usr/local/share/vim/vimfiles/ftdetect
+  install -dm755 ${pkgdir}/usr/share/vim/vimfiles/ftdetect
   install -m644 vim/ftdetect/asciidoc_filetype.vim \
-    ${pkgdir}/usr/local/share/vim/vimfiles/ftdetect/asciidoc.vim
+    ${pkgdir}/usr/share/vim/vimfiles/ftdetect/asciidoc.vim
   # fix FS#21579 - [asciidoc] 8.6.2-2 "asciidoc" table style doesn't work (mismatched python version) 
   sed -i '' -e 's/python/python2/' \
-    ${pkgdir}/usr/local/etc/asciidoc/asciidoc.conf
+    ${pkgdir}/etc/asciidoc/asciidoc.conf
 }

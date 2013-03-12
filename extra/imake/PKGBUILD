@@ -17,8 +17,7 @@ source=("http://xorg.freedesktop.org/releases/individual/util/imake-${pkgver}.ta
         'http://xorg.freedesktop.org/releases/individual/util/xorg-cf-files-1.0.4.tar.bz2'
         'LICENSE'
         'patch-imake.c'
-        'patch-xmkmf.cpp'
-        )
+        'patch-xmkmf.cpp')
 sha1sums=('1fd3dca267d125ad86583d7f9663b6ff532cddd1'
           'a3d971a507a460233afd8ed46e9f06135fed634d'
           'fc71a6ff2cc0a1065cfb608796ffd6b4f0ce76fe'
@@ -46,7 +45,7 @@ build() {
   for i in *; do
     if [ -d "${i}" ]; then
       pushd "${i}"
-      ./configure --prefix=/usr/local --mandir=/usr/local/man
+      ./configure --prefix=/usr --mandir=/usr/share/man
       make
       popd
     fi
@@ -62,6 +61,6 @@ package() {
       popd
     fi
   done
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

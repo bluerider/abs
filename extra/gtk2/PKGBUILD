@@ -5,8 +5,6 @@ pkgrel=2
 arch=('i686' 'x86_64')
 url="http://www.gtk.org/"
 makedepends=('atk' 'pango' 'libxcursor' 'libxinerama' 'libxrandr' 'libxi' 'libxcomposite' 'libxdamage'
-             'shared-mime-info' 'cairo' 'libcups' 'gdk-pixbuf2' 'gobject-introspection')
-makedepends=('atk' 'pango' 'libxcursor' 'libxinerama' 'libxrandr' 'libxi' 'libxcomposite' 'libxdamage'
              'shared-mime-info' 'cairo' 'gdk-pixbuf2' 'gobject-introspection')
 license=('LGPL')
 source=(http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-$pkgver.tar.xz
@@ -50,8 +48,8 @@ build() {
 	patch -p0 -i ${srcdir}/patch-gtk_updateiconcache.c	
 	patch -p0 -i ${srcdir}/gdk-thread-hack.diff
 
-    CXX=/usr/bin/false ./configure --prefix=/usr/local \
-        --sysconfdir=/usr/local/etc/ \
+    CXX=/usr/bin/false ./configure --prefix=/usr \
+        --sysconfdir=/etc/ \
         --localstatedir=/var \
         --with-xinput=yes
 
@@ -63,23 +61,20 @@ package_gtk2() {
     install=gtk2.install
     depends=('atk' 'pango' 'libxcursor' 'libxinerama' 'libxrandr' 'libxi' 'libxcomposite' 'libxdamage' 'shared-mime-info' 'cairo' 'libcups' 'gtk-update-icon-cache')
     depends=('atk' 'pango' 'libxcursor' 'libxinerama' 'libxrandr' 'libxi' 'libxcomposite' 'libxdamage' 'shared-mime-info' 'cairo' 'gtk-update-icon-cache')
-    backup=(usr/local/etc/gtk-2.0/gtkrc)
+    backup=(etc/gtk-2.0/gtkrc)
     replaces=('gtk2-docs')
 
     cd gtk+-$pkgver
 
     gmake DESTDIR="$pkgdir" install
     sed -i '' \
-     -e "s#env python#env python2#" $pkgdir/usr/local/bin/gtk-builder-convert
+     -e "s#env python#env python2#" $pkgdir/usr/bin/gtk-builder-convert
 
-    echo 'gtk-fallback-icon-theme = "gnome"' > "$pkgdir/usr/local/etc/gtk-2.0/gtkrc"
+    echo 'gtk-fallback-icon-theme = "gnome"' > "$pkgdir/etc/gtk-2.0/gtkrc"
 
     #split this out to use with gtk3 too
-    rm $pkgdir/usr/local/bin/gtk-update-icon-cache
+    rm $pkgdir/usr/bin/gtk-update-icon-cache
 
-    install -dm755 "${pkgdir}/usr/local/libdata"
-    mv "${pkgdir}/usr/local/lib/pkgconfig" \
-       "${pkgdir}/usr/local/libdata/pkgconfig"
 }
 package_gtk-update-icon-cache() {
     pkgdesc="The GTK+ update icon cache tool"
@@ -87,6 +82,6 @@ package_gtk-update-icon-cache() {
 
     cd gtk+-$pkgver/gtk
 
-    install -dm755 $pkgdir/usr/local/bin/
-    install -m755 gtk-update-icon-cache $pkgdir/usr/local/bin/
+    install -dm755 $pkgdir/usr/bin/
+    install -m755 gtk-update-icon-cache $pkgdir/usr/bin/
 }

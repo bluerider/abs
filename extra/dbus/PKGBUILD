@@ -28,7 +28,7 @@ source=(http://dbus.freedesktop.org/releases/dbus/dbus-$pkgver.tar.gz #{,.asc}
         patch-doc_Makefile.in
         )
 md5sums=('3bf059c7dd5eda5f539a1b7cfe7a14a2'
-         '097fae1b16597e568b12f49264d49f70'
+         '659d3de2e72991542f7dc153706aad24'
          'ecb16fff9a0deec0a1d0fabef6160609'
          'bd423a571ef529d9e97a26a6db572951'
          '344dee9983fd376ac53bfe09691a93ce'
@@ -44,19 +44,12 @@ build() {
     patch -p0 -i "${srcdir}/$i"
   done
 
-  sed -i '' \
-      -e 's|/lib/dbus/machine-id|/db/dbus/machine-id|g' \
-      dbus/Makefile.in \
-      tools/Makefile.in
   sed -i '' -e '/^SUBDIRS/,/^$/ s|test||g' Makefile.in
-  sed -i '' \
-      -e 's|THREAD_LIBS -lrt|THREAD_LIBS|g ; s|dummy man2html|dummy man2html_disable|g' \
-      configure
+  sed -i '' -e 's|THREAD_LIBS -lrt|THREAD_LIBS|g ; s|dummy man2html|dummy man2html_disable|g' configure
 
   rm -rf "${srcdir}/test"
   mkdir "${srcdir}/test"
-  CFLAGS="${CFLAGS} -I/usr/local/include" \
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc \
+  ./configure --prefix=/usr --sysconfdir=/etc \
               --localstatedir=/var \
               --with-test-socket-dir="${srcdir}/test" \
               --with-system-pid-file=/var/run/dbus/pid \
@@ -73,14 +66,10 @@ package(){
   cd dbus-$pkgver
   gmake DESTDIR="$pkgdir" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
   rm -rf "$pkgdir/var/run"
 
-  install -m755 -d "$pkgdir/usr/local/etc/init.d/"
-  install -m755 ../dbus "$pkgdir/usr/local/etc/init.d/dbus"
+  install -m755 -d "$pkgdir/etc/init.d/"
+  install -m755 ../dbus "$pkgdir/etc/init.d/dbus"
 
   install -dm755 "$pkgdir/usr/share/licenses/dbus/"
   install -m644 COPYING "$pkgdir/usr/share/licenses/dbus/COPYING"

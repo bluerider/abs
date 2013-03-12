@@ -33,18 +33,16 @@ build() {
   	  configure
   sed -i '' -e '/LIBADD/s/-ldl//g' \
   	modules/mixer/simple/Makefile.in
-  sed -i '' -e 's|/etc|/usr/local&|g' \
-  	src/conf/alsa.conf
 
-  ./configure --prefix=/usr/local \
+  ./configure --prefix=/usr \
               --disable-aload --disable-python \
-              --with-pkgconfdir=/usr/local/libdata/pkgconfig
+              --with-pkgconfdir=/usr/lib/pkgconfig
   make
 }
 
 package() {
   cd "$srcdir/$pkgname-$pkgver"
   make DESTDIR="$pkgdir" install
-  install -dm755 "${pkgdir}/usr/local/etc"
-  install -m644 "${srcdir}/asound.conf.sample" "${pkgdir}/usr/local/etc/asound.conf.sample"
+  install -dm755 "${pkgdir}/etc"
+  install -m644 "${srcdir}/asound.conf.sample" "${pkgdir}/etc/asound.conf.sample"
 }

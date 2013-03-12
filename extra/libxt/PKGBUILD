@@ -18,7 +18,7 @@ build() {
   cd "${srcdir}/libXt-${pkgver}"
   sed -i '' -e 's/test.*-traditional.*;/true;/' \
     configure
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc --disable-static
+  ./configure --prefix=/usr --sysconfdir=/etc --disable-static
   make
 }
 
@@ -26,10 +26,6 @@ package() {
   cd "${srcdir}/libXt-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/licenses/${pkgname}/"
 }

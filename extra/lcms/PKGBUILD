@@ -23,7 +23,7 @@ build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   patch -p0 -i "$srcdir"/patch-icc34
   patch -p0 -i "$srcdir"/patch-test-static
-  ./configure --prefix=/usr/local --disable-static
+  ./configure --prefix=/usr --disable-static
   make
 }
 
@@ -31,10 +31,6 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

@@ -15,9 +15,9 @@ sha256sums=('6dca37fb7b37f800f498031ffe303a567410bec09a9bdd877a18865dafcc9830')
 
 build() {
   cd "$pkgname-$pkgver"
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc \
+  ./configure --prefix=/usr --sysconfdir=/etc \
       --localstatedir=/var \
-      --libexecdir=/usr/local/lib/gnome-keyring
+      --libexecdir=/usr/lib/gnome-keyring
   gmake
 }
 
@@ -25,7 +25,4 @@ package() {
   cd "$pkgname-$pkgver"
   gmake DESTDIR="$pkgdir" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

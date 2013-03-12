@@ -17,7 +17,7 @@ source=(http://download.gnome.org/sources/gdk-pixbuf/${pkgver%.*}/gdk-pixbuf-$pk
 build() {
   cd gdk-pixbuf-$pkgver
 
-  ./configure --prefix=/usr/local \
+  ./configure --prefix=/usr \
     --without-libjasper \
     --with-x11 \
     --with-included-loaders=png
@@ -35,9 +35,6 @@ package() {
 
   gmake DESTDIR="$pkgdir" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }
 
 # vim:set ts=2 sw=2 et:

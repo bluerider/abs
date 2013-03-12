@@ -15,7 +15,7 @@ source=("http://download.savannah.gnu.org/releases/texi2html/$pkgname-$pkgver.ta
         patch-texi2html.pl
 )
 md5sums=('f15ac876fcdc8be865b16535f480aa54'
-         '9647734f049003324c8f121414498970')
+         'ce6f4ed67b14ee6a70af2133b49d2434')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
@@ -29,10 +29,9 @@ build() {
 
   sed -i '' -e 's/^translations.pl/_&/' Makefile.in
   sed -i '' -e '/^install-data/s|i18n|&/en.thl|' Makefile.in
-  sed -i '' -e '1s|/usr/bin/perl|/usr/local/bin/perl|' *.pl
   chmod +x install-sh
 
-  ./configure --prefix=/usr/local \
+  ./configure --prefix=/usr \
               --disable-multiplatform
   gmake
 }

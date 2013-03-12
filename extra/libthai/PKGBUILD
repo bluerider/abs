@@ -17,15 +17,11 @@ md5sums=('0250fc5255c1e62b23f88c2d6b1d6262')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  ./configure --prefix=/usr/local --disable-doxygen-doc
+  ./configure --prefix=/usr --disable-doxygen-doc
   make
 }
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
-
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

@@ -36,12 +36,15 @@ build() {
 
    grep -lR "malloc\.h" . | xargs sed -i '' -e 's|malloc\.h|stdlib.h|g'
 
-   ./configure --prefix=/usr/local --program-prefix=g
+   ./configure --prefix=/usr --program-prefix=g
    gmake -j1
 }
 
 package() {
    cd "${srcdir}/${_pkgname}-${pkgver}"
 
-   gmake DESTDIR="${pkgdir}" docdir=/usr/local/share/doc/gindent install
+   gmake DESTDIR="${pkgdir}" docdir=/usr/share/doc/gindent install
+
+  #file included in freebsd-world
+  rm -rf "${pkgdir}"/usr/share/locale/zh_TW.Big5/LC_MESSAGES
 }

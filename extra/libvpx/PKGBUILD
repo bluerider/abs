@@ -27,7 +27,7 @@ build() {
 	grep -Rl '^#!/bin/bash' . | xargs sed -i '' \
 		-e 's,#!/bin/bash,#!/usr/bin/env bash,g'
 
-    ./configure --prefix=/usr/local --enable-vp8 \
+    ./configure --prefix=/usr --enable-vp8 \
         --enable-runtime-cpu-detect \
         --enable-shared \
         --enable-postproc \
@@ -39,7 +39,7 @@ build() {
 
 package() {
     cd "$pkgname-v$pkgver"
-    gmake DIST_DIR="$pkgdir/usr/local" install
-    install -dm755 "$pkgdir/usr/local/share/licenses/$pkgname/"
-    install -m644 LICENSE "$pkgdir/usr/local/share/licenses/$pkgname/LICENSE"
+    gmake DIST_DIR="$pkgdir/usr" install
+    install -dm755 "$pkgdir/usr/share/licenses/$pkgname/"
+    install -m644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }

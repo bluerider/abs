@@ -24,13 +24,13 @@ build() {
    do
      patch -p0 -i "${srcdir}/$i"
    done
-   make -f unix/Makefile LOCAL_ZIP="$CFLAGS" prefix=/usr/local generic_gcc
+   make -f unix/Makefile LOCAL_ZIP="$CFLAGS" prefix=/usr generic_gcc
 }
 
 package() {
    cd "${srcdir}/${pkgname}${_pkgver}"
-   make -f unix/Makefile INSTALL=/usr/bin/install prefix=${pkgdir}/usr/local \
-     MANDIR=${pkgdir}/usr/local/man/man1 install
-   install -d -m755 ${pkgdir}/usr/local/share/licenses/$pkgname/
-   install    -m644 LICENSE ${pkgdir}/usr/local/share/licenses/$pkgname/LICENSE
+   make -f unix/Makefile INSTALL=/usr/bin/install prefix=${pkgdir}/usr \
+     MANDIR=${pkgdir}/usr/share/man/man1 install
+   install -d -m755 ${pkgdir}/usr/share/licenses/$pkgname/
+   install    -m644 LICENSE ${pkgdir}/usr/share/licenses/$pkgname/LICENSE
 }
