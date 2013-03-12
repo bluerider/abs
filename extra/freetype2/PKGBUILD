@@ -20,18 +20,11 @@ md5sums=('b93435488942486c8d0ca22e8f768034'
 build() {
   cd "${srcdir}/freetype-${pkgver}"
 
-  sed -i '' -e 's|[(]libdir[)]/pkgconfig|(prefix)/libdata/pkgconfig|g' \
-    builds/unix/install.mk
   patch -p0 -i "$srcdir"/patch-aa
   patch -p0 -i "$srcdir"/patch-builds__unix__freetype-config.in
 
-  # bytecode hinting patents expired - subpixel rendering not though
-  # see http://www.freetype.org/patents.html
-  #
-  # CFLAGS="${CFLAGS} -DFT_CONFIG_OPTION_SUBPIXEL_RENDERING"
-
   GNUMAKE=$(which gmake) \
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   gmake
 }
 

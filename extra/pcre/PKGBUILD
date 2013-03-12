@@ -26,16 +26,15 @@ build() {
   fi
 
   # ports comment on this:
-# work around for a autoconf assumption, to fix c++ linking with clang
+  # work around for a autoconf assumption, to fix c++ linking with clang
   sed -i '' -e 's|GREP "\\-L"|GREP "conftest\\."|g' configure
 
-  ./configure --prefix=/usr/local \
-    --sysconfdir=/usr/local/etc \
-    --mandir=/usr/local/man \
-    --infodir=/usr/local/info \
+  ./configure --prefix=/usr \
+    --sysconfdir=/etc \
+    --mandir=/usr/share/man \
+    --infodir=/usr/share/info \
     --enable-pcre8 --enable-pcre16 --enable-pcre32 --enable-jit \
-    --enable-utf --enable-unicode-properties \
-    --enable-pcretest-libedit
+    --enable-utf --enable-unicode-properties
   make
 }
 
@@ -50,9 +49,6 @@ package() {
   cd "${srcdir}"/${pkgname}-${pkgver}
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -dm755 "${pkgdir}"/usr/local/share/licenses/${pkgname}
-  install -m644 LICENCE "${pkgdir}"/usr/local/share/licenses/${pkgname}/LICENSE
+  install -dm755 "${pkgdir}"/usr/share/licenses/${pkgname}
+  install -m644 LICENCE "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
 }

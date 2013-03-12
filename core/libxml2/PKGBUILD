@@ -38,20 +38,14 @@ build() {
 		${d}/Makefile.in
 	done
 
-   for f in catalog.c xmlcatalog.c xmllint.c doc/xmllint.1
-	do
-		sed -i '' -e \
-			's|/etc/xml/catalog|/usr/local/share/xml/catalog|g; s|/etc/sgml/catalog|/usr/local/share/sgml/catalog|g' ${f}
-	done
-
    for i in patch-aa patch-config.h.in patch-doc_devhelp_Makefile.in patch-python__Makefile.in patch-python__tests__Makefile.in patch-xml2Conf.sh.in
    do
 	patch -Np0 -i ${srcdir}/${i}
    done
 
-   ./configure  --prefix=/usr/local \
-	        --with-html-dir=/usr/local/share/doc \
-	        --with-python=/usr/local/bin/python2
+   ./configure  --prefix=/usr \
+	        --with-html-dir=/usr/share/doc \
+	        --with-python=/usr/bin/python2
    gmake
 }
 
@@ -65,9 +59,6 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m644  COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644  COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

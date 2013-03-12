@@ -14,8 +14,7 @@ source=(#http://download.icu-project.org/files/${pkgname}4c/${pkgver}/${pkgname}
         patch-config__mh-bsd-gcc
         patch-install
         patch-layout_LookupProcessor.cpp
-        patch-tools_genrb_derb.c
-)
+        patch-tools_genrb_derb.c)
 md5sums=('beb98aa972219c9fcd9c8a71314943c9'
          'f7d1f090364f4fae01626e087abccb78'
          '2717f21ede04b55edae471bdf3b32ca0'
@@ -30,11 +29,9 @@ build() {
     patch -p0 -i "${srcdir}/$i"
   done
 
-  sed -i '' -e 's,\$(libdir)/pkgconfig,/usr/local/libdata/pkgconfig,g' Makefile.in
-
-  ./configure --prefix=/usr/local \
-	--sysconfdir=/usr/local/etc \
-	--mandir=/usr/local/man \
+  ./configure --prefix=/usr \
+	--sysconfdir=/etc \
+	--mandir=/usr/share/man \
 	--disable-sample \
 	--with-data-packaging=library \
 	--enable-release \
@@ -53,6 +50,6 @@ package() {
   gmake -j1 DESTDIR=${pkgdir} install
 
   # Install license
-  install -dm755 ${pkgdir}/usr/local/share/licenses/icu/
-  install -m644 ${srcdir}/icu/license.html ${pkgdir}/usr/local/share/licenses/icu/license.html
+  install -dm755 ${pkgdir}/usr/share/licenses/icu/
+  install -m644 ${srcdir}/icu/license.html ${pkgdir}/usr/share/licenses/icu/license.html
 }

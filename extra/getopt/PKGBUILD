@@ -22,12 +22,11 @@ build() {
   patch -p0 -i "$srcdir"/patch-getopt.c
   sed -i '' -e 's|CC=gcc|CC='${CC}'|' Makefile
 
-  export CFLAGS="${CFLAGS} -I/usr/local/include"
-  export LDFLAGS="-L/usr/local/lib -lintl"
+  export LDFLAGS="-lintl"
   gmake LIBCGETOPT=0
 }
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  gmake DESTDIR="${pkgdir}/usr/local" install
+  gmake DESTDIR="${pkgdir}/usr" install
 }

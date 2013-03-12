@@ -15,7 +15,7 @@ md5sums=('dd7dab7a5fea97d2a6a43f511449b7cd')
 build() {
   cd ${srcdir}/${pkgname}-${pkgver}
 
-  ./configure --prefix=/usr/local/ --mandir=/usr/local/man
+  ./configure --prefix=/usr --mandir=/usr/share/man
   make
 }
 
@@ -28,11 +28,7 @@ package() {
   cd ${srcdir}/${pkgname}-${pkgver}
   make DESTDIR=${pkgdir} install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -dm755 ${pkgdir}/usr/local/share/licenses/${pkgname}/
-  install -m644 COPYING ${pkgdir}/usr/local/share/licenses/${pkgname}/
+  install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}/
+  install -m644 COPYING ${pkgdir}/usr/share/licenses/${pkgname}/
 }
 

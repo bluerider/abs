@@ -17,7 +17,7 @@ source=(ftp://sourceware.org/pub/libffi/libffi-${pkgver}.tar.gz
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   patch -p0 -i "${srcdir}/patch-configure"
-  ./configure --prefix=/usr/local --mandir=/usr/local/man --infodir=/usr/local/info
+  ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info
   make
 }
 
@@ -30,15 +30,12 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 $"${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" "${pkgdir}/usr/local/libdata/pkgconfig"
+  install -dm755 "$pkgdir"/usr/include
+  ln -sf ../lib/libffi-${pkgver}/include/ffi.h "$pkgdir"/usr/include/
+  ln -sf ../lib/libffi-${pkgver}/include/ffitarget.h "$pkgdir"/usr/include/
 
-  install -dm755 "$pkgdir"/usr/local/include
-  ln -sf ../lib/libffi-${pkgver}/include/ffi.h "$pkgdir"/usr/local/include/
-  ln -sf ../lib/libffi-${pkgver}/include/ffitarget.h "$pkgdir"/usr/local/include/
-
-  install -d -m755 "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install    -m644 LICENSE "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install    -m644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
 md5sums=('f69b9693227d976835b4857b1ba7d0e3'
          'b54a39b42ac952323cc5b47ce64c2d47')

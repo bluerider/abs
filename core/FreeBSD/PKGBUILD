@@ -83,7 +83,7 @@ package_freebsd-kernel() {
     TARGET=i386
     KERNCONF=ARCHBSD_i686
   fi
-  make TARGET=$TARGET KERNCONF=${KERNCONF} DESTDIR=${pkgdir} installkernel || (echo installkernel failed... && return 1)
+  make TARGET=$TARGET KERNCONF=${KERNCONF} DESTDIR=${pkgdir} -DWITHOUT_TOOLCHAIN -DLIB32 installkernel || (echo installkernel failed... && return 1)
 }
 
 package_freebsd-world() {

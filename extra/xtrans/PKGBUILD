@@ -15,15 +15,15 @@ sha1sums=('b6ed421edf577816f6e641e1846dc0bff337676c')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  ./configure --prefix=/usr/local --disable-docs --without-xmlto
+  ./configure --prefix=/usr --disable-docs --without-xmlto
   make
 }
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m755 -d "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/share/pkgconfig" "${pkgdir}/usr/local/libdata/pkgconfig"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -dm755 "${pkgdir}/usr/lib"
+  mv "${pkgdir}/usr/share/pkgconfig" "${pkgdir}/usr/lib/"
 }

@@ -14,10 +14,9 @@ md5sums=('fda5c312c9fb3b8d818fb54f2c34db82')
 
 build() {
   cd "${srcdir}/desktop-file-utils-${pkgver}"
-  CPPFLAGS="$CFLAGS -I/usr/local/include" \
-  LDFLAGS="$LDFLAGS -L/usr/local/lib" \
+
   EMACS=no \
-  ./configure --prefix=/usr/local --without-lispdir
+  ./configure --prefix=/usr --without-lispdir
   gmake
 }
 

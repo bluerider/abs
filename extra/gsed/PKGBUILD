@@ -19,7 +19,7 @@ md5sums=('4111de4faa3b9848a0686b2f260c5056'
 
 build() {
   cd ${srcdir}/${_pkgname}-${pkgver}
-  ./configure --prefix=/usr/local --program-prefix=g
+  ./configure --prefix=/usr --program-prefix=g
   make
 }
 
@@ -33,5 +33,5 @@ package() {
   make DESTDIR=${pkgdir} install
 
   # remove stale charset.alias file
-  rm -rf "${pkgdir}/usr/local/lib"
+  rm -rf "${pkgdir}/usr/lib"
 }

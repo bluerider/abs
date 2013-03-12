@@ -17,17 +17,13 @@ sha1sums=('6e4d75d8316d5217324258f555eba3a5d383feb2')
 
 build() {
   cd "${srcdir}/libXrender-${pkgver}"
-  ./configure --prefix=/usr/local --disable-static
+  ./configure --prefix=/usr --disable-static
   make
 }
 
 package() {
   cd "${srcdir}/libXrender-${pkgver}"
   make DESTDIR=${pkgdir} install
-
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 
   install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
   install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"

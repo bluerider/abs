@@ -15,15 +15,13 @@ sha1sums=('a8e71b9a09066870ff12049f45e8bccaaf83fc31')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
-  PYTHON=/usr/local/bin/python2 ./configure --prefix=/usr/local
+  PYTHON=/usr/bin/python2 ./configure --prefix=/usr
   make
 }
 
 package() {
   cd "$srcdir/$pkgname-$pkgver"
   make DESTDIR="$pkgdir" install
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" "${pkgdir}/usr/local/libdata/pkgconfig"
-  install -m755 -d "$pkgdir/usr/local/share/licenses/$pkgname"
-  install -m644 COPYING "$pkgdir/usr/local/share/licenses/$pkgname"
+  install -m755 -d "$pkgdir/usr/share/licenses/$pkgname"
+  install -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname"
 }

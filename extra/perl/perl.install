@@ -1,6 +1,6 @@
 this=`echo -n $0 | /usr/bin/sed -e 's!^.*/!!'`
 PERL_VERSION="5.16.2"
-PKG_PREFIX=/usr/local
+PKG_PREFIX=/usr
 banner=`date +"%F %T"`
 banner="# added by use.perl $banner"
 

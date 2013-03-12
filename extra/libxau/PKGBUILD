@@ -18,7 +18,7 @@ sha1sums=('29c47207fd246425b906f525b2220235ce4cd0f6')
 
 build() {
   cd "${srcdir}/libXau-${pkgver}"
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc
+  ./configure --prefix=/usr --sysconfdir=/etc
   make
 }
 
@@ -26,12 +26,9 @@ package() {
   cd "${srcdir}/libXau-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/COPYING"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 # ports does it
-  ln -s libXau.so.6 "${pkgdir}/usr/local/lib/libXau.so.0"
+  ln -s libXau.so.6 "${pkgdir}/usr/lib/libXau.so.0"
 }
