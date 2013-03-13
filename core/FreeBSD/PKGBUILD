@@ -83,7 +83,37 @@ package_freebsd-kernel() {
     TARGET=i386
     KERNCONF=ARCHBSD_i686
   fi
-  make TARGET=$TARGET KERNCONF=${KERNCONF} DESTDIR=${pkgdir} -DWITHOUT_TOOLCHAIN -DLIB32 installkernel || (echo installkernel failed... && return 1)
+  make TARGET=$TARGET KERNCONF=${KERNCONF} DESTDIR=${pkgdir} installkernel || (echo installkernel failed... && return 1)
+}
+
+package_freebsd-world() {
+  pkgdesc="FreeBSD base package"
+  pkgver=9.1
+  groups=('base')
+
+  cd ${srcdir}/${_gitname}
+  unset LDFLAGS
+  unset CXXFLAGS CPPFLAGS CFLAGS
+  unset M4
+  unset LD RANLIB ld
+
+  if [[ "$CARCH" == "x86_64" ]]; then
+    TARGET=amd64
+  else
+    TARGET=i386
+  fi
+  msg "Running make installworld distribution..."
+  make TARGET=$TARGET DESTDIR="$pkgdir"  SRCONF=${srcdir}/src.conf -DWITHOUT_TOOLCHAIN -DLIB32 installworld distribution || (echo buildworld failed... && return 1)
+
+  msg "Installed. Cleaning up and configuring..."
+
+  #solve some conflicts
+  rm -rf "${pkgdir}/usr/share/man/man3/pthread.3.gz"
+  mv "${pkgdir}/usr/include/db.h" "${pkgdir}/usr/include/fdb.h"
+
+#remove rc tools for openrc
+  rm -rf ${pkgdir}/etc/rc*
+  rm -f  ${pkgdir}/usr/share/man/man8/rc.8.gz
 
   #Remove files provided by other packages
 
@@ -108,36 +138,6 @@ package_freebsd-kernel() {
 
   #remove getopt binary
   rm -rf "${pkgdir}/usr/bin/getopt"
-}
-
-package_freebsd-world() {
-  pkgdesc="FreeBSD base package"
-  pkgver=9.1
-  groups=('base')
-
-  cd ${srcdir}/${_gitname}
-  unset LDFLAGS
-  unset CXXFLAGS CPPFLAGS CFLAGS
-  unset M4
-  unset LD RANLIB ld
-
-  if [[ "$CARCH" == "x86_64" ]]; then
-    TARGET=amd64
-  else
-    TARGET=i386
-  fi
-  msg "Running make installworld distribution..."
-  make TARGET=$TARGET DESTDIR="$pkgdir"  SRCONF=${srcdir}/src.conf installworld distribution || (echo buildworld failed... && return 1)
-
-  msg "Installed. Cleaning up and configuring..."
-
-#solve some conflicts
-  rm -rf "${pkgdir}/usr/share/man/man3/pthread.3.gz"
-  mv "${pkgdir}/usr/include/db.h" "${pkgdir}/usr/include/fdb.h"
-
-#remove rc tools for openrc
-  rm -rf ${pkgdir}/etc/rc*
-  rm -f  ${pkgdir}/usr/share/man/man8/rc.8.gz
 
 #install some files
   install -dm755 "${pkgdir}/etc"
