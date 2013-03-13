@@ -3,7 +3,7 @@
 
 pkgname=xvidcore
 pkgver=1.3.2
-pkgrel=1
+pkgrel=2
 pkgdesc="XviD is an open source MPEG-4 video codec"
 arch=('i686' 'x86_64')
 url="http://www.xvid.org/"
@@ -16,7 +16,7 @@ sha1sums=('74f9ce9c1bebcc9806bf21cb53274b8102700309')
 build() {
   cd "${srcdir}/${pkgname}/build/generic"
   ac_cv_prog_ac_yasm=no \
-  ./configure
+  ./configure --prefix=/usr
   gmake
 }
 
@@ -25,7 +25,7 @@ package() {
   gmake DESTDIR="${pkgdir}" install
 
   #Fix dynamic libraries
-  cd "${pkgdir}/usr/local/lib"
+  cd "${pkgdir}/usr/lib"
   _mylib=$(basename libxvidcore.so.*)
   ln -sf ${_mylib} libxvidcore.so.4
   ln -sf ${_mylib} libxvidcore.so

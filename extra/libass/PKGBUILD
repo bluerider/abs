@@ -3,7 +3,7 @@
 
 pkgname=libass
 pkgver=0.10.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A portable library for SSA/ASS subtitles rendering"
 arch=('i686' 'x86_64')
 url="http://code.google.com/p/libass/"
@@ -17,8 +17,7 @@ md5sums=('0f54b1f3a24fa897ebbbcc5bc744b32a')
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
-  sed -i '' -e '/^pkgconfigdir/s|\$(libdir)|$(libdir)data|' Makefile.in
-  ./configure
+  ./configure --prefix=/usr
   make
 }
 
@@ -26,6 +25,6 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
   make DESTDIR="${pkgdir}" install
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

@@ -3,7 +3,7 @@
 
 pkgname=cdparanoia
 pkgver=3.9.8
-pkgrel=9
+pkgrel=10
 pkgdesc="Compact Disc Digital Audio extraction tool"
 arch=('i686' 'x86_64')
 url="http://www.xiph.org/paranoia/"
@@ -47,13 +47,13 @@ build() {
     patch -p0 -i "${srcdir}/$i"
   done
   sed -i '' -e 's/\(^ *default:\)/\1break;/' interface/utils.h
-  ./configure
+  ./configure --prefix=/usr --mandir=/usr/share/man
   gmake
 }
 
 package() {
   cd "${srcdir}/${pkgname}-III-alpha9.8"
-  gmake prefix="${pkgdir}/usr/local" MANDIR="${pkgdir}/usr/local/man" install
+  gmake prefix="${pkgdir}/usr" MANDIR="${pkgdir}/usr/share/man" install
 }
 md5sums=('7218e778b5970a86c958e597f952f193'
          'a752526667cbf753f1d96f8e3f56beb6'

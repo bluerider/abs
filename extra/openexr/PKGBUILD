@@ -2,7 +2,7 @@
 
 pkgname=openexr
 pkgver=1.7.1
-pkgrel=2
+pkgrel=3
 pkgdesc="An high dynamic-range image file format library"
 url="http://www.openexr.com/"
 arch=('i686' 'x86_64')
@@ -27,15 +27,13 @@ build() {
   do
     patch -p0 -i "${srcdir}/$i"
   done
-  sed -i '' -e 's|pkgconfigdir = \$(libdir)/pkgconfig|pkgconfigdir = $(prefix)/libdata/pkgconfig|' \
-    Makefile.in
-  ./configure
+  ./configure --prefix=/usr
   gmake
 }
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

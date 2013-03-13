@@ -3,7 +3,7 @@
 
 pkgname=fribidi
 pkgver=0.19.5
-pkgrel=1
+pkgrel=2
 pkgdesc="A Free Implementation of the Unicode Bidirectional Algorithm"
 arch=('i686' 'x86_64')
 license=('LGPL')
@@ -15,8 +15,7 @@ md5sums=('925bafb97afee8a2fc2d0470c072a155')
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
-  sed -i '' -e '/^pkgconfigdir/s|\$(libdir)|$(libdir)data|' Makefile.in
-  ./configure
+  ./configure --prefix=/usr
   gmake
 }
 

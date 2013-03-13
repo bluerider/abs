@@ -2,7 +2,7 @@
 
 pkgname=libquvi
 pkgver=0.4.1
-pkgrel=2
+pkgrel=3
 pkgdesc='Library for parsing video download links.'
 arch=('i686' 'x86_64')
 url='http://quvi.sourceforge.net/'
@@ -17,8 +17,7 @@ md5sums=('a5fa8860c23655a529b3166f6e25c83a'
 build() {
   cd "${pkgname}-${pkgver}"
 
-  sed -i '' -e '/^pkgconfigdir/s|\$(libdir)|$(libdir)data|' Makefile.in
-  ./configure
+  ./configure --prefix=/usr
   make
 }
 

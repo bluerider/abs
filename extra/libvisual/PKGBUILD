@@ -1,6 +1,6 @@
 pkgname=libvisual
 pkgver=0.4.0
-pkgrel=4
+pkgrel=5
 pkgdesc="Abstraction library that comes between applications and audio visualisation plugins"
 arch=('i686' 'x86_64')
 url="http://sourceforge.net/projects/libvisual/"
@@ -18,27 +18,11 @@ build()
    sed -i '' -e 's|-Wno-unused-variable||g' -e 's|-O3|${CFLAGS}|g' libvisual/Makefile.in
 #   patch -p0 -i ${srcdir}/patch-libvisual-lv_cpu.c
    patch -p0 -i ${srcdir}/patch-configure
-
-    find "$srcdir/$pkgname-$pkgver" -name "Makefle.in*" -type f | xargs sed -i '' -e \
-                                's|[(]libdir[)]/locale|(prefix)/share/locale|g ; \
-                                 s|[(]libdir[)]/pkgconfig|(prefix)/libdata/pkgconfig|g ; \
-                                 s|{libdir}/pkgconfig|(prefix)/libdata/pkgconfig|g ; \
-                                 s|[(]datadir[)]/pkgconfig|(prefix)/libdata/pkgconfig|g ; \
-                                 s|[(]prefix[)]/lib/pkgconfig|(prefix)/libdata/pkgconfig|g ; \
-                                 s|[$$][(]localstatedir[)]/scrollkeeper|${SCROLLKEEPER_DIR}|g ; \
-                                 s|[(]libdir[)]/bonobo/servers|(prefix)/libdata/bonobo/servers|g' ; \
-  find "$srcdir/$pkgname-$pkgver" -name "configure" -type f | xargs sed -i '' -e \
-                                's|-lpthread|-pthread|g' \
-				-e 's|DATADIRNAME=lib|DATADIRNAME=share|g'  \
-				-e 's|{libdir}/locale|{prefix}/share/locale|g'
-
-  ./configure
+  ./configure --prefix=/usr
   gmake
 }
 
 package() {
   cd ${srcdir}/${pkgname}-${pkgver}
   gmake DESTDIR=${pkgdir} install
-  install -dm755 ${pkgdir}/usr/local/libdata
-  mv ${pkgdir}/usr/local/lib/pkgconfig ${pkgdir}/usr/local/libdata
 }
