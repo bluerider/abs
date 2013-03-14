@@ -1,11 +1,8 @@
 infodir=usr/share/info
-filelist=(libmpc.info)
 
 post_install() {
   [ -x usr/bin/install-info ] || return 0
-  for file in ${filelist[@]}; do
-    install-info $infodir/$file.gz $infodir/dir 2> /dev/null
-  done
+    install-info $infodir/libmpc.info.gz $infodir/dir
 }
 
 post_upgrade() {
@@ -14,7 +11,5 @@ post_upgrade() {
 
 pre_remove() {
   [ -x usr/bin/install-info ] || return 0
-  for file in ${filelist[@]}; do
-    install-info --delete $infodir/$file.gz $infodir/dir 2> /dev/null
-  done
+    install-info --delete $infodir/libmpc.info.gz $infodir/dir
 }

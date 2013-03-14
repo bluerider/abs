@@ -14,7 +14,7 @@ md5sums=('b32a2e1a3daa392372fbd586d1ed3679'
 
 build() {
   cd "${srcdir}/mpc-${pkgver}"
-  ./configure --prefix=/usr
+  ./configure --prefix=/usr --infodir=/usr/share/info
   make
 }
 
