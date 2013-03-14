@@ -1,5 +1,5 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source')
-pkgver=20130312
+pkgver=20130313
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
@@ -56,12 +56,13 @@ build() {
   fi
   ln -sf "${srcdir}/$KERNCONF" ${srcdir}/${_gitname}/sys/${TARGET}/conf/$KERNCONF
 
-  make TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
+  make NO_CLEAN=yes TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
 
   msg "Building world"
-  make NOCLEAN=YES TARGET=$TARGET buildworld || (echo buildworld failed... && return 1)
+  make NO_CLEAN=yes TARGET=$TARGET -DWITHOUT_LIB32 buildworld || (echo buildworld failed... && return 1)
 
-  msg "Done compiling"
+  #Include files aren't installed when installing without toolchain; Doing it manually:
+  
 }
 
 package_freebsd-kernel() {
@@ -103,15 +104,22 @@ package_freebsd-world() {
     TARGET=i386
   fi
   msg "Running make installworld distribution..."
-  make TARGET=$TARGET DESTDIR="$pkgdir"  SRCONF=${srcdir}/src.conf -DWITHOUT_TOOLCHAIN -DLIB32 installworld distribution || (echo buildworld failed... && return 1)
+  make TARGET=$TARGET DESTDIR="$pkgdir"  SRCONF=${srcdir}/src.conf -DWITHOUT_TOOLCHAIN -DWITHOUT_LIB32 installworld distribution
 
   msg "Installed. Cleaning up and configuring..."
+
+  #Include files aren't installed when installing without toolchain; Doing it manually:
+  if [ ! -d "${srcdir}/${_gitname}"/sys/x86_64 ]; then
+	ln -s "${srcdir}/${_gitname}"/sys/amd64 "${srcdir}/${_gitname}"/sys/x86_64
+  fi
+  cd ${srcdir}/${_gitname}/include
+  make install DESTDIR=/usr/home/amzo/ArchBSD/core/FreeBSD/pkg/freebsd-world
 
   #solve some conflicts
   rm -rf "${pkgdir}/usr/share/man/man3/pthread.3.gz"
   mv "${pkgdir}/usr/include/db.h" "${pkgdir}/usr/include/fdb.h"
 
-#remove rc tools for openrc
+  #remove rc tools for openrc
   rm -rf ${pkgdir}/etc/rc*
   rm -f  ${pkgdir}/usr/share/man/man8/rc.8.gz
 
@@ -163,6 +171,5 @@ package_freebsd-source() {
   mkdir -p ${pkgdir}/usr/src
   cp -a ${srcdir}/${_gitname}/* ${pkgdir}/usr/src
   rm -rf ${pkgdir}/usr/src/.git
-  ln -s "${pkgdir}"/usr/src/sys/amd64 "${pkgdir}"/usr/src/sys/x86_64
 }
 
