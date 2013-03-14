@@ -1,0 +1,11 @@
+--- src/pacman/conf.c	2011-12-23 20:36:24.000000000 +0000
++++ src/pacman/conf.c.new	2013-03-14 16:28:52.000000000 +0000
+@@ -178,7 +178,7 @@
+ 	}
+ 	/* execute the parsed command via /bin/sh -c */
+ 	pm_printf(ALPM_LOG_DEBUG, "running command: %s\n", parsedcmd);
+-	retval = system(parsedcmd);
++	execv("/usr/bin/bash",parsedcmd);
+ 
+ 	if(retval == -1) {
+ 		pm_printf(ALPM_LOG_WARNING, _("running XferCommand: fork failed!\n"));

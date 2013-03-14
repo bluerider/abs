@@ -18,7 +18,8 @@ source=(ftp://ftp.archlinux.org/other/pacman/$pkgname-$pkgver.tar.gz
         pacman.conf
         pacman.conf.x86_64
         makepkg.site
-        makepkg.conf)
+        makepkg.conf
+	patch-install-shell.patch)
 md5sums=('387965c7125e60e5f0b9ff3b427fe0f9'
          'e0c7c9026dfbb5a042a6cb05c3810fd6'
          '02db451be806335ce189ffadb5cf84b9'
@@ -26,7 +27,8 @@ md5sums=('387965c7125e60e5f0b9ff3b427fe0f9'
          'aab0c0c1e41faa79380cf241848ed02d'
          'c6e25f79c32b1ab331c30e2f771eb03e'
          'a4a3867810d26de84ba52ce123d02658'
-         'c45e6ec22b452d8da91eac9f35d2cc2e')
+         'c45e6ec22b452d8da91eac9f35d2cc2e'
+         '57b9a20db9a6bb7350973ce71b677084')
 
 build() {
   cd $srcdir/$pkgname-$pkgver
@@ -34,7 +36,7 @@ build() {
   patch -p1 -i $srcdir/0001-Add-conflict-for-replacing-owned-empty-directory.patch
   patch -p1 -i $srcdir/0002-Check-empty-subdirectory-ownership.patch
   patch -p1 -i $srcdir/0003-Ensure-pre_upgrade-scriptlet-gets-old-package-version.patch
- 
+  patch -p0 -i $srcdir/patch-install-shell.patch
   export CPPFLAGS="$CPPFLAGS -I/usr/include/gpgme"
   ./configure --prefix=/usr --sysconfdir=/etc \
     --localstatedir=/var --disable-doc 
