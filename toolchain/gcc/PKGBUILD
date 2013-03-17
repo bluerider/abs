@@ -33,12 +33,6 @@ build() {
   # Do not install libiberty
   sed -i '' -e 's/install_to_$(INSTALL_DEST) //' libiberty/Makefile.in
 
-  # Do not run fixincludes
-  sed -i '' -e 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
-
-  # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=53679
-  patch -p1 -i ${srcdir}/gcc-4.7.1-libgo-write.patch
-
   echo ${pkgver} > gcc/BASE-VER
   unset CC CXX CPP
 
@@ -53,7 +47,7 @@ build() {
   ${_basedir}/configure --prefix=/usr --host=x86_64-portbld-freebsd9.1 --target=x86_64-portbld-freebsd9.1 --build=x86_64-portbld-freebsd9.1 \
     --without-headers \
     --disable-nls --disable-shared \
-    --with-system-zlib --with-as=/usr/local/bin/as \
+    --with-system-zlib \
     --with-ld=/usr/local/bin/ld \
     --with-libiconv-prefix=/usr/local \
 
