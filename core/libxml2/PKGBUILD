@@ -46,12 +46,6 @@ build() {
    gmake
 }
 
-#check() {
-#  cd "${srcdir}/${pkgname}-${pkgver}"
-#  mv "${srcdir}/xmlconf" .
-#  gmake check
-#}
-
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install

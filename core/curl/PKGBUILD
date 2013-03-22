@@ -8,7 +8,7 @@
 
 pkgname=curl
 pkgver=7.28.1
-pkgrel=2
+pkgrel=3
 pkgdesc="An URL retrieval utility and library"
 arch=('i686' 'x86_64')
 url="http://curl.haxx.se"
@@ -17,8 +17,7 @@ depends=('ca_root_nss')
 source=("http://curl.haxx.se/download/$pkgname-$pkgver.tar.gz"{,.asc}
 	    patch-configure
 	    patch-lib__url.c
-	    patch-src-tool_operate.c
-	    )
+	    patch-src-tool_operate.c)
 md5sums=('252ef351c0fc307b2d8ea1ee31542072'
          'e3cea743ef286f5aff1f1d27137e9828'
          'e185d12a072313f0aa3fdc21f2d4bc31'
@@ -32,7 +31,7 @@ build() {
   patch -p0 -i ${srcdir}/patch-lib__url.c
   patch -p0 -i ${srcdir}/patch-src-tool_operate.c
 
-# ports are odd at times
+  # ports are odd at times
   sed -i '' -e '/^SUBDIRS = / s|$$| docs|; /^DIST_SUBDIRS = / s| docs||; /cd docs &&/d' Makefile.in
   sed -i '' -e '/require "valgrind.pm";/d' tests/runtests.pl
 
@@ -62,10 +61,6 @@ package() {
   cd "$pkgname-$pkgver"
 
   make DESTDIR="$pkgdir" install
-
-  # pkgconfdir
-  install -dm755 "$pkgdir/usr/share/libdata"
-  mv "$pkgdir/usr/lib/pkgconfig" "$pkgdir/usr/share/libdata/pkgconfig"
 
   # license
   install -dm755 "$pkgdir/usr/share/licenses/$pkgname/COPYING"

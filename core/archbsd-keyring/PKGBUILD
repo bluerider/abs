@@ -1,6 +1,6 @@
 pkgname=archbsd-keyring
 pkgver=20130220
-pkgrel=1
+pkgrel=2
 pkgdesc='Arch BSD PGP keyring'
 arch=('any')
 url='https://irc.unixhub.net/archbsd-keyring/'
@@ -14,6 +14,6 @@ md5sums=('593cc056cdda9f492529ca6914b3126b'
 
 package() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
-	make PREFIX=/usr/local DESTDIR=${pkgdir} install
+	make PREFIX=/usr DESTDIR=${pkgdir} install
 }
 

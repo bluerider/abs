@@ -1,5 +1,5 @@
-pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source')
-pkgver=20130313
+pkgname=('freebsd-world')
+pkgver=20130322
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
@@ -56,10 +56,15 @@ build() {
   fi
   ln -sf "${srcdir}/$KERNCONF" ${srcdir}/${_gitname}/sys/${TARGET}/conf/$KERNCONF
 
+  #build with clang
+  export CC=clang
+  export CPP=clang-cpp
+  export CXX=clang++
+
   make NO_CLEAN=yes TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
 
   msg "Building world"
-  make NO_CLEAN=yes TARGET=$TARGET -DWITHOUT_LIB32 buildworld || (echo buildworld failed... && return 1)
+  make NO_CLEAN=yes TARGET=$TARGET -DWITHOUT_LIB32 -DWITHOUT_TOOLCHAIN buildworld || (echo buildworld failed... && return 1)
 
   #Include files aren't installed when installing without toolchain; Doing it manually:
   
@@ -104,7 +109,8 @@ package_freebsd-world() {
     TARGET=i386
   fi
   msg "Running make installworld distribution..."
-  make TARGET=$TARGET DESTDIR="$pkgdir"  SRCONF=${srcdir}/src.conf -DWITHOUT_TOOLCHAIN -DWITHOUT_LIB32 installworld distribution
+  make TARGET=$TARGET DESTDIR="$pkgdir"  SRCONF=${srcdir}/src.conf -DWITHOUT_TOOLCHAIN -DWITHOUT_LIB32 \
+	-DWITHOUT_BSD_CPIO installworld distribution
 
   msg "Installed. Cleaning up and configuring..."
 
@@ -138,12 +144,6 @@ package_freebsd-world() {
   rm -f "${pkgdir}"/usr/share/man/man1/lprm.1.gz
   rm -f "${pkgdir}"/usr/share/man/man8/lpc.8.gz
 
-  #Some needed links
-
-  ln -s "${pkgdir}"/usr/lib/libm.so "${pkgdir}"/usr/lib/libm.so.5
-  ln -s "${pkgdir}"/usr/lib/libthr.so "${pkgdir}"/usr/lib/libthr.so.3
-  ln -s "${pkgdir}"/usr/lib/libz.so "${pkgdir}"/usr/lib/libz.so.6
-
   #remove getopt binary
   rm -rf "${pkgdir}/usr/bin/getopt"
 
@@ -153,6 +153,14 @@ package_freebsd-world() {
   install -m644 $srcdir/sysctl.conf "${pkgdir}/etc/"
   install -m644 $srcdir/beastie.4th "${pkgdir}/boot/"
   install -m644 $srcdir/brand.4th "${pkgdir}/boot/"
+
+  #move libs to correct place
+  sudo chflags -R noschg ${pkgdir}/lib/
+  mv ${pkgdir}/lib/* ${pkgdir}/usr/lib/
+  rm -rf ${pkgdir}/lib/
+
+ #set var/cache to 755
+ chmod -Rv 755 ${pkgdir}/var/cache
 
 backup=('boot/device.hints'
         'boot/loader.conf')
