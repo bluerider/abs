@@ -1,0 +1,4 @@
+post_install(){
+	/sbin/ldconfig -m /usr/lib/llvm
+}
+
