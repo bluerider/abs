@@ -42,6 +42,16 @@ build() {
                                -e 's,2to3,2to3-2.7,' \
                                -e 's,(idle|pydoc|python-shared|python),\1-2.7,'`
   done
+
+  sed -i '' -e \
+    's|^\( *prefixes = .*\)\]$|\1, "/usr"]|g' \
+    Lib/site.py
+
+  sed -i '' \
+    -e 's|^  \(..ASDLGEN.*\)$|  true|g' \
+    -e 's|*\(..INSTALL_SCRIPT.*\)python-config$|#port \1|' \
+    Makefile.pre.in
+
   sed -e 's|^#!.*|#!/usr/bin/python2.7|' \
     -e 's|libs = getvar|libs = getvar("LDFLAGS").split() + getvar|' \
     Misc/python-config.in > python2.7-config
@@ -62,7 +72,7 @@ build() {
   sed -i '' -e "/SQLITE_OMIT_LOAD_EXTENSION/d" setup.py
 
   # FS#23997
-  sed -i '' -e "s|^#.* /usr/bin/python|#!/usr/bin/python2|" Lib/cgi.py
+  sed -i '' -e "s|^#.* /usr/local/bin/python|#!/usr/bin/python2|" Lib/cgi.py
 
   # Ensure that we are using the system copy of various libraries (expat, zlib and libffi),
   # rather than copies shipped in the tarball
@@ -73,6 +83,9 @@ build() {
   export OPT="${CFLAGS}"
   ./configure --prefix=/usr --enable-shared --enable-static --with-threads --enable-ipv6 \
               --enable-unicode=ucs4 --with-system-expat --with-system-ffi
+
+  # fakeroot bug
+  sed -i '' -e '/RUNSHARED=/s|\(LD_LIBRARY_PATH=\)\(.*\)|\1/usr/lib/libfakeroot:\2|' Makefile
 
   make
 }
@@ -118,6 +131,12 @@ msg "Done cleaning up"
   # license
   install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+
+  install -dm755 "${pkgdir}/usr/local/bin"
+  cd "${pkgdir}/usr/bin"
+  for i in *; do
+      ln -sv "/usr/bin/$i" "${pkgdir}/usr/local/bin"
+  done
 }
 md5sums=('62c4c1699170078c469f79ddfed21bc0'
          '55005b563bcdbb187616901711c5c8d3'
