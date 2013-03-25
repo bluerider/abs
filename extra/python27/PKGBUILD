@@ -84,9 +84,6 @@ build() {
   ./configure --prefix=/usr --enable-shared --enable-static --with-threads --enable-ipv6 \
               --enable-unicode=ucs4 --with-system-expat --with-system-ffi
 
-  # fakeroot bug
-  sed -i '' -e '/RUNSHARED=/s|\(LD_LIBRARY_PATH=\)\(.*\)|\1/usr/lib/libfakeroot:\2|' Makefile
-
   make
 }
 
