@@ -1,5 +1,5 @@
 post_install() {
-	/sbin/ldconfig -m /usr/lib
+	/sbin/ldconfig -m /usr/lib/libfakeroot
 }
 
 post_remove() {
