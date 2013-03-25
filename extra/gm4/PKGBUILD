@@ -32,9 +32,7 @@ build() {
 
 # Arch
   patch -Np1 -i $srcdir/m4-1.4.16-readlink-einval.patch
-  ./configure --prefix=/usr/local --mandir=/usr/local/man \
-              --infodir=/usr/local/info \
-              --program-prefix=g
+  ./configure --prefix=/usr --program-prefix=g
   make
 }
 
