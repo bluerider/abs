@@ -49,7 +49,7 @@ package_libtool() {
 
   make DESTDIR=${pkgdir} install-binSCRIPTS install-man install-info \
                          install-data-local
-  rm -rf ${pkgdir}/usr/local/share/libtool/libltdl/
+  rm -rf ${pkgdir}/usr/share/libtool/libltdl/
 }
 
 package_libltdl() {
