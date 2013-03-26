@@ -120,8 +120,9 @@ package_libsasl() {
   #Fix ldconfig not finding libraries
   for i in libsasl2.so.3.0; do
         x=`echo $i | cut -d. -f1,2,3`
-        mv "${pkgdir}/usr/lib/$i" "${pkgdir}/usr/lib/$x"
-	ln -s "${pkgdir}/usr/lib/$x" "${pkgdir}/usr/lib/libsasl2.so"
+        #mv "${pkgdir}/usr/lib/$i" "${pkgdir}/usr/lib/$x"
+        ln -sv "/usr/lib/$i" "${pkgdir}/usr/lib/$x"
+        ln -sv "/usr/lib/$x" "${pkgdir}/usr/lib/libsasl2.so"
   done
 }
 

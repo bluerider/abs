@@ -153,4 +153,8 @@ package_mysql(){
   rm -r "${pkgdir}"/usr/data
   rm -r "${pkgdir}"/usr/share/mysql/sql-bench
   install -dm700 "${pkgdir}"/var/lib/mysql
+
+  # rename perror to mysql-perror
+  mv "${pkgdir}/usr/bin/"{,mysql-}"perror"
+  mv "${pkgdir}/usr/share/man/man1/"{,mysql-}"perror.1"
 }
