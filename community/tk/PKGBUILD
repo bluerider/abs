@@ -22,11 +22,11 @@ build() {
   patch -p0 -i "$srcdir"/patch-unix__Makefile.in
 
   [[ $CARCH == "x86_64" ]] && BIT="--enable-64bit"
-  export CFLAGS="-I/usr/local/include/tcl8.6 -I/usr/local/include"
-  ./configure --prefix=/usr/local --mandir=/usr/local/man \
+  export CFLAGS="-I/usr/include/tcl8.6"
+  ./configure --prefix=/usr --mandir=/usr/share/man \
               --enable-threads \
-              --with-tcl=/usr/local/lib/tcl8.6 \
-              --includedir=/usr/local/include/tk${_includever} \
+              --with-tcl=/usr/lib/tcl8.6 \
+              --includedir=/usr/include/tk${_includever} \
               --enable-shared \
               --enable-xft \
               $BIT
@@ -42,12 +42,12 @@ package() {
   cd ${srcdir}/tk${pkgver}/unix
 
   gmake -j1 SHORT_TK_VER=86 INSTALL_ROOT=${pkgdir} install install-private-headers
-  ln -sf wish8.6 ${pkgdir}/usr/local/bin/wish
+  ln -sf wish8.6 ${pkgdir}/usr/bin/wish
 
   # install license
-  install -dm755 ${pkgdir}/usr/local/share/licenses/${pkgname}
-  install -m644 license.terms ${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE
+  install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}
+  install -m644 license.terms ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
 
   # remove buildroot traces
-  sed -i '' -e "s#${srcdir}#/usr/src#" ${pkgdir}/usr/local/lib/tk${_includever}/tkConfig.sh
+  sed -i '' -e "s#${srcdir}#/usr/src#" ${pkgdir}/usr/lib/tk${_includever}/tkConfig.sh
 }
