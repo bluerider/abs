@@ -50,10 +50,10 @@ package_sqlite() {
  replaces=("sqlite3")
  
   cd ${srcdir}/sqlite-autoconf-$_amalgamationver
-  make DESTDIR=${pkgdir} install
+  gmake DESTDIR=${pkgdir} install
   
   # license
-  install -d -m755 ${pkgdir}/usr/share/licenses/${pkgname}/license.txt
+  install -d -m755 ${pkgdir}/usr/share/licenses/${pkgname}/
   install    -m644 ${srcdir}/license.txt ${pkgdir}/usr/share/licenses/${pkgname}/license.txt
 }
 
@@ -65,7 +65,7 @@ package_sqlite-tcl() {
  replaces=("sqlite3-tcl")
  
   cd ${srcdir}/sqlite-autoconf-$_amalgamationver/tea
-  make DESTDIR=${pkgdir} install
+  gmake DESTDIR=${pkgdir} install
 }
 
 package_sqlite-doc() {
