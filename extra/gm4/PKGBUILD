@@ -36,10 +36,10 @@ build() {
   make
 }
 
-check() {
-  cd ${srcdir}/$_pkgname-$pkgver
-  make check
-}
+#check() {
+#  cd ${srcdir}/$_pkgname-$pkgver
+#  make check
+#}
 
 package() {
   cd ${srcdir}/$_pkgname-$pkgver

@@ -1,5 +1,5 @@
-pkgname=('freebsd-world')
-pkgver=20130326
+pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source')
+pkgver=20130327
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
@@ -64,7 +64,7 @@ build() {
   make NO_CLEAN=yes TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
 
   msg "Building world"
-  make NO_CLEAN=yes TARGET=$TARGET -DWITHOUT_LIB32 -DWITHOUT_TOOLCHAIN -DWITHOUT_BSD_CPIO buildworld || (echo buildworld failed... && return 1)
+  make NO_CLEAN=yes TARGET=$TARGET -DWITHOUT_LIB32 -DWITHOUT_BSD_CPIO buildworld || (echo buildworld failed... && return 1)
 
 }
 
@@ -117,7 +117,7 @@ package_freebsd-world() {
 	ln -s "${srcdir}/${_gitname}"/sys/amd64 "${srcdir}/${_gitname}"/sys/x86_64
   fi
   cd ${srcdir}/${_gitname}/include
-  make install DESTDIR=${pkgdir}/usr
+  make install DESTDIR=${pkgdir}
 
   #solve some conflicts
   rm -rf "${pkgdir}/usr/share/man/man3/pthread.3.gz"
@@ -151,11 +151,6 @@ package_freebsd-world() {
   install -m644 $srcdir/sysctl.conf "${pkgdir}/etc/"
   install -m644 $srcdir/beastie.4th "${pkgdir}/boot/"
   install -m644 $srcdir/brand.4th "${pkgdir}/boot/"
-
-  #move libs to correct place
-  sudo chflags -R noschg ${pkgdir}/lib/
-  mv ${pkgdir}/lib/* ${pkgdir}/usr/lib/
-  rm -rf ${pkgdir}/lib/
 
  #set var/cache to 755
  chmod -Rv 755 ${pkgdir}/var/cache
