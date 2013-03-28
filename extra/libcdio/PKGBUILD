@@ -25,11 +25,9 @@ build() {
   patch -Np1 -i ../libcdio-0.83-linking.patch
   patch -Np1 -i ../udf-Dont-return-freed-memory-from-udf_fopen.patch
   sed -i '' -e 's,freebsd5\.\*,freebsd*,' configure
-  sed -i '' -e '/^pkgconfigdir/s|\$(libdir)|$(libdir)data|' Makefile.in
   MAKE=gmake \
-  ./configure --disable-vcd-info --enable-cpp-progs \
-              --with-libpopt-prefix=/usr/local \
-              --with-libiconv-prefix=/usr/local
+  ./configure --prefix=/usr \
+              --disable-vcd-info --enable-cpp-progs
   gmake
 }
 
@@ -38,5 +36,5 @@ package() {
   gmake -j1 DESTDIR="${pkgdir}" install
   
   sed -i '' -e "/LIBCDIO_SOURCE_PATH/s|.*|/* #undef LIBCDIO_SOURCE_PATH */|" \
-    $pkgdir/usr/local/include/cdio/cdio_config.h
+    $pkgdir/usr/include/cdio/cdio_config.h
 }

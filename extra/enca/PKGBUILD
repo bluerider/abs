@@ -17,10 +17,9 @@ md5sums=('03792f25aed003d3ea33b3ce1be1f256')
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
-  ./configure --prefix=/usr/local \
-              --libexecdir=/usr/local/libexec \
-              --mandir=/usr/local/man \
-              --with-librecode=/usr/local \
+  ./configure --prefix=/usr \
+              --libexecdir=/usr/libexec \
+              --mandir=/usr/share/man \
               --enable-external
   gmake
 }
@@ -29,8 +28,4 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
   gmake DESTDIR="${pkgdir}" install
-
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

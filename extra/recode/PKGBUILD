@@ -42,10 +42,8 @@ build() {
   autoreconf -fi
   libtoolize
   CFLAGS="$CFLAGS -fPIC" \
-  CPPFLAGS="$CPPFLAGS -I/usr/local/include" \
-  LDFLAGS="$LDFLAGS -L/usr/local/lib" \
-  ./configure --prefix=/usr/local --mandir=/usr/local/man \
-    --infodir=/usr/local/info --without-included-gettext
+  ./configure --prefix=/usr --mandir=/usr/share/man \
+    --infodir=/usr/share/info --without-included-gettext
   gmake
 
   perl -pi -e '
@@ -60,7 +58,6 @@ package() {
   cd ${srcdir}/pinard-Recode-2127b34
   make DESTDIR=${pkgdir} install
 
-  rm -f "${pkgdir}/usr/local/lib/charset.alias"
-  rm ${pkgdir}/usr/local/info/dir
-  gzip ${pkgdir}/usr/local/info/*
+  rm -f "${pkgdir}/usr/lib/charset.alias"
+  rm ${pkgdir}/usr/share/info/dir
 }

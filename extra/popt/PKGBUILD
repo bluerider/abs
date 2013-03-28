@@ -6,7 +6,7 @@
 
 pkgname=popt
 pkgver=1.16
-pkgrel=5
+pkgrel=6
 pkgdesc="A commandline option parser"
 arch=('i686' 'x86_64')
 url="http://rpm5.org"
@@ -28,8 +28,7 @@ build() {
     patch -p0 -i "${srcdir}/$i"
   done
 
-  sed -i '' -e '/^pkgconfigdir/s|\$(libdir)|$(libdir)data|' Makefile.in
-  ./configure
+  ./configure --prefix=/usr
   make
 }
 
@@ -37,6 +36,6 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}"/usr/local/share/licenses/${pkgname}/
-  install -m644 COPYING "${pkgdir}"/usr/local/share/licenses/${pkgname}/LICENSE
+  install -dm755 "${pkgdir}"/usr/share/licenses/${pkgname}/
+  install -m644 COPYING "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
 }

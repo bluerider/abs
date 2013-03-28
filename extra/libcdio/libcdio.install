@@ -1,4 +1,4 @@
-info_dir=/usr/local/info
+info_dir=/usr/share/info
 
 post_install() {
   install-info ${info_dir}/libcdio.info.gz ${info_dir}/dir 2> /dev/null
