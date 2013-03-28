@@ -15,8 +15,7 @@ sha1sums=('aed2cff18b9aecfe3377ad064c6a67518bbec211')
 
 build() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
-	CPPFLAGS="$CPPFLAGS -I/usr/local/include" \
-	./configure --x-includes=/usr/local/include
+	./configure --prefix=/usr
 	gmake
 }
 
