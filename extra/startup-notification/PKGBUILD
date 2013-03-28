@@ -18,15 +18,11 @@ build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   sed -i -e '/AC_PATH_XTRA/d' configure.in
   #autoreconf --force --install
-  ./configure --prefix=/usr/local/ --localstatedir=/var --sysconfdir=/usr/local/etc
+  ./configure --prefix=/usr --localstatedir=/var --sysconfdir=/etc
   make
 }
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
-
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

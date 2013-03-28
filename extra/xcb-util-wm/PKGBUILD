@@ -18,10 +18,7 @@ sha256sums=('038f9bdb917b1f6d98a164f57dfb32212a102d771ab6f03de49fef3786746030'
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  sed -i '' \
-    -e 's|\${libdir}/pkgconfig|${prefix}/libdata/pkgconfig|' \
-    configure
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   make
 }
 
@@ -34,7 +31,7 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
   install -m644 "${srcdir}/LICENSE" \
-    "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
