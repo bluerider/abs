@@ -5,7 +5,7 @@
 
 pkgname=imlib2
 pkgver=1.4.5
-pkgrel=2
+pkgrel=3
 pkgdesc="Library that does image file loading and saving as well as rendering, manipulation, arbitrary polygon support"
 url="http://sourceforge.net/projects/enlightenment/"
 arch=('i686' 'x86_64')
@@ -34,14 +34,12 @@ build() {
   [ $CARCH = "x86_64" ] && EXTRAOPTS="--disable-amd64"
 
   # Configure and Build
-  CPPFLAGS="-I/usr/local/include" \
-  LDFLAGS="-L/usr/local/lib" \
-  ./configure --prefix=/usr/local/ \
-              --sysconfdir=/usr/local/etc/imlib2 \
-              --x-libraries=/usr/local/lib $EXTRAOPTS \
-              --with-tiff=/usr/local \
-              --with-jpeg=/usr/local \
-              --with-id3=/usr/local
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc/imlib2 \
+              --x-libraries=/usr/lib $EXTRAOPTS \
+              --with-tiff=/usr \
+              --with-jpeg=/usr \
+              --with-id3=/usr
   make
 }
 
@@ -49,12 +47,7 @@ package() {
   cd "$srcdir/$pkgname-$pkgver"
   make DESTDIR="$pkgdir" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
   # Install License
-  install -dm755 "$pkgdir/usr/local/share/licenses/$pkgname/"
-  install -m644 COPYING "$pkgdir/usr/local/share/licenses/$pkgname/COPYING"
+  install -dm755 "$pkgdir/usr/share/licenses/$pkgname/"
+  install -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
 }
-

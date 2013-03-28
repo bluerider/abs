@@ -42,7 +42,7 @@ build() {
   sed -i '' -e '/SUBDIRS =/ s/ doc//' Makefile.am
   libtoolize -f
   autoreconf
-  ./configure --prefix=/usr/local --disable-static
+  ./configure --prefix=/usr --disable-static
   gmake
 
   # libungif compatibility - instructions taken from Redhat specfile
@@ -54,10 +54,10 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
 
-  install -m755 libungif.so.${pkgver} "${pkgdir}/usr/local/lib/"
-  ln -sf libungif.so.${pkgver} "${pkgdir}/usr/local/lib/libungif.so.4"
-  ln -sf libungif.so.4 "${pkgdir}/usr/local/lib/libungif.so"
+  install -m755 libungif.so.${pkgver} "${pkgdir}/usr/lib/"
+  ln -sf libungif.so.${pkgver} "${pkgdir}/usr/lib/libungif.so.4"
+  ln -sf libungif.so.4 "${pkgdir}/usr/lib/libungif.so"
 
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/COPYING"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }

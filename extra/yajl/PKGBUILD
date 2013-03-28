@@ -17,10 +17,7 @@ build() {
   dirname=$(tar tf "$srcdir/$pkgname-$pkgver.tar.gz" | sed 1q);
   cd "$dirname"
 
-  sed -i '' -e "s,share/pkgconfig,libdata/pkgconfig,g" \
-    src/CMakeLists.txt
-
-  cmake -DCMAKE_INSTALL_PREFIX=/usr/local .
+  cmake -DCMAKE_INSTALL_PREFIX=/usr .
 
   make
 }
@@ -31,6 +28,6 @@ package() {
 
   make DESTDIR="$pkgdir" install
 
-  install -dm755 "$pkgdir/usr/local/share/licenses/${pkgname}/"
-  install -m644 COPYING "$pkgdir/usr/local/share/licenses/${pkgname}/LICENSE"
+  install -dm755 "$pkgdir/usr/share/licenses/${pkgname}/"
+  install -m644 COPYING "$pkgdir/usr/share/licenses/${pkgname}/LICENSE"
 }

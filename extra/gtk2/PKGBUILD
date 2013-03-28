@@ -51,7 +51,8 @@ build() {
     CXX=/usr/bin/false ./configure --prefix=/usr \
         --sysconfdir=/etc/ \
         --localstatedir=/var \
-        --with-xinput=yes
+        --with-xinput=yes \
+        --disable-cups
 
     gmake
 }
