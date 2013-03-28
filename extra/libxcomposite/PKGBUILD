@@ -14,7 +14,7 @@ sha256sums=('ede250cd207d8bee4a338265c3007d7a68d5aca791b6ac41af18e9a2aeb34178')
 
 build() {
   cd "${srcdir}/libXcomposite-${pkgver}"
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc
+  ./configure --prefix=/usr --sysconfdir=/etc
   make
 }
 
@@ -22,10 +22,6 @@ package() {
   cd "${srcdir}/libXcomposite-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
-
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
