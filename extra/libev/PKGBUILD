@@ -25,7 +25,7 @@ build() {
   patch -p0 -i "$srcdir"/patch-configure
   patch -p0 -i "$srcdir"/patch-ev.c
 
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   make
 }
 
@@ -35,12 +35,12 @@ package() {
   make DESTDIR="${pkgdir}" install
 
   # fix conflict with libevent
-  rm ${pkgdir}/usr/local/include/event.h
+  rm ${pkgdir}/usr/include/event.h
 
-  install -dm755 ${pkgdir}/usr/local/libdata/pkgconfig
-  sed -e 's|%PREFIX%|/usr/local|g ; s|%VERSION%|'${pkgver}'|g' \
-  	"${srcdir}/libev.pc.in" > "${pkgdir}/usr/local/libdata/pkgconfig/libev.pc"
+  install -dm755 ${pkgdir}/usr/share/pkgconfig
+  sed -e 's|%PREFIX%|/usr|g ; s|%VERSION%|'${pkgver}'|g' \
+  	"${srcdir}/libev.pc.in" > "${pkgdir}/usr/share/pkgconfig/libev.pc"
   
-  install -dm755 ${pkgdir}/usr/local/share/licenses/${pkgname}/
-  install -m644 LICENSE ${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE
+  install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}/
+  install -m644 LICENSE ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
 }

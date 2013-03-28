@@ -5,7 +5,7 @@
 
 pkgname=bison
 pkgver=2.7
-pkgrel=1
+pkgrel=2
 pkgdesc="The GNU general-purpose parser generator"
 arch=('i686' 'x86_64')
 license=('GPL3')
@@ -24,6 +24,7 @@ build() {
   rm -f doc/bison.info*
   sed -i '' -e 's/MANS = yacc.1/MANS =/' doc/Makefile.in
 
+  export M4=/usr/bin/gm4
   ./configure --prefix=/usr --datadir=/usr/share \
               --sysconfdir=/etc \
               --mandir=/usr/share/man \

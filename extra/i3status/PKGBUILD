@@ -10,7 +10,7 @@ license=('BSD')
 groups=('i3')
 depends=('confuse' 'yajl')
 makedepends=('asciidoc')
-backup=('usr/local/etc/i3status.conf')
+backup=('etc/i3status.conf')
 options=('docs')
 source=("http://i3.zekjur.net/i3status/$pkgname-$pkgver.tar.bz2"
         patch-src__print_volume.c
@@ -22,20 +22,17 @@ build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   
   patch -p0 -i "${srcdir}/patch-src__print_volume.c"
-	sed -i '' -e 's|/etc|/usr/local/etc|g' i3status.c
 
-  export CPPFLAGS="${CPPFLAGS} -I/usr/local/include"
-  export LDFLAGS="${LDFLAGS} -L/usr/local/lib"
-  gmake PREFIX=/usr/local SYSCONFDIR=/usr/local/etc
+  gmake PREFIX=/usr SYSCONFDIR=/etc
 }
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   
   gmake DESTDIR="$pkgdir" install \
-        PREFIX=/usr/local SYSCONFDIR=/usr/local/etc
-  install -dm755 ${pkgdir}/usr/local/share/licenses/${pkgname}/
-  install -m644 LICENSE ${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE
+        PREFIX=/usr SYSCONFDIR=/etc
+  install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}/
+  install -m644 LICENSE ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
 
   gmake clean
 }
