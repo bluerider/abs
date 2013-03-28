@@ -38,7 +38,7 @@ build() {
   patch -p0 -i "${srcdir}/patch-Modules_FindwxWindows.cmake"
 
   ./configure --prefix=/usr \
-    --mandir=/man \
+    --mandir=/share/man \
     --docdir=/doc/cmake \
     --datadir=/share \
     --system-libs
