@@ -28,5 +28,7 @@ build() {
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  gmake DESTDIR="${pkgdir}/usr" install
+  gmake DESTDIR="${pkgdir}/usr/local" mandir="/man" install
+  # World has a getopt - this is for GNU specific getopt requirements so
+  # it'll be in /usr/local now
 }
