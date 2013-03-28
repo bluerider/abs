@@ -16,8 +16,8 @@ md5sums=('bb22bd5b4675f5dbe17c6963d8c00ed6')
 
 package() {
   cd ${srcdir}/${pkgname}-${pkgver}
-  install -d ${pkgdir}/usr/local/share/fonts/TTF
-  install -m644 *.ttf ${pkgdir}/usr/local/share/fonts/TTF/
-  install -dm755 ${pkgdir}/usr/local/share/licenses/ttf-bitstream-vera/
-  install -m644 COPYRIGHT.TXT ${pkgdir}/usr/local/share/licenses/ttf-bitstream-vera/LICENSE
+  install -d ${pkgdir}/usr/share/fonts/TTF
+  install -m644 *.ttf ${pkgdir}/usr/share/fonts/TTF/
+  install -dm755 ${pkgdir}/usr/share/licenses/ttf-bitstream-vera/
+  install -m644 COPYRIGHT.TXT ${pkgdir}/usr/share/licenses/ttf-bitstream-vera/LICENSE
 }

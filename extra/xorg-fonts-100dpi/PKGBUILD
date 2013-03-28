@@ -27,8 +27,8 @@ build() {
     if [ -d "${dir}" ]; then
       pushd ${dir}
       ./configure --prefix=/usr \
-          --with-fontrootdir=/usr/local/share/fonts \
-          --with-fontdir=/usr/local/share/fonts/100dpi
+          --with-fontrootdir=/usr/share/fonts \
+          --with-fontdir=/usr/share/fonts/100dpi
       make
       popd
     fi
@@ -37,14 +37,14 @@ build() {
 
 package() {
   cd "${srcdir}"
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   for dir in font-*-100dpi*; do
     if [ -d "${dir}" ]; then
       pushd ${dir}
       make DESTDIR="${pkgdir}" install
-      install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE.${dir%-100dpi-*}"
+      install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.${dir%-100dpi-*}"
       popd
     fi
   done
-  rm -f "${pkgdir}"/usr/local/share/fonts/100dpi/fonts.*
+  rm -f "${pkgdir}"/usr/share/fonts/100dpi/fonts.*
 }

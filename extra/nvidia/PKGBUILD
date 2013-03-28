@@ -26,17 +26,17 @@ package_nvidia() {
   cd "${srcdir}/NVIDIA-FreeBSD-${CARCH}-${pkgver}/"
 
 # Kernel module
-  install -dm755 "${pkgdir}/usr/local/modules"
-  install -m555 src/nvidia.ko "${pkgdir}/usr/local/modules/nvidia.ko"
+  install -dm755 "${pkgdir}/usr/modules"
+  install -m555 src/nvidia.ko "${pkgdir}/usr/modules/nvidia.ko"
 
 # X11 driver
-  install -dm755 "${pkgdir}/usr/local/lib/xorg/modules/drivers"
-  install -m755 "obj/nvidia_drv.so" "${pkgdir}/usr/local/lib/xorg/modules/drivers/nvidia_drv.so"
+  install -dm755 "${pkgdir}/usr/lib/xorg/modules/drivers"
+  install -m755 "obj/nvidia_drv.so" "${pkgdir}/usr/lib/xorg/modules/drivers/nvidia_drv.so"
 
 # X11 GLX module
-  install -dm755 "${pkgdir}/usr/local/lib/xorg/modules/extensions"
-  install -m755 "obj/libglx.so.1" "${pkgdir}/usr/local/lib/xorg/modules/extensions/libglx.so.1"
-  ln -s 'libglx.so.1' "${pkgdir}/usr/local/lib/xorg/modules/extensions/libglx.so"
+  install -dm755 "${pkgdir}/usr/lib/xorg/modules/extensions"
+  install -m755 "obj/libglx.so.1" "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so.1"
+  ln -s 'libglx.so.1' "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so"
 }
 
 package_nvidia-utils() {
@@ -47,40 +47,40 @@ package_nvidia-utils() {
   cd "${srcdir}/NVIDIA-FreeBSD-${CARCH}-${pkgver}/"
 
 # OpenGL Libraries
-  install -dm755 "${pkgdir}/usr/local/lib"
+  install -dm755 "${pkgdir}/usr/lib"
   for i in libGL.so.1 \
            libnvidia-cfg.so.1 \
            libnvidia-glcore.so.1 \
            libnvidia-tls.so.1
   do
-    install -m755 "obj/$i" "${pkgdir}/usr/local/lib/$i"
-    ln -sv "$i" "${pkgdir}/usr/local/lib/${i%%.1}"
+    install -m755 "obj/$i" "${pkgdir}/usr/lib/$i"
+    ln -sv "$i" "${pkgdir}/usr/lib/${i%%.1}"
   done
 
 # vdpau
-  install -dm755 "${pkgdir}/usr/local/lib/vdpau"
+  install -dm755 "${pkgdir}/usr/lib/vdpau"
   # libvdpau_trace.so.1 is provided by libvdpau here as well
   for i in libvdpau_nvidia.so.1
   do
-    install -m755 "obj/$i" "${pkgdir}/usr/local/lib/vdpau/$i"
-    ln -sv "$i" "${pkgdir}/usr/local/lib/vdpau/${i%%.1}"
+    install -m755 "obj/$i" "${pkgdir}/usr/lib/vdpau/$i"
+    ln -sv "$i" "${pkgdir}/usr/lib/vdpau/${i%%.1}"
   done
 
 # tools
-  install -dm755 "${pkgdir}/usr/local/bin"
-  install -m755 "obj/nvidia-bug-report.sh" "${pkgdir}/usr/local/bin/"
-  install -m755 "obj/nvidia-xconfig"       "${pkgdir}/usr/local/bin/"
+  install -dm755 "${pkgdir}/usr/bin"
+  install -m755 "obj/nvidia-bug-report.sh" "${pkgdir}/usr/bin/"
+  install -m755 "obj/nvidia-xconfig"       "${pkgdir}/usr/bin/"
 
 # work around nvidia relying on ports-hacks
-  install -dm755 "${pkgdir}/usr/local/lib/nvidia/tools"
-  install -m755 "obj/nvidia-settings"          "${pkgdir}/usr/local/lib/nvidia/tools/nvidia-settings"
-  install -m755 "${srcdir}/nvidia-settings.in" "${pkgdir}/usr/local/bin/nvidia-settings"
-  install -dm755 "${pkgdir}/usr/local/lib/nvidia/tools/lib"
+  install -dm755 "${pkgdir}/usr/lib/nvidia/tools"
+  install -m755 "obj/nvidia-settings"          "${pkgdir}/usr/lib/nvidia/tools/nvidia-settings"
+  install -m755 "${srcdir}/nvidia-settings.in" "${pkgdir}/usr/bin/nvidia-settings"
+  install -dm755 "${pkgdir}/usr/lib/nvidia/tools/lib"
   for i in libgtk-x11-2.0.so libgdk-x11-2.0.so \
            libpangox-1.0.so libpango-1.0.so \
            libgobject-2.0.so libgmodule-2.0.so \
            libglib-2.0.so
   do
-    ln -s "/usr/local/lib/$i" "${pkgdir}/usr/local/lib/nvidia/tools/lib/${i}.0"
+    ln -s "/usr/lib/$i" "${pkgdir}/usr/lib/nvidia/tools/lib/${i}.0"
   done
 }

@@ -12,10 +12,10 @@ depends=('libx11' 'xorg-xauth')
 groups=('xorg')
 makedepends=('xorg-util-macros')
 optdepends=('xorg-twm' 'xterm')
-backup=('usr/local/etc/skel/.xinitrc'
-        'usr/local/etc/skel/.xsession'
-        'usr/local/etc/X11/xinit/xserverrc'
-        'usr/local/etc/X11/xinit/xinitrc')
+backup=('etc/skel/.xinitrc'
+        'etc/skel/.xsession'
+        'etc/X11/xinit/xserverrc'
+        'etc/X11/xinit/xinitrc')
 source=(${url}/releases/individual/app/xinit-${pkgver}.tar.bz2
         fs25361.patch
         xinitrc
@@ -36,7 +36,7 @@ build() {
   sed -i '' -e 's|hexdump|/usr/bin/hexdump|' startx.cpp
 
   sed -i -e 's/XSLASHGLOB.sh/XSLASHGLOB/' xinitrc.cpp
-  ./configure --prefix=/usr/local --with-xinitdir=/usr/local/etc/X11/xinit
+  ./configure --prefix=/usr --with-xinitdir=/etc/X11/xinit
   make
 }
 
@@ -44,10 +44,10 @@ package() {
   cd "${srcdir}/xinit-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -m755 -d "${pkgdir}/usr/local/etc/skel"
-  install -m644 "${srcdir}/xinitrc" "${pkgdir}/usr/local/etc/skel/.xinitrc"
-  install -m644 "${srcdir}/xsession" "${pkgdir}/usr/local/etc/skel/.xsession"
-  install -m644 "${srcdir}/xserverrc" "${pkgdir}/usr/local/etc/X11/xinit/xserverrc"
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/etc/skel"
+  install -m644 "${srcdir}/xinitrc" "${pkgdir}/etc/skel/.xinitrc"
+  install -m644 "${srcdir}/xsession" "${pkgdir}/etc/skel/.xsession"
+  install -m644 "${srcdir}/xserverrc" "${pkgdir}/etc/X11/xinit/xserverrc"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
