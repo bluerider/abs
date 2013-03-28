@@ -20,7 +20,7 @@ build() {
   patch -Np1 -i "$srcdir/libxcb-1.1-no-pthread-stubs.patch"
   patch -p0 -i "$srcdir/patch-tests-check_public.c"
 
-  PYTHON=/usr/bin/python2
+  export PYTHON=/usr/bin/python2
   export FONTROOTDIR=/usr/share/fonts
   ./autogen.sh --prefix=/usr \
     --enable-xinput \
