@@ -4,8 +4,8 @@
 # Contributor: dibblethewrecker dibblethewrecker.at.jiwe.dot.org
 
 pkgname=rxvt-unicode
-pkgver=9.16
-pkgrel=2
+pkgver=9.18
+pkgrel=1
 pkgdesc='An unicode enabled rxvt-clone terminal emulator (urxvt)'
 arch=('i686' 'x86_64')
 url='http://software.schmorp.de/pkg/rxvt-unicode.html'
@@ -27,7 +27,7 @@ source=(
   patch-src_genlinedraw
   patch-src_perl_kuake
 )
-md5sums=('2e2942e8367624affebc0568e3671b66'
+md5sums=('963ccc748fe5bca925e7b92c0404d68b'
          '88d8786d74b819450adf722180db09fd'
          'bebf5b6b399b74b557fcedbdb47cc387'
          '2604896bb107fbb5511bfd6f46d65894'
@@ -51,10 +51,9 @@ build() {
   done
 
   LIBS="-lstdc++ -lutil" \
-  CPPFLAGS="${CPPFLAGS} -I/usr/local/include" \
   ./configure \
-    --prefix=/usr/local \
-    --with-terminfo=/usr/local/share/misc/terminfo.db \
+    --prefix=/usr \
+    --with-terminfo=/usr/share/misc/terminfo.db \
     --enable-everything \
     --enable-256-color \
     --enable-combining \
@@ -87,18 +86,18 @@ build() {
 package() {
   pushd $pkgname-$pkgver
   # workaround terminfo installation
-  export TERMINFO="$pkgdir/usr/local/share/misc/terminfo.db"
+  export TERMINFO="$pkgdir/usr/share/misc/terminfo.db"
   install -d "$TERMINFO"
   make DESTDIR="$pkgdir" install
   # install the tabbing wrapper ( requires gtk2-perl! )
   sed -i '' -e 's/\"rxvt\"/"urxvt"/' doc/rxvt-tabbed
-  install -dm755 "$pkgdir/usr/local/bin/"
-  install -m755 doc/rxvt-tabbed "$pkgdir/usr/local/bin/urxvt-tabbed"
+  install -dm755 "$pkgdir/usr/bin/"
+  install -m755 doc/rxvt-tabbed "$pkgdir/usr/bin/urxvt-tabbed"
   popd
   # install freedesktop menu
-  install -dm755 "$pkgdir/usr/local/share/applications/"
+  install -dm755 "$pkgdir/usr/share/applications/"
   for _f in urxvt urxvtc urxvt-tabbed; do
-    install -m644 $_f.desktop "$pkgdir/usr/local/share/applications/$_f.desktop"
+    install -m644 $_f.desktop "$pkgdir/usr/share/applications/$_f.desktop"
   done
 }
 

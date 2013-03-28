@@ -24,7 +24,7 @@ build() {
   # remove GNUISM
   sed -i '' -e '/^GEN_MANPAGE/{s/\$</$>/;}' Makefile.in
 
-  GETOPT=/usr/bin/getopt \
+  GETOPT=/usr/local/bin/getopt \
   BASH=/usr/bin/bash \
   ./configure --prefix=/usr \
               --mandir=/usr/share/man
