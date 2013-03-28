@@ -28,18 +28,18 @@ build(){
   patch -p0 -i "$srcdir"/patch-config.mk
 
   grep -Rl '%%[[:alpha:]]\+%%' .| xargs sed -i '' \
-       -e "s,%%PREFIX%%,/usr/local,g" \
-       -e "s,%%LOCALBASE%%,/usr/local,g" \
-       -e "s,%%MANPREFIX%%,/usr/local/man,g"
+       -e "s,%%PREFIX%%,/usr,g" \
+       -e "s,%%LOCALBASE%%,/usr,g" \
+       -e "s,%%MANPREFIX%%,/usr/share/man,g"
 
   make \
-    X11INC=/usr/local/include \
-    X11LIB=/usr/local/lib/X11
+    X11INC=/usr/include \
+    X11LIB=/usr/lib/X11
 }
 
 package() {
   cd $srcdir/$pkgname-$pkgver
-  make PREFIX=/usr/local DESTDIR=$pkgdir install
-  install -dm755 $pkgdir/usr/local/share/licenses/$pkgname/
-  install -m644 LICENSE $pkgdir/usr/local/share/licenses/$pkgname/LICENSE
+  make PREFIX=/usr DESTDIR=$pkgdir install
+  install -dm755 $pkgdir/usr/share/licenses/$pkgname/
+  install -m644 LICENSE $pkgdir/usr/share/licenses/$pkgname/LICENSE
 }
