@@ -1,8 +1,8 @@
-infodir=usr/local/info
+infodir=usr/share/info
 file=aalib.info
 
 post_install() {
-  [ -x usr/local/bin/install-info ] || return 0
+  [ -x usr/bin/install-info ] || return 0
   install-info $infodir/$file.gz $infodir/dir 2> /dev/null
 }
 
@@ -11,6 +11,6 @@ post_upgrade() {
 }
 
 pre_remove() {
-  [ -x usr/local/bin/install-info ] || return 0
+  [ -x usr/bin/install-info ] || return 0
   install-info --delete $infodir/$file.gz $infodir/dir 2> /dev/null
 }
