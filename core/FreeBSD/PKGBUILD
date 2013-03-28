@@ -129,7 +129,7 @@ package_freebsd-world() {
 
   #Remove files provided by other packages
 
-  msg "Removing files provided by cups"
+  msg "Removing files provided by other packages"
   for i in lp lpq lpr lprm; do
 	rm -f "${pkgdir}/usr/bin/$i"
   done
@@ -142,8 +142,12 @@ package_freebsd-world() {
   rm -f "${pkgdir}"/usr/share/man/man1/lprm.1.gz
   rm -f "${pkgdir}"/usr/share/man/man8/lpc.8.gz
 
-  #remove getopt binary
-  rm -rf "${pkgdir}/usr/bin/getopt"
+  #remove flex files
+  rm -f "${pkgdir}"/usr/bin/flex
+  rm -f "${pkgdir}"/usr/bin/flex++
+  rm -f "${pkgdir}"/usr/bin/lex
+  rm -f "${pkgdir}"/usr/lib/libfl.a
+  rm -f "${pkgdir}"/usr/share/man/man1/flex.1.gz
 
   #install some files
   install -dm755 "${pkgdir}/etc"
@@ -155,7 +159,7 @@ package_freebsd-world() {
  #set var/cache to 755
  chmod -Rv 755 ${pkgdir}/var/cache
 
-backup=('boot/device.hints'
+  backup=('boot/device.hints'
         'boot/loader.conf')
 
   cd "$pkgdir"
