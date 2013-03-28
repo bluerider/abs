@@ -33,7 +33,7 @@ build() {
   done
 
   CFLAGS="${CFLAGS} -fPIC" \
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   make
   CONFIG_FILES=id3tag.pc CONFIG_HEADERS= sh ./config.status
 }
@@ -41,6 +41,6 @@ build() {
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  install -d -m755 "${pkgdir}/usr/local/libdata/pkgconfig/"
-  install -m644 id3tag.pc "${pkgdir}/usr/local/libdata/pkgconfig/id3tag.pc"
+  install -d -m755 "${pkgdir}/usr/lib/pkgconfig/"
+  install -m644 id3tag.pc "${pkgdir}/usr/lib/pkgconfig/id3tag.pc"
 }
