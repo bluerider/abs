@@ -15,13 +15,13 @@ sha256sums=('44919ecd88654f2ab40a1732b5ea6a1dbd1c696b4b0748e68e8b5f1a3486bca6')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   make
 }
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  install -d -m755 "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
