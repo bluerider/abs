@@ -3,14 +3,17 @@
 
 pkgname=flex
 pkgver=2.5.37
-pkgrel=1
+pkgrel=2
 pkgdesc="A tool for generating text-scanning programs"
 arch=('i686' 'x86_64')
 url="http://flex.sourceforge.net"
 license=('custom')
 groups=('base-devel')
-source=(http://downloads.sourceforge.net/sourceforge/flex/flex-$pkgver.tar.bz2)
-md5sums=('c75940e1fc25108f2a7b3ef42abdae06')
+install=flex.install
+source=(http://downloads.sourceforge.net/sourceforge/flex/flex-$pkgver.tar.bz2
+        lex.sh)
+md5sums=('c75940e1fc25108f2a7b3ef42abdae06'
+         'f725259ec23a9e87ee29e2ef82eda9a5')
 
 build() {
   cd $srcdir/$pkgname-$pkgver
@@ -23,7 +26,7 @@ build() {
 
   rm doc/*.info*
 
-  ./configure --prefix=/usr/local --includedir=/usr/local/include/flex
+  ./configure --prefix=/usr --includedir=/usr/include/flex
   gmake
 }
 
@@ -40,10 +43,11 @@ package() {
   cd $srcdir/$pkgname-$pkgver
 
   gmake DESTDIR=$pkgdir install
-
+  install -dm755 $pkgdir/usr/bin/
+  install -m755 $srcdir/lex.sh $pkgdir/usr/bin/lex
   install -dm755 \
-  	$pkgdir/usr/local/share/licenses/$pkgname/
+  	$pkgdir/usr/share/licenses/$pkgname/
   install -m644 COPYING \
-  	$pkgdir/usr/local/share/licenses/$pkgname/license.txt
+  	$pkgdir/usr/share/licenses/$pkgname/license.txt
 }
 
