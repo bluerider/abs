@@ -18,8 +18,8 @@ md5sums=('a8e792fe6e84c86ed2b6ed3e2a12ba66')
 build() { 
   cd "${srcdir}/${pkgname}-${pkgver}"
 
-  sh ./configure --prefix=/usr/local \
-              --x11dir=/usr/local/share/fonts/terminus-font \
+  sh ./configure --prefix=/usr \
+              --x11dir=/usr/share/fonts/terminus-font \
               --psfdir=/removed
   gmake
 }
@@ -29,8 +29,8 @@ package()
 
   rm -rf "${pkgdir}/removed"
 
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
   install -m644 "${srcdir}/${pkgname}-${pkgver}/OFL.TXT" \
-                 "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+                 "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 
 }

@@ -1,11 +1,11 @@
 post_install() {
   echo -n "Updating font cache... "
   fc-cache -f > /dev/null
-  mkfontscale usr/local/share/fonts/terminus-font
-  mkfontdir usr/local/share/fonts/terminus-font
+  mkfontscale usr/share/fonts/terminus-font
+  mkfontdir usr/share/fonts/terminus-font
   echo "done."
   echo ">>> To enable the terminus font add"
-  echo "    FontPath \"/usr/local/share/fonts/terminus-font\""
+  echo "    FontPath \"/usr/share/fonts/terminus-font\""
   echo ">>> to the \"Files\" section in your xorg.conf"
 }
 
