@@ -24,9 +24,9 @@ source=(${url}/releases/individual/app/xinit-${pkgver}.tar.bz2
 options=(!emptydirs)
 md5sums=('9c0943cbd83e489ad1b05221b97efd44'
          '73a597d3fb7f5b9487318ac8cfd4bedf'
-         '3b72899c006fd390aa311682605a4869'
-         '88dd606706c6d5f0fef0e006badb9764'
-         '4e61b4f3fdf3e838430b07b8fa8d736e')
+         'c7b406c3c5c1e8011b3ac7d6b29c1a2c'
+         '6c0f59472e3cc99b964b1062480f8cbb'
+         '4deba1b7f2cc7f93b304b956023e65d6')
 
 build() {
   cd "${srcdir}/xinit-${pkgver}"
