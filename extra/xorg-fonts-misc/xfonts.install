@@ -1,8 +1,8 @@
 post_install() {
   echo -n "Updating font cache... "
   fc-cache -f > /dev/null
-  mkfontscale /usr/local/lib/X11/fonts/misc
-  mkfontdir /usr/local/lib/X11/fonts/misc
+  mkfontscale /usr/share/fonts/misc
+  mkfontdir /usr/share/fonts/misc
   echo "done."
 }
 

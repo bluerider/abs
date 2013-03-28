@@ -15,14 +15,13 @@ sha1sums=('695d2f2824884d9e54aa1419282ae167fdea163b')
 
 build() {
   cd "${srcdir}/xkbcomp-${pkgver}"
-  sed -i '' -e 's|[(]libdir[)]/pkgconfig|(prefix)/libdata/pkgconfig|g' Makefile.in
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   make
 }
 
 package() {
   cd "${srcdir}/xkbcomp-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

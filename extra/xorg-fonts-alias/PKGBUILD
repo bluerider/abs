@@ -14,13 +14,13 @@ md5sums=('9d40dba6fb8cb58dacb433fc7bcaafca'
 
 build() {
   cd "${srcdir}/font-alias-${pkgver}"
-  ./configure --prefix=/usr/local --with-fontrootdir=/usr/local/share/fonts
+  ./configure --prefix=/usr --with-fontrootdir=/usr/share/fonts
   make
 }
 
 package() {
   cd "${srcdir}/font-alias-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

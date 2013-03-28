@@ -40,9 +40,9 @@ build() {
   for dir in *; do
     if [ -d "${dir}" ]; then
       pushd "${dir}"
-      ./configure --prefix=/usr/local \
-          --with-fontdir=/usr/local/share/fonts/misc \
-          --with-fontrootdir=/usr/local/share/fonts
+      ./configure --prefix=/usr \
+          --with-fontdir=/usr/share/fonts/misc \
+          --with-fontrootdir=/usr/share/fonts
       make
       popd
     fi
@@ -51,14 +51,14 @@ build() {
 
 package() {
   cd "${srcdir}"
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   for dir in *; do
     if [ -d "${dir}" ]; then
       pushd "${dir}"
       make DESTDIR="${pkgdir}" install
-      install -m644 COPYING ${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE.${dir%-*}
+      install -m644 COPYING ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.${dir%-*}
       popd
     fi
   done
-  rm -f ${pkgdir}/usr/local/share/fonts/*/fonts.*
+  rm -f ${pkgdir}/usr/share/fonts/*/fonts.*
 }

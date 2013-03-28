@@ -14,7 +14,7 @@ source=(http://downloads.sourceforge.net/sourceforge/tcl/tk${pkgver}-src.tar.gz
         patch-unix__Makefile.in
 )
 md5sums=('b883a1a3c489c17413fb602a94bf54e8'
-         'bdb77ee75377b95e75d37ffd5bea2749')
+         '73a9ac419f393cafb4ffe90ebff68868')
 
 build() {
   cd ${srcdir}/tk${pkgver}/unix

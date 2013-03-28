@@ -84,19 +84,6 @@
  	@echo "Installing ${TCL_EXE} as $(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
  	@$(INSTALL_PROGRAM) ${TCL_EXE} "$(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
  	@echo "Installing tclConfig.sh to $(CONFIG_INSTALL_DIR)/"
-@@ -807,9 +823,9 @@
- 	    @INSTALL_STUB_LIB@ ; \
- 	fi
- 	@EXTRA_INSTALL_BINARIES@
--	@echo "Installing pkg-config file to $(LIB_INSTALL_DIR)/pkgconfig/"
--	@$(INSTALL_DATA_DIR) $(LIB_INSTALL_DIR)/pkgconfig
--	@$(INSTALL_DATA) tcl.pc $(LIB_INSTALL_DIR)/pkgconfig/tcl.pc
-+	@echo "Installing pkg-config file to $(prefix)/libdata/pkgconfig/"
-+	@$(INSTALL_DATA_DIR) $(INSTALL_ROOT)$(prefix)/libdata/pkgconfig
-+	@$(INSTALL_DATA) tcl.pc $(INSTALL_ROOT)$(prefix)/libdata/pkgconfig/tcl.pc
- 
- install-libraries: libraries
- 	@for i in "$(SCRIPT_INSTALL_DIR)"; \
 @@ -820,7 +836,7 @@
  		else true; \
  		fi; \
