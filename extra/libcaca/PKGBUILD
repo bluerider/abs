@@ -2,7 +2,7 @@
 
 pkgname=libcaca
 pkgver=0.99.beta18
-pkgrel=1
+pkgrel=2
 pkgdesc="Color AsCii Art library"
 arch=('i686' 'x86_64')
 license=('LGPL')
@@ -16,8 +16,7 @@ build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   sed -i '' -e 's|-g -O2 ||g ; s| -fomit-frame-pointer||g ; s|arpa/inet.h ||g' configure
   sed -i '' -e 's| csharp||g' Makefile.in
-  sed -i '' -e '/^pkgconfigdir/s|\$(libdir)|$(libdir)data|' {caca,cxx}/Makefile.in
-  ./configure --prefix=/usr/local --mandir=/usr/local/man \
+  ./configure --prefix=/usr --mandir=/usr/share/man \
     --enable-shared --disable-doc \
     --disable-cxx --disable-gl --disable-csharp \
     --disable-java --disable-ruby --disable-python \

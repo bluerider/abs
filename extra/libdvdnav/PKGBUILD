@@ -4,7 +4,7 @@
 
 pkgname=libdvdnav
 pkgver=4.2.0
-pkgrel=2
+pkgrel=3
 pkgdesc="The library for xine-dvdnav plugin."
 arch=('i686' 'x86_64')
 license=('GPL')
@@ -20,9 +20,8 @@ build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   
   patch -p0 -i "${srcdir}/patch-src-searching.c"
-  sed -i '' -e 's|pkgconfigdir = \$(libdir)|&data|' misc/Makefile.am
 
-  ./autogen.sh
+  ./autogen.sh --prefix=/usr
   gmake
 }
 

@@ -4,7 +4,7 @@
 
 pkgname=mplayer2
 pkgver=20121128
-pkgrel=2
+pkgrel=3
 pkgdesc='Advanced general-purpose media player. A fork of the original MPlayer project'
 arch=('i686' 'x86_64')
 license=('GPL')
@@ -19,7 +19,7 @@ depends=('aalib' 'cdparanoia' 'desktop-file-utils' 'enca' 'faad2' 'ffmpeg' 'font
          'libdvdnav' 'libdvdread' 'libgl' 'libjpeg' 'libmad' 'libquvi' 'libtheora' 'libvdpau'
          'libxinerama' 'libxss' 'libxv' 'libxxf86dga' 'libxxf86vm' 'lcms2' 'ncurses' 'sdl' 'ttf-dejavu')
 makedepends=('mesa' 'unzip' 'yasm' 'python' 'python-docutils')
-backup=('usr/local/etc/mplayer/codecs.conf' 'usr/local/etc/mplayer/input.conf')
+backup=('etc/mplayer/codecs.conf' 'etc/mplayer/input.conf')
 provides=('mplayer')
 conflicts=('mplayer')
 optdepends=('libbluray: todo / support not built in due to lack of java'
@@ -60,12 +60,11 @@ build() {
   	configure
 
 # for joystick we need the linux-js devel package to get linux/joystick.h
-  CPPFLAGS="-I/usr/local/lib" \
-  LDFLAGS="-L/usr/local/lib -lintl" \
+  LDFLAGS=" -lintl" \
   PTHREAD_CFLAGS="-pthread" \
   PTHREAD_LDFLAGS="-pthread" \
-  ./configure --prefix=/usr/local --confdir=/usr/local/etc/mplayer \
-              --mandir=/usr/local/man \
+  ./configure --prefix=/usr --confdir=/etc/mplayer \
+              --mandir=/usr/share/man \
               --cc="$CC" \
               --enable-translation --language=all \
               --enable-runtime-cpudetection \
@@ -83,11 +82,11 @@ package() {
   cd $srcdir/$pkgname-$pkgver
   gmake DESTDIR=$pkgdir install
 
-  install -dm755 $pkgdir/usr/local/etc/mplayer/
-  install -m644 etc/{codecs.conf,input.conf,example.conf} $pkgdir/usr/local/etc/mplayer/
-  install -dm755 $pkgdir/usr/local/share/mplayer/
-  ln -s /usr/local/share/fonts/dejavu/DejaVuSans.ttf $pkgdir/usr/local/share/mplayer/subfont.ttf
+  install -dm755 $pkgdir/etc/mplayer/
+  install -m644 etc/{codecs.conf,input.conf,example.conf} $pkgdir/etc/mplayer/
+  install -dm755 $pkgdir/usr/share/mplayer/
+  ln -s /usr/share/fonts/dejavu/DejaVuSans.ttf $pkgdir/usr/share/mplayer/subfont.ttf
 
-  install -dm755 $pkgdir/usr/local/share/applications/
-  install -m 644 etc/mplayer.desktop $pkgdir/usr/local/share/applications/
+  install -dm755 $pkgdir/usr/share/applications/
+  install -m 644 etc/mplayer.desktop $pkgdir/usr/share/applications/
 }

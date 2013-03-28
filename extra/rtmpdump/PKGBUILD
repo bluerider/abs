@@ -4,7 +4,7 @@
 
 pkgname=rtmpdump
 pkgver=20121203
-pkgrel=1
+pkgrel=2
 pkgdesc="A tool to download rtmp streams"
 arch=('i686' 'x86_64')
 url="http://rtmpdump.mplayerhq.hu/"
@@ -22,16 +22,12 @@ build() {
 	    -e 's|^THREADLIB=.*|THREADLIB=-pthread|' \
 	    -e 's|^REQ_OPENSSL=|#&|' \
 	    Makefile librtmp/Makefile
-    make
+	make
 }
 
 package() {
 	cd "$pkgname-$pkgver"
-    make prefix=/usr/local mandir=/usr/local/man DESTDIR="$pkgdir" install
+	make prefix=/usr mandir=/usr/share/man DESTDIR="$pkgdir" install
 
-    install -dm755 "${pkgdir}/usr/local/libdata"
-    mv "${pkgdir}/usr/local/lib/pkgconfig" \
-       "${pkgdir}/usr/local/libdata/pkgconfig"
-
-    sed -i '' -e '/^Libs:/s/$/ -lssl -lcrypto/' "${pkgdir}/usr/local/libdata/pkgconfig/librtmp.pc"
+	sed -i '' -e '/^Libs:/s/$/ -lssl -lcrypto/' "${pkgdir}/usr/lib/pkgconfig/librtmp.pc"
 }

@@ -5,7 +5,7 @@
 
 pkgname=lua
 pkgver=5.2.1
-pkgrel=3
+pkgrel=4
 pkgdesc='A powerful light-weight programming language designed for extending applications'
 arch=('i686' 'x86_64')
 url='http://www.lua.org/'
@@ -38,16 +38,16 @@ package() {
   cd $pkgname-$pkgver
   gmake \
     TO_LIB="liblua.a liblua.so liblua.so.5.2 liblua.so.$pkgver" \
-    INSTALL_TOP="$pkgdir/usr/local" \
-    INSTALL_MAN="$pkgdir/usr/local/man/man1" \
+    INSTALL_TOP="$pkgdir/usr" \
+    INSTALL_MAN="$pkgdir/usr/share/man/man1" \
     install
-  install -dm755 "$pkgdir/usr/local/libdata/pkgconfig"
-  install -m644 lua.pc "$pkgdir/usr/local/libdata/pkgconfig/lua.pc"
+  install -dm755 "$pkgdir/usr/lib/pkgconfig"
+  install -m644 lua.pc "$pkgdir/usr/lib/pkgconfig/lua.pc"
   # Install the documentation
-  install -d "$pkgdir/usr/local/share/doc/lua"
-  install -m644 doc/*.{gif,png,css,html} "$pkgdir/usr/local/share/doc/lua"
-  install -dm755 "$pkgdir/usr/local/share/licenses/$pkgname"
-  install -m644 "$srcdir/LICENSE" "$pkgdir/usr/local/share/licenses/$pkgname/LICENSE"
+  install -d "$pkgdir/usr/share/doc/lua"
+  install -m644 doc/*.{gif,png,css,html} "$pkgdir/usr//share/doc/lua"
+  install -dm755 "$pkgdir/usr/share/licenses/$pkgname"
+  install -m644 "$srcdir/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
 
 # vim:set ts=4 sw=4 et:

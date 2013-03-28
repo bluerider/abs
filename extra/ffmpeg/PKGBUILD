@@ -3,8 +3,8 @@
 # Contributor: Paul Mattal <paul@archlinux.org>
 
 pkgname=ffmpeg
-pkgver=1.0.1
-pkgrel=1
+pkgver=1.1.3
+pkgrel=2
 epoch=1
 pkgdesc="Complete and free Internet live audio and video broadcasting solution for Linux/Unix"
 arch=('i686' 'x86_64')
@@ -17,7 +17,7 @@ source=(http://ffmpeg.org/releases/$pkgname-$pkgver.tar.bz2
         patch-configure
         patch-libavformat-udp.c
         )
-md5sums=('dbbb88ce5525dea22b24aaa098a9bcc2'
+md5sums=('f66eee18559ba59da63b895164a189c3'
          '1751f81ce815674c163c25444bb22922'
          'cc370b2b72b6e3b94f516990cbc0b89e')
 
@@ -33,18 +33,15 @@ build() {
   sed -i '' -e 's|$$(LIBDIR)/pkgconfig|$(PREFIX)/libdata/pkgconfig|' library.mak
   sed -i '' -e 's|/etc/ffserver.conf|${PREFIX}/etc/ffserver.conf|' ffserver.c
   sed -i '' -E \
-    -e "s|(EXTRALIBS[[:space:]]*=)|\1-L/usr/local/lib |g" \
-    -e 's|%%LOCALBASE%%|/usr/local}|g' \
+    -e 's|%%LOCALBASE%%|/usr}|g' \
     configure
   sed -i '' -e 's|-ldl||;' configure
-  sed -i '' -e 's|/usr/bin/perl|/usr/local/bin/perl}|g' doc/texi2pod.pl
+  sed -i '' -e 's|/usr/bin/perl|/usr/bin/perl}|g' doc/texi2pod.pl
 
-  export CPPFLAGS="$CPPFLAGS -I/usr/local/include"
-  export LDFLAGS="$LDFLAGS -L/usr/local/lib"
-  export PATH="${PATH}:/usr/local/bin/core_perl"
+  export PATH="${PATH}:/usr/bin/core_perl"
   ./configure \
-    --prefix=/usr/local \
-    --mandir=/usr/local/man \
+    --prefix=/usr \
+    --mandir=/usr/share/man \
     --enable-libmp3lame \
     --enable-libvorbis \
     --enable-libxvid \
@@ -77,12 +74,14 @@ build() {
 package() {
   cd $pkgname-$pkgver
   gmake DESTDIR="$pkgdir" install install-man
-  install -dm755 "$pkgdir/usr/local/bin"
-  install -m755 tools/qt-faststart "$pkgdir/usr/local/bin/qt-faststart"
-
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
+  install -dm755 "$pkgdir/usr/bin"
+  install -m755 tools/qt-faststart "$pkgdir/usr/bin/qt-faststart"
 }
 
 # vim:set ts=2 sw=2 et:
+md5sums=('f66eee18559ba59da63b895164a189c3'
+         'f732e066081c8a1eee121d6de0c1331a'
+         'cc370b2b72b6e3b94f516990cbc0b89e')
+md5sums=('f66eee18559ba59da63b895164a189c3'
+         '768fd6e30b42325b0fde7388dcd7d363'
+         'cc370b2b72b6e3b94f516990cbc0b89e')

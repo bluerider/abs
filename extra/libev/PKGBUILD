@@ -4,7 +4,7 @@
 
 pkgname=libev
 pkgver=4.11
-pkgrel=1
+pkgrel=2
 pkgdesc="A full-featured and high-performance event loop"
 arch=('i686' 'x86_64')
 url="http://software.schmorp.de/pkg/libev.html"
@@ -37,9 +37,9 @@ package() {
   # fix conflict with libevent
   rm ${pkgdir}/usr/include/event.h
 
-  install -dm755 ${pkgdir}/usr/share/pkgconfig
+  install -dm755 ${pkgdir}/usr/lib/pkgconfig
   sed -e 's|%PREFIX%|/usr|g ; s|%VERSION%|'${pkgver}'|g' \
-  	"${srcdir}/libev.pc.in" > "${pkgdir}/usr/share/pkgconfig/libev.pc"
+  	"${srcdir}/libev.pc.in" > "${pkgdir}/usr/lib/pkgconfig/libev.pc"
   
   install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}/
   install -m644 LICENSE ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE

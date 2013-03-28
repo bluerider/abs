@@ -2,7 +2,7 @@
 
 pkgname=libmad
 pkgver=0.15.1b
-pkgrel=6
+pkgrel=7
 pkgdesc="A high-quality MPEG audio decoder"
 arch=('i686' 'x86_64')
 url="http://www.underbit.com/products/mad/"
@@ -25,16 +25,12 @@ build() {
   export CFLAGS="$CFLAGS -ftree-vectorize -ftree-vectorizer-verbose=1"
   #autoconf
 
-  sed -i '' \
-      -e 's@pkgconfigdir = \$(libdir)/pkgconfig@pkgconfigdir = $(prefix)/libdata/pkgconfig@' \
-      Makefile.in
-
   sed -i '' -e 's| -fforce-mem||' configure
 
   # wth CFLAGS it strips it out
   export CC="$CC -fPIC"
 
-  ./configure --enable-sso
+  ./configure --prefix=/usr --enable-sso
   gmake
 }
 

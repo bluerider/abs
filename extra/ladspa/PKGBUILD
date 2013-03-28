@@ -2,7 +2,7 @@
 
 pkgname=ladspa
 pkgver=1.13
-pkgrel=4
+pkgrel=5
 pkgdesc="Linux Audio Developer's Simple Plugin API (LADSPA)"
 arch=('i686' 'x86_64')
 license=('LGPL')
@@ -30,7 +30,7 @@ build() {
 
 package() {
   cd "${srcdir}/${pkgname}_sdk/src"
-  gmake INSTALL_PLUGINS_DIR="${pkgdir}/usr/local/lib/ladspa/" \
-        INSTALL_INCLUDE_DIR="${pkgdir}/usr/local/include/" \
-        INSTALL_BINARY_DIR="${pkgdir}/usr/local/bin/" install
+  gmake INSTALL_PLUGINS_DIR="${pkgdir}/usr/lib/ladspa/" \
+        INSTALL_INCLUDE_DIR="${pkgdir}/usr/include/" \
+        INSTALL_BINARY_DIR="${pkgdir}/usr/bin/" install
 }

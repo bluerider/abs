@@ -12,6 +12,7 @@ url="http://www.alsa-project.org"
 license=(GPL)
 depends=(alsa-lib)
 makedepends=(libpulse jack ffmpeg)
+makedepends=(ffmpeg)
 optdepends=('libpulse: PulseAudio plugin'
             'jack: Jack plugin'
             'ffmpeg: libavcodec resampling plugin'
@@ -42,8 +43,7 @@ build() {
             -e '/lt_cv_dlopen/s/-ldl//g' \
             configure
 
-  LDFLAGS="$LDFLAGS -L/usr/local/lib" \
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   make
 }
 
@@ -51,8 +51,8 @@ package() {
   cd $pkgname-$pkgver
   make DESTDIR="$pkgdir" install
 
-  install -d "$pkgdir/usr/local/share/doc/$pkgname"
-  install -m644 doc/README* doc/*.txt "$pkgdir/usr/local/share/doc/$pkgname/"
+  install -d "$pkgdir/usr/share/doc/$pkgname"
+  install -m644 doc/README* doc/*.txt "$pkgdir/usr/share/doc/$pkgname/"
 }
 md5sums=('4facd408326ef5567a7d4ceb6589e6b0'
          '50d9adcda20756d063e676a563c201d9'
