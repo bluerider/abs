@@ -86,6 +86,10 @@ package() {
   install -m644 ${srcdir}/dot.bashrc ${pkgdir}/etc/skel/.bashrc
   install -m644 ${srcdir}/dot.bash_profile ${pkgdir}/etc/skel/.bash_profile
   install -m644 ${srcdir}/dot.bash_logout ${pkgdir}/etc/skel/.bash_logout
+
+  # backward support for running systems
+  install -dm755 "${pkgdir}/usr/local/bin"
+  ln -s /usr/bin/bash "${pkgdir}/usr/local/bin/bash"
 }
 
 md5sums=('3fb927c7c33022f1c327f14a81c0d4b0'
