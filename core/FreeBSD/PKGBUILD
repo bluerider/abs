@@ -1,9 +1,10 @@
-pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source')
-pkgver=20130327
+pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-contrib-binutils' 'freebsd-contrib-clang')
+pkgver=20130328
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
+makedepends=('freebsd-contrib-clang')
 options=('!strip' 'emptydirs')
 source=('ARCHBSD_i686'
         'ARCHBSD_i686.patch'
@@ -13,7 +14,8 @@ source=('ARCHBSD_i686'
         'sysctl.conf'
         'src.conf'
         'beastie.4th'
-        'brand.4th')
+        'brand.4th'
+	'BSD.binutils.dist')
 md5sums=('1da3141782687c8d455b63ae747d6c32'
          'a5ecdc82304d6ff426fdb4182f9adc10'
          '92f91f5796ed8e59c666a7b4909d454b'
@@ -61,11 +63,12 @@ build() {
   export CPP=clang-cpp
   export CXX=clang++
 
+  msg "Building Kernel"
   make NO_CLEAN=yes TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
 
   msg "Building world"
   make NO_CLEAN=yes TARGET=$TARGET -DWITHOUT_LIB32 -DWITHOUT_BSD_CPIO buildworld || (echo buildworld failed... && return 1)
-
+ 
 }
 
 package_freebsd-kernel() {
@@ -176,5 +179,30 @@ package_freebsd-source() {
   mkdir -p ${pkgdir}/usr/src
   cp -a ${srcdir}/${_gitname}/* ${pkgdir}/usr/src
   rm -rf ${pkgdir}/usr/src/.git
+}
+
+package_freebsd-contrib-binutils() {
+  pkgdesc="binutils provided by FreeBSD"
+  conflicts=('binutils')
+
+  cd ${srcdir}/${_gitname}/gnu/usr.bin/binutils
+
+  install -dm755 ${pkgdir}/usr  
+
+  mtree -deU -f ${srcdir}/BSD.binutils.dist -p ${pkgdir}/usr
+  make binutils DESTDIR=${pkgdir} install  
+}
+
+package_freebsd-contrib-clang() {
+  pkgdesc="clang provided by FreeBSD"
+  conflicts=('clang')
+  depends=('freebsd-contrib-binutils')
+
+  cd ${srcdir}/${_gitname}/usr.bin/clang
+
+  install -dm755 ${pkgdir}/usr
+
+  mtree -deU -f ${srcdir}/BSD.clang.dist -p ${pkgdir}/usr
+  make clang DESTDIR=${pkgdir} install
 }
 
