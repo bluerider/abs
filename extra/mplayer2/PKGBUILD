@@ -4,7 +4,7 @@
 
 pkgname=mplayer2
 pkgver=20121128
-pkgrel=3
+pkgrel=4
 pkgdesc='Advanced general-purpose media player. A fork of the original MPlayer project'
 arch=('i686' 'x86_64')
 license=('GPL')
@@ -14,7 +14,7 @@ install=$pkgname.install
 # 'jack' 'libbluray'
 # 'libpulse'
 # 'lirc-utils' 'mpg123'
-depends=('aalib' 'cdparanoia' 'desktop-file-utils' 'enca' 'faad2' 'ffmpeg' 'fontconfig'
+depends=('aalib' 'cdparanoia' 'desktop-file-utils' 'enca' 'faad2' 'ffmpeg>=1:1.1.3-3' 'fontconfig'
          'freetype2' 'ladspa' 'lame' 'libass' 'libcaca' 'libcdio-paranoia' 'libdca' 'libdvdcss'
          'libdvdnav' 'libdvdread' 'libgl' 'libjpeg' 'libmad' 'libquvi' 'libtheora' 'libvdpau'
          'libxinerama' 'libxss' 'libxv' 'libxxf86dga' 'libxxf86vm' 'lcms2' 'ncurses' 'sdl' 'ttf-dejavu')
