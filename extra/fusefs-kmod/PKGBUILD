@@ -4,12 +4,13 @@ HG_SHORTREV=498acaef33b0
 
 pkgname=fusefs-kmod
 pkgver=0.3.9
-pkgrel=1
+pkgrel=2
 pkgdesc="Kernel module for fusefs based filesystems"
 arch=('i686' 'x86_64')
 url="http://fuse4bsd.creo.hu/"
 license=('BSD')
-makedepnds=('fusefs-libs>=2.4.1' 'freebsd-headers' 'deplate')
+makedepnds=('fusefs-libs>=2.4.1' 'freebsd-headers')
+# 'deplate')
 groups=('fuse' 'fuse-all')
 install=fusefs-kmod.install
 source=(ftp://ftp.FreeBSD.org/pub/FreeBSD/ports/distfiles/fuse4bsd/${HG_SHORTREV}.tar.gz
@@ -47,9 +48,9 @@ build() {
     patch -p0 -i ${srcdir}/patch-fuse_module__fuse_vnops.c
     patch -p0 -i ${srcdir}/patch-mount_fusefs__mount_fusefs.c
 
-    sed -i-e 's/deplate.rb/deplate/g' doc/Makefile
-    sed -i -e 's|-I../inc|-I/usr/src/sys -I../inc|g' mount_fusefs/Makefile
-    cat /usr/local/include/fuse/fuse_kernel.h > fuse_module/fuse_kernel.h
+    sed -i '' -e 's/deplate.rb/deplate/g' doc/Makefile
+    sed -i '' -e 's|-I../inc|-I/usr/src/sys -I../inc|g' mount_fusefs/Makefile
+    cat /usr/include/fuse/fuse_kernel.h > fuse_module/fuse_kernel.h
 
     # the default LDFLAGS don't work in this build system for some reason
     unset CFLAGS
@@ -64,17 +65,15 @@ build() {
 package() {
     cd "${srcdir}/fuse4bsd-${HG_SHORTREV}"
 
-    install -dm755 "${pkgdir}/usr/local/modules"
-    install -dm755 "${pkgdir}/usr/local/man/man8"
+    install -dm755 "${pkgdir}/usr/modules"
+    install -dm755 "${pkgdir}/usr/share/man/man8"
     install -dm755 "${pkgdir}/usr/sbin"
-    install -dm755 "${pkgdir}/usr/local/sbin"
 
     make DESTDIR="${pkgdir}" \
-        BINDIR="/usr/local/sbin" MANDIR="/usr/local/man/man" \
-        KMODDIR="/usr/local/modules" \
+        BINDIR="/usr/sbin" MANDIR="/usr/share/man/man" \
+        KMODDIR="/usr/modules" \
         install
 
     # Don't overwrite linker.hints
-    rm -f "${pkgdir}/usr/local/modules/linker.hints"
-    ln -sf /usr/local/sbin/mount_fusefs "${pkgdir}/usr/sbin"
+    rm -f "${pkgdir}/usr/modules/linker.hints"
 }
