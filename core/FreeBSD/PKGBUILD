@@ -1,10 +1,9 @@
-pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-contrib-binutils' 'freebsd-contrib-clang')
+pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source')
 pkgver=20130329
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
-makedepends=('freebsd-contrib-clang')
 options=('!strip' 'emptydirs')
 source=('ARCHBSD_i686'
         'ARCHBSD_i686.patch'
@@ -69,20 +68,8 @@ build() {
   make NO_CLEAN=yes TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
 
   msg "Building world"
-  make NO_CLEAN=yes TARGET=$TARGET -DWITHOUT_LIB32 -DWITHOUT_BSD_CPIO buildworld || (echo buildworld failed... && return 1)
+  make NO_CLEAN=yes TARGET=$TARGET -DWITHOUT_LIB32 buildworld || (echo buildworld failed... && return 1)
 
-  msg "Building binutils"
-
-  cd ${srcdir}/${_gitname}/gnu/usr.bin/binutils
-  make
-
-  msg "Building clang"
-
-  cd ${srcdir}/${_gitname}/lib/clang
-  make
-
-  cd ${srcdir}/${_gitname}/usr.bin/clang
-  make
 }
 
 package_freebsd-kernel() {
@@ -124,7 +111,8 @@ package_freebsd-world() {
     TARGET=i386
   fi
   msg "Running make installworld distribution..."
-  make TARGET=$TARGET DESTDIR="$pkgdir" SRCONF=${srcdir}/src.conf installworld distribution
+  make TARGET=$TARGET DESTDIR="$pkgdir" SRCONF=${srcdir}/src.conf \
+	-DWITHOUT_LIB32 -DWITHOUT_GCC installworld distribution
 
   msg "Installed. Cleaning up and configuring..."
 
@@ -132,8 +120,6 @@ package_freebsd-world() {
   if [ ! -d "${srcdir}/${_gitname}"/sys/x86_64 ]; then
 	ln -s "${srcdir}/${_gitname}"/sys/amd64 "${srcdir}/${_gitname}"/sys/x86_64
   fi
-  cd ${srcdir}/${_gitname}/include
-  make install DESTDIR=${pkgdir}
 
   #solve some conflicts
   rm -rf "${pkgdir}/usr/share/man/man3/pthread.3.gz"
@@ -192,29 +178,4 @@ package_freebsd-source() {
   mkdir -p ${pkgdir}/usr/src
   cp -a ${srcdir}/${_gitname}/* ${pkgdir}/usr/src
   rm -rf ${pkgdir}/usr/src/.git
-}
-
-package_freebsd-contrib-binutils() {
-  pkgdesc="binutils provided by FreeBSD"
-  conflicts=('binutils')
-
-  cd ${srcdir}/${_gitname}/gnu/usr.bin/binutils
-
-  install -dm755 ${pkgdir}/usr
-
-  mtree -deU -f ${srcdir}/BSD.binutils.dist -p ${pkgdir}/usr
-  make DESTDIR=${pkgdir} install
-}
-
-package_freebsd-contrib-clang() {
-  pkgdesc="clang provided by FreeBSD"
-  conflicts=('clang')
-  depends=('freebsd-contrib-binutils')
-
-  cd ${srcdir}/${_gitname}/usr.bin/clang
-
-  install -dm755 ${pkgdir}/usr
-
-  mtree -deU -f ${srcdir}/BSD.clang.dist -p ${pkgdir}/usr
-  make DESTDIR=${pkgdir} install
 }
