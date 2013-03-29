@@ -1,5 +1,5 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-contrib-binutils' 'freebsd-contrib-clang')
-pkgver=20130328
+pkgver=20130329
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
@@ -15,16 +15,18 @@ source=('ARCHBSD_i686'
         'src.conf'
         'beastie.4th'
         'brand.4th'
-	'BSD.binutils.dist')
+	'BSD.binutils.dist' 'BSD.clang.dist')
 md5sums=('1da3141782687c8d455b63ae747d6c32'
          'a5ecdc82304d6ff426fdb4182f9adc10'
          '92f91f5796ed8e59c666a7b4909d454b'
          '9ab0e68675bab4a90a07dc7f0ae19d79'
          '40aae455d07111b6a38a2792f3dccb66'
          '461507865683b0d07a090df9bcef6e16'
-         '67745d5f32c6691f7b7d202ab839a452'
+         'f1ec479c9280a109e0391dcfae29f1ab'
          '0e9495f2a632d85404634fdbc2eb0850'
-         'c3146af4b1ba8467d6b27a1fc22e322e')
+         'c3146af4b1ba8467d6b27a1fc22e322e'
+         'c412773b4c1dd603404a01479e25d55c'
+         'c412773b4c1dd603404a01479e25d55c')
 
 _gitroot="git://github.com/freebsd/freebsd.git"
 _gitname="freebsd"
@@ -76,10 +78,10 @@ build() {
 
   msg "Building clang"
 
-  ${srcdir}/${_gitname}/lib/clang
+  cd ${srcdir}/${_gitname}/lib/clang
   make
 
-  ${srcdir}/${_gitname}/usr.bin/clang
+  cd ${srcdir}/${_gitname}/usr.bin/clang
   make
 }
 
@@ -122,8 +124,7 @@ package_freebsd-world() {
     TARGET=i386
   fi
   msg "Running make installworld distribution..."
-  make TARGET=$TARGET DESTDIR="$pkgdir"  SRCONF=${srcdir}/src.conf -DWITHOUT_TOOLCHAIN -DWITHOUT_LIB32 \
-	-DWITHOUT_BSD_CPIO installworld distribution
+  make TARGET=$TARGET DESTDIR="$pkgdir" SRCONF=${srcdir}/src.conf installworld distribution
 
   msg "Installed. Cleaning up and configuring..."
 
@@ -171,8 +172,8 @@ package_freebsd-world() {
   install -m644 $srcdir/beastie.4th "${pkgdir}/boot/"
   install -m644 $srcdir/brand.4th "${pkgdir}/boot/"
 
- #set var/cache to 755
- chmod -Rv 755 ${pkgdir}/var/cache
+  #set var/cache to 755
+  chmod -Rv 755 ${pkgdir}/var/cache
 
   backup=('boot/device.hints'
         'boot/loader.conf')
@@ -199,10 +200,10 @@ package_freebsd-contrib-binutils() {
 
   cd ${srcdir}/${_gitname}/gnu/usr.bin/binutils
 
-  install -dm755 ${pkgdir}/usr  
+  install -dm755 ${pkgdir}/usr
 
   mtree -deU -f ${srcdir}/BSD.binutils.dist -p ${pkgdir}/usr
-  make binutils DESTDIR=${pkgdir} install  
+  make DESTDIR=${pkgdir} install
 }
 
 package_freebsd-contrib-clang() {
@@ -215,6 +216,5 @@ package_freebsd-contrib-clang() {
   install -dm755 ${pkgdir}/usr
 
   mtree -deU -f ${srcdir}/BSD.clang.dist -p ${pkgdir}/usr
-  make clang DESTDIR=${pkgdir} install
+  make DESTDIR=${pkgdir} install
 }
-
