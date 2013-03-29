@@ -2,12 +2,13 @@
 
 pkgname=fusefs-ext4fuse
 pkgver=0.1.2
-pkgrel=1
+pkgrel=2
 pkgdesc="EXT4 fuse implementation"
 arch=('i686' 'x86_64')
 url="https://github.com/gerard/ext4fuse/"
 license=('GPL2')
 groups=('fuse-all')
+depends=('libexecinfo')
 
 GH_ACCOUNT=gerard
 GH_COMMIT=6b28a2b
@@ -23,9 +24,9 @@ build() {
 package() {
     cd "${srcdir}/${GH_ACCOUNT}-ext4fuse-${GH_COMMIT}"
 
-    install -dm755 "${pkgdir}/usr/local/bin"
-    install -m755 ext4fuse "${pkgdir}/usr/local/bin/ext4fuse"
+    install -dm755 "${pkgdir}/usr/bin"
+    install -m755 ext4fuse "${pkgdir}/usr/bin/ext4fuse"
 
-	install -dm755 ${pkgdir}/usr/local/share/licenses/${pkgname}
-	install -m644 COPYING ${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE
+    install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}
+    install -m644 COPYING ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
 }
