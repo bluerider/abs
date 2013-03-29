@@ -5,10 +5,9 @@ pkgver=2012.1.15
 pkgrel=1
 pkgdesc="EXT4 fuse implementation"
 arch=('i686' 'x86_64')
-url="https://github.com/gerard/ext4fuse/"
+url="http://tuxera.com"
 license=('GPL2')
 groups=('fuse-all')
-depends=('libexecinfo')
 
 _distname=ntfs-3g_ntfsprogs-${pkgver}
 
