@@ -32,7 +32,7 @@ post_install() {
       echo ">>> updating kern.module_path"
       # Not present in variable, so add
       ESC_PREFIX=`echo '/usr' | sed -e 's/\//\\\\\//g'`
-      sed -i .orig -e 's@kern\.module_path[:space:]*=[:space:]*["]*\([[:alnum:][:space:]\.,;\/_-]*\)["]*@kern\.module_path="\1;/usr/modules"@g' ${SYSCTL_CONFIG}
+      sed -i .orig -e 's@kern\.module_path[:space:]*=[:space:]*\([[:alnum:][:space:]\.,;\/_-]*\)@kern\.module_path=\1;/usr/modules@g' ${SYSCTL_CONFIG}
     fi
   else
     # Not present.
