@@ -68,7 +68,19 @@ build() {
 
   msg "Building world"
   make NO_CLEAN=yes TARGET=$TARGET -DWITHOUT_LIB32 -DWITHOUT_BSD_CPIO buildworld || (echo buildworld failed... && return 1)
- 
+
+  msg "Building binutils"
+
+  cd ${srcdir}/${_gitname}/gnu/usr.bin/binutils
+  make
+
+  msg "Building clang"
+
+  ${srcdir}/${_gitname}/lib/clang
+  make
+
+  ${srcdir}/${_gitname}/usr.bin/clang
+  make
 }
 
 package_freebsd-kernel() {
