@@ -5,7 +5,7 @@ depend() {
 	need net
 }
 
-GIT_DAEMON_BIN=${GIT_DAEMON_BIN:-/usr/local/libexec/git-core/git-daemon}
+GIT_DAEMON_BIN=${GIT_DAEMON_BIN:-/usr/libexec/git-core/git-daemon}
 GIT_DAEMON_PID=${GIT_DAEMON_PID:-/var/run/git-daemon.pid}
 
 start() {

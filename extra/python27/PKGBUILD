@@ -27,6 +27,13 @@ source=(http://www.python.org/ftp/python/${pkgver%rc?}/Python-${pkgver}.tar.xz
         extra-patch-setup.py)
 
 build() {
+#  export CC=clang
+#  export CPP=clang-cpp
+#  export CXX=clang++
+
+  #fixes missing -lpython26
+  export LDFLAGS="${LDFLAGS} -L${srcdir}/Python-${pkgver}"
+
   cd "${srcdir}/Python-${pkgver}"
 
   cp -r Lib/plat-freebsd{8,9}
@@ -129,11 +136,11 @@ msg "Done cleaning up"
   install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 
-  install -dm755 "${pkgdir}/usr/local/bin"
-  cd "${pkgdir}/usr/bin"
-  for i in *; do
-      ln -sv "/usr/bin/$i" "${pkgdir}/usr/local/bin"
-  done
+#  install -dm755 "${pkgdir}/usr/bin"
+#  cd "${pkgdir}/usr/bin"
+#  for i in *; do
+#      ln -sv "/usr/bin/$i" "${pkgdir}/usr/local/bin"
+#  done
 }
 md5sums=('62c4c1699170078c469f79ddfed21bc0'
          '55005b563bcdbb187616901711c5c8d3'

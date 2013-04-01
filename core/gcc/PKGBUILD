@@ -49,8 +49,8 @@ build() {
       --with-bugurl=https://bugs.archlinux.org/ \
       --enable-languages=c,c++,objc,fortran \
       --disable-nls --with-as=/usr/bin/as \
-      --with-gmp=/usr/local --with-ld=/usr/bin/ld \
-      --with-libiconv-prefix=/usr/local \
+      --with-gmp=/usr --with-ld=/usr/bin/ld \
+      --with-libiconv-prefix=/usr \
       --with-pkgversion="ArchBSD Package Collection" \
       --with-system-zlib --disable-libgcj
 

@@ -1,6 +1,6 @@
 SHELLS="etc/shells"
 SHELLDIR="${SHELLS%/*}"
-GITSHELL="usr/local/libexec/git-core/git-shell"
+GITSHELL="usr/libexec/git-core/git-shell"
 
 add_shell() {
   SHL="$1"

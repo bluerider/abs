@@ -1,6 +1,6 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source')
-pkgver=20130329
-pkgrel=1
+pkgver=20130330
+pkgrel=4
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -13,8 +13,7 @@ source=('ARCHBSD_i686'
         'sysctl.conf'
         'src.conf'
         'beastie.4th'
-        'brand.4th'
-	'BSD.binutils.dist' 'BSD.clang.dist')
+        'brand.4th')
 md5sums=('1da3141782687c8d455b63ae747d6c32'
          'a5ecdc82304d6ff426fdb4182f9adc10'
          '92f91f5796ed8e59c666a7b4909d454b'
@@ -23,9 +22,7 @@ md5sums=('1da3141782687c8d455b63ae747d6c32'
          '461507865683b0d07a090df9bcef6e16'
          'f1ec479c9280a109e0391dcfae29f1ab'
          '0e9495f2a632d85404634fdbc2eb0850'
-         'c3146af4b1ba8467d6b27a1fc22e322e'
-         'c412773b4c1dd603404a01479e25d55c'
-         'c412773b4c1dd603404a01479e25d55c')
+         'c3146af4b1ba8467d6b27a1fc22e322e')
 
 _gitroot="git://github.com/freebsd/freebsd.git"
 _gitname="freebsd"
@@ -112,11 +109,10 @@ package_freebsd-world() {
   fi
   msg "Running make installworld distribution..."
   make TARGET=$TARGET DESTDIR="$pkgdir" SRCONF=${srcdir}/src.conf \
-	-DWITHOUT_LIB32 -DWITHOUT_GCC installworld distribution
+	-DWITHOUT_LIB32 -DWITHOUT_GCC -DWITHOUT_BINUTILS installworld distribution
 
   msg "Installed. Cleaning up and configuring..."
 
-  #Include files aren't installed when installing without toolchain; Doing it manually:
   if [ ! -d "${srcdir}/${_gitname}"/sys/x86_64 ]; then
 	ln -s "${srcdir}/${_gitname}"/sys/amd64 "${srcdir}/${_gitname}"/sys/x86_64
   fi
@@ -157,6 +153,16 @@ package_freebsd-world() {
   install -m644 $srcdir/sysctl.conf "${pkgdir}/etc/"
   install -m644 $srcdir/beastie.4th "${pkgdir}/boot/"
   install -m644 $srcdir/brand.4th "${pkgdir}/boot/"
+
+  #remove files provided by gcc-libs
+  rm -f "${pkgdir}"/usr/lib/{libgcc_s.so,libgomp.so,libgomp.so.1,libstdc++.so,libstdc++.so.6,libsupc++.a,libstdc++.a,libssp_nonshared.a,libssp.a,libgomp.a}
+
+  #remove files provided by gcc
+  rm -f "${pkgdir}"/usr/bin/{c89,c99}
+
+  #some left over binutil files
+  rm -f "${pkgdir}"/usr/bin/{ar,gprof,ranlib}
+  rm -f "${pkgdir}"/usr/share/man/man1/{ar,gprof,ranlib}.1.gz
 
   #set var/cache to 755
   chmod -Rv 755 ${pkgdir}/var/cache

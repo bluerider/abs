@@ -30,8 +30,8 @@ build() {
 	    -e 's,\$(srcdir)/sudoers2ldif \$(DESTDIR)\$(docdir),$(srcdir)/sudoers2ldif $(DESTDIR)$(bindir),' plugins/sudoers/Makefile.in
 
   ./configure \
-    --prefix=/usr/local \
-    --sysconfdir=/usr/local/etc \
+    --prefix=/usr \
+    --sysconfdir=/etc \
     --with-logfac=local2 \
     --with-pam \
     --with-env-editor \
@@ -52,13 +52,11 @@ package() {
   cd "$srcdir/$pkgname-$_sudover"
   make DESTDIR="$pkgdir" install
 
-  install -dm755 "$pkgdir/usr/local/etc/pam.d/"
-  install -m644 "$srcdir/sudo.pam" "$pkgdir/usr/local/etc/pam.d/sudo.default"
+  install -dm755 "$pkgdir/etc/pam.d/"
+  install -m644 "$srcdir/sudo.pam" "$pkgdir/etc/pam.d/sudo.default"
 
-  mv "$pkgdir/usr/local/etc/sudoers" "$pkgdir/usr/local/etc/sudoers.sample"
-
-  install -dm755 "$pkgdir/usr/local/share/licenses/sudo/"
-  install -m644 doc/LICENSE "$pkgdir/usr/local/share/licenses/sudo/LICENSE"
+  install -dm755 "$pkgdir/usr/share/licenses/sudo/"
+  install -m644 doc/LICENSE "$pkgdir/usr/share/licenses/sudo/LICENSE"
 }
 
 # vim:set ts=2 sw=2 et:
