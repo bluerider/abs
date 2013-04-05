@@ -5,7 +5,7 @@
  	/* execute the parsed command via /bin/sh -c */
  	pm_printf(ALPM_LOG_DEBUG, "running command: %s\n", parsedcmd);
 -	retval = system(parsedcmd);
-+	execv("/usr/bin/bash",parsedcmd);
++	execl("/usr/bin/bash","bash","-c",parsedcmd,(char*)0);
  
  	if(retval == -1) {
  		pm_printf(ALPM_LOG_WARNING, _("running XferCommand: fork failed!\n"));
