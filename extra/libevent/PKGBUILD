@@ -19,10 +19,10 @@ build() {
   make
 }
 
-check() {
-  cd "${srcdir}/${pkgname}-${pkgver}-stable"
-  make check || true # this never worked, should be taken upstream
-}
+#check() {
+#  cd "${srcdir}/${pkgname}-${pkgver}-stable"
+#  make check || true # this never worked, should be taken upstream
+#}
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}-stable"
