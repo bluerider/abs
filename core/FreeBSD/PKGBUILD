@@ -1,6 +1,6 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source')
-pkgver=20130330
-pkgrel=4
+pkgver=20130410
+pkgrel=2
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -43,6 +43,7 @@ build() {
   sed -i '' -e 's|db.h|fdb.h|g' "${srcdir}/${_gitname}/sys/dev/aic7xxx/aicasm/aicasm_symbol.c"
 
   unset LDFLAGS CXXFLAGS CPPFLAGS CFLAGS M4 LD RANLIB
+
   cd ${srcdir}/${_gitname}
   msg "Building kernel"
   if [[ "$CARCH" == "x86_64" ]]; then
@@ -62,10 +63,10 @@ build() {
   export CXX=clang++
 
   msg "Building Kernel"
-  make NO_CLEAN=yes TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
+  make NO_CLEAN=YES NO_WERROR=YES TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
 
   msg "Building world"
-  make NO_CLEAN=yes TARGET=$TARGET -DWITHOUT_LIB32 buildworld || (echo buildworld failed... && return 1)
+  make NO_CLEAN=YES NO_WERROR=YES TARGET=$TARGET -DWITHOUT_LIB32 buildworld || (echo buildworld failed... && return 1)
 
 }
 
