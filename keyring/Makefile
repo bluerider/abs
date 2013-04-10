@@ -1,4 +1,4 @@
-V=20130406
+V=04102013
 
 PREFIX = /usr
 
@@ -11,7 +11,9 @@ uninstall:
 	rmdir -p --ignore-fail-on-non-empty $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
 
 dist:
-	git archive --format=tar --prefix=archbsd-keyring-$(V)/ $(V) | gzip -9 > archbsd-keyring-$(V).tar.gz
+	mkdir archbsd-keyring-$(V)
+	cp -rv Makefile archbsd-trusted archbsd.gpg master master-keyids packager packager-keyids update-keys archbsd-keyring-$(V)
+	tar -cvzf archbsd-keyring-$(V).tar.gz archbsd-keyring-$(V)/
 	gpg --detach-sign --use-agent archbsd-keyring-$(V).tar.gz
 
 .PHONY: install uninstall dist
