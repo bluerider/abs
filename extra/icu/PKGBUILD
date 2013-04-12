@@ -10,7 +10,7 @@ arch=(i686 x86_64)
 url="http://www.icu-project.org/"
 license=('custom:"icu"')
 source=(#http://download.icu-project.org/files/${pkgname}4c/${pkgver}/${pkgname}4c-${pkgver/./_}-src.tgz
-	    http://download.icu-project.org/files/${pkgname}4c/${pkgver}/${pkgname}4c-${pkgver//./_}-src.tgz
+        http://download.icu-project.org/files/${pkgname}4c/${pkgver}/${pkgname}4c-${pkgver//./_}-src.tgz
         patch-config__mh-bsd-gcc
         patch-install
         patch-layout_LookupProcessor.cpp
