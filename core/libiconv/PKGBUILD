@@ -2,13 +2,12 @@
 
 pkgname=libiconv
 pkgver=1.14
-pkgrel=4
+pkgrel=5
 pkgdesc="A character set conversion library"
 arch=('i686' 'x86_64')
 license=('GPL3')
 url="http://www.gnu.org/software/libiconv/"
 depends=('freebsd-world')
-install=${pkgname}.install
 source=(http://ftp.gnu.org/pub/gnu/libiconv/${pkgname}-${pkgver}.tar.gz{,.sig}
         patch-ae
         patch-lib_Makefile.in
