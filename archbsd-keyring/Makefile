@@ -3,11 +3,13 @@ V=04102013
 PREFIX = /usr
 
 install:
-	install -dm755 $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
-	install -m0644 archbsd{.gpg,-trusted,-revoked} $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
+	install -dm755 $(DESTDIR)$(PREFIX)/share/pacman/keyrings
+	install -m0644 archbsd.gpg $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
+	install -m0644 archbsd-trusted $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
+
 
 uninstall:
-	rm -f $(DESTDIR)$(PREFIX)/share/pacman/keyrings/archbsd{.gpg,-trusted,-revoked}
+	rm -f $(DESTDIR)$(PREFIX)/share/pacman/keyrings/archbsd{.gpg,-trusted}
 	rmdir -p --ignore-fail-on-non-empty $(DESTDIR)$(PREFIX)/share/pacman/keyrings/
 
 dist:
