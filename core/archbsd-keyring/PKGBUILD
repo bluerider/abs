@@ -9,11 +9,10 @@ install="${pkgname}.install"
 source=("ftp://ftp.archbsd.net/${pkgname}/${pkgname}-${pkgver}.tar.gz"
 	'archbsd-keyring.install')
 
-md5sums=('77d06f3dd8c52ff2184f231a4d77cc1b'
-         '46712e950950fefa107bb5d9dee28f04')
-
 package() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
 	make PREFIX=/usr DESTDIR=${pkgdir} install
 }
 
+md5sums=('8cbfac479fbd3d858b1268303773a26d'
+         '46712e950950fefa107bb5d9dee28f04')
