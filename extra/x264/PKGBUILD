@@ -4,7 +4,7 @@
 
 pkgname=x264
 pkgver=20130327
-pkgrel=1
+pkgrel=2
 pkgdesc="free library for encoding H264/AVC video streams"
 arch=('i686' 'x86_64')
 url="http://www.videolan.org/developers/x264.html"
@@ -16,6 +16,9 @@ source=(ftp://ftp.videolan.org/pub/videolan/x264/snapshots/x264-snapshot-$pkgver
 
 build() {
     cd "$pkgname-snapshot-$pkgver-2245-stable"
+
+    # there seem to be encoding errors otherwise
+    export CC=gcc CPP=cpp CXX=g++
 
     patch -p0 -i "$srcdir"/patch-common_cpu.c
 
