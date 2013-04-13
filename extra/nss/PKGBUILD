@@ -2,8 +2,9 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=nss
-pkgver=3.14.1.1.93
-_pkgver=3.14.1
+#pkgver=3.14.1.1.93
+pkgver=3.14.3
+_pkgver=3.14.3
 pkgrel=4
 pkgdesc="Mozilla Network Security Services"
 arch=(i686 x86_64)
@@ -14,8 +15,8 @@ depends=("nspr>=${_nsprver}" 'sqlite')
 # using bash in some scripts
 makedepends=('perl' 'bash')
 options=('!strip')
-#source=(ftp://ftp.mozilla.org/pub/security/nss/releases/NSS_${pkgver//./_}_RTM/src/${pkgname}-${pkgver}.tar.gz
-source=(ftp://ftp.mozilla.org/pub/security/nss/releases/NSS_3_14_1_WITH_CKBI_1_93_RTM/src/${pkgname}-3.14.1.with.ckbi.1.93.tar.gz
+#source=(ftp://ftp.mozilla.org/pub/security/nss/releases/NSS_3_14_1_WITH_CKBI_1_93_RTM/src/${pkgname}-3.14.1.with.ckbi.1.93.tar.gz
+source=(ftp://ftp.mozilla.org/pub/security/nss/releases/NSS_${pkgver//./_}_RTM/src/${pkgname}-${pkgver}.tar.gz
         nss.pc.in
         nss-config.in
         patch-..__coreconf__FreeBSD.mk
@@ -34,7 +35,7 @@ source=(ftp://ftp.mozilla.org/pub/security/nss/releases/NSS_3_14_1_WITH_CKBI_1_9
         patch-sysdb
         patch-tests
         )
-md5sums=('49e6661758deb0c469f0b4edd4e727d5'
+md5sums=('b326c2be8df277f62fb9c65fb3428148'
          'c547b030c57fe1ed8b77c73bf52b3ded'
          '0fbed93b39c9805bbc587aa2e11584f3'
          'f22d3f8ab12732fafb6458847cf07779'
@@ -105,7 +106,7 @@ build() {
   [ "$CARCH" = "x86_64" ] && export USE_64=1
 
   #db.h is moved to fdb.h
-  sed -i '' -e 's|<db.h>|<fdb.h>|g' "${srcdir}"/nss-3.14.1/mozilla/security/nss/lib/softoken/legacydb/*.{h,c}
+  sed -i '' -e 's|<db.h>|<fdb.h>|g' "${srcdir}"/nss-${_pkgver}/mozilla/security/nss/lib/softoken/legacydb/*.{h,c}
 
   gmake -j 1 -C mozilla/security/coreconf
   gmake -j 1 -C mozilla/security/dbm
