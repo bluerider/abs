@@ -1,4 +1,4 @@
-infodir=usr/local/info
+infodir=usr/share/info
 infofile=glib.info.gz
 
 post_install() {

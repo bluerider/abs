@@ -17,7 +17,7 @@ options=('!makeflags')
 
 build() {
   cd "${srcdir}"/${pkgname}-${pkgver}
-  ./configure --prefix=/usr \
+  ./configure --prefix=/usr/local \
     --docdir=/usr/share/gperf/doc/
   make
 }

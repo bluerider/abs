@@ -36,9 +36,9 @@ build() {
 
   mkdir build
   cd build
-  cmake .. -DPREFIX=/usr/local \
-        -DPYTHON_EXECUTABLE=/usr/local/bin/python2 \
-        -DPYTHON_LIBRARY=/usr/local/lib/libpython2.7.so \
+  cmake .. -DPREFIX=/usr \
+        -DPYTHON_EXECUTABLE=/usr/bin/python2 \
+        -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so \
         -DENABLE_TCL=yes
 }
 
@@ -47,6 +47,7 @@ package() {
 
   make DESTDIR="${pkgdir}/" install
 
-  install -dm755 "${pkgdir}/usr/local/man/man1"
-  install -m644 "${srcdir}/${pkgname}-${pkgver}/doc/weechat-curses.1" "${pkgdir}/usr/local/man/man1/weechat-curses.1"
+  install -dm755 "${pkgdir}/usr/share/man/man1"
+  install -m644 "${srcdir}/${pkgname}-${pkgver}/doc/weechat-curses.1" 
+"${pkgdir}/usr/share/man/man1/weechat-curses.1"
 }

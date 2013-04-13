@@ -95,12 +95,19 @@ build() {
 
   msg "Setting up a relative python path"
   # There are still a lot of relative calls which need a workaround
+
+  mkdir "$srcdir/python2-path"
+  ln -s /usr/bin/python2 "$srcdir/python2-path/python"
   export PATH="$srcdir/python2-path:$PATH"
 
   CFLAGS="${CFLAGS} -Wno-error"
 
   # CFLAGS are passed through release_extra_cflags below
   export -n CFLAGS CXXFLAGS
+  
+  export CC=clang
+  export CPP=clang=cpp
+  export CXX=clang++
 
   msg "GYP configure"
   python2 build/gyp_chromium chrome/chrome.gyp --depth . \

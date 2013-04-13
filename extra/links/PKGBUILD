@@ -36,12 +36,13 @@ build() {
  
 #   (cd intl; ./gen-intl; ./synclang)
    sed -i '' -e "s!/etc/!${PREFIX}/etc/!" ${srcdir}/${pkgname}-${pkgver}/os_dep.h
-  ./configure --prefix=/usr/local/ --mandir=/usr/local/share/man --enable-javascript \
+
+  ./configure --prefix=/usr --mandir=/usr/share/man --enable-javascript \
     --enable-graphics --with-x --with-fb
   make
   mv links xlinks
 
-  ./configure --prefix=/usr/local/ --mandir=/usr/local/share/man --enable-javascript \
+  ./configure --prefix=/usr --mandir=/usr/share/man --enable-javascript \
     --disable-graphics --without-x  --without-fb
   make
 }
@@ -50,15 +51,15 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -m755 xlinks "${pkgdir}/usr/local/bin/xlinks"
-  ln -s links.1.gz "${pkgdir}/usr/local/share/man/man1/xlinks.1.gz"
+  install -m755 xlinks "${pkgdir}/usr/bin/xlinks"
+  ln -s links.1.gz "${pkgdir}/usr/share/man/man1/xlinks.1.gz"
 
-  install -dm755 "${pkgdir}/usr/local/share/applications/"
-  install -m644 "${srcdir}/links.desktop" "${pkgdir}/usr/local/share/applications/links.desktop"
-  install -d "${pkgdir}/usr/local/share/pixmaps"
-  install -m644 links_16x16_1.xpm links_16x16_2.xpm links_32x32.xpm "${pkgdir}/usr/local/share/pixmaps/"
+  install -dm755 "${pkgdir}/usr/share/applications/"
+  install -m644 "${srcdir}/links.desktop" "${pkgdir}/usr/share/applications/links.desktop"
+  install -d "${pkgdir}/usr/share/pixmaps"
+  install -m644 links_16x16_1.xpm links_16x16_2.xpm links_32x32.xpm "${pkgdir}/usr/share/pixmaps/"
 
-  install -d "${pkgdir}/usr/local/share/doc/links/calibration"
-  install -m644 doc/links_cal/* "${pkgdir}/usr/local/share/doc/links/calibration/"
+  install -d "${pkgdir}/usr/share/doc/links/calibration"
+  install -m644 doc/links_cal/* "${pkgdir}/usr/share/doc/links/calibration/"
 }
 

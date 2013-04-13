@@ -32,7 +32,7 @@ build() {
    patch -p0 -i "${srcdir}/$i"
    done 
 
-  ./configure --prefix=/usr/local --with-authfw=pam \
+  ./configure --prefix=/usr --with-authfw=pam \
 		--with-pam-include=system \
 		--with-os-type=freebsd \
 		--enable-introspection \
@@ -44,11 +44,8 @@ package() {
   cd $pkgname-$pkgver
   gmake DESTDIR="$pkgdir" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  cp -Ra "${pkgdir}/usr/local/lib/pkgconfig" "${pkgdir}/usr/local/libdata"
-  
-  install -dm755 "${pkgdir}/usr/local/etc/dbus-1/system.d/"   
+  install -dm755 "${pkgdir}/etc/dbus-1/system.d/"   
   install "${srcdir}/${pkgname}-${pkgver}/data/org.freedesktop.PolicyKit1.conf" \
-		"${pkgdir}"/usr/local/etc/dbus-1/system.d/org.freedesktop.PolicyKit1.conf.dist
+		"${pkgdir}"/etc/dbus-1/system.d/org.freedesktop.PolicyKit1.conf.dist
 
 }

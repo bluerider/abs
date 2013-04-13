@@ -8,17 +8,16 @@ url="http://www.webmproject.org/"
 license=('BSD')
 makedepends=('yasm')
 source=(http://webm.googlecode.com/files/$pkgname-v$pkgver.tar.bz2
-        patch-build_make_configure.sh patch-build_make_rtcd.sh patch-configure patch-libs.mk
+        patch-build_make_configure.sh patch-build_make_rtcd.sh patch-configure
 )
 sha1sums=('356af5f770c50cd021c60863203d8f30164f6021'
           '636b35b58fc28dbe5e6a4287344d8111d24b0b2c'
           '8835c032b5a79d764adaba60a0c2b964e7e08c81'
-          '8216c1b28d4655c88e79e74ce5ca21cb52274d1b'
-          'c1e4593bd86698cdda36f4261cbcd2fa927d2d77')
+          '8216c1b28d4655c88e79e74ce5ca21cb52274d1b')
 
 build() {
     cd "$pkgname-v$pkgver"
-    for i in patch-build_make_configure.sh patch-build_make_rtcd.sh patch-configure patch-libs.mk
+    for i in patch-build_make_configure.sh patch-build_make_rtcd.sh patch-configure
     do
     	patch -p0 -i "${srcdir}/$i"
     done

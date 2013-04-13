@@ -26,6 +26,10 @@ sha1sums=('a57767167da8d00bd51360b27dda01532b5e62f7'
 build() {
   cd "$pkgname-$pkgver"
 
+  export CC=clang
+  export CPP=clang-cpp
+  export CXX=clang++
+
   for i in patch-test-v4l_h264-encode-capture.cpp patch-va-glx-va_glx_private.h patch-va-va.c
   do
     patch -p0 -i "${srcdir}/$i"
