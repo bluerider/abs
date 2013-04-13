@@ -5,12 +5,12 @@
 
 pkgname=mime-types
 pkgver=8
-pkgrel=1
+pkgrel=2
 pkgdesc='Provides /etc/mime.types'
 url='http://www.archbsd.net'
 license=('GPL2')
 arch=('any')
-backup=('usr/local/etc/mime.types')
+backup=('etc/mime.types')
 source=("http://mirrors.kernel.org/gentoo/distfiles/${pkgname}-${pkgver}.tar.bz2"
         'archbsd.patch')
 sha1sums=('01682b0ad3111a6cf65e6c9db0c18ddd7523c593'
@@ -19,6 +19,6 @@ sha1sums=('01682b0ad3111a6cf65e6c9db0c18ddd7523c593'
 build() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
 	patch -p1 -i ../archbsd.patch
-	install -dm755 "${pkgdir}"/usr/local/etc/
-	install -m644 mime.types "${pkgdir}"/usr/local/etc/mime.types
+	install -dm755 "${pkgdir}"/etc/
+	install -m644 mime.types "${pkgdir}"/etc/mime.types
 }
