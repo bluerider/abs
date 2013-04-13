@@ -19,7 +19,7 @@ sha256sums=('1021935204798f4f0ad3004a09b583668ea94a48593461b147fdcff68a18e6c2')
 
 build() {
   cd $pkgname-$pkgver
-  ./configure --prefix=/usr/local \
+  ./configure --prefix=/usr \
               --with-svgz \
               --with-croco \
               --enable-gtk-theme
@@ -29,8 +29,4 @@ build() {
 package() {
   cd $pkgname-$pkgver
   gmake DESTDIR="$pkgdir" install
-
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

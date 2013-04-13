@@ -15,7 +15,7 @@ md5sums=('af0cff78690e658f3c06ceabf27bc71a')
 build() {
   cd $srcdir/$pkgname-$pkgver
 
-  ./configure
+  ./configure prefix=/usr
   gmake LDFLAGS+=' -lm'
 }
 
@@ -23,5 +23,5 @@ package() {
   cd $srcdir/$pkgname-$pkgver
   gmake DESTDIR="$pkgdir" install 
 
-  sed -i '' -e 's|x-directory/normal|inode/directory|' $pkgdir/usr/local/share/applications/pcmanfm.desktop
+  sed -i '' -e 's|x-directory/normal|inode/directory|' $pkgdir/usr/share/applications/pcmanfm.desktop
 }

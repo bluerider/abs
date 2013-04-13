@@ -15,13 +15,13 @@ sha1sums=('8e3da9d050ad71531bfeb98d5f1071c7b392b3bd')
 
 build() {
 	cd "${srcdir}/xfontsel-${pkgver}"
-	./configure --prefix=/usr/local
+	./configure --prefix=/usr
 	make
 }
 
 package() {
 	cd "${srcdir}/xfontsel-${pkgver}"
 	make DESTDIR="${pkgdir}" install
-	install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-	install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/COPYING"
+	install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+	install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }

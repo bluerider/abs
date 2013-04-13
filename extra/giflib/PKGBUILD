@@ -47,7 +47,7 @@ build() {
 
   # libungif compatibility - instructions taken from Redhat specfile
   MAJOR=`echo ${pkgver} | sed 's/\([0-9]\+\)\..*/\1/'`
-  $CC -shared -Wl,-soname,libungif.so.${MAJOR} -Llib/.libs -lgif -o libungif.so.${pkgver}
+  cc -shared -Wl,-soname,libungif.so.${MAJOR} -Llib/.libs -lgif -o libungif.so.${pkgver}
 }
 
 package() {

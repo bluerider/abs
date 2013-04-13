@@ -23,12 +23,12 @@ build() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
 	export CPPFLAGS="${CPPFLAGS} -I/usr/local/include -std=c99"
 	export LDFLAGS="${LDFLAGS} -L/usr/local/lib"
-	gmake PREFIX=/usr/local exif=1 help=1 stat64=1
+	gmake PREFIX=/usr exif=1 help=1 stat64=1
 }
 
 package() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
-	gmake PREFIX=/usr/local DESTDIR="${pkgdir}" install
+	gmake PREFIX=/usr DESTDIR="${pkgdir}" install
 	install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
 	install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

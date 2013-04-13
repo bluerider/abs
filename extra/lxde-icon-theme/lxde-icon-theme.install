@@ -1,5 +1,5 @@
 post_install() {
-  gtk-update-icon-cache -q -t -f usr/local/share/icons/nuoveXT2
+  gtk-update-icon-cache -q -t -f usr/share/icons/nuoveXT2
 }
 
 post_upgrade() {

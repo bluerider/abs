@@ -11,6 +11,10 @@ source=("http://www.zonov.org/${pkgname}/${pkgname}-${pkgver}.tar.gz")
 md5sums=('60bb3ce83dc4d28391855eb563175422')
 
 build() {
+  export CC=clang
+  export CPP=clang-cpp
+  export CXX=clang++
+
   cd "$srcdir/$pkgname-$pkgver"
   make
 }
@@ -21,7 +25,7 @@ package() {
   install -dm755 "${pkgdir}/usr/share/man/man1"
 # I know this MANDIR looks odd but it works...
   make DESTDIR="${pkgdir}" \
-       BINDIR="/usr//bin" \
+       BINDIR="/usr/bin" \
        MANDIR="/usr/share/man/man1/flock." \
        install
 }

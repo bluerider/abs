@@ -18,7 +18,7 @@ md5sums=('1b07629163025b9693aae9b8957842b2'
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  ./configure --prefix=/usr/local \
+  ./configure --prefix=/usr \
       --with-packager=ArchBSD \
       --with-packager-bug-reports="http://bugs.archbsd.net/" \
       --with-packager-version=${pkgver}-${pkgrel}
@@ -33,7 +33,4 @@ check() {
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  cp -Ra "${pkgdir}/usr/local/lib/pkgconfig" "${pkgdir}/usr/local/libdata"
-  rm -rf "${pkgdir}/usr/local/lib/pkgconfig"
 }

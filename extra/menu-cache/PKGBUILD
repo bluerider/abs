@@ -20,20 +20,13 @@ build() {
 
    patch -p0 -i ${srcdir}/patch-menu-cached.c
 
-  find $srcdir/$pkgname-$pkgver -name "Makefile.in*" -type f | xargs sed -i '' \
-                                -e 's|[(]libdir[)]/locale|(prefix)/share/locale|g' \
-                                -e 's|[(]libdir[)]/pkgconfig|(prefix)/libdata/pkgconfig|g' \
-                                -e 's|[(]datadir[)]/pkgconfig|(prefix)/libdata/pkgconfig|g' \
-                                -e 's|[(]prefix[)]/lib/pkgconfig|(prefix)/libdata/pkgconfig|g' \
-                                -e 's|[$$][(]localstatedir[)]/scrollkeeper|/var/db/rarian|g' \
-                                -e 's|[(]libdir[)]/bonobo/servers|(prefix)/libdata/bonobo/servers|g' 
   find $srcdir/$pkgname-$pkgver  -name "configure" -type f | xargs sed -i '' \
                                 -e 's|-lpthread|-pthread|g' \
                                 -e 's|DATADIRNAME=lib|DATADIRNAME=share|g' \
                                 -e 's|{libdir}/locale|{prefix}/share/locale|g'
 
-  ./configure --prefix=/usr/local/ --sysconfdir=/usr/local/etc \
-              --libexecdir=/usr/local/libexec/menu-cache \
+  ./configure --prefix=/usr/ --sysconfdir=/etc \
+              --libexecdir=/usr/libexec/menu-cache \
               --disable-static
   gmake
 }
@@ -41,8 +34,4 @@ build() {
 package() {
   cd $srcdir/$pkgname-$pkgver
   gmake DESTDIR=$pkgdir install
-
-  install -dm755 "${pkgdir}/usr/local/libdata"
-#  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-#     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

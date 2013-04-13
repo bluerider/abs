@@ -15,8 +15,8 @@ md5sums=('a5bc8b8291cf810c659bfb3af378b5de')
 build() {
   cd $srcdir/$pkgname-$pkgver
 
-  ./configure --prefix=/usr/local \
-    --sysconfdir=/usr/local/etc \
+  ./configure --prefix=/usr \
+    --sysconfdir=/etc \
     --with-gnu-ld 
   gmake LDFLAGS+=' -lgobject-2.0 -lglib-2.0'
 }
@@ -26,8 +26,6 @@ package() {
   gmake DESTDIR=$pkgdir install
 
   # Temporary fix to FS#32361
-  rm $pkgdir/usr/local/include/libfm
-  mv $pkgdir/usr/local/include/libfm-1.0/ $pkgdir/usr/local/include/libfm
-  install -dm755 ${pkgdir}/usr/local/libdata
-  mv ${pkgdir}/usr/local/lib/pkgconfig ${pkgdir}/usr/local/libdata
+  rm $pkgdir/usr/include/libfm
+  mv $pkgdir/usr/include/libfm-1.0/ $pkgdir/usr/include/libfm
 }

@@ -34,23 +34,18 @@ build() {
   sed -i ''  -e 's,$$(DATADIRNAME)/locale,share/locale,' \
                  $srcdir/$pkgname-$pkgver/po/Makefile.in.in
   ./autogen.sh
-  CPPFLAGS="-I/usr/local/include" \
-  LDFLAGS="-L/usr/local/lib" \
+
   ./configure \
-      --sysconfdir=/usr/local/etc \
-      --prefix=/usr/local \
+      --sysconfdir=/etc \
+      --prefix=/usr \
       --with-plugins=volume,deskno,kbled,xkb,batt \
       --disable-alsa \
       --enable-man \
-      --datarootdir=/usr/local/share
+      --datarootdir=/usr/share
     gmake
 }
 
 package() {
   cd $srcdir/$pkgname-$pkgver
   gmake DESTDIR=$pkgdir install
-
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

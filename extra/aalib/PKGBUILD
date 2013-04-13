@@ -36,6 +36,7 @@ build() {
   find . \( -name '*.[ch]' \! -name acconfig.h \) | xargs sed -i '' -e 's|<malloc.h>|<stdlib.h>|g'
 
   rm -f config.cache
+  unset LDFLAGS
   export LDFLAGS="${LDFLAGS//--as-needed/}"
   ./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info \
               --with-x \

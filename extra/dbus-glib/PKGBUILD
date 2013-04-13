@@ -17,12 +17,11 @@ build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   rm -rf "${srcdir}/test"
   mkdir "${srcdir}/test"
-  CPPFLAGS="-I/usr/local/include" \
-  LDFLAGS="-L/usr/local/lib" \
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc --localstatedir=/var \
+
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
               --with-test-socket-dir="${srcdir}/test" \
               --disable-gtk-doc \
-              --with-html-dir=/usr/local/share/doc
+              --with-html-dir=/usr/share/doc
   gmake
 }
 
@@ -30,7 +29,4 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

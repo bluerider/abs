@@ -1,5 +1,5 @@
 post_install() {
-  update-mime-database /usr/local/share/mime > /dev/null
+  update-mime-database /usr/share/mime > /dev/null
   update-desktop-database -q
   #[ -d /usr/lib/gio/modules ] && gio-querymodules /usr/lib/gio/modules
 }

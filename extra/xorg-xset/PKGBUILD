@@ -16,9 +16,9 @@ sha256sums=('61371c140030b8b05075a1378b34a4d7c438ed9159496a95f10782c6f4aec1e8')
 
 build() {
   cd "${srcdir}/xset-${pkgver}"
-  ./configure --prefix=/usr/local --without-fontcache --without-xf86misc
+  ./configure --prefix=/usr --without-fontcache --without-xf86misc
   make
   make DESTDIR="${pkgdir}" install
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

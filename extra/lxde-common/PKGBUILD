@@ -6,8 +6,8 @@ arch=('any')
 url='http://lxde.org/'
 license=('GPL2')
 groups=('lxde')
-backup=(usr/local/etc/xdg/lxsession/LXDE/desktop.conf
-        usr/local/etc/xdg/lxsession/LXDE/autostart)
+backup=(etc/xdg/lxsession/LXDE/desktop.conf
+        etc/xdg/lxsession/LXDE/autostart)
 depends=('libx11' 'glib2' 'lxde-icon-theme' 'lxsession')
 makedepends=('automake')
 source=(http://downloads.sourceforge.net/lxde/${pkgname}-${pkgver}.tar.gz
@@ -29,20 +29,18 @@ build() {
     patch -p0 -i ${srcdir}/patch-configure
     patch -p0 -i ${srcdir}/patch-configure-ac
 
-    ./configure --prefix=/usr/local \
-		CPPFLAGS="-I/usr/local/include" \
-		LDFLAGS="-L/usr/local/lib" \
-		GMSGFMT="/usr/local/bin/msgfmt" \
-		--with-xsession-path=/usr/local/share/xsessions \
-		--with-xdg-path=/usr/local/share/applications \
-		--sysconfdir=/usr/local/etc \
-		--datadir=/usr/local/share
+    ./configure --prefix=/usr \
+		GMSGFMT="/usr/bin/msgfmt" \
+		--with-xsession-path=/usr/share/xsessions \
+		--with-xdg-path=/usr/share/applications \
+		--sysconfdir=/etc \
+		--datadir=/usr/share
     gmake
 }
 
 package() {
     cd $srcdir/$pkgname-$pkgver
     make DESTDIR=$pkgdir install
-    install -dm755 $pkgdir/usr/local/share/applications/
-    install -m644 lxde-logout.desktop $pkgdir/usr/local/share/applications/
+    install -dm755 $pkgdir/usr/share/applications/
+    install -m644 lxde-logout.desktop $pkgdir/usr/share/applications/
 }

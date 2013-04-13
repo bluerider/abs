@@ -45,6 +45,6 @@ package() {
   make -f unix/Makefile prefix=${pkgdir}/usr/local INSTALL_PROGRAM="install" install
 
   # install the license file
-  install -dm755 ${pkgdir}/usr/local/share/licenses/unzip/
-  install -m644 LICENSE ${pkgdir}/usr/local/share/licenses/unzip/LICENSE
+  install -dm755 ${pkgdir}/usr/share/licenses/unzip/
+  install -m644 LICENSE ${pkgdir}/usr/share/licenses/unzip/LICENSE
 }

@@ -20,7 +20,6 @@ build() {
 
   patch -p0 -i "$srcdir"/patch-Makefile
   patch -p0 -i "$srcdir"/patch-getopt.c
-  sed -i '' -e 's|CC=gcc|CC='${CC}'|' Makefile
 
   export LDFLAGS="-lintl"
   gmake LIBCGETOPT=0

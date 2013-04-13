@@ -6,7 +6,7 @@
 
 pkgname=openbox
 pkgver=3.5.0
-pkgrel=1
+pkgrel=2
 pkgdesc="A highly configurable and lightweight X11 window manager"
 arch=('i686' 'x86_64')
 url="http://openbox.org"
@@ -17,7 +17,7 @@ optdepends=('pyxdg: for the xdg-autostart script')
 groups=('lxde')
 install=$pkgname.install
 options=('!libtool')
-backup=('usr/local/etc/xdg/openbox/menu.xml' 'usr/local/etc/xdg/openbox/rc.xml')
+backup=('etc/xdg/openbox/menu.xml' 'etc/xdg/openbox/rc.xml')
 source=(http://www.icculus.org/openbox/releases/$pkgname-$pkgver.tar.gz
 		openbox-3.5.0-Fix-crash-on-NET_WM_MOVERESIZE_CANCEL.patch
 		openbox-3.5.0-title-matching.patch
@@ -36,11 +36,11 @@ build() {
   sed -e 's|/usr/bin/env python|/usr/bin/env python2|' \
       data/autostart/openbox-xdg-autostart
   
-  ./configure --prefix=/usr/local/ \
+  ./configure --prefix=/usr \
               --with-x \
               --enable-startup-notification \
-              --sysconfdir=/usr/local/etc \
-              --libexecdir=/usr/local/lib/openbox
+              --sysconfdir=/etc \
+              --libexecdir=/usr/libexec/openbox
   
   gmake
 }
@@ -49,8 +49,8 @@ package() {
   cd $srcdir/$pkgname-$pkgver
   make DESTDIR=$pkgdir/ install
 
-  sed -e 's:startkde:/usr/local/bin/\0:' \
-         $pkgdir/usr/local/share/xsessions/openbox-kde.desktop
-  sed -e 's:=gnome-session:=/usr/local/bin/gnome-session:' \
-      $pkgdir/usr/local/share/xsessions/openbox-gnome.desktop
+  sed -e 's:startkde:/usr/bin/\0:' \
+         $pkgdir/usr/share/xsessions/openbox-kde.desktop
+  sed -e 's:=gnome-session:=/usr/bin/gnome-session:' \
+      $pkgdir/usr/share/xsessions/openbox-gnome.desktop
 }

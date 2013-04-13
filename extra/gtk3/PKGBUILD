@@ -49,8 +49,8 @@ build() {
     sed -i '' -e 's|file,cups|file,cups,lpr|' \
         gtk/Makefile.in
 
-    CXX=/bin/false ./configure --prefix=/usr/local \
-        --sysconfdir=/usr/local/etc \
+    CXX=/bin/false ./configure --prefix=/usr \
+        --sysconfdir=/etc \
         --localstatedir=/var \
         --enable-gtk2-dependency \
         --disable-schemas-compile \
@@ -63,10 +63,6 @@ package() {
     cd "gtk+-$pkgver"
     gmake DESTDIR="$pkgdir" install
 
-    install -dm755 "${pkgdir}/usr/local/libdata"
-    mv "${pkgdir}/usr/local/lib/pkgconfig" \
-       "${pkgdir}/usr/local/libdata/pkgconfig"
-
-    install -dm755 "$pkgdir/usr/local/etc/gtk-3.0/"
-    install -m644 "$srcdir/settings.ini" "$pkgdir/usr/local/etc/gtk-3.0/settings.ini"
+    install -dm755 "$pkgdir/etc/gtk-3.0/"
+    install -m644 "$srcdir/settings.ini" "$pkgdir/etc/gtk-3.0/settings.ini"
 }

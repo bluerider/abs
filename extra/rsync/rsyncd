@@ -7,7 +7,7 @@ depend() {
 
 start() {
 	ebegin "Starting ${SVCNAME}"
-	start-stop-daemon --start --exec /usr/local/bin/rsyncd \
+	start-stop-daemon --start --exec /usr/bin/rsyncd \
 	    --pidfile /var/run/rsyncd.openrc.pid \
 	    -- --daemon
 	eend $?
@@ -15,7 +15,7 @@ start() {
 
 stop() {
 	ebegin "Stopping ${SVCNAME}"
-	start-stop-daemon --stop --exec /usr/local/bin/rsyncd \
+	start-stop-daemon --stop --exec /usr/bin/rsyncd \
 	    --pidfile /var/run/rsyncd.openrc.pid --quiet
 	eend $?
 }

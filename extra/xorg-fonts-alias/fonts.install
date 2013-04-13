@@ -1,5 +1,5 @@
 post_install() {
-	FONTPATH=usr/local/share/fonts
+	FONTPATH=usr/share/fonts
     mkfontscale $FONTPATH/100dpi 2>/dev/null || true
     mkfontdir   $FONTPATH/100dpi 2>/dev/null || true
     mkfontscale $FONTPATH/75dpi 2>/dev/null || true
@@ -11,20 +11,20 @@ post_install() {
 }
 
 post_remove() {
-    mkfontscale usr/local/share/fonts/100dpi 2>/dev/null || true
-    if [ -e     usr/local/share/fonts/100dpi/fonts.scale -a "`stat -f '%25z' usr/local/share/fonts/100dpi/fonts.scale 2>/dev/null`" = '2' ]; then rm usr/local/share/fonts/100dpi/fonts.scale; fi
-    mkfontdir   usr/local/share/fonts/100dpi 2>/dev/null || true
-    if [ -e     usr/local/share/fonts/100dpi/fonts.dir -a "`stat -f '%25z' usr/local/share/fonts/100dpi/fonts.dir 2>/dev/null`" = '2' ]; then rm usr/local/share/fonts/100dpi/fonts.dir; fi
-    mkfontscale usr/local/share/fonts/75dpi 2>/dev/null || true
-    if [ -e     usr/local/share/fonts/75dpi/fonts.scale -a "`stat -f '%25z' usr/local/share/fonts/75dpi/fonts.scale 2>/dev/null`" = '2' ]; then rm usr/local/share/fonts/75dpi/fonts.scale; fi
-    mkfontdir   usr/local/share/fonts/75dpi 2>/dev/null || true
-    if [ -e     usr/local/share/fonts/75dpi/fonts.dir -a "`stat -f '%25z' usr/local/share/fonts/75dpi/fonts.dir 2>/dev/null`" = '2' ]; then rm usr/local/share/fonts/75dpi/fonts.dir; fi
-    mkfontscale usr/local/share/fonts/misc 2>/dev/null || true
-    if [ -e     usr/local/share/fonts/misc/fonts.scale -a "`stat -f '%25z' usr/local/share/fonts/misc/fonts.scale 2>/dev/null`" = '2' ]; then rm usr/local/share/fonts/misc/fonts.scale; fi
-    mkfontdir   usr/local/share/fonts/misc 2>/dev/null || true
-    if [ -e     usr/local/share/fonts/misc/fonts.dir -a "`stat -f '%25z' usr/local/share/fonts/misc/fonts.dir 2>/dev/null`" = '2' ]; then rm usr/local/share/fonts/misc/fonts.dir; fi
-    mkfontscale usr/local/share/fonts/cyrillic 2>/dev/null || true
-    if [ -e     usr/local/share/fonts/cyrillic/fonts.scale -a "`stat -f '%25z' usr/local/share/fonts/cyrillic/fonts.scale 2>/dev/null`" = '2' ]; then rm usr/local/share/fonts/cyrillic/fonts.scale; fi
-    mkfontdir   usr/local/share/fonts/cyrillic 2>/dev/null || true
-    if [ -e     usr/local/share/fonts/cyrillic/fonts.dir -a "`stat -f '%25z' usr/local/share/fonts/cyrillic/fonts.dir 2>/dev/null`" = '2' ]; then rm usr/local/share/fonts/cyrillic/fonts.dir; fi
+    mkfontscale usr/share/fonts/100dpi 2>/dev/null || true
+    if [ -e     usr/share/fonts/100dpi/fonts.scale -a "`stat -f '%25z' usr/share/fonts/100dpi/fonts.scale 2>/dev/null`" = '2' ]; then rm usr/share/fonts/100dpi/fonts.scale; fi
+    mkfontdir   usr/share/fonts/100dpi 2>/dev/null || true
+    if [ -e     usr/share/fonts/100dpi/fonts.dir -a "`stat -f '%25z' usr/share/fonts/100dpi/fonts.dir 2>/dev/null`" = '2' ]; then rm usr/share/fonts/100dpi/fonts.dir; fi
+    mkfontscale usr/share/fonts/75dpi 2>/dev/null || true
+    if [ -e     usr/share/fonts/75dpi/fonts.scale -a "`stat -f '%25z' usr/share/fonts/75dpi/fonts.scale 2>/dev/null`" = '2' ]; then rm usr/share/fonts/75dpi/fonts.scale; fi
+    mkfontdir   usr/share/fonts/75dpi 2>/dev/null || true
+    if [ -e     usr/share/fonts/75dpi/fonts.dir -a "`stat -f '%25z' usr/share/fonts/75dpi/fonts.dir 2>/dev/null`" = '2' ]; then rm usr/share/fonts/75dpi/fonts.dir; fi
+    mkfontscale usr/share/fonts/misc 2>/dev/null || true
+    if [ -e     usr/share/fonts/misc/fonts.scale -a "`stat -f '%25z' usr/share/fonts/misc/fonts.scale 2>/dev/null`" = '2' ]; then rm usr/share/fonts/misc/fonts.scale; fi
+    mkfontdir   usr/share/fonts/misc 2>/dev/null || true
+    if [ -e     usr/share/fonts/misc/fonts.dir -a "`stat -f '%25z' usr/share/fonts/misc/fonts.dir 2>/dev/null`" = '2' ]; then rm usr/share/fonts/misc/fonts.dir; fi
+    mkfontscale usr/share/fonts/cyrillic 2>/dev/null || true
+    if [ -e     usr/share/fonts/cyrillic/fonts.scale -a "`stat -f '%25z' usr/share/fonts/cyrillic/fonts.scale 2>/dev/null`" = '2' ]; then rm usr/share/fonts/cyrillic/fonts.scale; fi
+    mkfontdir   usr/share/fonts/cyrillic 2>/dev/null || true
+    if [ -e     usr/share/fonts/cyrillic/fonts.dir -a "`stat -f '%25z' usr/share/fonts/cyrillic/fonts.dir 2>/dev/null`" = '2' ]; then rm usr/share/fonts/cyrillic/fonts.dir; fi
 }

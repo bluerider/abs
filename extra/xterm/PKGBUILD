@@ -16,14 +16,14 @@ md5sums=('b9bef1abf6e397be6fa2e5f534964d17'
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  ./configure --prefix=/usr/local \
-      --libdir=/usr/local/etc \
-      --mandir=/usr/local/man \
+  ./configure --prefix=/usr \
+      --libdir=/etc \
+      --mandir=/usr/share/man \
       --enable-256-color \
       --enable-wide-chars \
       --enable-luit \
       --with-pcre \
-      --with-app-defaults=/usr/local/share/X11/app-defaults/ \
+      --with-app-defaults=/usr/share/X11/app-defaults/ \
       --with-x \
       --disable-full-tgetent \
       --disable-imake \
@@ -49,10 +49,10 @@ build() {
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  chmod 0755 "${pkgdir}/usr/local/bin/xterm"
+  chmod 0755 "${pkgdir}/usr/bin/xterm"
 
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m755 -d ${pkgdir}/usr/local/share/applications
-  install -m644 ${srcdir}/${pkgname}-${pkgver}/{xterm,uxterm}.desktop ${pkgdir}/usr/local/share/applications/
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m755 -d ${pkgdir}/usr/share/applications
+  install -m644 ${srcdir}/${pkgname}-${pkgver}/{xterm,uxterm}.desktop ${pkgdir}/usr/share/applications/
 }

@@ -15,7 +15,7 @@ sha256sums=('eaf59057ba3d7cffe29526562ce50868da7da823487a4cfb3e16946e5ffd2798')
 
 build() {
   cd "${srcdir}/bdftopcf-${pkgver}"
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   make
 }
 
@@ -23,6 +23,6 @@ package() {
   cd "${srcdir}/bdftopcf-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/COPYING"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }

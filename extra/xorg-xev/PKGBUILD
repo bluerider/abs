@@ -17,13 +17,13 @@ groups=('xorg-apps' 'xorg')
 
 build() {
 	cd "${srcdir}/xev-${pkgver}"
-	./configure --prefix=/usr/local
+	./configure --prefix=/usr
 	make
 }
 
 package() {
 	cd "${srcdir}/xev-${pkgver}"
 	make DESTDIR="${pkgdir}" install
-	install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}"
-	install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/COPYING"
+	install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+	install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }

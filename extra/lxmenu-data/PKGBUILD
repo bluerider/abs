@@ -12,7 +12,7 @@ md5sums=('2184ab3746d572477f1bea7e98e230a8')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc
+  ./configure --prefix=/usr --sysconfdir=/etc
   gmake
 }
 

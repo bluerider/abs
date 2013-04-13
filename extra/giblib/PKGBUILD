@@ -18,19 +18,15 @@ md5sums=('c810ef5389baf24882a1caca2954385e')
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   gmake
 }
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  gmake DESTDIR="${pkgdir}" docsdir=/usr/local/share/doc/giblib install
-
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
+  gmake DESTDIR="${pkgdir}" docsdir=/usr/share/doc/giblib install
 
   # Install custom license
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

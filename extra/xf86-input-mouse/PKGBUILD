@@ -27,6 +27,8 @@ build() {
   do
     patch -p0 -i "${srcdir}/$i"
   done
+  
+  export CC=clang
   ./configure --prefix=/usr --disable-silent-rules
   make
 }

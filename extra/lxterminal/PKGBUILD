@@ -14,12 +14,7 @@ md5sums=('fd9140b45c0f28d021253c4aeb8c4aea')
 build() {
 	cd "$srcdir"/$pkgname-$pkgver
 
-find "$srcdir"/$pkgname-$pkgver  -name "intltool-merge.in" | xargs  sed -i '' \
-                                -e  's|mkdir $$lang or|mkdir $$lang, 0777 or|'  \
-                                -e  's|^push @INC, "/.*|push @INC, "/usr/local/share/intltool" |'  \
-                                -e  's|/usr/bin/iconv|/usr/local/bin/iconv|g'  \
-                                -e  's|unpack *[(]'"'"'U\*'"'"'|unpack ('"'"'C*'"'"'|'
-	./configure --sysconfdir=/usr/local/etc --prefix=/usr/local
+	./configure --sysconfdir=/etc --prefix=/usr
 	gmake
 }
 

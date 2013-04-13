@@ -14,7 +14,7 @@ sha256sums=('4378cb47874ba4d5f759b7890d8d28d086e81d3f0bd4f6e84e5ab66d82ffb652')
 
 build() {
     cd ${pkgname}-${pkgver}
-    ./configure --prefix=/usr/local
+    ./configure --prefix=/usr
     gmake
 }
 

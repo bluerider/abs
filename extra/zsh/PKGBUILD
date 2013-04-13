@@ -36,27 +36,25 @@ build() {
 	sed -i '' -e '/LIBS/s/-lrt//' configure
 	sed -i "" -e "s,link=dynamic,link=either," \
 		Src/Modules/*.mdd
-	sed -i "" -e "s,/etc/,/usr/local/etc/," \
-		Functions/MIME/zsh-mime-setup
 
 	# Remove unneeded and conflicting completion scripts
 	rm -rf Completion/{AIX,Linux,Cygwin,Darwin,Debian,Mandriva,openSUSE,Redhat,Solaris}
 
 	export LDFLAGS="${LDFLAGS//,--as-needed/}"
-	./configure --prefix=/usr/local \
-		--bindir=/usr/local/bin \
-		--enable-etcdir=/usr/local/etc/zsh \
-		--enable-zshenv=/usr/local/etc/zsh/zshenv \
-		--enable-zlogin=/usr/local/etc/zsh/zlogin \
-		--enable-zlogout=/usr/local/etc/zsh/zlogout \
-		--enable-zprofile=/usr/local/etc/zsh/zprofile \
-		--enable-zshrc=/usr/local/etc/zsh/zshrc \
+	./configure --prefix=/usr \
+		--bindir=/usr/bin \
+		--enable-etcdir=/etc/zsh \
+		--enable-zshenv=/etc/zsh/zshenv \
+		--enable-zlogin=/etc/zsh/zlogin \
+		--enable-zlogout=/etc/zsh/zlogout \
+		--enable-zprofile=/etc/zsh/zprofile \
+		--enable-zshrc=/etc/zsh/zshrc \
 		--enable-maildir-support \
 		--with-term-lib='ncursesw ncurses' \
 		--enable-multibyte \
 		--enable-function-subdirs \
-		--enable-fndir=/usr/local/share/zsh/functions \
-		--enable-scriptdir=/usr/local/share/zsh/scripts \
+		--enable-fndir=/usr/share/zsh/functions \
+		--enable-scriptdir=/usr/share/zsh/scripts \
 		--with-tcsetpgrp \
 		--enable-pcre \
 		--enable-cap \
@@ -65,16 +63,16 @@ build() {
 	gmake all info
 }
 
-check() {
-	cd "${srcdir}/${pkgname}-${pkgver}"
-	HOME="${srcdir}" gmake check
-}
+#check() {
+#	cd "${srcdir}/${pkgname}-${pkgver}"
+#	HOME="${srcdir}" gmake check
+#}
 
 package() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
 	gmake DESTDIR="${pkgdir}/" install install.info
-	install -dm755 "${pkgdir}/usr/local/etc/zsh/"
-	install -m644 "${srcdir}/zprofile" "${pkgdir}/usr/local/etc/zsh/zprofile"
-	install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-	install -m644 LICENCE "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+	install -dm755 "${pkgdir}/etc/zsh/"
+	install -m644 "${srcdir}/zprofile" "${pkgdir}/etc/zsh/zprofile"
+	install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+	install -m644 LICENCE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

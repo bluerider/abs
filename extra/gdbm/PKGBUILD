@@ -31,12 +31,12 @@ build() {
             -e 's|BINGRP = bin|BINGRP = wheel|' \
             Makefile.in
 
-  ./configure --prefix=/usr/local \
-              --mandir=/usr/local/man \
-              --infodir=/usr/local/info \
+  ./configure --prefix=/usr \
+              --mandir=/usr/share/man \
+              --infodir=/usr/share/info \
               --enable-libgdbm-compat
 
-  make prefix=/usr/local
+  make prefix=/usr
 }
 
 check() {
@@ -46,15 +46,15 @@ check() {
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  make prefix="${pkgdir}"/usr/local \
-       manprefix="${pkgdir}"/usr/local/man \
-       man3dir="${pkgdir}"/usr/local/man/man3 \
-       infodir="${pkgdir}"/usr/local/info \
+  make prefix="${pkgdir}"/usr \
+       manprefix="${pkgdir}"/usr/share/man \
+       man3dir="${pkgdir}"/usr/share/man/man3 \
+       infodir="${pkgdir}"/usr/share/info \
        install
   
   # create symlinks for compatibility
-  install -dm755 "${pkgdir}"/usr/local/include/gdbm
-  ln -sf ../gdbm.h "${pkgdir}"/usr/local/include/gdbm/gdbm.h
-  ln -sf ../ndbm.h "${pkgdir}"/usr/local/include/gdbm/ndbm.h
-  ln -sf ../dbm.h  "${pkgdir}"/usr/local/include/gdbm/dbm.h
+  install -dm755 "${pkgdir}"/usr/include/gdbm
+  mv ${pkgdir}/usr/include/gdbm.h "${pkgdir}"/usr/include/gdbm/gdbm.h
+  mv ${pkgdir}/usr/include/ndbm.h "${pkgdir}"/usr/include/gdbm/ndbm.h
+  ln -sf ../dbm.h  "${pkgdir}"/usr/include/gdbm/dbm.h
 }

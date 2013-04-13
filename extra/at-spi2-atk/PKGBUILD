@@ -23,7 +23,7 @@ build() {
   sed -i '' -e '/AC_PATH_XTRA/d' configure.ac
   autoreconf --force --install
 
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc \
+  ./configure --prefix=/usr --sysconfdir=/etc \
     --disable-schemas-compile
   gmake
 }
@@ -32,9 +32,6 @@ package() {
   cd $pkgname-$pkgver
   gmake DESTDIR="$pkgdir" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }
 
 # vim:set ts=2 sw=2 et:

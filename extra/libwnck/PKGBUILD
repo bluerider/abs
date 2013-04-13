@@ -13,11 +13,10 @@ sha256sums=('8be84d5333f0ade0e61af9f4cbf7685cb7cce2aa0ee32f53bac32107a81fe194')
 
 build() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    CPPFLAGS="${CPPFLAGS} -I/usr/local/include" \
-    LDFLAGS="${LDFLAGS} -L/usr/local/lib" \
-    ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc \
+
+    ./configure --prefix=/usr --sysconfdir=/etc \
         --localstatedir=/var \
-        --with-html-dir=/usr/local/share/doc \
+        --with-html-dir=/usr/share/doc \
         --enable-startup-notification
 
     gmake
@@ -27,11 +26,7 @@ package() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     gmake DESTDIR="${pkgdir}" install
 
-    install -dm755 "${pkgdir}/usr/local/libdata"
-    mv "${pkgdir}/usr/local/lib/pkgconfig" \
-       "${pkgdir}/usr/local/libdata/pkgconfig"
-
     #The binaries are shipped in libwnck3
-    rm -f ${pkgdir}/usr/local/bin/wnckprop
-    rm -f ${pkgdir}/usr/local/bin/wnck-urgency-monitor
+    rm -f ${pkgdir}/usr/bin/wnckprop
+    rm -f ${pkgdir}/usr/bin/wnck-urgency-monitor
 }

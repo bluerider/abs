@@ -1,4 +1,4 @@
-infodir=usr/local/info
+infodir=usr/share/info
 
 post_install() {
   usr/bin/install-info $infodir/gdbm.info.gz $infodir/dir 2> /dev/null

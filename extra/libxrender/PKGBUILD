@@ -25,6 +25,6 @@ package() {
   cd "${srcdir}/libXrender-${pkgver}"
   make DESTDIR=${pkgdir} install
 
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

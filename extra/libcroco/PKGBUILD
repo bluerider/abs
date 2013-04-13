@@ -16,7 +16,7 @@ sha256sums=('ea6e1b858c55219cefd7109756bff5bc1a774ba7a55f7d3ccd734d6b871b8570')
 
 build() {
   cd $pkgname-$pkgver
-  ./configure --prefix=/usr/local
+  ./configure --prefix=/usr
   gmake
 }
 
@@ -24,7 +24,4 @@ package() {
   cd $pkgname-$pkgver
   gmake DESTDIR="$pkgdir" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  mv "${pkgdir}/usr/local/lib/pkgconfig" \
-     "${pkgdir}/usr/local/libdata/pkgconfig"
 }

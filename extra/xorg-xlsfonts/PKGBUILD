@@ -15,13 +15,13 @@ sha1sums=('6fc23537797bb1ae4945efd8c01e675edf4a4c3f')
 
 build() {
 	cd "${srcdir}/xlsfonts-${pkgver}"
-	./configure --prefix=/usr/local
+	./configure --prefix=/usr
 	make
 }
 
 package() {
 	cd "${srcdir}/xlsfonts-${pkgver}"
 	make DESTDIR="${pkgdir}" install
-	install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-	install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/COPYING"
+	install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+	install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
 }

@@ -35,16 +35,18 @@ build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
   sed -i '' -e 's/GDK_HAND1/GDK_HAND2/' src/fe-gtk/xtext.c
-  patch -p1 -i "${srcdir}/xchat-2.8.8-libnotify07.patch"
-  patch -p1 -i "${srcdir}/xchat-2.8.8-link-against-libnotify.patch"
+#  patch -p1 -i "${srcdir}/xchat-2.8.8-libnotify07.patch"
+#  patch -p1 -i "${srcdir}/xchat-2.8.8-link-against-libnotify.patch"
   patch -p1 -i "${srcdir}/xchat-2.8.8-glib-2.31.patch"
   patch -p0 -i "${srcdir}/patch-configure"
   patch -p0 -i "${srcdir}/patch-socks"
   patch -p0 -i "${srcdir}/patch-src_common_xchat.h"
 
-  sed -i '' -E -e 's|PY_LIBS=.*|PY_LIBS="-L\$PY_EXEC_PREFIX/lib/python\$PY_VER/config -lpython\$PY_VER -pthread -lutil"|' ${srcdir}/${pkgname}-${pkgver}/configure
-  CFLAGS="$CFLAGS -fPIC"
-  LIBS+="-lgmodule-2.0" ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc --datadir=/usr/local/share \
+  sed -i '' -E -e 's|PY_LIBS=.*|PY_LIBS="-L\$PY_EXEC_PREFIX/lib/python\$PY_VER/config -lpython\$PY_VER -lpthread -lutil"|' ${srcdir}/${pkgname}-${pkgver}/configure
+
+  CPPFLAGS="$CFLAGS -fPIC"
+
+  LIBS+="-lgmodule-2.0" ./configure --prefix=/usr --sysconfdir=/etc --datadir=/usr/share \
     --enable-openssl --enable-dbus --disable-textfe --enable-ipv6 --enable-spell=static
   gmake
 }
@@ -63,6 +65,6 @@ package() {
   install -m644 ../xchat-used.svg "${pkgdir}/usr/share/icons/hicolor/scalable/apps/"
 
   #These files are owned / installed by gettext - Removing to prevent conflicts.
-  rm -f "${pkgdir}"/usr/local/lib/charset.alias
-  rm -f "${pkgdir}"/usr/local/share/locale/locale.alias 
+  rm -f "${pkgdir}"/usr/lib/charset.alias
+  rm -f "${pkgdir}"/usr/share/locale/locale.alias 
 }

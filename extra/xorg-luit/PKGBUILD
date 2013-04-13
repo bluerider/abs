@@ -16,13 +16,13 @@ sha1sums=('3130c14d7267cecce0ba2280643844b48cca49b0')
 build() {
   cd "${srcdir}/luit-${pkgver}"
   ac_cv_func_grantpt=no \
-  ./configure --prefix=/usr/local --datadir=/usr/local/lib
+  ./configure --prefix=/usr --datadir=/usr/lib
   make
 }
 
 package() {
   cd "${srcdir}/luit-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
 }

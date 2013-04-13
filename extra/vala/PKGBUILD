@@ -33,7 +33,7 @@ build() {
 		${srcdir}/$pkgname-$pkgver/Makefile.in
 
 
-    ./configure --prefix=/usr/local --disable-vapigen
+    ./configure --prefix=/usr --disable-vapigen
 
     make
 }
@@ -41,6 +41,4 @@ build() {
 package() {
     cd $pkgname-$pkgver
     make DESTDIR="$pkgdir" install
-    install -dm755 "${pkgdir}/usr/local/libdata"
-    mv "${pkgdir}/usr/local/lib/pkgconfig" "${pkgdir}/usr/local/libdata"
 }

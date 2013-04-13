@@ -3,7 +3,7 @@
 # Contributor: Thomas Haider <t.haider@vcnc.org>
 
 pkgname=libev
-pkgver=4.11
+pkgver=4.12
 pkgrel=2
 pkgdesc="A full-featured and high-performance event loop"
 arch=('i686' 'x86_64')

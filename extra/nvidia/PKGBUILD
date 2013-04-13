@@ -16,6 +16,9 @@ md5sums=('d698f4dcbcfd18fd447946e50e976c71'
 
 build() {
   cd "${srcdir}/NVIDIA-FreeBSD-${CARCH}-${pkgver}/"
+  export CC=clang
+  export CPP=clang-cpp
+  export CXX=clang++	
   unset CFLAGS LDFLAGS CPPFLAGS CXXFLAGS
   make
 }
