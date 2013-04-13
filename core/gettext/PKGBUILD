@@ -13,7 +13,6 @@ groups=('base-devel')
 depends=('libiconv' 'libtool')
 optdepends=('cvs: for autopoint tool')
 options=(!docs)
-install=gettext.install
 source=(ftp://ftp.gnu.org/pub/gnu/gettext/${pkgname}-${pkgver}.tar.gz{,.sig}
         patch-ad
         patch-ak
@@ -79,4 +78,5 @@ check() {
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
+  install -dm755 ${pkgdir}/usr/lib/gettext
 }

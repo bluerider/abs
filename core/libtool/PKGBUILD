@@ -43,7 +43,6 @@ build() {
 package_libtool() {
   depends=("libltdl=$pkgver")
   groups=('base-devel')
-  install=libtool.install
 
   cd ${srcdir}/${pkgbase}-${pkgver}
 

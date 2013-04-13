@@ -1,9 +1,10 @@
 pkgname=openrc
 pkgver=0.11.8
-pkgrel=6
+pkgrel=7
 pkgdesc='Dependency based init system that works with sysvinit.'
 arch=('i686' 'x86_64')
 groups=('base')
+depend=('bash')
 url='http://www.gentoo.org/proj/en/base/openrc/'
 license=('BSD')
 

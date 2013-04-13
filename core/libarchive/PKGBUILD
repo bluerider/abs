@@ -49,22 +49,9 @@ package() {
   install    -m644 COPYING "$pkgdir"/usr/share/licenses/libarchive/COPYING
 
   #remove man pages already included in base
- for i in bsdcpio.1.gz bsdtar.1.gz; do
-	rm -f ${pkgdir}/usr/share/man/man1/$i
- done
 
- for f in archive_entry.3.gz  archive_entry_stat.3.gz \
-	   archive_read.3.gz  archive_read_disk.3.gz z\
-	   archive_util.3.gz  archive_write.3.gz  \
-	   archive_write_disk.3.gz  libarchive.3.gz; do
-		rm -f ${pkgdir}/usr/share/man/man3/$f
- done
-
- for i in cpio.5.gz libarchive-formats.5.gz \
-	  mtree.5.gz tar.5.gz; do
-		rm -f ${pkgdir}/usr/share/man/man5/$i
- done
-
+ rm -rf ${pkgdir}/usr/share/man
+ 
  install -dm755 ${pkgdir}/usr/lib
  mv ${pkgdir}/usr/local/lib/pkgconfig ${pkgdir}/usr/lib
 }
