@@ -19,12 +19,14 @@ build() {
     cd "$pkgname-v$pkgver"
     for i in patch-build_make_configure.sh patch-build_make_rtcd.sh patch-configure
     do
-    	patch -p0 -i "${srcdir}/$i"
+        patch -p0 -i "${srcdir}/$i"
     done
-	sed -i '' -e 's|\(link_with_cc\)=gcc|\1='${CC}'|' \
-		build/make/configure.sh
-	grep -Rl '^#!/bin/bash' . | xargs sed -i '' \
-		-e 's,#!/bin/bash,#!/usr/bin/env bash,g'
+    if [ -n "$CC" ]; then
+        sed -i '' -e 's|\(link_with_cc\)=gcc|\1='${CC}'|' \
+            build/make/configure.sh
+    fi
+    grep -Rl '^#!/bin/bash' . | xargs sed -i '' \
+        -e 's,#!/bin/bash,#!/usr/bin/env bash,g'
 
     ./configure --prefix=/usr --enable-vp8 \
         --enable-runtime-cpu-detect \
