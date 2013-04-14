@@ -15,7 +15,7 @@ start() {
     # We need to test if /var/run/slim exists, since script will fail if it does not
     [ ! -e /var/run/slim ] && mkdir /var/run/slim
 
-    start-stop-daemon --start --pidfile /var/run/slim/pid --exec /usr/local/bin/slim -- -d
+    start-stop-daemon --start --pidfile /var/run/slim/pid --exec /usr/bin/slim -- -d
 
     eend $?
 }

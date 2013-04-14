@@ -31,13 +31,13 @@ build() {
   autoreconf -vfi  
   CPPFLAGS="$CPPFLAGS -I/usr/local/include" \
   LDFLAGS="$LDFLAGS -L/usr/local/lib -lusbhid" \
-  ./configure
+  ./configure prefix=/usr
   make all
 }
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }

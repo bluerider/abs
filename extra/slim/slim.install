@@ -1,12 +1,13 @@
 post_install() {
-    if [ ! -f usr/local/etc/slim.conf ] ; then cp -p usr/local/etc/slim.conf.sample usr/local/etc/slim.conf; fi
-    if [ ! -f usr/local/etc/pam.d/slim ] ; then cp -p usr/local/etc/pam.d/slim.default usr/local/etc/pam.d/slim; fi
-    /bin/rm -f usr/local/share/man/man1/slim.1
-    rmdir "usr/local/share/man/man1" 2>/dev/null || true
-    rmdir "usr/local/share/man" 2>/dev/null || true
+    if [ ! -f etc/slim.conf ] ; then cp -p etc/slim.conf.sample etc/slim.conf; fi
+    if [ ! -f etc/pam.d/slim ] ; then cp -p etc/pam.d/slim.default etc/pam.d/slim; fi
+    /bin/rm -f usr/share/man/man1/slim.1
+    rmdir "usr/share/man/man1" 2>/dev/null || true
+    rmdir "usr/share/man" 2>/dev/null || true
 }
  
 pre_remove() {
-    if cmp -s usr/local/etc/slim.conf.sample usr/local/etc/slim.conf; then rm -f usr/local/etc/slim.conf; fi
-    if cmp -s usr/local/etc/pam.d/slim.default usr/local/etc/pam.d/slim; then rm -f usr/local/etc/pam.d/slim ; fi
+    if cmp -s etc/slim.conf.sample etc/slim.conf; then rm -f etc/slim.conf; fi
+    if cmp -s etc/pam.d/slim.default etc/pam.d/slim; then rm -f etc/pam.d/slim ; fi
 }
+ 
