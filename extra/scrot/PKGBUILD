@@ -15,15 +15,15 @@ md5sums=('ccae904d225609571bdd3b03445c1e88')
 build() {
   cd $srcdir/$pkgname-$pkgver
 
-  ./configure --prefix=/usr/local \
-              --mandir=/usr/local/man
+  ./configure --prefix=/usr \
+              --mandir=/usr/share/man
   make
 }
 
 package() {
   cd $srcdir/$pkgname-$pkgver
 
-  make DESTDIR=$pkgdir docsdir=/usr/local/share/doc/scrot install
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m644 COPYING "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+  make DESTDIR=$pkgdir docsdir=/usr/share/doc/scrot install
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
