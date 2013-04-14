@@ -59,5 +59,5 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
 
-  ln -sf "${pkgdir}/usr/bin/glib-config" "${pkgdir}/usr/local/bin/glib12-config"
+  ln -sf "${pkgdir}/usr/bin/glib-config" "${pkgdir}/usr/bin/glib12-config"
 }

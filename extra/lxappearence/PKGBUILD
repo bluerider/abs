@@ -23,13 +23,7 @@ build() {
      
     patch -p0 -i ${srcdir}/extra-src-utils.c
 
-    find "$srcdir"/$pkgname-$pkgver  -name "intltool-merge.in" | xargs  sed -i '' \
-                                -e  's|mkdir $$lang or|mkdir $$lang, 0777 or|'  \
-                                -e  's|^push @INC, "/.*|push @INC, "/usr/local/share/intltool" |'  \
-                                -e  's|/usr/bin/iconv|/usr/local/bin/iconv|g'  \
-                                -e  's|unpack *[(]'"'"'U\*'"'"'|unpack ('"'"'C*'"'"'|'
-
-    ./configure --sysconfdir=/usr/local/etc --prefix=/usr/local
+    ./configure --sysconfdir=/etc --prefix=/usr
     gmake 
 }
 
@@ -37,6 +31,4 @@ package() {
     cd "$srcdir/$pkgname-$pkgver"
 
     gmake DESTDIR="$pkgdir" install 
-    install -dm755 ${pkgdir}/usr/local/libdata/
-    mv ${pkgdir}/usr/local/lib/pkgconfig ${pkgdir}/usr/local/libdata/
 }

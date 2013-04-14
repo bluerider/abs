@@ -14,20 +14,13 @@ md5sums=('a4574365938222adca0a6bd33329cb32')
 build() {
   cd "$srcdir/$pkgname-$pkgver/js/src"
 
-    find $srcdir/$pkgname-$pkgver -name "Makefile.in*" -type f | xargs sed -i '' \
-                                -e 's|[(]libdir[)]/locale|(prefix)/share/locale|g' \
-                                -e 's|[(]libdir[)]/pkgconfig|(prefix)/libdata/pkgconfig|g' \
-                                -e 's|[(]datadir[)]/pkgconfig|(prefix)/libdata/pkgconfig|g' \
-                                -e 's|[(]prefix[)]/lib/pkgconfig|(prefix)/libdata/pkgconfig|g' \
-                                -e 's|[$$][(]localstatedir[)]/scrollkeeper|/var/db/rarian|g' \
-                                -e 's|[(]libdir[)]/bonobo/servers|(prefix)/libdata/bonobo/servers|g' 
   find $srcdir/$pkgname-$pkgver  -name "configure" -type f | xargs sed -i '' \
                                 -e 's|-lpthread|-pthread|g' \
                                 -e 's|DATADIRNAME=lib|DATADIRNAME=share|g' \
                                 -e 's|{libdir}/locale|{prefix}/share/locale|g'
    unset CC CXX CPP
   
-  ./configure --prefix=/usr/local --with-system-nspr \
+  ./configure --prefix=/usr --with-system-nspr \
     --with-pthreads
 
   echo "fenv.h" >> config/system-headers
@@ -40,8 +33,8 @@ package() {
   cd "$srcdir/$pkgname-$pkgver/js/src"
   gmake DESTDIR="$pkgdir" install
 
-  install -m 0755 shell/js ${pkgdir}/usr/local/bin
+  install -m 0755 shell/js ${pkgdir}/usr/bin
 
   #cleanup
-  rm -f "${pkgdir}/usr/local/lib/libmozjs185-1.0.a"
+  rm -f "${pkgdir}/usr/lib/libmozjs185-1.0.a"
 }

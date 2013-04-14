@@ -58,23 +58,21 @@ build() {
 	patch-assert.cxx; do
   patch -p0 -i ${srcdir}/${i}
   done
-  unset LDFLAGS
-  unset CXX
 
   chmod 755 configure
-  ./configure --prefix=/usr/local --enable-default-catalog=/usr/local/share/sgml/catalog
+  ./configure --prefix=/usr --enable-default-catalog=/usr/share/sgml/catalog
 
   gmake
 }
 
 package() {
   cd "${srcdir}"/${pkgname}-${pkgver}
-  find  "${srcdir}"/${pkgname}-${pkgver} \( -name \*.orig -o -name \*~ \) \
-		-exec rm -f \{} \;
+#  find  "${srcdir}"/${pkgname}-${pkgver} \( -name \*.orig -o -name \*~ \) \
+#		-exec rm -f \{} \;
 
-  install -d -m755 "${pkgdir}"/usr/local/lib
-  gmake prefix="${pkgdir}"/usr/local install
-  mv "${pkgdir}"/usr/local/bin/sx "${pkgdir}"/usr/local/bin/sgml2xml
+  install -d -m755 "${pkgdir}"/usr/lib
+  gmake prefix="${pkgdir}"/usr install
+  mv "${pkgdir}"/usr/bin/sx "${pkgdir}"/usr/bin/sgml2xml
   install -dm755 "${pkgdir}"/usr/share/licenses/${pkgname}
   install -m644  COPYING "${pkgdir}"/usr/share/licenses/${pkgname}/LICENSE
 }

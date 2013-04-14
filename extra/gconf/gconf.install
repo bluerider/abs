@@ -1,11 +1,11 @@
 post_install() {
-  chmod 755 usr/local/etc/gconf/gconf.xml.system
-  usr/local/bin/gio-querymodules usr/local/lib/gio/modules
+  chmod 755 etc/gconf/gconf.xml.system
+  usr/bin/gio-querymodules usr/lib/gio/modules
 }
 
 post_upgrade() {
 }
 
 post_remove() {
-    usr/local/bin/gio-querymodules usr/local/lib/gio/modules
+    usr/bin/gio-querymodules usr/lib/gio/modules
 }

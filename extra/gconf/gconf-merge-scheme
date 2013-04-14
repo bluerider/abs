@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/bash
 if [ ! "$1" -a ! "$2" ]; then
   echo "Usage: $0 output.schemas [--domain gettextdomain] file1.schemas [file2.schemas [...]]"
   exit 1

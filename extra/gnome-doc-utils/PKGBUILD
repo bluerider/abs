@@ -15,27 +15,13 @@ build() {
 
   unset CONFIG_SITE
 
-  find "$srcdir/$pkgname-$pkgver" -name "Makefle.in*" -type f | xargs sed -i '' -e \
-                                's|[(]libdir[)]/locale|(prefix)/share/locale|g ; \
-                                 s|[(]libdir[)]/pkgconfig|(prefix)/libdata/pkgconfig|g ; \
-                                 s|{libdir}/pkgconfig|(prefix)/libdata/pkgconfig|g ; \
-                                 s|[(]datadir[)]/pkgconfig|(prefix)/libdata/pkgconfig|g ; \
-                                 s|[(]prefix[)]/lib/pkgconfig|(prefix)/libdata/pkgconfig|g ; \
-                                 s|[$$][(]localstatedir[)]/scrollkeeper|${SCROLLKEEPER_DIR}|g ; \
-                                 s|[(]libdir[)]/bonobo/servers|(prefix)/libdata/bonobo/servers|g' ; \
   find "$srcdir/$pkgname-$pkgver" -name "configure" -type f | xargs sed -i '' -e \
                                 's|-lpthread|-pthread|g' \
 				-e 's|DATADIRNAME=lib|DATADIRNAME=share|g'  \
 				-e 's|{libdir}/locale|{prefix}/share/locale|g'
-  find "$srcdir"/$pkgname-$pkgver  -name "intltool-merge.in" | xargs  sed -i '' \
-                                -e  's|mkdir $$lang or|mkdir $$lang, 0777 or|'  \
-                                -e  's|^push @INC, "/.*|push @INC, "/usr/local/share/intltool" |'  \
-                                -e  's|/usr/bin/iconv|/usr/local/bin/iconv|g'  \
-                                -e  's|unpack *[(]'"'"'U\*'"'"'|unpack ('"'"'C*'"'"'|'
 
-
-  PYTHON=/usr/local/bin/python2 ./configure --prefix=/usr/local \
-      --sysconfdir=/usr/local/etc --mandir=/usr/share/man \
+  PYTHON=/usr/bin/python2 ./configure --prefix=/usr \
+      --sysconfdir=/etc --mandir=/usr/share/man \
       --localstatedir=/var --disable-scrollkeeper
   gmake
 }
@@ -43,5 +29,5 @@ build() {
 package() {
   cd "$pkgname-$pkgver"
   gmake DESTDIR="$pkgdir" install
-  sed -i '' -e "s|\/bin\/bash|\/usr\/local\/bin\/bash|g" ${pkgdir}/usr/local/bin/gnome-doc-tool
+  sed -i '' -e "s|\/bin\/bash|\/usr\/bin\/bash|g" ${pkgdir}/usr/bin/gnome-doc-tool
 }
