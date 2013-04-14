@@ -15,8 +15,8 @@ source=(http://download.berlios.de/$pkgname/$pkgname-$pkgver.tar.gz
 	patch-app.cpp
 	patch-libpng-setjmp-image.cpp
 	patch-log.h
-	patch-slim.conf
 	patch-switchuser.cpp
+	patch-slim.conf
 	patch-themes__default__slim.theme
 	slim)
 sha256sums=('155c26460c98b9f0925624028b4254afc0de4fda33300f3ac45606b2c5cbd501'
@@ -25,24 +25,21 @@ sha256sums=('155c26460c98b9f0925624028b4254afc0de4fda33300f3ac45606b2c5cbd501'
             '42324af3b0873d8c6f72a48de5cc11e6a1b982221946f42d20c5f15e334325f8'
             'e4d9f3febcf12fc8d1266e586ee6f538e63bef0d0055e93bcc4e7171288cfdc4'
             'd0d9d3f94ebca9a55100f69b9c8d58f0385a45d5db0aa0837da22e447b58d901'
-            'a37436dff956603973b9c88449ca37323642bb8bf001ac98216dec8bb32f6f0d'
             '6da7755279dfefb06b61c7b080edfcf523d897747527a0c46dbc8926df750d65'
+            '5b0736250efff9917574d83cb8b7c1450ccac45bdda6eef8203c8f159ac14c25'
             'af8da49774742161b0aa71474391053b130e86402f43e3fb2b47b1fabcf2383f'
             '50479a6353f712408039ef24dfef2e5b9d4761efab4b7644e6a6047337d263d3')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
 
-  sed -i '' -e 's|%%LOCALBASE%%|${LOCALBASE}|g' $srcdir/$pkgname-$pkgver/slim.conf
-
-
  for i in patch-Ck.cpp \
 	patch-PAM.cpp \
 	patch-app.cpp \
 	patch-libpng-setjmp-image.cpp \
 	patch-log.h \
-	patch-slim.conf \
 	patch-switchuser.cpp \
+	patch-slim.conf \
 	patch-themes__default__slim.theme; do
   patch -p0 -i ${srcdir}/${i}
   done
@@ -61,9 +58,10 @@ package() {
   make DESTDIR="$pkgdir" install
 
   # Provide sane defaults
-  sed -i '' -e 's|#xserver_arguments.*|xserver_arguments -nolisten tcp vt07|' \
-         -e 's|/var/run/slim.lock|/var/lock/slim.lock|' \
-    "$pkgdir/etc/slim.conf"
+  sed -i '' -e 's|\/bin\/bash|\/usr\/bin\/bash|' "$pkgdir/etc/slim.conf"
+
+  sed -i '' -e 's|%%LOCALBASE%%|\/usr|g' "$pkgdir/etc/slim.conf"
+
   install -m755 -d "$pkgdir/etc/init.d/"
   install -m644 ${srcdir}/slim "$pkgdir/etc/init.d/slim"
   chmod +x "$pkgdir/etc/init.d/slim"
