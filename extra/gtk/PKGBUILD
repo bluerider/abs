@@ -49,6 +49,8 @@ build() {
     ln -s /usr/share/libtool/config/config.sub config.sub
   fi
   patch -Np0 -i "${srcdir}/aclocal-fixes.patch"
+ 
+  export CFLAGS="${CFLAGS} -fPIC"
 
   ./configure --prefix=/usr --sysconfdir=/etc \
     --mandir=/usr/share/man --infodir=/usr/share/info \
