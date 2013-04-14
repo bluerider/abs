@@ -3,7 +3,7 @@
 
 pkgname=glib
 pkgver=1.2.10
-pkgrel=10
+pkgrel=11
 pkgdesc="Common C routines used by Gtk+ and other libs"
 arch=('i686' 'x86_64')
 url="http://www.gtk.org/"
@@ -66,9 +66,7 @@ package() {
   for i in libgthread-12.so.3.0 libgmodule-12.so.3.0 libglib-12.so.3.0; do
    x=`echo $i | sed "s/..$//"`
    f=`echo $i | sed -e 's|\-12||g'`
-   z=`echo $i | sed -e "s/..$//" -e 's|\-12||g'`
-        mv ${pkgdir}/usr/lib/$f ${pkgdir}/usr/lib/$z
-        ln -s $z $x
+        ln -s $f $x
 	rm -f ${pkgdir}/usr/lib/$i
   done
 
