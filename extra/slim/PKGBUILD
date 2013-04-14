@@ -5,7 +5,7 @@ pkgdesc="Desktop-independent graphical login manager for X11"
 arch=('i686' 'x86_64')
 url="http://slim.berlios.de/"
 license=('GPL2')
-depends=('libxmu' 'libpng' 'libjpeg' 'libxft')
+depends=('libxmu' 'libpng' 'libjpeg' 'libxft' 'consolekit')
 makedepends=('cmake' 'freeglut')
 install=slim.install
 backup=('etc/slim.conf')
@@ -48,7 +48,8 @@ build() {
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_SKIP_RPATH=ON \
-    -DUSE_CONSOLEKIT=no
+    -DUSE_CONSOLEKIT=yes
+
   make
 }
 
