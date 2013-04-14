@@ -13,8 +13,8 @@ sha256sums=('785b591c561be1c8206f0d2575dc63558ea6199c3afe49cbc4efde94a6629a20')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  export PYTHON=/usr/local/bin/python2
-  ./configure --prefix=/usr/local --with-xml-catalog=/usr/local/etc/xml/catalog
+  export PYTHON=/usr/bin/python2
+  ./configure --prefix=/usr --with-xml-catalog=/etc/xml/catalog
   gmake
 }
 
@@ -22,6 +22,4 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata"
-  cp -Ra "${pkgdir}/usr/local/share/pkgconfig" "${pkgdir}/usr/local/libdata"
 }
