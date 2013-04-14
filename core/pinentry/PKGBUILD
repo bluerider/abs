@@ -48,7 +48,7 @@ build() {
               --disable-pinentry-gtk \
               --disable-pinentry-qt \
               --enable-fallback-curses \
-	      --enable-pinentry-gtk
+	      --enable-pinentry-gtk2
 
 # FIXME: when we have extra/qt
 #              --enable-pinentry-qt4 --enable-pinentry-gtk

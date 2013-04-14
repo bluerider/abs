@@ -60,4 +60,16 @@ package() {
   make DESTDIR="${pkgdir}" install
 
   ln -sf "${pkgdir}/usr/bin/glib-config" "${pkgdir}/usr/bin/glib12-config"
+
+  #Fix the library naming
+  cd ${pkgdir}/usr/lib/
+  for i in libgthread-12.so.3.0 libgmodule-12.so.3.0 libglib-12.so.3.0; do
+   x=`echo $i | sed "s/..$//"`
+   f=`echo $i | sed -e 's|\-12||g'`
+   z=`echo $i | sed -e "s/..$//" -e 's|\-12||g'`
+        mv ${pkgdir}/usr/lib/$f ${pkgdir}/usr/lib/$z
+        ln -s $z $x
+	rm -f ${pkgdir}/usr/lib/$i
+  done
+
 }
