@@ -75,8 +75,8 @@ build() {
       ;;
   esac
 
-  export CLFAGS="$CFLAGS -fPIC"
-  export LDFLAGS="$LDFLAGS -fPIC"
+  export CLFAGS="$CFLAGS -I/usr/local/include -fPIC"
+  export LDFLAGS="$LDFLAGS -L/usr/local/lib -fPIC"
 
   ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
      --libdir=/usr/lib \
@@ -95,7 +95,7 @@ build() {
      --with-cachedir=/var/db/cups \
      --enable-pam \
      --with-pam-module="unix" \
-     --with-optim="$CFLAGS"
+     --with-optim="$CFLAGS" --disable-gssapi
   gmake
 }
 
