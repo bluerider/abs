@@ -32,8 +32,8 @@ md5sums=('6ee5bb53b97da7c6ad9cb0825d3300dd'
          'fc29640ee08d81613030fd4572a3be7f'
          '547d09864eebb92787757c9b1f2c18df'
          '2089581b5caa121270c013f9c97dac09'
-         '501b9270dbb3b544d3c00b179222ac43'
-         '7924ad8a7bf2c0e01ad296a922e68c3b')
+         '37016ddc8a302b962672c3d160920d97'
+         'e37bf8b5290f14e648737b669bc6004c')
 sha256sums=('d97dd918a88a4449225998f46aafa85216a3f89163a3411830d6890507ffae93'
             '4048006e2ed116532bfd8703bf509cdb639233ad2f5bfb6cf94b9ee00523f7c1'
             '57dfd072fd7ef0018c6b0a798367aac1abb5979060ff3f9df22d1048bb71c0d5'
@@ -45,8 +45,8 @@ sha256sums=('d97dd918a88a4449225998f46aafa85216a3f89163a3411830d6890507ffae93'
             'eec401283b18a1a89b1fddd1d42fc3f9111dbee49cd39f62172cd04bf1ce888d'
             'f68b1b6331160aa6ffcc2bf3b5c0a5531df8d8fe3f96bda69f107c2e9f121ffa'
             'fe255cdd98333d34e6ef80f7b4d6b7af780974f377a4d37f56ce4c873fdcb6a7'
-            '193c7d6fc5a397d1eda9bfa35217a1321aa453a4ad44f65a28d63464430a9860'
-            '982a544be0ed224de9584071b6be8f3a827f4b0dee985a5366cbd31e4c6eda9b')
+            'f4a1247e7f0681f2387aca8774e32acb68780c14a63cc8a631482e5bcbb62e5e'
+            '19cceaa885dbf227abd54af188c27c01a0b4e5d355a75ed6f1356cf69c752295')
 
 build() {
   cd "${srcdir}/postgresql-${pkgver}"
@@ -170,5 +170,5 @@ package_postgresql() {
   install -m644 ${srcdir}/postgresql.confd ${pkgdir}/etc/conf.d/postgresql
   install -dm755 ${pkgdir}/etc/init.d/
   install -m644 ${srcdir}/postgresql.init ${pkgdir}/etc/init.d/postgresql 
-
+  chmod +x ${pkgdir}/etc/init.d/postgresql
 }

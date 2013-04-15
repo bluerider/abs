@@ -48,10 +48,10 @@ FORCE_TIMEOUT=2
 ##############################################################################
 
 # Location of configuration files
-PGDATA="/usr/share/postgresql"
+PGDATA="/var/lib/postgres/"
 
 # Where the data directory is located/to be created
-DATA_DIR="/var/lib/postgresql"
+DATA_DIR="/var/lib/postgres/data"
 
 # Additional options to pass to initdb.
 # See `man initdb' for available options.

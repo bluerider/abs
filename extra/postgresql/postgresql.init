@@ -79,9 +79,9 @@ start() {
         --env "PGPORT=${configured_port}" \
         ${extraenv} \
         --pidfile ${DATA_DIR%/}/postmaster.pid \
-        --exec /usr/lib/postgresql-@SLOT@/bin/pg_ctl \
+        --exec /usr/bin/pg_ctl \
         -- start -s -w -t ${START_TIMEOUT} -l ${DATA_DIR%/}/postmaster.log \
-                 -D ${PGDATA} -o "--data-directory=${DATA_DIR} ${PGOPTS}"
+                 -D ${PGDATA}
     local retval=$?
 
     if [ $retval -ne 0 ] ; then
@@ -115,7 +115,7 @@ stop() {
     start-stop-daemon --stop \
         --exec /usr/bin/postgres \
         --retry ${retries} \
-        --pidfile ${DATA_DIR%/}/postmaster.pid
+        --pidfile ${PGDATA%/}/postmaster.pid
 
     eend
 }
