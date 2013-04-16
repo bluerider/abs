@@ -4,14 +4,13 @@
 pkgbase=mariadb
 pkgname=('libmariadbclient' 'mariadb-clients' 'mariadb')
 pkgver=5.5.30
-pkgrel=2
+pkgrel=
 arch=('i686' 'x86_64')
 license=('GPL')
 url='http://mariadb.org/'
 makedepends=('cmake')
 options=('!libtool')
 source=(http://mirrors.supportex.net/$pkgbase/$pkgbase-$pkgver/kvm-tarbake-jaunty-x86/$pkgbase-$pkgver.tar.gz
-        mariadb.service
         mariadb-post.sh
         mariadb-tmpfile.conf
 	extra-patch-include_my_compare.h
@@ -33,7 +32,6 @@ source=(http://mirrors.supportex.net/$pkgbase/$pkgbase-$pkgver/kvm-tarbake-jaunt
 	patch-support-files_CMakeLists.txt
 	init.d-mysqld)
 sha256sums=('64dba5f1819f1d4ebf7ed31d74e4106c981a24b88259995deba3734fb7c4635f'
-            'a6cf5446159fff16598d0d787dd3a3c30a53a656a5f876ddb608bc60e234d334'
             '368f9fd2454d80eb32abb8f29f703d1cf9553353fb9e1ae4529c4b851cb8c5dd'
             '2af318c52ae0fe5428e8a9245d1b0fc3bc5ce153842d1563329ceb1edfa83ddd'
             '1cefca9c4eafd19f5e0757ea401c6b2bf447256d4f5b37cb2273c5a51089f01b'
@@ -52,29 +50,27 @@ sha256sums=('64dba5f1819f1d4ebf7ed31d74e4106c981a24b88259995deba3734fb7c4635f'
             '4b1c2916bc1d6d2566b9bf046827b1bde4920eb0e55f8451ec70ea78aaf09ae5'
             '3dc69090fa2e6412899a3d34c97d8f4ac6dcf190a1695df5690efa562481e507'
             'd734d194b1722e788f6dff34c8605e067654363268f796be4aadac1a5ced6e56'
-            '2974b531aec88b2906bf779e6682da4ce91373232059e8f303918c611b39335d')
+            '2974b531aec88b2906bf779e6682da4ce91373232059e8f303918c611b39335d'
+            'e5fbc0bdef8df7f0f38a1f052dc96129cbcd708b36f61c7da0fb8d8dac8c82e0')
 
 build() {
   cd $srcdir/$pkgbase-$pkgver
 
-  for i in extra-patch-include_my_compare.h \
-        patch-CMakeLists.txt \
-        patch-client_CMakeLists.txt \
-        patch-extra_CMakeLists.txt \
-        patch-extra_yassl_taocrypt_src_integer.cpp \
-        patch-include_CMakeLists.txt \
-        patch-libmysql_CMakeLists.txt \
-        patch-libservices_CMakeLists.txt \
-        patch-man_CMakeLists.txt \
-        patch-mysys_default.c \
-        patch-regex_CMakeLists.txt \
-        patch-scripts_CMakeLists.txt \
-        patch-scripts_mysqld_safe.sh \
-        patch-sql_CMakeLists.txt \
-        patch-sql_sys_vars.cc \
-        patch-support-files_CMakeLists.txt; do 
-  patch -p0 -i ${srcdir}/$i
-  done
+  for i in  patch-CMakeLists.txt \
+	patch-client_CMakeLists.txt \
+	patch-cmake_os_FreeBSD.cmake \
+	patch-extra_CMakeLists.txt \
+	patch-extra_yassl_taocrypt_src_integer.cpp \
+	patch-man_CMakeLists.txt \
+	patch-mysys_default.c \
+	patch-regex_CMakeLists.txt \
+	patch-scripts_CMakeLists.txt \
+	patch-scripts_mysqld_safe.sh \
+	patch-sql_CMakeLists.txt \
+	patch-sql_sys_vars.cc \
+	patch-support-files_CMakeLists.txt; do
+   patch -p0 -i ${srcdir}/$i
+   done
 
   cd $srcdir
   mkdir build || true

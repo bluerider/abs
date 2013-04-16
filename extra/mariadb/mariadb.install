@@ -15,6 +15,8 @@ post_install(){
 
   echo ">> If you are migrating from MySQL, don't forget to run 'mysql_upgrade'"
   echo "     after mysqld.service restart." 
+  
+  /sbin/ldconfig -m /usr/lib/mysql
 }
 
 post_upgrade(){
@@ -38,4 +40,5 @@ post_remove(){
     pw userdel mysql
 
     pw groupdel mysql
+    ldconfig -R
 }
