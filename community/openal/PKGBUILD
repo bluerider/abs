@@ -10,20 +10,20 @@ pkgdesc="A cross-platform 3D audio library"
 arch=(i686 x86_64)
 url="http://www.openal.org/"
 license=(LGPL)
-makedepends=(alsa-lib sdl pkgconfig cmake libpulse)
+makedepends=(alsa-lib sdl pkgconf cmake libpulse)
 options=('!libtool')
 source=(http://kcat.strangesoft.net/openal-releases/openal-soft-$pkgver.tar.bz2)
 md5sums=('ea83dec3b9655a27d28e7bc7cae9cd71')
 
 build() {
   cd $pkgname-soft-$pkgver/build
-  cmake -D CMAKE_INSTALL_PREFIX=/usr/local/ -D CMAKE_BUILD_TYPE=Release ..
+  cmake -D CMAKE_INSTALL_PREFIX=/usr -D CMAKE_BUILD_TYPE=Release ..
   make
 }
 
 package() {
   cd $pkgname-soft-$pkgver
   make -C build DESTDIR="$pkgdir/" install
-  install env-vars.txt hrtf.txt "$pkgdir/usr/local/share/openal"
+  install env-vars.txt hrtf.txt "$pkgdir/usr/share/openal"
 }
 
