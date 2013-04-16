@@ -34,9 +34,9 @@ build() {
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  gmake GLEW_DEST="${pkgdir}/usr/local" install.all
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}"
-  install -m644 LICENSE.txt "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
-  rm "${pkgdir}"/usr/local/lib/{libGLEW,libGLEWmx}.a
-  chmod 0755 "${pkgdir}"/usr/local/lib/libGLEW*.so.${pkgver}
+  gmake GLEW_DEST="${pkgdir}/usr" install.all
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+  install -m644 LICENSE.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+  rm "${pkgdir}"/usr/lib/{libGLEW,libGLEWmx}.a
+  chmod 0755 "${pkgdir}"/usr/lib/libGLEW*.so.${pkgver}
 }
