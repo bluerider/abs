@@ -6,7 +6,7 @@
 
 pkgname=giflib
 pkgver=4.2.0
-pkgrel=1
+pkgrel=2
 pkgdesc="A library for reading and writing gif images"
 url="http://sourceforge.net/projects/giflib/"
 arch=('i686' 'x86_64')
@@ -29,10 +29,6 @@ md5sums=('711ad48551ee14db7c200b5f402df849'
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
-  for i in patch-Makefile.in patch-gif_lib.h patch-rgb2gif.c
-  do
-    patch -p0 -i "${srcdir}/$i"
-  done
 
   cp "${srcdir}/quantize.c" lib/
 
@@ -42,6 +38,12 @@ build() {
   sed -i '' -e '/SUBDIRS =/ s/ doc//' Makefile.am
   libtoolize -f
   autoreconf
+
+    for i in patch-Makefile.in patch-gif_lib.h patch-rgb2gif.c
+  do
+    patch -p0 -i "${srcdir}/$i"
+  done
+
   ./configure --prefix=/usr --disable-static
   gmake
 
