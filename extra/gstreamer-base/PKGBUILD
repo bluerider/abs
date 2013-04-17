@@ -43,12 +43,17 @@ build() {
    patch -p0 -i "${srcdir}/$i"
    done
 
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc --localstatedir=/var \
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
     --disable-static --enable-experimental --disable-gnome_vfs \
     --with-package-name="GStreamer Base Plugins (ArchBSD)" \
     --with-package-origin="http://www.archbsd.net/"
-
   gmake
+  gsed -e 's/^SUBDIRS_EXT =.*/SUBDIRS_EXT =/' -i Makefile
+}
+
+check() {
+  cd "${srcdir}/gst-plugins-base-${pkgver}"
+  gmake check
 }
 
 package_gstreamer0.10-base() {
@@ -58,8 +63,7 @@ package_gstreamer0.10-base() {
   cd "${srcdir}/gst-plugins-base-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
 
-  install -dm755 "${pkgdir}/usr/local/libdata/"
-  cp -Ra "${pkgdir}"/usr/local/lib/pkgconfig "${pkgdir}/usr/local/libdata/"
+  #files provided 
 }
 
 package_gstreamer0.10-base-plugins() {

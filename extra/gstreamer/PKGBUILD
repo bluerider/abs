@@ -21,7 +21,7 @@ build() {
 
   export PATH=/usr/local/bin:$PATH
 
-  ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc --localstatedir=/var --libexecdir=/usr/local/libexec \
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/libexec \
     --with-package-name="GStreamer (ArchBSD)" \
     --with-package-origin="http://www.archbsd.net/" \
     --disable-gtk-doc --disable-static --disable-failing-tests
@@ -33,11 +33,9 @@ package() {
   gmake DESTDIR="${pkgdir}" install
 
   #Remove unversioned gst-* binaries to get rid of conflicts
-  cd "${pkgdir}/usr/local/bin"
+  cd "${pkgdir}/usr/bin"
   for bins in `ls *-0.10`; do
     rm -f ${bins/-0.10/}
   done
 
-  install -dm755 ${pkgdir}/usr/local/libdata
-  mv ${pkgdir}/usr/local/lib/pkgconfig ${pkgdir}/usr/local/libdata
 }
