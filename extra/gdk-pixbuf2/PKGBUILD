@@ -1,41 +1,34 @@
+# $Id: PKGBUILD 180259 2013-03-18 23:57:36Z jgc $
 # Maintainer: Ionut Biru <ibiru@archlinux.org>
-# Contributor: Wolfgang Bumiller <blub@speed.at>
 
 pkgname=gdk-pixbuf2
 pkgver=2.26.5
-pkgrel=1
+pkgrel=2
 pkgdesc="An image loading library"
 arch=('i686' 'x86_64')
 url="http://www.gtk.org/"
 license=('LGPL2.1')
-depends=('glib2>=2.34.3' 'libpng' 'libtiff' 'libjpeg' 'libx11')
-makedepends=('gobject-introspection')
-#options=('!libtool')
+depends=('glib2' 'libpng' 'libtiff' 'libjpeg' 'libx11' 'jasper')
+makedepends=('gtk-doc' 'gobject-introspection')
+options=('!libtool')
 install=gdk-pixbuf2.install
 source=(http://download.gnome.org/sources/gdk-pixbuf/${pkgver%.*}/gdk-pixbuf-$pkgver.tar.xz)
+sha256sums=('77696fd163bca95a130a1883dbd78d0ae4d782de2fc85a9a38556d13681f5c84')
 
 build() {
   cd gdk-pixbuf-$pkgver
 
   ./configure --prefix=/usr \
-    --without-libjasper \
     --with-x11 \
+    --with-libjasper \
     --with-included-loaders=png
-# ltverhack:
-  for i in ltmain.sh libtool; do
-    sed -i '' -e '/freebsd-elf)/,/;;/ s|major="\.$current"|major=.0|' \
-              -e '/freebsd-elf)/,/;;/ s|versuffix="\.$current"|versuffix="$major"|' \
-        $i
-  done
-  gmake
+  make
 }
 
 package() {
   cd gdk-pixbuf-$pkgver
 
-  gmake DESTDIR="$pkgdir" install
-
+  make DESTDIR="$pkgdir" install
 }
 
 # vim:set ts=2 sw=2 et:
-md5sums=('339329e6d619ee3e1cb93979111b04c0')
