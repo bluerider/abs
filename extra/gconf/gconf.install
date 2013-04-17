@@ -4,6 +4,9 @@ post_install() {
 }
 
 post_upgrade() {
+  chmod 755 etc/gconf/gconf.xml.system
+  usr/bin/gio-querymodules usr/lib/gio/modules
+
 }
 
 post_remove() {
