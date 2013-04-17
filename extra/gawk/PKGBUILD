@@ -4,12 +4,12 @@
 
 pkgname=gawk
 pkgver=4.0.2
-pkgrel=1
+pkgrel=2
 pkgdesc="GNU version of awk"
 arch=('i686' 'x86_64')
 url="http://www.gnu.org/directory/GNU/gawk.html"
 license=('GPL')
-groups=('base' 'base-devel')
+groups=('base-devel')
 provides=('awk')
 install=gawk.install
 source=(ftp://ftp.gnu.org/pub/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz{,.sig})
