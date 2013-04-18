@@ -31,42 +31,44 @@ build() {
   export CPP=cpp
   export CXX=g++
 
-##  dos2unix media/webrtc/trunk/src/system_wrappers/source/spreadsortlib/spreadsort.hpp
-##
-##  cp ../mozconfig .mozconfig
-##  patch -p1 -i "${srcdir}/firefox-install-dir.patch"
-##  for i in patch-browser-app-nsBrowserApp.cpp patch-bug685258 patch-bug722975 \
-##           patch-bug780432 patch-bug783463 patch-bug791305 patch-bug803480 patch-bug807492 \
-##           patch-bug810716 patch-bug824317 patch-bug826985 patch-bug827521 patch-bug828003 \
-##           patch-bug836824 patch-bug844818 patch-build-pgo-profileserver.py \
-##           patch-clang32-libc++-visibility-hack patch-duckduckgo \
-##           patch-extensions-spellcheck-hunspell-src-mozHunspell.cpp patch-ipc-chromium-Makefile.in \
-##           patch-ipc-chromium-src-base-message_pump_libevent.cc patch-js-src-methodjit-MethodJIT.cpp \
-##           patch-media-libsydneyaudio-src-sydney_audio_oss.c \
-##           patch-media-webrtc-trunk-src-system_wrappers-source-spreadsortlib-spreadsort.hpp \
-##           patch-media-webrtc-trunk-testing-gtest-include-gtest-internal-gtest-port.h \
-##           patch-security_manager_ssl_src_nsNSSComponent.cpp patch-toolkit_mozapps_installer_packager_mk \
-##           patch-toolkit_xre_Makefile.in
-##  do
-##    msg "Patch $i"
-##    patch -p0 -i "${srcdir}/$i"
-##  done
-##  msg "Patching done"
-##
-##  msg "sed 1"
-##  sed -i '' -e '/MOZPNG/s/=[0-9]*/=10511/' configure.in
-##  msg "sed 2"
-##  sed -i '' -e 's|%%LOCALBASE%%|/usr|g' browser/app/nsBrowserApp.cpp
-##  msg "preparing"
-##
-##  # Fix PRE_RELEASE_SUFFIX
-##  sed -i '' -e '/^PRE_RELEASE_SUFFIX := ""/s/ ""//' \
-##    browser/base/Makefile.in
-##
-##  # WebRTC build tries to execute "python" and expects Python 2
-##  # Workaround taken from chromium PKGBUILD
-##  mkdir -p "$srcdir/python2-path"
-##  ln -sf /usr/bin/python2 "$srcdir/python2-path/python"
+  dos2unix media/webrtc/trunk/src/system_wrappers/source/spreadsortlib/spreadsort.hpp
+
+  cp ../mozconfig .mozconfig
+  patch -p1 -i "${srcdir}/firefox-install-dir.patch"
+  for i in patch-browser-app-nsBrowserApp.cpp patch-bug685258 patch-bug722975 \
+           patch-bug780432 patch-bug783463 patch-bug791305 patch-bug803480 patch-bug807492 \
+           patch-bug810716 patch-bug824317 patch-bug826985 patch-bug827521 patch-bug828003 \
+           patch-bug836824 patch-bug844818 patch-build-pgo-profileserver.py \
+           patch-clang32-libc++-visibility-hack patch-duckduckgo \
+           patch-extensions-spellcheck-hunspell-src-mozHunspell.cpp patch-ipc-chromium-Makefile.in \
+           patch-ipc-chromium-src-base-message_pump_libevent.cc patch-js-src-methodjit-MethodJIT.cpp \
+           patch-media-libsydneyaudio-src-sydney_audio_oss.c \
+           patch-media-webrtc-trunk-src-system_wrappers-source-spreadsortlib-spreadsort.hpp \
+           patch-media-webrtc-trunk-testing-gtest-include-gtest-internal-gtest-port.h \
+           patch-security_manager_ssl_src_nsNSSComponent.cpp patch-toolkit_mozapps_installer_packager_mk \
+           patch-toolkit_xre_Makefile.in
+  do
+    msg "Patch $i"
+    patch -p0 -i "${srcdir}/$i"
+  done
+  msg "Patching done"
+
+  msg "sed 1"
+  sed -i '' -e '/MOZPNG/s/=[0-9]*/=10511/' configure.in
+  msg "sed 2"
+  sed -i '' -e 's|%%LOCALBASE%%|/usr|g' \
+      browser/app/nsBrowserApp.cpp \
+      extensions/spellcheck/hunspell/src/mozHunspell.cpp
+  msg "preparing"
+
+  # Fix PRE_RELEASE_SUFFIX
+  sed -i '' -e '/^PRE_RELEASE_SUFFIX := ""/s/ ""//' \
+    browser/base/Makefile.in
+
+  # WebRTC build tries to execute "python" and expects Python 2
+  # Workaround taken from chromium PKGBUILD
+  mkdir -p "$srcdir/python2-path"
+  ln -sf /usr/bin/python2 "$srcdir/python2-path/python"
   export PATH="$srcdir/python2-path:$PATH"
 
   export LDFLAGS="$LDFLAGS -L/usr/lib -Wl,-rpath,/usr/lib/firefox"
