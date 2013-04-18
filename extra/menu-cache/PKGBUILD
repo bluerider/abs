@@ -1,31 +1,36 @@
 pkgname=menu-cache
-pkgver=0.4.1
-pkgrel=2
+pkgver=0.3.3
+pkgrel=1
 pkgdesc='Caching mechanism for freedesktop.org compliant menus'
 arch=('i686' 'x86_64')
 license=('GPL2')
 url='http://lxde.org/'
 groups=('lxde')
 depends=('intltool' 'glib2')
-options=('!libtool')
+options=('!libtool' '!strip')
 makedepends=('pkgconf')
 source=(http://downloads.sourceforge.net/lxde/$pkgname-$pkgver.tar.gz
-	'patch-menu-cached.c')
+	'patch-menu-cached.c'
+	'patch-libmenu-cache__menu-cache.c')
 
-sha256sums=('4fa9408e353fedba5b7314cbf6b6cd06d873a1424e281aa050d88bb9c0a0191e'
-            'ec6d3d49583be4bf5ecd5cdac3f0e98e36712257b60fb690f63dad4d7d99e8fc')
+sha256sums=('07241c1f5f371b426d3b0a6e571a86184ec6256bdd7ead7a4da866cd10f25955'
+            'ec6d3d49583be4bf5ecd5cdac3f0e98e36712257b60fb690f63dad4d7d99e8fc'
+            '9034016f4ced874004d9d73ba5ac1bf70de864a1c6b22348c7365d6f8ea6afeb')
 
 build() {
   cd $srcdir/$pkgname-$pkgver
 
    patch -p0 -i ${srcdir}/patch-menu-cached.c
+   patch -p0 -i ${srcdir}/patch-libmenu-cache__menu-cache.c
 
-  find $srcdir/$pkgname-$pkgver  -name "configure" -type f | xargs sed -i '' \
+  export CFLAGS="$CFLAGS -ggdb"
+  export CXXFLAGS="$CFLAGS -ggdb"
+  find $srcdir/$pkgname-$pkgver -name "configure" -type f | xargs sed -i '' \
                                 -e 's|-lpthread|-pthread|g' \
                                 -e 's|DATADIRNAME=lib|DATADIRNAME=share|g' \
                                 -e 's|{libdir}/locale|{prefix}/share/locale|g'
-
-  ./configure --prefix=/usr/ --sysconfdir=/etc \
+  find . -name "Makefile.in" | xargs sed -i '' -e 's|^LIBTOOL[ ]*=.*|LIBTOOL=/usr/bin/libtool|g'
+  ./configure --prefix=/usr --sysconfdir=/etc \
               --libexecdir=/usr/libexec/menu-cache \
               --disable-static
   gmake

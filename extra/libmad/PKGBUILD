@@ -28,7 +28,7 @@ build() {
   sed -i '' -e 's| -fforce-mem||' configure
 
   # wth CFLAGS it strips it out
-  export CC="$CC -fPIC"
+  export CC="gcc -fPIC"
 
   ./configure --prefix=/usr --enable-sso
   gmake

@@ -1,6 +1,6 @@
 pkgname=openrc
 pkgver=0.11.8
-pkgrel=7
+pkgrel=8
 pkgdesc='Dependency based init system that works with sysvinit.'
 arch=('i686' 'x86_64')
 groups=('base')
@@ -41,6 +41,7 @@ build() {
     #Thsi fixes the 'exec format error' on boot
     patch -p1 < "${srcdir}/openrc.patch"
     sed -i '' -e 's|os-${OS}|os-FreeBSD|' mk/os.mk
+    find "$srcdir"/$pkgname-$pkgver -name *.sh | xargs sed -i '' -e 's|/bin/sh|/usr/bin/bash|g'
     gmake "${_makeargs}"
 }
 
