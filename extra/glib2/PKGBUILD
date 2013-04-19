@@ -1,16 +1,16 @@
 # $Id: PKGBUILD 172097 2012-11-28 10:31:12Z jgc $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
-pkgname=glib2
+pkgname=('glib2' 'gio-fam')
 pkgver=2.34.3
-pkgrel=3
+pkgrel=4
 pkgdesc="Common C routines used by GTK+ and other libs"
 url="http://www.gtk.org/"
 arch=(i686 x86_64)
 license=('LGPL')
 depends=('pcre' 'libffi' 'python2' 'pkgconf')
-makedepends=('pkg-config' 'python2' 'libxslt' 'docbook-xml' 'gsed' 'icu')
-optdepends=('python2: for gdbus-codegen')
+makedepends=('pkg-config' 'python2' 'libxslt' 'docbook-xml' 'gsed' 'icu' 'gamin')
+optdepends=('python2: for gdbus-codegen' 'gio-fam: FAM backend for GLibs GIO library')
 options=('!libtool' '!docs' '!emptydirs')
 install=glib2.install
 source=(http://ftp.gnome.org/pub/GNOME/sources/glib/${pkgver%.*}/glib-$pkgver.tar.xz
@@ -111,11 +111,20 @@ build() {
   gmake
 }
 
-package() {
+package_glib2() {
   cd glib-$pkgver
   gmake completiondir=/etc/bash-completion.d DESTDIR="$pkgdir" install
 
   for _i in "$pkgdir/etc/bash-completion.d/"*; do
       chmod -x "$_i"
   done
+}
+
+package_gio-fam() {
+  pkgdesc="FAM backend for GLib's GIO library"
+  depends=('glib' 'gamin')
+
+  cd glib-$pkgver/gio/fam/
+  gmake completiondir=/etc/bash-completion.d DESTDIR="$pkgdir" install
+
 }
