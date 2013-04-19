@@ -1,27 +1,24 @@
 pkgname=menu-cache
-pkgver=0.3.3
-pkgrel=1
+pkgver=0.4.1
+pkgrel=4
 pkgdesc='Caching mechanism for freedesktop.org compliant menus'
 arch=('i686' 'x86_64')
 license=('GPL2')
 url='http://lxde.org/'
 groups=('lxde')
-depends=('intltool' 'glib2')
+depends=('intltool' 'gio-fam')
 options=('!libtool' '!strip')
 makedepends=('pkgconf')
 source=(http://downloads.sourceforge.net/lxde/$pkgname-$pkgver.tar.gz
-	'patch-menu-cached.c'
-	'patch-libmenu-cache__menu-cache.c')
+	'patch-menu-cached.c')
 
-sha256sums=('07241c1f5f371b426d3b0a6e571a86184ec6256bdd7ead7a4da866cd10f25955'
-            'ec6d3d49583be4bf5ecd5cdac3f0e98e36712257b60fb690f63dad4d7d99e8fc'
-            '9034016f4ced874004d9d73ba5ac1bf70de864a1c6b22348c7365d6f8ea6afeb')
+sha256sums=('4fa9408e353fedba5b7314cbf6b6cd06d873a1424e281aa050d88bb9c0a0191e'
+            'ec6d3d49583be4bf5ecd5cdac3f0e98e36712257b60fb690f63dad4d7d99e8fc')
 
 build() {
   cd $srcdir/$pkgname-$pkgver
 
    patch -p0 -i ${srcdir}/patch-menu-cached.c
-   patch -p0 -i ${srcdir}/patch-libmenu-cache__menu-cache.c
 
   export CFLAGS="$CFLAGS -ggdb"
   export CXXFLAGS="$CFLAGS -ggdb"
