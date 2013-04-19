@@ -8,9 +8,7 @@ pkgdesc="Common C routines used by GTK+ and other libs"
 url="http://www.gtk.org/"
 arch=(i686 x86_64)
 license=('LGPL')
-depends=('pcre' 'libffi' 'python2' 'pkgconf')
 makedepends=('pkg-config' 'python2' 'libxslt' 'docbook-xml' 'gsed' 'icu' 'gamin')
-optdepends=('python2: for gdbus-codegen' 'gio-fam: FAM backend for GLibs GIO library')
 options=('!libtool' '!docs' '!emptydirs')
 install=glib2.install
 source=(http://ftp.gnome.org/pub/GNOME/sources/glib/${pkgver%.*}/glib-$pkgver.tar.xz
@@ -112,6 +110,9 @@ build() {
 }
 
 package_glib2() {
+  depends=('pcre' 'libffi' 'python2' 'pkgconf')
+  optdepends=('python2: for gdbus-codegen' 'gio-fam: FAM backend for GLibs GIO library')
+
   cd glib-$pkgver
   gmake completiondir=/etc/bash-completion.d DESTDIR="$pkgdir" install
 
@@ -122,7 +123,7 @@ package_glib2() {
 
 package_gio-fam() {
   pkgdesc="FAM backend for GLib's GIO library"
-  depends=('glib' 'gamin')
+  depends=('glib2' 'gamin')
 
   cd glib-$pkgver/gio/fam/
   gmake completiondir=/etc/bash-completion.d DESTDIR="$pkgdir" install
