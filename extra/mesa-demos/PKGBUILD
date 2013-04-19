@@ -13,13 +13,13 @@ md5sums=('9df33ba69a26bbfbc7c8148602e59542'
 
 build() {
   cd "${srcdir}/mesa-demos-${pkgver}"
-  ./configure --prefix=/usr/local/
+  ./configure --prefix=/usr
   make
 }
 
 package() {
   cd "${srcdir}/mesa-demos-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  install -m755 -d "${pkgdir}/usr/local/share/licenses/mesa-demos"
-  install -m755 "${srcdir}/LICENSE" "${pkgdir}/usr/local/share/licenses/mesa-demos/"
+  install -m755 -d "${pkgdir}/usr/share/licenses/mesa-demos"
+  install -m755 "${srcdir}/LICENSE" "${pkgdir}/usr/share/licenses/mesa-demos/"
 }
