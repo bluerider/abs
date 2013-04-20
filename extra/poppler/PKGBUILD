@@ -4,8 +4,8 @@
 pkgbase=poppler
 #pkgname=('poppler' 'poppler-glib' 'poppler-qt')
 pkgname=('poppler' 'poppler-glib')
-pkgver=0.22.1
-pkgrel=2
+pkgver=0.22.2
+pkgrel=1
 arch=(i686 x86_64)
 license=('GPL')
 #makedepends=('libjpeg' 'cairo' 'fontconfig' 'openjpeg' 'gtk2' 'qt' 'pkgconf' 'lcms' 'gobject-introspection' 'icu')
@@ -15,7 +15,7 @@ url="http://poppler.freedesktop.org/"
 _testtag=0d2bfd4af4c76a3bac27ccaff793d9129df7b57a
 source=(http://poppler.freedesktop.org/${pkgbase}-${pkgver}.tar.gz
         http://cgit.freedesktop.org/poppler/test/snapshot/test-${_testtag}.tar.bz2)
-md5sums=('50c259fdda538c1ba94b62aa25f7ec87'
+md5sums=('3939740201c59c470bc7198003450a20'
          '9dc64c254a31e570507bdd4ad4ba629a')
 
 build() {
