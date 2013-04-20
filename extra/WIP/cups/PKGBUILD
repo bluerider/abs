@@ -18,7 +18,7 @@ source=(ftp://ftp.easysw.com/pub/cups/${pkgver}/cups-${pkgver}-source.tar.bz2
         cupsd-conf-remove-obsolete-browse-directives.patch
         recognize-remote-cups-queue-via-dnssd-uri.patch
         usb-backend-reset-after-job-only-for-specific-devices.patch
-        patch-configure patch-cups.pam
+        patch-configure
         init.d-cupsd
 )
 md5sums=('87ade07e3d1efd03c9c3add949cf9c00'
@@ -39,7 +39,7 @@ md5sums=('87ade07e3d1efd03c9c3add949cf9c00'
 build() {
   cd ${srcdir}/${pkgbase}-${pkgver}
 
-  for i in patch-configure patch-cups.pam
+  for i in patch-configure
   do
     patch -p0 -i "${srcdir}/$i"
   done
