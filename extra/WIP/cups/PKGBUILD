@@ -2,8 +2,8 @@
 
 pkgbase="cups"
 pkgname=('libcups' 'cups')
-pkgver=1.6.1
-pkgrel=6
+pkgver=1.6.2
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL')
 url="http://www.cups.org/"
@@ -15,9 +15,6 @@ source=(ftp://ftp.easysw.com/pub/cups/${pkgver}/cups-${pkgver}-source.tar.bz2
         cups-no-gcrypt.patch
         cups-no-gzip-man.patch
         cups.logrotate cups.pam
-        cupsd-conf-remove-obsolete-browse-directives.patch
-        recognize-remote-cups-queue-via-dnssd-uri.patch
-        usb-backend-reset-after-job-only-for-specific-devices.patch
         patch-configure
         init.d-cupsd
 )
@@ -51,14 +48,6 @@ build() {
   # don't zip man pages in make install, let makepkg do that / Fedora
   patch -Np1 -i ${srcdir}/cups-no-gzip-man.patch
 
-  # upstream bugtracker patches
-  # http://www.cups.org/str.php?L4157 - fix broken default server config
-  patch -Np1 -i ${srcdir}/cupsd-conf-remove-obsolete-browse-directives.patch
-  # http://www.cups.org/str.php?L4158 - DNS-SD-based print queues pointing to CUPS server are not considered remote printers with driver on server
-  patch -Np1 -i ${srcdir}/recognize-remote-cups-queue-via-dnssd-uri.patch
-  # http://cups.org/str.php?L4155 / https://bugs.archlinux.org/task/30965
-  patch -Np0 -i ${srcdir}/usb-backend-reset-after-job-only-for-specific-devices.patch
-  
   # Rebuild configure script for not zipping man-pages.
   aclocal -I config-scripts
   autoconf -I config-scripts
