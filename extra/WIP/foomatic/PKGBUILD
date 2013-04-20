@@ -8,8 +8,8 @@ _snapdate=20120712
 _filtersver=4.0.17
 _enginever=4.0.8
 pkgver=${_filtersver}_${_snapdate}
-pkgrel=1
 epoch=1
+pkgrel=2
 makedepends=('cups' 'perl' 'libxml2' 'enscript' 'perl' 'net-snmp' 'bash')
 makedepends=('cups' 'perl' 'libxml2' 'enscript' 'perl'            'bash')
 _url1=http://www.openprinting.org/download/foomatic/
@@ -36,10 +36,10 @@ package_foomatic-db() {
  provides=('foomatic-db-hpijs')
 
    cd ${srcdir}/${pkgname}-${_snapdate}
-   ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc
+   ./configure --prefix=/usr --sysconfdir=/etc
    gmake DESTDIR=${pkgdir} install
-   install -v -dm755 ${pkgdir}/usr/local/share/licenses/${pkgname}
-   install -v -m644 ${srcdir}/${pkgname}-${_snapdate}/COPYING ${pkgdir}/usr/local/share/licenses/${pkgname}/COPYING
+   install -v -dm755 ${pkgdir}/usr/share/licenses/${pkgname}
+   install -v -m644 ${srcdir}/${pkgname}-${_snapdate}/COPYING ${pkgdir}/usr/share/licenses/${pkgname}/COPYING
 }
 
 package_foomatic-filters() {
@@ -53,9 +53,9 @@ package_foomatic-filters() {
             'net-snmp:  certain (mostly HP) printers need it to work')
 
    cd ${srcdir}/foomatic-filters-${_filtersver}
-   ./configure --prefix=/usr/local --sysconfdir=/usr/local/etc
-   gmake PPR=/usr/local/lib/ppr PPR_LIB=/usr/local/lib/ppr/lib PPR_INTERFACES=/usr/local/lib/ppr/interfaces
-   gmake PPR=/usr/local/lib/ppr PPR_LIB=/usr/local/lib/ppr/lib PPR_INTERFACES=/usr/local/lib/ppr/interfaces \
+   ./configure --prefix=/usr --sysconfdir=/etc
+   gmake PPR=/usr/lib/ppr PPR_LIB=/usr/lib/ppr/lib PPR_INTERFACES=/usr/lib/ppr/interfaces
+   gmake PPR=/usr/lib/ppr PPR_LIB=/usr/lib/ppr/lib PPR_INTERFACES=/usr/lib/ppr/interfaces \
          DESTDIR=${pkgdir} install
 }
 
@@ -67,16 +67,16 @@ package_foomatic-db-engine() {
  depends=('perl' 'libxml2' 'foomatic-filters' 'bash')
 
    cd ${srcdir}/foomatic-db-engine-${_enginever}
-    ./configure --prefix=/usr/local
+    ./configure --prefix=/usr
    gmake
    eval `perl -V:archname`
    gmake DESTDIR=${pkgdir} \
-        INSTALLARCHLIB=/usr/local/lib/perl5/vendor_perl/ \
-        INSTALLSITELIB=/usr/local/lib/perl5/vendor_perl/ \
-        INSTALLSITEARCH=/usr/local/lib/perl5/vendor_perl/ install
+        INSTALLARCHLIB=/usr/lib/perl5/vendor_perl/ \
+        INSTALLSITELIB=/usr/lib/perl5/vendor_perl/ \
+        INSTALLSITEARCH=/usr/lib/perl5/vendor_perl/ install
    /usr/bin/find ${pkgdir} -name '.packlist' -delete
    # fix permissions
-   chmod 755 ${pkgdir}/usr/local/lib{,/perl5,/perl5/vendor_perl}
+   chmod 755 ${pkgdir}/usr/lib{,/perl5,/perl5/vendor_perl}
 }
 
 package_foomatic-db-nonfree() {
@@ -87,8 +87,8 @@ package_foomatic-db-nonfree() {
  depends=('perl' 'libxml2' "foomatic-db-engine" 'foomatic-db')
 
    cd ${srcdir}/foomatic-db-nonfree-${_snapdate}
-   ./configure --prefix=/usr/local
+   ./configure --prefix=/usr
    gmake DESTDIR=${pkgdir} install
-   install -dm755 ${pkgdir}/usr/local/share/licenses/${pkgname}
-   install -m644 COPYING ${pkgdir}/usr/local/share/licenses/${pkgname}/COPYING
+   install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}
+   install -m644 COPYING ${pkgdir}/usr/share/licenses/${pkgname}/COPYING
 }
