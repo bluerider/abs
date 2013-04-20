@@ -2,7 +2,7 @@
 
 pkgname=jasper
 pkgver=1.900.1
-pkgrel=8
+pkgrel=9
 pkgdesc="A software-based implementation of the codec specified in the emerging JPEG-2000 Part-1 standard"
 arch=('i686' 'x86_64')
 url="http://www.ece.uvic.ca/~mdadams/jasper/"
@@ -45,15 +45,13 @@ build() {
     patch -p0 -i "${srcdir}/$i"
   done
 
-  CPPFLAGS="$CPPFLAGS -I/usr/local/include" \
-  LDFLAGS="$LDFLAGS -L/usr/local/lib" \
-  ./configure --enable-opengl --enable-shared --enable-static
+  ./configure --prefix=/usr --mandir=/usr/share/man --enable-opengl --enable-shared --enable-static
   make
 }
 
 package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
-  install -dm755 "${pkgdir}/usr/local/share/licenses/${pkgname}/"
-  install -m644 LICENSE "${pkgdir}/usr/local/share/licenses/${pkgname}/LICENSE"
+  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
+  install -m644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
