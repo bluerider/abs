@@ -2,7 +2,7 @@
 
 pkgname=ilmbase
 pkgver=1.0.3
-pkgrel=1
+pkgrel=2
 pkgdesc="Base libraries from ILM for OpenEXR"
 arch=(i686 x86_64)
 url="http://www.openexr.com"
@@ -12,7 +12,6 @@ source=(https://github.com/downloads/openexr/openexr/$pkgname-$pkgver.tar.gz
         patch-Imath-ImathFun.cpp
         patch-ImathTest-testBoxAlgo.cpp
         patch-ImathTest-testShear.cpp
-        patch-Makefile.in
         patch-configure
         )
 md5sums=('d99962ec7e2bfac0647aaabf6b91d5de'
@@ -20,20 +19,19 @@ md5sums=('d99962ec7e2bfac0647aaabf6b91d5de'
          '4e11142acbc3b4cdbe278e63fc4e5974'
          'cc3dcfd8ce60358386ec9e425a84863a'
          '50caea1213cf1e42ddcd5e27ea8af4cf'
-         '31187dd78a12e6e31084f9c2699fda61'
          '41aed3e7befe95058f8f354b12d10fb3')
 
 build() {
   cd "${srcdir}/$pkgname-$pkgver"
   for i in patch-IexMath-IexMathFpu.cpp patch-Imath-ImathFun.cpp \
            patch-ImathTest-testBoxAlgo.cpp patch-ImathTest-testShear.cpp \
-           patch-Makefile.in patch-configure
+           patch-configure
   do
     patch -p0 -i "${srcdir}/$i"
   done
   PTHREAD_CFLAGS=-pthread \
   PTHREAD_LIBS=-pthread \
-  ./configure --enable-threading
+  ./configure --prefix=/usr --enable-threading
   make
 }
 
@@ -46,6 +44,6 @@ check() {
 package() {
   cd "${srcdir}/$pkgname-$pkgver"
   make DESTDIR="${pkgdir}" install
-  install -dm755 "$pkgdir/usr/local/share/licenses/$pkgname/"
-  install -m644 COPYING "$pkgdir/usr/local/share/licenses/$pkgname/COPYING"
+  install -dm755 "$pkgdir/usr/share/licenses/$pkgname/"
+  install -m644 COPYING "$pkgdir/usr/share/licenses/$pkgname/COPYING"
 }
