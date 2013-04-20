@@ -2,7 +2,7 @@
 
 pkgname=gutenprint
 pkgver=5.2.9
-pkgrel=1
+pkgrel=2
 pkgdesc="Top quality printer drivers for POSIX systems"
 arch=('i686' 'x86_64')
 license=('GPL')
@@ -26,10 +26,8 @@ build() {
       src/main/Makefile.in \
       src/gutenprintui2/Makefile.in
 
-  CPPFLAGS="$CPPFLAGS -I/usr/local/include" \
-  LDFLAGS="$LDFLAGS -L/usr/local/lib" \
   LIBS="$LIBS -lintl" \
-  ./configure --prefix=/usr/local \
+  ./configure --prefix=/usr \
     --enable-samples \
 	--enable-cups-ppds \
 	--enable-cups-ppds-at-top-level \
