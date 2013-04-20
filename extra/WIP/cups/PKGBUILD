@@ -8,38 +8,31 @@ arch=('i686' 'x86_64')
 license=('GPL')
 url="http://www.cups.org/"
 makedepends=('libtiff>=4.0.0' 'libpng>=1.5.7' 'xdg-utils' 'cups-filters'
-             'autoconf' 'dbus-core')
+             'autoconf' 'dbus-core' 'gcc')
 # makedepends+avahi
 source=(ftp://ftp.easysw.com/pub/cups/${pkgver}/cups-${pkgver}-source.tar.bz2
         cups-no-export-ssllibs.patch
         cups-no-gcrypt.patch
         cups-no-gzip-man.patch
         cups.logrotate cups.pam
-        patch-configure
         init.d-cupsd
 )
-md5sums=('87ade07e3d1efd03c9c3add949cf9c00'
-         '9b8467a1e51d360096b70e2c3c081e6c'
-         '3733c23e77eb503bd94cc368e02830dc'
+#options=('!emptydirs')
+md5sums=('13c8b2b2336d42001abe4899766b62dc'
+         '3ba9e3410df1dc3015463d615ef91b3b'
+         'cc4101beccb5ed6deb1c92707a575925'
          '90c30380d4c8cd48a908cfdadae1ea24'
          'f861b18f4446c43918c8643dcbbd7f6d'
          '96f82c38f3f540b53f3e5144900acf17'
-         '6bef262b5081051e88cd2ae94fed1867'
-         'dcef8dd5614461166cada8a706eebb49'
-         '0779ef8ba1d724ebb3b9bf360deba52b'
-         '4b6e3f84afd79a27e684ce205435a465'
-         'c2db88eae4fe61346ba50254f39a14e0'
-         'a1a50f06dc2cb5567301ec0f2ae12aa2'
          '540180847499807a980e72fd5db907b2')
-#options=('!emptydirs')
+
+# we specifically want gcc for cups related packages for now
+export CC=gcc
+export CPP=cpp
+export CXX=g++
 
 build() {
   cd ${srcdir}/${pkgbase}-${pkgver}
-
-  for i in patch-configure
-  do
-    patch -p0 -i "${srcdir}/$i"
-  done
 
   # Do not export SSL libs in cups-config
   patch -Np1 -i "${srcdir}/cups-no-export-ssllibs.patch"
@@ -64,8 +57,8 @@ build() {
       ;;
   esac
 
-  export CLFAGS="$CFLAGS -I/usr/local/include -fPIC"
-  export LDFLAGS="$LDFLAGS -L/usr/local/lib -fPIC"
+  export CLFAGS="$CFLAGS -fPIC"
+  export LDFLAGS="$LDFLAGS -fPIC"
 
   ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
      --libdir=/usr/lib \
