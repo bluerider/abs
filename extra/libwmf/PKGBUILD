@@ -2,7 +2,7 @@
 
 pkgname=libwmf
 pkgver=0.2.8.4
-pkgrel=9
+pkgrel=10
 pkgdesc="A library for reading vector images in Microsoft's native Windows Metafile Format (WMF)"
 arch=('i686' 'x86_64')
 url="http://wvware.sourceforge.net/libwmf.html"
@@ -35,11 +35,11 @@ build() {
   CFLAGS="$CFLAGS -fPIC" \
   CXXFLAGS="$CXXFLAGS -fPIC" \
   LDFLAGS="$LDFLAGS -fPIC" \
-  ./configure --prefix=/usr/local \
-              --with-gsfontdir=/usr/local/share/fonts/Type1 \
-              --with-fontdir=/usr/local/share/fonts/Type1 \
-              --with-png=/usr/local \
-              --with-jpeg=/usr/local
+  ./configure --prefix=/usr \
+              --with-gsfontdir=/usr/share/fonts/Type1 \
+              --with-fontdir=/usr/share/fonts/Type1 \
+              --with-png=/usr \
+              --with-jpeg=/usr
   make
 }
 
@@ -47,7 +47,7 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   make DESTDIR="${pkgdir}" install
   #Remove fonts, these are in gsfonts
-  rm -rf "${pkgdir}/usr/local/share/fonts"
+  rm -rf "${pkgdir}/usr/share/fonts"
   #Remove static GTK loader, can't use it anyways
-  rm -f "${pkgdir}"/usr/local/lib/gtk-2.0/*/loaders/io-wmf.a
+  rm -f "${pkgdir}"/usr/lib/gtk-2.0/*/loaders/io-wmf.a
 }
