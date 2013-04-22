@@ -43,7 +43,7 @@ updatepkg() {
 
 	olddir=$PWD
 	cd "$target" || die "failed to change directory to $target"
-	repo-add "${repo}.db.tar.gz" "${pkgfile}"
+	repo-add -f "${repo}.db.tar.gz" "${pkgfile}"
 	for i in "${pkgname}"-*.pkg.tar.xz; do
 		case "$i" in
 			$pkgfile) : ;;
