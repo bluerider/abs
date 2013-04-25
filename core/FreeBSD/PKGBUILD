@@ -117,9 +117,15 @@ package_freebsd-world() {
 
   msg "Installed. Cleaning up and configuring..."
 
+  #Create the links in the source for i686 and x86_64
   if [ ! -d "${srcdir}/${_gitname}"/sys/x86_64 ]; then
 	ln -s "${srcdir}/${_gitname}"/sys/amd64 "${srcdir}/${_gitname}"/sys/x86_64
   fi
+
+  if [ ! -d "${srcdir}/${_gitname}"/sys/i686 ]; then
+	ln -s "${srcdir}/${_gitname}"/sys/i386 "${srcdir}/${_gitname}"/sys/i686
+  fi
+
 
   #solve some conflicts
   rm -rf "${pkgdir}/usr/share/man/man3/pthread.3.gz"
@@ -182,7 +188,7 @@ package_freebsd-world() {
 package_freebsd-source() {
   pkgdesc="FreeBSD source matching FreeBSD kernel"
   options=('!strip')
-
+  arch=('any')
   mkdir -p ${pkgdir}/usr/src
   cp -a ${srcdir}/${_gitname}/* ${pkgdir}/usr/src
   rm -rf ${pkgdir}/usr/src/.git
