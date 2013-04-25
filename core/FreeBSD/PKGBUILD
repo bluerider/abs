@@ -106,8 +106,6 @@ package_freebsd-world() {
   unset M4
   unset LD RANLIB ld
 
-  export CFLAGS+="$CFLAGS -march=$CARCH -mtune=generic -O2"
-
   if [[ "$CARCH" == "x86_64" ]]; then
     TARGET=amd64
   else
