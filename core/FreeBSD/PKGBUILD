@@ -1,5 +1,5 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source')
-pkgver=20130411
+pkgver=20130425
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
@@ -61,6 +61,8 @@ build() {
   export CC=clang
   export CPP=clang-cpp
   export CXX=clang++
+
+  export CFLAGS+="-march=$CARCH -mtune=generic"
   
   msg "Building Kernel"
   make NO_CLEAN=YES TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
@@ -82,6 +84,7 @@ package_freebsd-kernel() {
   unset CXXFLAGS CPPFLAGS CFLAGS
   unset M4
   unset LD RANLIB ld
+  
   if [[ "$CARCH" == "x86_64" ]]; then
     TARGET=amd64
     KERNCONF=ARCHBSD_x86_64
@@ -102,6 +105,8 @@ package_freebsd-world() {
   unset CXXFLAGS CPPFLAGS CFLAGS
   unset M4
   unset LD RANLIB ld
+
+  export CFLAGS+="$CFLAGS -march=$CARCH -mtune=generic -O2"
 
   if [[ "$CARCH" == "x86_64" ]]; then
     TARGET=amd64
