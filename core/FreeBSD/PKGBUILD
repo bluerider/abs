@@ -58,17 +58,17 @@ build() {
   ln -sf "${srcdir}/$KERNCONF" ${srcdir}/${_gitname}/sys/${TARGET}/conf/$KERNCONF
 
   #build with clang
-  export CC=clang
-  export CPP=clang-cpp
-  export CXX=clang++
+  #export CC=clang
+  #export CPP=clang-cpp
+  #export CXX=clang++
 
   export CFLAGS+="-march=$CARCH -mtune=generic"
   
   msg "Building Kernel"
-  make NO_CLEAN=YES TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
+  make -j1 NO_CLEAN=YES TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
 
   msg "Building world"
-  make NO_CLEAN=YES TARGET=$TARGET -DWITHOUT_LIB32 buildworld || (echo buildworld failed... && return 1)
+  make -j1 NO_CLEAN=YES TARGET=$TARGET -DWITHOUT_LIB32 buildworld || (echo buildworld failed... && return 1)
 
 }
 
@@ -92,13 +92,14 @@ package_freebsd-kernel() {
     TARGET=i386
     KERNCONF=ARCHBSD_i686
   fi
-  make TARGET=$TARGET KERNCONF=${KERNCONF} DESTDIR=${pkgdir} installkernel || (echo installkernel failed... && return 1)
+  make -j1 TARGET=$TARGET KERNCONF=${KERNCONF} DESTDIR=${pkgdir} installkernel || (echo installkernel failed... && return 1)
 }
 
 package_freebsd-world() {
   pkgdesc="FreeBSD base package"
   pkgver=9.1
   groups=('base')
+  provides=('libc=9.1')
 
   cd ${srcdir}/${_gitname}
   unset LDFLAGS
@@ -114,7 +115,7 @@ package_freebsd-world() {
     TARGET=i386
   fi
   msg "Running make installworld distribution..."
-  make TARGET=$TARGET DESTDIR="$pkgdir" SRCONF=${srcdir}/src.conf \
+  make -j1 TARGET=$TARGET DESTDIR="$pkgdir" SRCONF=${srcdir}/src.conf \
 	-DWITHOUT_LIB32 -DWITHOUT_GCC -DWITHOUT_BINUTILS installworld distribution
 
   msg "Installed. Cleaning up and configuring..."

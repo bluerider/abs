@@ -5,8 +5,8 @@
 # NOTE: libtool requires rebuilt with each new gcc version
 
 pkgname=('gcc' 'gcc-libs' 'gcc-fortran' 'gcc-objc')
-pkgver=4.7.2
-pkgrel=4
+pkgver=4.8.0
+pkgrel=1
 pkgdesc="The GNU Compiler Collection"
 arch=('i686' 'x86_64')
 license=('GPL' 'LGPL' 'FDL' 'custom')
@@ -14,7 +14,7 @@ url="http://gcc.gnu.org"
 makedepends=('binutils>=2.23' 'libmpc' 'cloog' 'ppl')
 options=('!libtool' '!emptydirs')
 source=(ftp://gcc.gnu.org/pub/gcc/releases/gcc-${pkgver}/gcc-${pkgver}.tar.bz2)
-md5sums=('cc308a0891e778cfda7a151ab8a6e762')
+md5sums=('e6040024eb9e761c3bea348d1fa5abb0')
 
 
 if [ -n "${_snapshot}" ]; then
@@ -52,7 +52,8 @@ build() {
       --with-gmp=/usr --with-ld=/usr/bin/ld \
       --with-libiconv-prefix=/usr \
       --with-pkgversion="ArchBSD Package Collection" \
-      --with-system-zlib --disable-libgcj
+      --with-system-zlib --disable-libgcj \
+      --enable-cloog-backend=isl --disable-cloog-version-check
 
   gmake
 }
