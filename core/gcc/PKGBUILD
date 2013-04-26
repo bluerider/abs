@@ -39,6 +39,12 @@ build() {
   cd ${srcdir}/gcc-${pkgver}
   contrib/gcc_update --touch
   rm -rf -f gcc/*/*.info*
+   
+  if [[ "$CARCH" == "i686" ]]; then
+      _CARCH=i386
+  else
+      _CARCH=x86_64
+  fi
 
   cd ${srcdir}/
   mkdir gcc-build && cd gcc-build
@@ -77,13 +83,13 @@ package_gcc-libs()
   install=gcc-libs.install
 
   cd ${srcdir}/gcc-build
-  gmake -j1 -C x86_64-unknown-freebsd9.1/libgcc DESTDIR=${pkgdir} install-shared
+  gmake -j1 -C ${_CARCH}-unknown-freebsd9.1/libgcc DESTDIR=${pkgdir} install-shared
   for lib in libmudflap libgomp libstdc++-v3/src libitm; do
-    gmake -j1 -C x86_64-unknown-freebsd9.1/$lib DESTDIR=${pkgdir} install-toolexeclibLTLIBRARIES
+    gmake -j1 -C ${_CARCH}-unknown-freebsd9.1/$lib DESTDIR=${pkgdir} install-toolexeclibLTLIBRARIES
   done
-  gmake -j1 -C x86_64-unknown-freebsd9.1/libstdc++-v3/po DESTDIR=${pkgdir} install
-  gmake -j1 -C x86_64-unknown-freebsd9.1/libgomp DESTDIR=${pkgdir} install-info
-  gmake -j1 -C x86_64-unknown-freebsd9.1/libitm DESTDIR=${pkgdir} install-info
+  gmake -j1 -C ${_CARCH}-unknown-freebsd9.1/libstdc++-v3/po DESTDIR=${pkgdir} install
+  gmake -j1 -C ${_CARCH}-unknown-freebsd9.1/libgomp DESTDIR=${pkgdir} install-info
+  gmake -j1 -C ${_CARCH}-unknown-freebsd9.1/libitm DESTDIR=${pkgdir} install-info
 
   gmake -j1 DESTDIR=${pkgdir} install-target-libquadmath  
   gmake -j1 DESTDIR=${pkgdir} install-target-libgfortran
@@ -114,12 +120,18 @@ package_gcc()
   mv $pkgdir{,/usr/share/gdb/auto-load}/usr/lib/libstdc++.so.6-gdb.py
 
   # unfortunately it is much, much easier to install the lot and clean-up the mess...
-  rm $pkgdir/usr/bin/x86_64-unknown-freebsd9.1-gfortran
+  if [[ "$CARCH" == "i686" ]]; then
+      _CARCH=i386
+  else
+      _CARCH=x86_64
+  fi
+  rm $pkgdir/usr/bin/${_CARCH}-unknown-freebsd9.1-gfortran
   rm $pkgdir/usr/lib/*.so*
   rm $pkgdir/usr/lib/lib{gfortran,objc}.a
   rm $pkgdir/usr/lib/libgfortran.spec
-  rm $pkgdir/usr/lib/gcc/x86_64-unknown-freebsd9.1/${pkgver}/f951
-  rm $pkgdir/usr/lib/gcc/x86_64-unknown-freebsd9.1/${pkgver}/{libcaf_single,libgfortranbegin}.a
+ 
+  rm $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/${pkgver}/f951
+  rm $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/${pkgver}/{libcaf_single,libgfortranbegin}.a
   rm $pkgdir/usr/share/info/{gfortran,libgomp,libitm,libquadmath}.info
   rm $pkgdir/usr/share/man/man1/gfortran.1
 
@@ -169,10 +181,10 @@ package_gcc-fortran()
 
   cd ${srcdir}/gcc-build
   gmake -j1 DESTDIR=$pkgdir install-target-libgfortran
-  gmake -j1 -C x86_64-unknown-freebsd9.1/libgomp DESTDIR=$pkgdir install-nodist_fincludeHEADERS
+  gmake -j1 -C ${_CARCH}-unknown-freebsd9.1/libgomp DESTDIR=$pkgdir install-nodist_fincludeHEADERS
   gmake -j1 -C gcc DESTDIR=$pkgdir fortran.install-{common,man,info}
-  install -dm755 $pkgdir/usr/lib/gcc/x86_64-unknown-freebsd9.1/$pkgver/f951
-  install -m755 gcc/f951 $pkgdir/usr/lib/gcc/x86_64-unknown-freebsd9.1/$pkgver/f951
+  install -dm755 $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/$pkgver/f951
+  install -m755 gcc/f951 $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/$pkgver/f951
 
   ln -s gfortran ${pkgdir}/usr/bin/f95
 
@@ -191,8 +203,8 @@ package_gcc-objc()
 
   cd ${srcdir}/gcc-build
   gmake -j1 DESTDIR=$pkgdir install-target-libobjc
-  install -dm755 $pkgdir/usr/lib/gcc/x86_64-unknown-freebsd9.1/$pkgver/
-  install -m755 gcc/cc1obj $pkgdir/usr/lib/gcc/x86_64-unknown-freebsd9.1/$pkgver/
+  install -dm755 $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/$pkgver/
+  install -m755 gcc/cc1obj $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/$pkgver/
 
   # remove libraries included in gcc-libs
   rm ${pkgdir}/usr/lib/libobjc.so*
