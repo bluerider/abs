@@ -2,7 +2,7 @@
 
 pkgname=fusefs-ntfs
 pkgver=2012.1.15
-pkgrel=1
+pkgrel=2
 pkgdesc="EXT4 fuse implementation"
 arch=('i686' 'x86_64')
 url="http://tuxera.com"
@@ -26,6 +26,8 @@ md5sums=('341acae00a290cab9b00464db65015cc'
          '031a766b4ed888c1db4a53e7a24b45a8'
          '633c920d62f31af71f7c4ae62508cfe8'
          'fe712ef0d106c02e5c937c4dec4fa322')
+
+export CC=clang CXX=clang++ CPP=clang-cpp
 
 build() {
     cd "${srcdir}/${_distname}"

@@ -4,7 +4,7 @@ HG_SHORTREV=498acaef33b0
 
 pkgname=fusefs-kmod
 pkgver=0.3.9
-pkgrel=2
+pkgrel=3
 pkgdesc="Kernel module for fusefs based filesystems"
 arch=('i686' 'x86_64')
 url="http://fuse4bsd.creo.hu/"
@@ -35,6 +35,8 @@ md5sums=('fe90644d6bd7d05b76748422b09efc1e'
          '0de19d5b3a73099df436ed4c4aa8f3ad'
          'b77ea83ea17b8cdc923a90de99633764'
          '6c30e4b697c27115b5237a5d30215e31')
+
+export CC=clang CXX=clang++ CPP=clang-cpp
 
 build() {
     cd "${srcdir}/fuse4bsd-${HG_SHORTREV}"
