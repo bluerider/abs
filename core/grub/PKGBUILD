@@ -146,7 +146,7 @@ _build_grub-efi-i386() {
 	./autogen.sh
 	echo
 
-	CFLAGS="" ./configure \
+	LIBS=-lgeom CFLAGS="" ./configure \
 		--with-platform="efi" \
 		--target="i386" \
 		--host="${CARCH}-unknown-linux-gnu" \
@@ -170,6 +170,8 @@ _build_grub-efi-i386() {
 		--disable-werror
 	echo
 
+	gsed -i -e 's/^LIBS .*=\(.*\)/LIBS = \1 -lgeom/' Makefile
+	ln -svf /usr/include/{machine,sys,x86} grub-core
 	CFLAGS="" gmake
 	echo
 
@@ -216,13 +218,16 @@ package_grub-common() {
 	echo
 
 	## install extra /etc/grub.d/ files
-	install -D -m0755 "${srcdir}/20_memtest86+" "${pkgdir}/etc/grub.d/20_memtest86+"
+	install -dm0755 "${pkgdir}/etc/grub.d"
+	install -m0755 "${srcdir}/20_memtest86+" "${pkgdir}/etc/grub.d/20_memtest86+"
 
 	## install /etc/default/grub (used by grub-mkconfig)
-	install -D -m0644 "${srcdir}/grub.default" "${pkgdir}/etc/default/grub"
+	install -dm0755 "${pkgdir}/etc/default"
+	install -m0644 "${srcdir}/grub.default" "${pkgdir}/etc/default/grub"
 
 	## install grub.cfg (needed so it doesn't get removed on upgrading because it was previously here)
-	install -D -m0644 "${srcdir}/grub.cfg" "${pkgdir}/boot/grub/grub.cfg"
+	install -dm0755 "${pkgdir}/boot/grub"
+	install -m0644 "${srcdir}/grub.cfg" "${pkgdir}/boot/grub/grub.cfg"
 
 	# remove platform specific files
 	rm -rf "${pkgdir}/usr/lib/grub/i386-pc/"
