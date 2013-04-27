@@ -1,8 +1,8 @@
 # Contributor: Wolfgang Bumiller <blub@speed.at>
 
 pkgname=fusefs-ext4fuse
-pkgver=0.1.2
-pkgrel=3
+pkgver=0.1.3
+pkgrel=1
 pkgdesc="EXT4 fuse implementation"
 arch=('i686' 'x86_64')
 url="https://github.com/gerard/ext4fuse/"
@@ -11,10 +11,10 @@ groups=('fuse-all')
 depends=('libexecinfo')
 
 GH_ACCOUNT=gerard
-GH_COMMIT=6b28a2b
+GH_COMMIT=33f57f6
 GH_TAGNAME=v${pkgver}
 source=(https://nodeload.github.com/gerard/ext4fuse/legacy.tar.gz/${GH_TAGNAME}?dummy=/ext4fuse-${pkgver}.tar.gz)
-md5sums=('b051e61cb1e52523e97aee8d83f6b116')
+md5sums=('02a40aa48fd19234bd8851473452aa62')
 
 export CC=clang CXX=clang++ CPP=clang-cpp
 
