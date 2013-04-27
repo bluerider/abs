@@ -11,19 +11,17 @@
 # Contributor: Wolfgang Bumiller <archbsd at bumiller dot com>
 
 ## TODO: -) figure out what to do with clang - probably keeping it removed
-##       -) enable llvm-ocaml once there's an ocaml package (also /^#/ for ocaml related lines)
 ##       -) deal with ldconfig for llvm (/usr/lib/llvm)
 ##       -) remove call to 'prepare' in build() when upgrading pacman to 4.1
 
 #pkgname=('llvm' 'llvm-ocaml' 'clang' 'clang-analyzer')
-pkgname=('llvm')
+pkgname=('llvm' 'llvm-ocaml')
 pkgver=3.2
 pkgrel=6
 arch=('i686' 'x86_64')
 url="http://llvm.org/"
 license=('custom:University of Illinois/NCSA Open Source License')
 makedepends=('libffi' 'python2' 'ocaml' 'python-sphinx' 'gsed' 'gmake')
-makedepends=('libffi' 'python2'         'python-sphinx' 'gsed' 'gmake')
 source=(http://llvm.org/releases/$pkgver/$pkgname-$pkgver.src.tar.gz
         http://llvm.org/releases/$pkgver/clang-$pkgver.src.tar.gz
         http://dev.archlinux.org/~foutrelis/sources/compiler-rt/compiler-rt-$pkgver.src.tar.xz
@@ -131,7 +129,6 @@ build() {
     --disable-debug-runtime \
     --disable-assertions \
     --with-binutils-include=/usr/include \
-    --enable-bindings=none \
     --$_optimized_switch-optimized
 
   gmake REQUIRES_RTTI=1
@@ -153,12 +150,12 @@ package_llvm() {
   gmake -j1 DESTDIR="$pkgdir" install
 #  mv "$srcdir/clang" tools
 
-#  # OCaml bindings go to a separate package
-#  rm -rf "$srcdir"/{ocaml,ocamldoc}
-#  mv "$pkgdir"/usr/{lib/ocaml,share/doc/llvm/ocamldoc} "$srcdir"
+  # OCaml bindings go to a separate package
+  rm -rf "$srcdir"/{ocaml,ocamldoc}
+  mv "$pkgdir"/usr/{lib/ocaml,share/doc/llvm/ocamldoc} "$srcdir"
 
-#  # Remove duplicate files installed by the OCaml bindings
-#  rm "$pkgdir"/usr/{lib/llvm/libllvm*,share/doc/llvm/ocamldoc.tar.gz}
+  # Remove duplicate files installed by the OCaml bindings
+  rm "$pkgdir"/usr/{lib/llvm/libllvm*,share/doc/llvm/ocamldoc.tar.gz}
 
   # Fix permissions of static libs
   chmod -x "$pkgdir"/usr/lib/llvm/*.a
