@@ -4,7 +4,7 @@
 
 pkgname=syslinux
 pkgver=5.01
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 pkgdesc="Collection of boot loaders that boot from FAT, ext2/3/4 and btrfs filesystems, from CDs and via PXE"
 url="http://syslinux.zytor.com/"
@@ -47,7 +47,7 @@ package() {
 
   install -dm755 "${pkgdir}/usr/lib/syslinux"
   for i in mbr/{,gpt}mbr.bin core/{pxelinux.0,isolinux.bin} gpxe/gpxelinux.0 \
-           memdisk/memdisk com32/menu/*.c32 com32/modules/*.c32
+           memdisk/memdisk com32/menu/*.c32 com32/modules/*.c32 com32/mboot/mboot.c32
   do
     install -m755 "$i" "${pkgdir}/usr/lib/syslinux/"$(basename "$i")
   done
