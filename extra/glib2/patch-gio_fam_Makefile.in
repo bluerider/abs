@@ -1,6 +1,6 @@
---- gio/fam/Makefile.in.orig	2012-03-07 21:07:42.000000000 +0100
-+++ gio/fam/Makefile.in	2012-03-07 21:08:30.000000000 +0100
-@@ -87,9 +87,7 @@
+--- gio/fam/Makefile.in.orig	2010-01-28 10:40:29.000000000 -0500
++++ gio/fam/Makefile.in	2010-01-28 10:43:26.000000000 -0500
+@@ -76,9 +76,8 @@ am__base_list = \
  am__installdirs = "$(DESTDIR)$(giomoduledir)"
  LTLIBRARIES = $(giomodule_LTLIBRARIES)
  am__DEPENDENCIES_1 =
@@ -8,10 +8,11 @@
 -	$(top_builddir)/gobject/libgobject-2.0.la \
 -	$(top_builddir)/glib/libglib-2.0.la $(am__DEPENDENCIES_1) \
 +libgiofam_la_DEPENDENCIES =  \
++	$(am__DEPENDENCIES_1) \
  	$(am__DEPENDENCIES_1)
  am__objects_1 =
  am_libgiofam_la_OBJECTS = libgiofam_la-fam-helper.lo \
-@@ -402,9 +400,9 @@
+@@ -369,9 +368,9 @@ libgiofam_la_CFLAGS = \
  
  libgiofam_la_LDFLAGS = $(module_flags)
  libgiofam_la_LIBADD = \
@@ -24,7 +25,7 @@
  		$(GLIB_LIBS) \
  		$(FAM_LIBS) \
  		$(NULL)
-@@ -843,7 +841,7 @@
+@@ -776,7 +775,7 @@ check-local: test
  
  install-data-hook:
  	if $(RUN_QUERY_MODULES) && test -z "$(DESTDIR)" ; then					\
