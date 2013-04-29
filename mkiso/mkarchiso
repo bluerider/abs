@@ -94,7 +94,7 @@ config_setup() {
 	cp ${files}/fstab ${isoroot}/etc/fstab
 	cp ${files}/cshrc ${isoroot}/root/.cshrc		
 	rm -f ${isoroot}/etc/runlevels/boot/root
-	chroot ${isoroot} /sbin/rc-update add scriptname default
+	chroot ${isoroot} /sbin/rc-update add modules default
 	cp ${files}/modules ${isoroot}/etc/conf.d/modules
 }
 
