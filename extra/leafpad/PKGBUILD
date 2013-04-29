@@ -11,7 +11,9 @@ url="http://tarot.freeshell.org/leafpad/"
 license=('GPL')
 depends=('gtk2' 'desktop-file-utils')
 makedepends=('intltool')
+optdepends=('gio-fam')
 install=leafpad.install
+groups=('lxde')
 source=(http://download.savannah.gnu.org/releases/${pkgname}/${pkgname}-${pkgver}.tar.gz)
 md5sums=('254a72fc67505e3aa52884c729cd7b97')
 
