@@ -36,7 +36,7 @@ check() {
 
 mktemproot() {
 	install -dm755 ${temproot}/var/{lib,cache}/pacman
-	pacman -Sy base -r ${temproot} --cachedir ${temproot}/var/cache/pacman/pkg/ --config /home/amzo/pacman.conf
+	pacman -Sy base -r ${temproot} --cachedir ${temproot}/var/cache/pacman/pkg/
 }
 
 mkdirlayout() {
@@ -66,21 +66,21 @@ copyfiles() {
 
 copydirs() {
 	while read dir; do
-		cp -Ra ${temproot}${dir} ${isoroot}${dir}
+		cp -ra ${temproot}${dir} ${isoroot}${dir}
 	done < ${files}/dirlist
 
 	for cdirs in bin sbin libexec lib; do
-		cp -Ra ${temproot}/${cdirs} ${isoroot}/
+		cp -ra ${temproot}/${cdirs} ${isoroot}/
 	done
 }
 
 package_install() {
-	pacman -Sydd --force ${packagelist} -r ${isoroot} --cachedir ${isoroot}/var/cache/pacman/pkg/ --config /home/amzo/pacman.conf
+	pacman -Sydd --force ${packagelist} -r ${isoroot} --cachedir ${isoroot}/var/cache/pacman/pkg/
 }
 
 grub_install() {
 	grubpath=${isoroot}/boot/grub
-	pacman -Sydd grub-common grub-bios -r ${isoroot} --cachedir ${isoroot}/var/cache/pacman/pkg/ --config /home/amzo/pacman.conf
+	pacman -Sydd grub-common grub-bios -r ${isoroot} --cachedir ${isoroot}/var/cache/pacman/pkg/
 	
         mv ${isoroot}/usr/lib/grub/i386-pc* ${grubpath}
 	

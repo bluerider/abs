@@ -6,6 +6,7 @@ url='http://www.archlinux.org/'
 license=('GPL')
 arch=('any')
 options=(!strip)
+depends=('linux-base')
 source=(http://arm.konnichi.com/2009/12/01/extra/os/i686/atk-1.28.0-1-i686.pkg.tar.gz)
 md5sums=('e40d94b243af714c39651d1e6523a384')
 
