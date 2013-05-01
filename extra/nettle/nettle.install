@@ -1,7 +1,11 @@
-infodir=/usr/local/info
+infodir=/usr/share/info
+filelist=(nettle.info)
 
 post_install() {
-    install-info $infodir/nettle.info.gz $infodir/dir
+  [ -x usr/bin/install-info ] || return 0
+  for file in ${filelist[@]}; do
+    install-info $infodir/$file.gz $infodir/dir 2> /dev/null
+  done
 }
 
 post_upgrade() {
@@ -9,5 +13,8 @@ post_upgrade() {
 }
 
 pre_remove() {
-    install-info --delete $infodir/nettle.info.gz $infodir/dir
+  [ -x usr/bin/install-info ] || return 0
+  for file in ${filelist[@]}; do
+    install-info --delete $infodir/$file.gz $infodir/dir 2> /dev/null
+  done
 }
