@@ -39,20 +39,17 @@ sha1sums=('05688dc03d61631750f5904273122bb40a2115f5'
           '666ca196d1995ff7364e3820b3bec40f96bbee4d')
 build() {
   cd "${srcdir}/wxPython-src-${pkgver}"
-  for i in patch-Makefile.in \
-	patch-configure \
-	patch-contrib-Makefile.in \
-	patch-contrib-src-Makefile.in \
-	patch-contrib-src-fl-Makefile.in \
-	patch-contrib-src-gizmos-Makefile.in \
-	patch-contrib-src-ogl-Makefile.in \
-	patch-contrib-src-plot-Makefile.in \
-	patch-contrib-src-stc-Makefile.in \
-	patch-contrib-src-svg-Makefile.in \
-	patch-src-common-intl.cpp \
-	patch-utils-wxrc-Makefile.in; do
-  patch -p0 -i ${srcdir}/$i
-  done
+#  for i in patch-Makefile.in \
+#	patch-configure \
+#	patch-contrib-Makefile.in \
+#	patch-contrib-src-fl-Makefile.in \
+#	patch-contrib-src-gizmos-Makefile.in \
+#	patch-contrib-src-ogl-Makefile.in \
+#	patch-contrib-src-plot-Makefile.in \
+#	patch-contrib-src-stc-Makefile.in \
+#	patch-contrib-src-svg-Makefile.in; do
+# patch -p0 -i ${srcdir}/$i
+#  done
 
   ./configure --prefix=/usr --libdir=/usr/lib --with-gtk=2 --with-opengl --enable-unicode \
     --enable-graphics_ctx  --disable-optimize --enable-mediactrl --with-regex=builtin \
