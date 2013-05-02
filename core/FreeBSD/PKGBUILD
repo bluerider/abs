@@ -1,6 +1,6 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source')
-pkgver=20130425
-pkgrel=1
+pkgver=20130501
+pkgrel=2
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -32,7 +32,7 @@ export MAKEOBJDIRPREFIX="$srcdir/obj"
 build() {
   cd "${srcdir}"
   msg "Connecting to GIT server...."
-
+ 
   if [ -d ${_gitname} ] ; then
     cd ${_gitname} && git reset --hard && git clean -df && git checkout $_gitbranch && git pull
     msg "The local files are updated."
@@ -58,12 +58,17 @@ build() {
   ln -sf "${srcdir}/$KERNCONF" ${srcdir}/${_gitname}/sys/${TARGET}/conf/$KERNCONF
 
   #build with clang
-  #export CC=clang
-  #export CPP=clang-cpp
-  #export CXX=clang++
+  export CC=clang
+  export CPP=clang-cpp
+  export CXX=clang++
 
-  export CFLAGS+="-march=$CARCH -mtune=generic"
-  
+   if [[ "$CARCH" = "x86_64" ]]; then
+	export CFLAGS+="-march=x86-64 -mtune=generic"
+   else
+	export CFLAGS+="-march=$CARCH -mtune=generic"
+   fi
+   export PATH=/usr/local/bin:$PATH
+
   msg "Building Kernel"
   make -j1 NO_CLEAN=YES TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
 
