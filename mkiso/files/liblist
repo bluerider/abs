@@ -1,3 +1,5 @@
+/usr/lib/liblzma.so*
+/usr/lib/libssl.so*
 /usr/lib/libmenu.so*
 /usr/lib/libmilter.so*
 /usr/lib/libalias.so

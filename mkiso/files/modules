@@ -1,2 +1,2 @@
 # These modules will be loaded at startup
-modules="siis sdhci geom_journal geom_mirror geom_eli aesni zfs"
+modules="sdhci geom_journal geom_mirror geom_eli aesni zfs"

@@ -1,3 +1,9 @@
+/usr/bin/less
+/usr/bin/more
+/usr/sbin/kbdcontrol
+/usr/sbin/wpa_cli
+/usr/sbin/wpa_passphrase
+/usr/sbin/wpa_supplicant
 /boot/device.hints
 /usr/bin/bzip2
 /usr/bin/bzip2recover

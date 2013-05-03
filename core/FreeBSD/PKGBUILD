@@ -1,5 +1,5 @@
-pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source')
-pkgver=20130501
+pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32')
+pkgver=20130502
 pkgrel=2
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
@@ -73,7 +73,7 @@ build() {
   make -j1 NO_CLEAN=YES TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
 
   msg "Building world"
-  make -j1 NO_CLEAN=YES TARGET=$TARGET -DWITHOUT_LIB32 buildworld || (echo buildworld failed... && return 1)
+  make -j1 NO_CLEAN=YES TARGET=$TARGET buildworld || (echo buildworld failed... && return 1)
 
 }
 
@@ -198,4 +198,17 @@ package_freebsd-source() {
   mkdir -p ${pkgdir}/usr/src
   cp -a ${srcdir}/${_gitname}/* ${pkgdir}/usr/src
   rm -rf ${pkgdir}/usr/src/.git
+}
+
+package_freebsd-lib32() {
+   pkgdesc="FreeBSD lib32 libraries"
+   provides=('lib32-libc')
+   options=('!strip')
+   arch=('x86_64')
+   install=lib32.install
+
+   cd ${srcdir}/${_gitname}
+   install -dm755 ${pkgdir}/usr/lib32
+   install -dm755 ${pkgdir}/usr/libexec/
+   make TARGET=$TARGET DESTDIR="$pkgdir" install32
 }
