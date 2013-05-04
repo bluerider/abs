@@ -3,7 +3,7 @@
 
 pkgname=gnome-icon-theme
 pkgver=3.8.0
-pkgrel=1
+pkgrel=2
 pkgdesc="GNOME icon theme"
 arch=(any)
 depends=('hicolor-icon-theme' 'icon-naming-utils' 'gtk-update-icon-cache' 'gnome-icon-theme-symbolic')
@@ -26,4 +26,6 @@ package() {
     cd "$pkgname-$pkgver"
     gmake DESTDIR="$pkgdir" install
     rm -f  "${pkgdir}/usr/share/icons/gnome/icon-theme.cache"
+    install -dm755 "${pkgdir}/usr/lib"
+    mv "$pkgdir/usr/share/pkgconfig" "$pkgdir/usr/lib/pkgconfig"
 }

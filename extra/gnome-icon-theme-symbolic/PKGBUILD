@@ -4,7 +4,7 @@
 
 pkgname=gnome-icon-theme-symbolic
 pkgver=3.8.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="GNOME icon theme, symbolic icons"
 arch=(any)
 depends=('gtk-update-icon-cache' 'icon-naming-utils' 'hicolor-icon-theme')
@@ -30,4 +30,6 @@ build() {
 package() {
   cd "$pkgname-$pkgver"
   gmake DESTDIR="$pkgdir" install
+  install -dm755 "${pkgdir}/usr/lib"
+  mv "$pkgdir/usr/share/pkgconfig" "$pkgdir/usr/lib/pkgconfig"
 }
