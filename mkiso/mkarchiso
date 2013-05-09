@@ -30,7 +30,7 @@ check() {
 	fi
 
         if [ ! -d ${isoroot} ]; then
-                mkdir ${isoproot}
+                mkdir ${isoroot}
         fi
 }
 
