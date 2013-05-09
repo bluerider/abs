@@ -10,8 +10,8 @@ temproot=${curdir}/ArchBSD_temp
 isoroot=${curdir}/ArchBSD
 files=${curdir}/files
 packagelist="archbsd-keyring bash ca_root_nss curl cyrus-sasl gettext gnupg gpgme libarchive libassuan libgcrypt libgpg-error libiconv libksba libldap libltdl libsasl libtool pacman-mirrorlist pinentry pkgconf pth freebsd-kernel gcc-libs libpthread-stubs openrc pacman"
-curdir=`pwd`
 date=`date +"%d%m%Y"`
+
 check() {
         if [ $UID -ne 0 ]; then
                 echo "This script needs to be run as root" && exit
@@ -113,17 +113,17 @@ make_iso() {
 
 check
 
-#mktemproot
+mktemproot
 
-#mkdirlayout
+mkdirlayout
 
 copyfiles
 
 copydirs
 
-#package_install
+package_install
 
-#grub_install
+grub_install
 
 config_setup
 
