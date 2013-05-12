@@ -3,7 +3,7 @@
 
 pkgname=xkeyboard-config
 pkgver=2.7
-pkgrel=1
+pkgrel=2
 pkgdesc="X keyboard configuration files"
 arch=(any)
 license=('custom')
@@ -34,4 +34,6 @@ package() {
   ln -sf /var/lib/xkb "${pkgdir}/usr/share/X11/xkb/compiled"
   install -m755 -d "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+
+  mv "${pkgdir}/usr/"{share,lib}"/pkgconfig"
 }
