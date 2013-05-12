@@ -183,8 +183,8 @@ package_gcc-fortran()
   gmake -j1 DESTDIR=$pkgdir install-target-libgfortran
   gmake -j1 -C ${_CARCH}-unknown-freebsd9.1/libgomp DESTDIR=$pkgdir install-nodist_fincludeHEADERS
   gmake -j1 -C gcc DESTDIR=$pkgdir fortran.install-{common,man,info}
-  install -dm755 $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/$pkgver/f951
-  install -m755 gcc/f951 $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/$pkgver/f951
+  install -dm755 $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/$pkgver/
+  install -m755 gcc/f951 $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/$pkgver/
 
   ln -s gfortran ${pkgdir}/usr/bin/f95
 
