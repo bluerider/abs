@@ -1,3 +1,6 @@
+# $Id: PKGBUILD 139346 2011-10-01 18:59:04Z ibiru $
+# Maintainer: Jan de Groot <jgc@archlinux.org>
+
 pkgname=gtk-doc
 pkgver=1.18
 pkgrel=1
@@ -14,7 +17,7 @@ sha256sums=('785b591c561be1c8206f0d2575dc63558ea6199c3afe49cbc4efde94a6629a20')
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   export PYTHON=/usr/bin/python2
-  ./configure --prefix=/usr --with-xml-catalog=/etc/xml/catalog
+  ./configure --prefix=/usr
   gmake
 }
 
@@ -22,4 +25,6 @@ package() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
 
+  install -dm755 "${pkgdir}/usr/lib"
+  mv "${pkgdir}/usr/"{share,lib}"/pkgconfig"
 }
