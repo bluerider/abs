@@ -3,7 +3,7 @@
 
 pkgname=('glib2' 'gio-fam')
 pkgver=2.36.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Common C routines used by GTK+ and other libs"
 url="http://www.gtk.org/"
 arch=(i686 x86_64)
@@ -17,7 +17,6 @@ source=(http://ftp.gnome.org/pub/GNOME/sources/glib/${pkgver%.*}/glib-$pkgver.ta
 	patch-config.h.in
 	patch-configure
 	patch-docs_reference_Makefile.in
-	patch-gio_fam_Makefile.in
 	patch-gio_gunixmount.c
 	patch-gio_gunixmounts.c
 	patch-gio_gunixvolume.c
@@ -39,7 +38,6 @@ sha256sums=('7de37586794e92c024feebe5d306bf5f245fef4803c3666af1ae8dac6ee10b24'
             '9b3e795e34f15d621a822bc46f47b1022f798fff1d577dab60a839918f4e6a26'
             '420161c28434820129a09c9648f1f4934849c92ca1531876bc61633e8cb56abf'
             '718fdd920f7e54337daa7377c58e6e3e9474c15712805bd1d1db1c00252b2e67'
-            '9e69c08bfa0db242eab02c8e8ecd5f317e149b6d749d2f5e35bdefc9d0d5221b'
             '8b7dedc4953dd3fe3e05e64307903f59c28a39f617950cf66b337492d87c5b42'
             '4c555d45eefb4f83e859a57e3b2f4d1e509201d87f551b914aced9ccb13b543a'
             'a700fe182cd60a226e0baea003302fd7851bc69abb23379fd99821b722712f04'
@@ -69,7 +67,6 @@ build() {
 	patch-configure \
 	patch-config.h.in \
 	patch-docs_reference_Makefile.in \
-	patch-gio_fam_Makefile.in \
 	patch-gio_gunixmount.c \
 	patch-gio_gunixmounts.c \
 	patch-gio_gunixvolume.c \
@@ -116,7 +113,7 @@ build() {
 }
 
 package_glib2() {
-  depends=('pcre' 'libffi' 'python2' 'pkgconf')
+  depends=('pcre' 'libffi' 'python2' 'pkgconf' 'icu>=51.1')
   optdepends=('python2: for gdbus-codegen' 'gio-fam: FAM backend for GLibs GIO library')
 
   cd glib-$pkgver
