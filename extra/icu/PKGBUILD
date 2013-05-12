@@ -3,7 +3,7 @@
 # Contributor: Wolfgang Bumiller <blub@speed.at>
 
 pkgname=icu
-pkgver=50.1.2
+pkgver=51.1
 pkgrel=1
 pkgdesc="International Components for Unicode library"
 arch=(i686 x86_64)
