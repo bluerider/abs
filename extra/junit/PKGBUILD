@@ -7,7 +7,6 @@ arch=('any')
 url='http://junit.sourceforge.net/'
 license=('CPL')
 depends=('java-environment' 'java-hamcrest')
-depends=('java-hamcrest')
 makedepends=('git' 'apache-ant')
 source=(Manifest.txt)
 sha256sums=('2b17a21ab3167302df8c41c3fec63e214b0405a760bc2b3e052be7341171fb1f')
