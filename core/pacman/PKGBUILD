@@ -25,13 +25,13 @@ source=(ftp://ftp.archlinux.org/other/pacman/$pkgname-$pkgver.tar.gz{,.sig}
         pacman.conf.x86_64
 	pacman.conf.i686
         makepkg.conf
-	configure.ac.patch)
+	configure.patch)
 md5sums=('a0f2b3148bee4784f21cf373cf59a0bc'
          'SKIP'
          'de74a13618347f08ae4a9637f74471c4'
          '2db6c94709bb30cc614a176ecf8badb1'
          '883292a326d2b3e0d9e7c3ec576263f5'
-         '4a2f062c625cf0aa6a66e8181f498c0b')
+         '8f5bde5cb13fe2987dcc16265f4c64d2')
 
 
 build() {
@@ -40,7 +40,7 @@ build() {
   export LDFLAGS="-L/usr/local/lib,-rpath=/usr/local/lib"
   export CPPFLAGS="$CPPFLAGS -I/usr/include/gpgme"
 
-  patch -p0 -i ${srcdir}/configure.ac.patch
+  patch -p0 -i ${srcdir}/configure.patch
 
   ./configure --prefix=/usr --sysconfdir=/etc \
     --localstatedir=/var --enable-doc \
