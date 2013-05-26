@@ -5,7 +5,7 @@
 
 pkgname=pacman
 pkgver=4.1.0
-pkgrel=2
+pkgrel=3
 pkgdesc="A library-based package manager with dependency support"
 arch=('i686' 'x86_64')
 url="http://www.archlinux.org/pacman/"
@@ -41,6 +41,9 @@ build() {
   export CPPFLAGS="$CPPFLAGS -I/usr/include/gpgme"
 
   patch -p0 -i ${srcdir}/configure.patch
+
+  #Fix now being able to remove pkgdir as regular user
+  sed -i '' -e 's/a\-srwx/a\-sx/g' scripts/makepkg.sh.in
 
   ./configure --prefix=/usr --sysconfdir=/etc \
     --localstatedir=/var --enable-doc \
