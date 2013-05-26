@@ -83,6 +83,7 @@ build() {
 
   export PLATFORM=bsd
   export ARCH=$_JARCH
+  export OPENJDK_OSARCH=bsd-${_JARCH}
   #export MILESTONE=fcs
   #export BUILD_NUMBER=${_buildnumber}
 
