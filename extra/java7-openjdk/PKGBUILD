@@ -14,7 +14,7 @@ _builddate=09_aug_2012
 _buildnumber=b24
 _milestone=fcs
 
-pkgver=${_java_ver}.${_updatever}_${_icedtea_ver}
+pkgver=${_java_ver}.${_updatever}
 pkgrel=2
 arch=('i686' 'x86_64')
 url="http://icedtea.classpath.org"
