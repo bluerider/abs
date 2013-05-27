@@ -1,6 +1,6 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32')
 pkgver=20130502
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -13,7 +13,9 @@ source=('ARCHBSD_i686'
         'sysctl.conf'
         'src.conf'
         'beastie.4th'
-        'brand.4th')
+        'brand.4th'
+	'profile'
+	'csh.cshrc')
 md5sums=('1da3141782687c8d455b63ae747d6c32'
          'a5ecdc82304d6ff426fdb4182f9adc10'
          '92f91f5796ed8e59c666a7b4909d454b'
@@ -22,7 +24,9 @@ md5sums=('1da3141782687c8d455b63ae747d6c32'
          '461507865683b0d07a090df9bcef6e16'
          'f1ec479c9280a109e0391dcfae29f1ab'
          '0e9495f2a632d85404634fdbc2eb0850'
-         'c3146af4b1ba8467d6b27a1fc22e322e')
+         'c3146af4b1ba8467d6b27a1fc22e322e'
+         'f3b6ae7db8adffaaa4bffc6099dcbd50'
+         'b516bd19fc7cfaa27463edfab9b2f1c0')
 
 _gitroot="git://github.com/freebsd/freebsd.git"
 _gitname="freebsd"
@@ -47,33 +51,33 @@ build() {
   cd ${srcdir}/${_gitname}
   msg "Building kernel"
   if [[ "$CARCH" == "x86_64" ]]; then
-    patch ${srcdir}/${_gitname}/sys/amd64/amd64/identcpu.c  $srcdir/ARCHBSD_x86_64.patch
+    patch "${srcdir}/${_gitname}/sys/amd64/amd64/identcpu.c"  "$srcdir/ARCHBSD_x86_64.patch"
     TARGET=amd64
     KERNCONF=ARCHBSD_x86_64
   else
-    patch ${srcdir}/${_gitname}/sys/i386/i386/identcpu.c $srcdir/ARCHBSD_i686.patch
+    patch "${srcdir}/${_gitname}/sys/i386/i386/identcpu.c" "$srcdir/ARCHBSD_i686.patch"
     TARGET=i386
     KERNCONF=ARCHBSD_i686
   fi
-  ln -sf "${srcdir}/$KERNCONF" ${srcdir}/${_gitname}/sys/${TARGET}/conf/$KERNCONF
+  ln -sf "${srcdir}/$KERNCONF" "${srcdir}/${_gitname}/sys/${TARGET}/conf/$KERNCONF"
 
-  #build with clang
+  #Build with clang
   export CC=clang
   export CPP=clang-cpp
   export CXX=clang++
 
-   if [[ "$CARCH" = "x86_64" ]]; then
+  if [[ "$CARCH" = "x86_64" ]]; then
 	export CFLAGS+="-march=x86-64 -mtune=generic"
-   else
+  else
 	export CFLAGS+="-march=$CARCH -mtune=generic"
-   fi
-   export PATH=/usr/local/bin:$PATH
+  fi
+  export PATH=/usr/local/bin:$PATH
 
   msg "Building Kernel"
-  make -j1 NO_CLEAN=YES TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
+  make NO_CLEAN=YES TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
 
   msg "Building world"
-  make -j1 NO_CLEAN=YES TARGET=$TARGET buildworld || (echo buildworld failed... && return 1)
+  make NO_CLEAN=YES TARGET=$TARGET buildworld || (echo buildworld failed... && return 1)
 
 }
 
@@ -104,7 +108,7 @@ package_freebsd-world() {
   pkgdesc="FreeBSD base package"
   pkgver=9.1
   groups=('base')
-  provides=('libc=9.1')
+  provides=('libc=9.1' 'zlib=9.1')
 
   cd ${srcdir}/${_gitname}
   unset LDFLAGS
@@ -125,11 +129,11 @@ package_freebsd-world() {
 
   #Create the links in the source for i686 and x86_64
   if [ ! -d "${srcdir}/${_gitname}"/sys/x86_64 ]; then
-	ln -s "${srcdir}/${_gitname}"/sys/amd64 "${srcdir}/${_gitname}"/sys/x86_64
+	ln -s "${srcdir}/${_gitname}"/sys/amd64/ "${srcdir}/${_gitname}"/sys/x86_64/
   fi
 
   if [ ! -d "${srcdir}/${_gitname}"/sys/i686 ]; then
-	ln -s "${srcdir}/${_gitname}"/sys/i386 "${srcdir}/${_gitname}"/sys/i686
+	ln -s "${srcdir}/${_gitname}"/sys/i386/ "${srcdir}/${_gitname}"/sys/i686/
   fi
 
 
@@ -138,10 +142,9 @@ package_freebsd-world() {
   mv "${pkgdir}/usr/include/db.h" "${pkgdir}/usr/include/fdb.h"
 
   #remove rc tools for openrc
-  rm -rf ${pkgdir}/etc/rc*
+  rm -rf ${pkgdir}/etc/rc.d*
+  rm -f ${pkgdir}/etc/{rc,rc.conf}
   rm -f  ${pkgdir}/usr/share/man/man8/rc.8.gz
-
-  #Remove files provided by other packages
 
   msg "Removing files provided by other packages"
   for i in lp lpq lpr lprm; do
@@ -150,33 +153,32 @@ package_freebsd-world() {
 
   rm -f "${pkgdir}"/usr/sbin/lpc
 
-  rm -f "${pkgdir}"/usr/share/man/man1/lp.1.gz
-  rm -f "${pkgdir}"/usr/share/man/man1/lpq.1.gz
-  rm -f "${pkgdir}"/usr/share/man/man1/lpr.1.gz
-  rm -f "${pkgdir}"/usr/share/man/man1/lprm.1.gz
+  rm -f "${pkgdir}"/usr/share/man/man1/lp{q,r,rm}.1.gz
   rm -f "${pkgdir}"/usr/share/man/man8/lpc.8.gz
 
-  #remove flex files
-  rm -f "${pkgdir}"/usr/bin/flex
-  rm -f "${pkgdir}"/usr/bin/flex++
+  #Remove flex files
+  rm -f "${pkgdir}"/usr/bin/{flex,flex++}
   rm -f "${pkgdir}"/usr/share/man/man1/flex.1.gz
 
-  #install some files
-  install -dm755 "${pkgdir}/etc"
-  install -m644 $srcdir/loader.conf "${pkgdir}/boot/"
-  install -m644 $srcdir/sysctl.conf "${pkgdir}/etc/"
-  install -m644 $srcdir/beastie.4th "${pkgdir}/boot/"
-  install -m644 $srcdir/brand.4th "${pkgdir}/boot/"
-
-  #remove files provided by gcc-libs
+  #Remove files provided by gcc-libs
   rm -f "${pkgdir}"/usr/lib/{libgcc_s.so,libgomp.so,libgomp.so.1,libstdc++.so,libstdc++.so.6,libsupc++.a,libstdc++.a,libssp_nonshared.a,libssp.a,libgomp.a}
 
-  #remove files provided by gcc
+  #Remove files provided by gcc
   rm -f "${pkgdir}"/usr/bin/{c89,c99}
 
-  #some left over binutil files
+  #Some left over binutil files
   rm -f "${pkgdir}"/usr/bin/{ar,gprof,ranlib}
   rm -f "${pkgdir}"/usr/share/man/man1/{ar,gprof,ranlib}.1.gz
+
+  #Remove files now provided by FreeBSD-config
+  for i in /etc/freebsd-update.conf /etc/netstart \
+	/etc/devd/asus.conf /boot/beastie.4th \
+	/boot/brand.4th /etc/csh.cshrc /etc/devd.conf \
+	/etc/devfs.conf /boot/loader.conf /etc/motd \
+	/etc/profile /etc/src.conf /etc/sysctl.conf \
+	/etc/devd/uath.conf /etc/devd/usb.conf; do
+  rm -f "${pkgdir}/$i"
+  done
 
   #set var/cache to 755
   chmod -Rv 755 ${pkgdir}/var/cache
@@ -195,9 +197,9 @@ package_freebsd-source() {
   pkgdesc="FreeBSD source matching FreeBSD kernel"
   options=('!strip')
   arch=('any')
-  mkdir -p ${pkgdir}/usr/src
-  cp -a ${srcdir}/${_gitname}/* ${pkgdir}/usr/src
-  rm -rf ${pkgdir}/usr/src/.git
+  mkdir -p "${pkgdir}/usr/src"
+  cp -a "${srcdir}/${_gitname}"/* "${pkgdir}/usr/src/"
+  rm -rf "${pkgdir}"/usr/src/.git
 }
 
 package_freebsd-lib32() {
@@ -207,8 +209,8 @@ package_freebsd-lib32() {
    arch=('x86_64')
    install=lib32.install
 
-   cd ${srcdir}/${_gitname}
-   install -dm755 ${pkgdir}/usr/lib32
-   install -dm755 ${pkgdir}/usr/libexec/
+   cd "${srcdir}/${_gitname}"
+   install -dm755 "${pkgdir}"/usr/lib32
+   install -dm755 "${pkgdir}"/usr/libexec/
    make TARGET=$TARGET DESTDIR="$pkgdir" install32
 }
