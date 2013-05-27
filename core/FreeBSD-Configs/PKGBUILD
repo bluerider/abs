@@ -45,15 +45,15 @@ done
 # setup /etc
 install -d etc/devd
 for f in motd os-release profile sysctl.conf csh.cshrc devd.conf devfs.conf; do
-					install -m644 ${srcdir}/${f} etc/
+	install -m644 ${srcdir}/${f} etc/
 done
 
 for f in loader.conf brand.4th beastie.4th; do
-					install -m644 ${srcdir}/${f} boot/
+	install -m644 ${srcdir}/${f} boot/
 done
 
 for f in asus.conf uath.conf usb.conf; do
-				install -m644 ${srcdir}/${f} etc/devd/
+	install -m644 ${srcdir}/${f} etc/devd/
 done
 
 touch etc/arch-release
