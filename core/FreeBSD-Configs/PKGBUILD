@@ -1,0 +1,60 @@
+# $Id$
+# Maintainer: Anthony Amzo@ArchBSD.net>
+
+pkgname=freebsd-configs
+pkgver=2013.05
+pkgrel=1
+pkgdesc='System wide FreeBSD configs'
+arch=('any')
+license=('BSL')
+url='http://www.archbsd.net'
+groups=('base')
+depends=('freebsd-world')
+backup=('etc/profile' 'etc/sysctl.conf' 'boot/loader.conf' 'boot/brand.4th' 
+        'boot/beastie.4th' 'etc/devd/asus.conf' 'etc/devd/uath.conf' 
+        'etc/devd/usb.conf' 'etc/csh.cshrc' 'etc/devd.conf' 'etc/devfs.conf'
+        'etc/motd' 'etc/os-release')
+source=('asus.conf' 'beastie.4th' 'brand.4th' 'csh.cshrc' 'devd.conf'
+        'devfs.conf' 'loader.conf' 'motd' 'profile' 'sysctl.conf' 
+        'uath.conf' 'usb.conf' 'os-release')
+md5sums=('3fab19520668156176f62be9e0af21c1'
+         '0e9495f2a632d85404634fdbc2eb0850'
+         'c3146af4b1ba8467d6b27a1fc22e322e'
+         'b516bd19fc7cfaa27463edfab9b2f1c0'
+         '8b08f258b2d2523f6c5d4e32cfda8556'
+         'f42af6de57aca680e21b81e2e229ff13'
+         '40aae455d07111b6a38a2792f3dccb66'
+         '68b329da9893e34099c7d8ad5cb9c940'
+         'f3b6ae7db8adffaaa4bffc6099dcbd50'
+         '461507865683b0d07a090df9bcef6e16'
+         '88ec33a1523b62b2e3f7488ff8ca7c48'
+         '1e82a92ee6e6b9f67f69050ca0dee684'
+         '239dd0da7c1de745c4a823b0404f7ee5')
+package() {
+
+cd ${pkgdir}
+
+#
+# setup root filesystem
+#
+
+for d in boot etc ; do
+	install -d -m755 ${d}
+done
+
+# setup /etc
+install -d etc/devd
+for f in motd os-release profile sysctl.conf csh.cshrc devd.conf devfs.conf; do
+					install -m644 ${srcdir}/${f} etc/
+done
+
+for f in loader.conf brand.4th beastie.4th; do
+					install -m644 ${srcdir}/${f} boot/
+done
+
+for f in asus.conf uath.conf usb.conf; do
+				install -m644 ${srcdir}/${f} etc/devd/
+done
+
+touch etc/arch-release
+}

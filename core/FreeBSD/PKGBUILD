@@ -1,5 +1,10 @@
+#
+# This PKGBUILD needs to be run as root due to FreeBSD chflags used during compiled
+# makepkg --asroot
+#
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32')
 pkgver=20130502
+_freebsdver=9.1
 pkgrel=3
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
@@ -9,24 +14,12 @@ source=('ARCHBSD_i686'
         'ARCHBSD_i686.patch'
         'ARCHBSD_x86_64'
         'ARCHBSD_x86_64.patch'
-        'loader.conf'
-        'sysctl.conf'
-        'src.conf'
-        'beastie.4th'
-        'brand.4th'
-	'profile'
-	'csh.cshrc')
+        'src.conf')
 md5sums=('1da3141782687c8d455b63ae747d6c32'
          'a5ecdc82304d6ff426fdb4182f9adc10'
          '92f91f5796ed8e59c666a7b4909d454b'
          '9ab0e68675bab4a90a07dc7f0ae19d79'
-         '40aae455d07111b6a38a2792f3dccb66'
-         '461507865683b0d07a090df9bcef6e16'
-         'f1ec479c9280a109e0391dcfae29f1ab'
-         '0e9495f2a632d85404634fdbc2eb0850'
-         'c3146af4b1ba8467d6b27a1fc22e322e'
-         'f3b6ae7db8adffaaa4bffc6099dcbd50'
-         'b516bd19fc7cfaa27463edfab9b2f1c0')
+         'f1ec479c9280a109e0391dcfae29f1ab')
 
 _gitroot="git://github.com/freebsd/freebsd.git"
 _gitname="freebsd"
@@ -67,10 +60,11 @@ build() {
   export CXX=clang++
 
   if [[ "$CARCH" = "x86_64" ]]; then
-	export CFLAGS+="-march=x86-64 -mtune=generic"
+		export CFLAGS+="-march=x86-64 -mtune=generic"
   else
-	export CFLAGS+="-march=$CARCH -mtune=generic"
+		export CFLAGS+="-march=$CARCH -mtune=generic"
   fi
+  
   export PATH=/usr/local/bin:$PATH
 
   msg "Building Kernel"
@@ -83,7 +77,7 @@ build() {
 
 package_freebsd-kernel() {
   pkgdesc="FreeBSD kernel package"
-  pkgver=9.1
+  pkgver=${_freebsdver}
   groups=('base')
   options=('!strip')
 
@@ -106,9 +100,9 @@ package_freebsd-kernel() {
 
 package_freebsd-world() {
   pkgdesc="FreeBSD base package"
-  pkgver=9.1
+  pkgver=${_freebsdver}
   groups=('base')
-  provides=('libc=9.1' 'zlib=9.1')
+  provides=('libc=${_freebsdver}' 'zlib=${_freebsdver}')
 
   cd ${srcdir}/${_gitname}
   unset LDFLAGS
@@ -157,7 +151,6 @@ package_freebsd-world() {
   rm -f "${pkgdir}"/usr/share/man/man8/lpc.8.gz
 
   #Remove flex files
-  rm -f "${pkgdir}"/usr/bin/{flex,flex++}
   rm -f "${pkgdir}"/usr/share/man/man1/flex.1.gz
 
   #Remove files provided by gcc-libs
@@ -204,7 +197,8 @@ package_freebsd-source() {
 
 package_freebsd-lib32() {
    pkgdesc="FreeBSD lib32 libraries"
-   provides=('lib32-libc')
+   pkgver=${_freebsdver}
+   provides=('lib32-libc=${_freebsdver}')
    options=('!strip')
    arch=('x86_64')
    install=lib32.install
