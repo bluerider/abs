@@ -117,17 +117,18 @@ package_freebsd-world() {
   fi
   msg "Running make installworld distribution..."
   make -j1 TARGET=$TARGET DESTDIR="$pkgdir" SRCONF=${srcdir}/src.conf \
-	-DWITHOUT_LIB32 -DWITHOUT_GCC -DWITHOUT_BINUTILS installworld distribution
+	-DWITHOUT_LIB32 -DWITHOUT_GCC -DWITHOUT_BINUTILS -DWITHOUT_BSD_CPIO  \
+  installworld distribution
 
   msg "Installed. Cleaning up and configuring..."
 
   #Create the links in the source for i686 and x86_64
   if [ ! -d "${srcdir}/${_gitname}"/sys/x86_64 ]; then
-	ln -s "${srcdir}/${_gitname}"/sys/amd64/ "${srcdir}/${_gitname}"/sys/x86_64/
+	ln -s "${srcdir}/${_gitname}"/sys/amd64/ "${srcdir}/${_gitname}"/sys/x86_64
   fi
 
   if [ ! -d "${srcdir}/${_gitname}"/sys/i686 ]; then
-	ln -s "${srcdir}/${_gitname}"/sys/i386/ "${srcdir}/${_gitname}"/sys/i686/
+	ln -s "${srcdir}/${_gitname}"/sys/i386/ "${srcdir}/${_gitname}"/sys/i686
   fi
 
 
@@ -137,7 +138,7 @@ package_freebsd-world() {
 
   #remove rc tools for openrc
   rm -rf ${pkgdir}/etc/rc.d*
-  rm -f ${pkgdir}/etc/{rc,rc.conf}
+  rm -f ${pkgdir}/etc/{rc,rc.conf,rc.shutdown}
   rm -f  ${pkgdir}/usr/share/man/man8/rc.8.gz
 
   msg "Removing files provided by other packages"
@@ -146,7 +147,7 @@ package_freebsd-world() {
   done
 
   rm -f "${pkgdir}"/usr/sbin/lpc
-
+  rm -f "${pkgdir}"/usr/share/man/man1/lp.1.gz
   rm -f "${pkgdir}"/usr/share/man/man1/lp{q,r,rm}.1.gz
   rm -f "${pkgdir}"/usr/share/man/man8/lpc.8.gz
 
@@ -162,6 +163,20 @@ package_freebsd-world() {
   #Some left over binutil files
   rm -f "${pkgdir}"/usr/bin/{ar,gprof,ranlib}
   rm -f "${pkgdir}"/usr/share/man/man1/{ar,gprof,ranlib}.1.gz
+  
+  #Leftover libarchive files
+  rm -f "${pkgdir}"/usr/bin/bsdtar
+  rm -f "${pkgdir}"/usr/include/{archive,archive_entry}.h
+  rm -f "${pkgdir}"/usr/lib/libarchive.a
+  rm -f "${pkgdir}"/usr/lib/libarchive.so
+  rm -f "${pkgdir}"/usr/share/man/man1/bsdtar.1.gz 
+  rm -f "${pkgdir}"/usr/share/man/man3/{archive_entry,archive_entry_stat,archive_read,archive_read_data,archive_read_disk,archive_read_extract,archive_read_new.3}.3.gz
+  rm -f "${pkgdir}"/usr/share/man/man3/{archive_read_open,archive_util,archive_write,archive_write_data,archive_write_disk,archive_write_finish_entry,archive_write_header,archive_write_new}.3.gz
+  rm -f "${pkgdir}"/usr/share/man/man3/{archive_read_new,archive_write_open,libarchive}.3.gz
+  rm -f "${pkgdir}"/usr/share/man/man5/{cpio,libarchive-formats,mtree,tar}.5.gz
+
+  #Remove unzip provided by world
+  rm -f "${pkgdir}"/usr/bin/unzip
 
   #Remove files now provided by FreeBSD-config
   for i in /etc/freebsd-update.conf /etc/netstart \

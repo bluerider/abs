@@ -21,3 +21,8 @@ pre_upgrade() {
                         rm -f $i
         done
 }
+
+post_upgrade() {
+  echo ">>> Configs have been split from world"
+  echo ">>> Please install freebsd-configs"
+}
