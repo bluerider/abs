@@ -20,6 +20,8 @@ build() {
   CFLAGS="${CFLAGS} -DHAVE_BSDXML_H=1"
   LDFLAGS="${LDFLAGS} -lbsdxml"
 
+  patch -Np1 -i "$srcdir/0001-mtree-fix-line-filename-length-calculation.patch"
+  
   ./configure --prefix=/usr \
               --sysconfdir=/etc \
               --mandir=/usr/share/man \
@@ -31,7 +33,6 @@ build() {
 
 check() {
   cd "$srcdir/$pkgname-$pkgver"
-
   make check
 }
 
@@ -40,6 +41,6 @@ package() {
   make DESTDIR="$pkgdir" install
 
   install -d -m755 "$pkgdir"/usr/share/licenses/libarchive/COPYING
-  install    -m644 COPYING "$pkgdir"/usr/share/licenses/libarchive/COPYING
+  install -m644 COPYING "$pkgdir"/usr/share/licenses/libarchive/COPYING
 
 }
