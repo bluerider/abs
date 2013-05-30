@@ -11,8 +11,9 @@ url="http://libarchive.googlecode.com/"
 license=('BSD')
 depends=('libiconv' 'pkgconf')
 source=("http://www.libarchive.org/downloads/libarchive-${pkgver}.tar.gz"
-        )
-md5sums=('efad5a503f66329bb9d2f4308b5de98a')
+        "0001-mtree-fix-line-filename-length-calculation.patch")
+md5sums=('efad5a503f66329bb9d2f4308b5de98a'
+         'c38f4bb6da0bd9d2fe3dba4c7fc0840c')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
