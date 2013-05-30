@@ -102,7 +102,7 @@ package_freebsd-world() {
   pkgdesc="FreeBSD base package"
   pkgver=${_freebsdver}
   groups=('base')
-  provides=('libc=${_freebsdver}' 'zlib=${_freebsdver}')
+  provides=(libc=${_freebsdver} zlib=${_freebsdver})
 
   cd ${srcdir}/${_gitname}
   unset LDFLAGS
@@ -213,7 +213,7 @@ package_freebsd-source() {
 package_freebsd-lib32() {
    pkgdesc="FreeBSD lib32 libraries"
    pkgver=${_freebsdver}
-   provides=('lib32-libc=${_freebsdver}')
+   provides=(lib32-libc=${_freebsdver})
    options=('!strip')
    arch=('x86_64')
    install=lib32.install
