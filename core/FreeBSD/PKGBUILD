@@ -49,15 +49,7 @@ prepare() {
 
 flags_for_all() {
   export MAKEOBJDIRPREFIX="$srcdir/obj"
-}
-
-_build() {
-  cd "${srcdir}"
-
-  unset LDFLAGS CXXFLAGS CPPFLAGS CFLAGS M4 LD RANLIB
-
-  cd ${srcdir}/${_gitname}
-  msg "Building kernel"
+  unset LDFLAGS CXXFLAGS CPPFLAGS CFLAGS M4 LD RANLIB ld
   if [[ "$CARCH" == "x86_64" ]]; then
     TARGET=amd64
     KERNCONF=ARCHBSD_x86_64
@@ -65,7 +57,6 @@ _build() {
     TARGET=i386
     KERNCONF=ARCHBSD_i686
   fi
-  ln -sf "${srcdir}/$KERNCONF" "${srcdir}/${_gitname}/sys/${TARGET}/conf/$KERNCONF"
 
   #Build with clang
   export CC=clang
@@ -79,6 +70,14 @@ _build() {
   fi
   
   export PATH=/usr/local/bin:$PATH
+}
+
+_build() {
+  cd "${srcdir}"
+
+  cd ${srcdir}/${_gitname}
+  msg "Building kernel"
+  ln -sf "${srcdir}/$KERNCONF" "${srcdir}/${_gitname}/sys/${TARGET}/conf/$KERNCONF"
 
   msg "Building Kernel"
   make NO_CLEAN=YES TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
@@ -96,18 +95,6 @@ _package_freebsd-kernel() {
 
   cd ${srcdir}/${_gitname}
 
-  unset LDFLAGS
-  unset CXXFLAGS CPPFLAGS CFLAGS
-  unset M4
-  unset LD RANLIB ld
-  
-  if [[ "$CARCH" == "x86_64" ]]; then
-    TARGET=amd64
-    KERNCONF=ARCHBSD_x86_64
-  else
-    TARGET=i386
-    KERNCONF=ARCHBSD_i686
-  fi
   make -j1 TARGET=$TARGET KERNCONF=${KERNCONF} DESTDIR=${pkgdir} installkernel || (echo installkernel failed... && return 1)
 }
 
@@ -118,16 +105,7 @@ _package_freebsd-world() {
   provides=(libc=${_freebsdver} zlib=${_freebsdver})
 
   cd ${srcdir}/${_gitname}
-  unset LDFLAGS
-  unset CXXFLAGS CPPFLAGS CFLAGS
-  unset M4
-  unset LD RANLIB ld
 
-  if [[ "$CARCH" == "x86_64" ]]; then
-    TARGET=amd64
-  else
-    TARGET=i386
-  fi
   msg "Running make installworld distribution..."
   make -j1 TARGET=$TARGET DESTDIR="$pkgdir" SRCONF=${srcdir}/src.conf \
 	-DWITHOUT_LIB32 -DWITHOUT_GCC -DWITHOUT_BINUTILS -DWITHOUT_BSD_CPIO  \
