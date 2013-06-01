@@ -3,28 +3,22 @@
 # Contributor: Paul Mattal <paul@archlinux.org>
 
 pkgname=ffmpeg
-pkgver=1.1.3
-pkgrel=4
+pkgver=1.2.1
+pkgrel=1
 epoch=1
 pkgdesc="Complete and free Internet live audio and video broadcasting solution for Linux/Unix"
 arch=('i686' 'x86_64')
 url="http://ffmpeg.org/"
 license=('GPL')
-depends=(alsa-lib gsm lame libpulse libtheora libva libvorbis libvpx opencore-amr openjpeg rtmpdump schroedinger sdl speex v4l-utils x264 xvidcore zlib)
-depends=(alsa-lib gsm lame          libtheora libva libvorbis libvpx opencore-amr openjpeg rtmpdump schroedinger sdl speex           x264 xvidcore)
+depends=(alsa-lib gsm lame libass libbluray libmodplug libpulse libtheora libva libvorbis libvpx opencore-amr openjpeg opus rtmpdump schroedinger sdl speex v4l-utils x264 xvidcore zlib)
+depends=(alsa-lib gsm lame libass libbluray libmodplug          libtheora libva libvorbis libvpx opencore-amr openjpeg opus rtmpdump schroedinger sdl speex           x264 xvidcore)
 makedepends=('yasm' 'git' 'libvdpau' 'gmake' 'perl')
 source=(http://ffmpeg.org/releases/$pkgname-$pkgver.tar.bz2
         patch-configure
         patch-libavformat-udp.c
         )
-md5sums=('f66eee18559ba59da63b895164a189c3'
-         '1751f81ce815674c163c25444bb22922'
-         'cc370b2b72b6e3b94f516990cbc0b89e')
 
-build() {
-  # seems to get decoding issues with clang
-  export CC=gcc CPP=cpp CXX=g++
-
+prepare() {
   cd $pkgname-$pkgver
   for i in patch-configure \
            patch-libavformat-udp.c
@@ -33,42 +27,56 @@ build() {
     patch -p0 -i "${srcdir}/$i"
   done
 
-  sed -i '' -e 's|$$(LIBDIR)/pkgconfig|$(PREFIX)/libdata/pkgconfig|' library.mak
   sed -i '' -e 's|/etc/ffserver.conf|${PREFIX}/etc/ffserver.conf|' ffserver.c
-  sed -i '' -E \
-    -e 's|%%LOCALBASE%%|/usr}|g' \
-    configure
+  #sed -i '' -E \
+  #  -e 's|%%LOCALBASE%%|/usr}|g' \
+  #  configure
   sed -i '' -e 's|-ldl||;' configure
   sed -i '' -e 's|/usr/bin/perl|/usr/bin/perl}|g' doc/texi2pod.pl
+}
+
+build() {
+  # seems to get decoding issues with clang
+  export CC=gcc CPP=cpp CXX=g++
+
+  cd $pkgname-$pkgver
 
   export PATH="${PATH}:/usr/bin/core_perl"
   ./configure \
     --prefix=/usr \
     --mandir=/usr/share/man \
-    --enable-libmp3lame \
-    --enable-libvorbis \
-    --enable-libxvid \
-    --enable-libx264 \
-    --enable-libvpx \
-    --enable-libtheora \
+    --disable-debug \
+    --disable-static \
+    --enable-avresample \
+    --enable-dxva2 \
+    --enable-fontconfig \
+    --enable-gpl \
+    --enable-libass \
+    --enable-libbluray \
+    --enable-libfreetype \
     --enable-libgsm \
-    --enable-libspeex \
-    --enable-postproc \
-    --enable-shared \
-    --enable-x11grab \
+    --enable-libmodplug \
+    --enable-libmp3lame \
     --enable-libopencore_amrnb \
     --enable-libopencore_amrwb \
-    --enable-libschroedinger \
     --enable-libopenjpeg \
-    --enable-librtmp \
-    --enable-avresample \
+    --enable-libopus \
     --disable-libpulse \
+    --enable-librtmp \
+    --enable-libschroedinger \
+    --enable-libspeex \
+    --enable-libtheora \
     --disable-libv4l2 \
-    --enable-gpl \
-    --enable-version3 \
+    --enable-libvorbis \
+    --enable-libvpx \
+    --enable-libx264 \
+    --enable-libxvid \
+    --enable-postproc \
     --enable-runtime-cpudetect \
-    --disable-debug \
-    --disable-static
+    --enable-shared \
+    --enable-vdpau \
+    --enable-version3 \
+    --enable-x11grab
 
   gmake
   gmake tools/qt-faststart
@@ -83,9 +91,6 @@ package() {
 }
 
 # vim:set ts=2 sw=2 et:
-md5sums=('f66eee18559ba59da63b895164a189c3'
-         'f732e066081c8a1eee121d6de0c1331a'
-         'cc370b2b72b6e3b94f516990cbc0b89e')
-md5sums=('f66eee18559ba59da63b895164a189c3'
+md5sums=('5071a26cc149f380908ce79ec2a677ef'
          '768fd6e30b42325b0fde7388dcd7d363'
          'cc370b2b72b6e3b94f516990cbc0b89e')
