@@ -21,12 +21,15 @@ md5sums=('1da3141782687c8d455b63ae747d6c32'
          '9ab0e68675bab4a90a07dc7f0ae19d79'
          'f1ec479c9280a109e0391dcfae29f1ab')
 
+makedepends=('pacman>=4.1.0')
+
 _gitroot="git://github.com/freebsd/freebsd.git"
 _gitname="freebsd"
 _gitbranch="stable/9"
 
 export MAKEOBJDIRPREFIX="$srcdir/obj"
-build() {
+
+prepare() {
   cd "${srcdir}"
   msg "Connecting to GIT server...."
  
@@ -38,6 +41,10 @@ build() {
   fi
 
   sed -i '' -e 's|db.h|fdb.h|g' "${srcdir}/${_gitname}/sys/dev/aic7xxx/aicasm/aicasm_symbol.c"
+}
+
+build() {
+  cd "${srcdir}"
 
   unset LDFLAGS CXXFLAGS CPPFLAGS CFLAGS M4 LD RANLIB
 
