@@ -15,7 +15,7 @@ _buildnumber=b24
 _milestone=fcs
 
 pkgver=${_java_ver}.${_updatever}
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 url="http://icedtea.classpath.org"
 license=('custom')
@@ -36,6 +36,7 @@ source=(${_url}/openjdk-${_java_ver}${_updatever}-${_milestone}-src-${_buildnumb
         patch-src-solaris-classes-sun-nio-fs-BsdFileSystemProvider.java
         patch-src-solaris-classes-sun-nio-fs-DefaultFileSystemProvider.java
         patch-zzz-make-sun-awt-Makefile
+        cacerts
 )
 sha256sums=('22aec9bcc660d2e6502c9d24e5fdac97da9c4d251dafd87f708bcf6dabbbb431'
             'bd55299e08e6f8e61ba5baad0990170891801a29a1e8137e502b5e8a10fc37ea'
@@ -69,6 +70,10 @@ prepare() {
 
   sed -i '' -e 's@<db.h>@<fdb.h>@' \
       hotspot/agent/src/os/bsd/symtab.c
+
+# include linux filesystem provider classes
+  sed -i '' -e 's@FILES_java =.*@& sun/nio/fs/LinuxFileSystemProvider.java@' \
+      jdk/make/java/nio/FILES_java.gmk
 }
 
 build() {
@@ -81,13 +86,14 @@ build() {
   unset LD_LIBRARY_PATH
   unset CLASSPATH
 
-  export PLATFORM=bsd
-  export ARCH=$_JARCH
+#  export PLATFORM=bsd
+#  export ARCH=$_JARCH
   export OPENJDK_OSARCH=bsd-${_JARCH}
   #export MILESTONE=fcs
   #export BUILD_NUMBER=${_buildnumber}
 
-  export ALT_PARALLEL_COMPILE_JOBS="${MAKEFLAGS/-j}"
+  #export ALT_PARALLEL_COMPILE_JOBS="${MAKEFLAGS/-j}"
+  export ALT_PARALLEL_COMPILE_JOBS=`sysctl -n kern.smp.cpus`
   export HOTSPOT_BUILD_JOBS="${ALT_PARALLEL_COMPILE_JOBS}"
   unset MAKEFLAGS
 
@@ -182,6 +188,9 @@ package_jre7-openjdk-headless() {
   ## Link JKS keystore from ca-certificates-java
   #rm -f ${pkgdir}/${_jvmdir}/jre/lib/security/cacerts
   #ln -sf /etc/ssl/certs/java/cacerts "${pkgdir}/${_jvmdir}/jre/lib/security/cacerts"
+# install the cacerts file
+  install -dm755 ${pkgdir}/${_jvmdir}/jre/lib/security
+  install "${srcdir}/cacerts" ${pkgdir}/${_jvmdir}/jre/lib/security/cacerts
 
   # Set some variables
   install -m755 -d ${pkgdir}/etc/profile.d/
