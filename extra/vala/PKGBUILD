@@ -1,6 +1,6 @@
 pkgname=vala
 pkgver=0.18.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Compiler for the GObject type system"
 arch=('i686' 'x86_64')
 url="http://live.gnome.org/Vala"
@@ -29,11 +29,11 @@ build() {
 		-e 's|@gen_introspect_decl@|gen_introspect=$${libdir}/vala-0.18/gen-introspect-0.18|g' \
 		-e 's|@vala_gen_introspect_decl@|vala_gen_introspect=$${bindir}/vala-gen-introspect-0.18|g' \
 		${srcdir}/$pkgname-$pkgver/libvala.pc.in
-    sed -i '' -e 's|cp $< $@|cp libvala.pc libvala-0.18.pc|g' \
-		${srcdir}/$pkgname-$pkgver/Makefile.in
+#    sed -i '' -e 's|cp $< $@|cp libvala.pc libvala-0.18.pc|g' \
+#		${srcdir}/$pkgname-$pkgver/Makefile.in
 
 
-    ./configure --prefix=/usr --disable-vapigen
+    ./configure --prefix=/usr --enable-vapigen
 
     make
 }
