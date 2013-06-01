@@ -47,7 +47,8 @@ sha256sums=('22aec9bcc660d2e6502c9d24e5fdac97da9c4d251dafd87f708bcf6dabbbb431'
             'e770c01a0dcc7e4ac5df0441e4cc6d2925d5c1ccce75fb9f384316fdc882e114'
             '73bcb7a1758daa49cdc80d395ee5edb3af7cb0be0dc24c0124ad93f8688a2d0b'
             '4968cbb98ad070d14dd89515d4ed654bbadc50efeaf71b80ba80c9eb5daa31b4'
-            '8966391fc4184f960998ea90dca6ef16f182d05855d3ce204abb5c966f597f71')
+            '8966391fc4184f960998ea90dca6ef16f182d05855d3ce204abb5c966f597f71'
+            '92c73b51f25cca3855d80ff66a21bca66bbd6a417229612d9a21e614f5d72fdb')
 
 _jvmdir=/usr/lib/jvm/java-7-openjdk
 
