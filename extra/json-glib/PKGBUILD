@@ -16,6 +16,7 @@ sha256sums=('e4a3fd2f399e4c148aad608e6ed0a94095f2ddde9dd12f5aa2f072ecae5c1d37')
 
 build(){
   cd ${srcdir}/${pkgname}-${pkgver}
+  #Ports gnome hack
   find ${srcdir}/${pkgname}-${pkgver} -name "configure" -type f | xargs sed -i '' -e 's|-lpthread|-pthread|g'
   ./configure --prefix=/usr
   gmake
