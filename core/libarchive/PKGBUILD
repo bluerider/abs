@@ -4,25 +4,31 @@
 
 pkgname=libarchive
 pkgver=3.1.2
-pkgrel=2
+pkgrel=3
 pkgdesc="library that can create and read several streaming archive formats"
 arch=('i686' 'x86_64')
 url="http://libarchive.googlecode.com/"
 license=('BSD')
 depends=('libiconv' 'pkgconf')
 source=("http://www.libarchive.org/downloads/libarchive-${pkgver}.tar.gz"
-        "0001-mtree-fix-line-filename-length-calculation.patch")
+        "0001-mtree-fix-line-filename-length-calculation.patch"
+        "libarchive-archive_acl.c-fix-empty-default-acl.patch")
 md5sums=('efad5a503f66329bb9d2f4308b5de98a'
-         '73e0e2fe9dafe4851bcc2b4bf2fa6194')
+         '73e0e2fe9dafe4851bcc2b4bf2fa6194'
+         '7426d41c66f9cc23a857fb893265f651')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
+
+  unset CFLAGS CXXFLAGS LDFLAGS CC CXX CPP
+  export CC=gcc CXX=g++ CPP=cpp
 
   CFLAGS="${CFLAGS} -DHAVE_BSDXML_H=1"
   LDFLAGS="${LDFLAGS} -lbsdxml"
 
   patch -p0 -i "$srcdir/0001-mtree-fix-line-filename-length-calculation.patch"
-  
+  patch -p0 -i "$srcdir/libarchive-archive_acl.c-fix-empty-default-acl.patch"
+
   ./configure --prefix=/usr \
               --sysconfdir=/etc \
               --mandir=/usr/share/man \
