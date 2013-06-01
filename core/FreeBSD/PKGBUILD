@@ -27,8 +27,6 @@ _gitroot="git://github.com/freebsd/freebsd.git"
 _gitname="freebsd"
 _gitbranch="stable/9"
 
-export MAKEOBJDIRPREFIX="$srcdir/obj"
-
 prepare() {
   cd "${srcdir}"
   msg "Connecting to GIT server...."
@@ -41,9 +39,19 @@ prepare() {
   fi
 
   sed -i '' -e 's|db.h|fdb.h|g' "${srcdir}/${_gitname}/sys/dev/aic7xxx/aicasm/aicasm_symbol.c"
+
+  if [[ "$CARCH" == "x86_64" ]]; then
+    patch "${srcdir}/${_gitname}/sys/amd64/amd64/identcpu.c"  "$srcdir/ARCHBSD_x86_64.patch"
+  else
+    patch "${srcdir}/${_gitname}/sys/i386/i386/identcpu.c" "$srcdir/ARCHBSD_i686.patch"
+  fi
 }
 
-build() {
+flags_for_all() {
+  export MAKEOBJDIRPREFIX="$srcdir/obj"
+}
+
+_build() {
   cd "${srcdir}"
 
   unset LDFLAGS CXXFLAGS CPPFLAGS CFLAGS M4 LD RANLIB
@@ -51,11 +59,9 @@ build() {
   cd ${srcdir}/${_gitname}
   msg "Building kernel"
   if [[ "$CARCH" == "x86_64" ]]; then
-    patch "${srcdir}/${_gitname}/sys/amd64/amd64/identcpu.c"  "$srcdir/ARCHBSD_x86_64.patch"
     TARGET=amd64
     KERNCONF=ARCHBSD_x86_64
   else
-    patch "${srcdir}/${_gitname}/sys/i386/i386/identcpu.c" "$srcdir/ARCHBSD_i686.patch"
     TARGET=i386
     KERNCONF=ARCHBSD_i686
   fi
@@ -82,7 +88,7 @@ build() {
 
 }
 
-package_freebsd-kernel() {
+_package_freebsd-kernel() {
   pkgdesc="FreeBSD kernel package"
   pkgver=${_freebsdver}
   groups=('base')
@@ -105,7 +111,7 @@ package_freebsd-kernel() {
   make -j1 TARGET=$TARGET KERNCONF=${KERNCONF} DESTDIR=${pkgdir} installkernel || (echo installkernel failed... && return 1)
 }
 
-package_freebsd-world() {
+_package_freebsd-world() {
   pkgdesc="FreeBSD base package"
   pkgver=${_freebsdver}
   groups=('base')
@@ -208,7 +214,7 @@ package_freebsd-world() {
   done
 }
 
-package_freebsd-source() {
+_package_freebsd-source() {
   pkgdesc="FreeBSD source matching FreeBSD kernel"
   options=('!strip')
   arch=('any')
@@ -217,7 +223,7 @@ package_freebsd-source() {
   rm -rf "${pkgdir}"/usr/src/.git
 }
 
-package_freebsd-lib32() {
+_package_freebsd-lib32() {
    pkgdesc="FreeBSD lib32 libraries"
    pkgver=${_freebsdver}
    provides=(lib32-libc=${_freebsdver})
@@ -230,3 +236,14 @@ package_freebsd-lib32() {
    install -dm755 "${pkgdir}"/usr/libexec/
    make TARGET=$TARGET DESTDIR="$pkgdir" install32
 }
+
+build() {
+	flags_for_all
+	_build
+}
+for _p in ${pkgname[@]}; do
+	eval "package_${_p}() {
+		flags_for_all
+		_package_${_p}
+	}"
+done
