@@ -64,9 +64,9 @@ flags_for_all() {
   export CXX=clang++
 
   if [[ "$CARCH" = "x86_64" ]]; then
-		export CFLAGS+="-march=x86-64 -mtune=generic"
+		export CFLAGS+="-march=x86-64 -mtune=generic -O2"
   else
-		export CFLAGS+="-march=$CARCH -mtune=generic"
+		export CFLAGS+="-march=$CARCH -mtune=generic -O2"
   fi
   
   export PATH=/usr/local/bin:$PATH
