@@ -3,7 +3,7 @@
 
 pkgname=libxxf86vm
 pkgver=1.1.2
-pkgrel=1
+pkgrel=2
 pkgdesc="X11 XFree86 video mode extension library"
 arch=('x86_64' 'i686')
 license=('custom')
@@ -15,6 +15,7 @@ sha1sums=('57bbf3bb69a49f6a6dec515813394a383f85502f')
 
 build() {
   cd "${srcdir}/libXxf86vm-${pkgver}"
+  export CFLAGS="$CFLAGS -fPIC"
   ./configure --prefix=/usr
   make
 }

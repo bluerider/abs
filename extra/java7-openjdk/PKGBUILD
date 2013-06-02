@@ -114,7 +114,7 @@ build() {
 
   . /etc/profile.d/apache-ant.sh
 
-  gmake -j1
+  gmake -j1 all
 }
 
 package_jre7-openjdk-headless() {
