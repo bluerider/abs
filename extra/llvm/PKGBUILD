@@ -15,9 +15,9 @@
 ##       -) remove call to 'prepare' in build() when upgrading pacman to 4.1
 
 #pkgname=('llvm' 'llvm-ocaml' 'clang' 'clang-analyzer')
-pkgname=('llvm' 'llvm-ocaml')
+pkgname=('llvm' 'llvm-ocaml' 'libclang' 'clang-analyzer')
 pkgver=3.2
-pkgrel=8
+pkgrel=9
 arch=('i686' 'x86_64')
 url="http://llvm.org/"
 license=('custom:University of Illinois/NCSA Open Source License')
@@ -51,11 +51,11 @@ prepare() {
   # ports patch
   patch -p0 -i "$srcdir/patch-utils_llvm-build_llvmbuild_main.py"
 
-#  # At the present, clang must reside inside the LLVM source code tree to build
-#  # See http://llvm.org/bugs/show_bug.cgi?id=4840
-#  mv "$srcdir/clang-$pkgver.src" tools/clang
-#
-#  mv "$srcdir/compiler-rt-$pkgver.src" projects/compiler-rt
+  # At the present, clang must reside inside the LLVM source code tree to build
+  # See http://llvm.org/bugs/show_bug.cgi?id=4840
+  mv "$srcdir/clang-$pkgver.src" tools/clang
+
+  mv "$srcdir/compiler-rt-$pkgver.src" projects/compiler-rt
 
   # Fix symbolic links from OCaml bindings to LLVM libraries
   gsed -i 's:\$(PROJ_libdir):/usr/lib/llvm:' bindings/ocaml/Makefile.ocaml
@@ -74,21 +74,21 @@ prepare() {
   # Fix insecure rpath (http://bugs.archlinux.org/task/14017)
   gsed -i 's:$(RPATH) -Wl,$(\(ToolDir\|LibDir\|ExmplDir\))::g' Makefile.rules
 
-#  # Fix clang path in CIndexer.cpp (https://bugs.archlinux.org/task/22799)
-#  patch -d tools/clang -Np0 -i "$srcdir/cindexer-clang-path.patch"
-#
-#  # Make -flto work
-#  # Use gold instead of default linker, and always use the plugin
-#  patch -d tools/clang -Np0 -i "$srcdir/enable-lto.patch"
+  # Fix clang path in CIndexer.cpp (https://bugs.archlinux.org/task/22799)
+  patch -d tools/clang -Np0 -i "$srcdir/cindexer-clang-path.patch"
 
-#  # Fix FS#34861: crash on apps built using C++11's std::thread
-#  # http://llvm.org/bugs/show_bug.cgi?id=12730
-#  patch -d tools/clang -Np2 -i \
-#    "$srcdir/clang-3.2-fix-std-thread-with-libstdc++.patch"
+  # Make -flto work
+  # Use gold instead of default linker, and always use the plugin
+  patch -d tools/clang -Np0 -i "$srcdir/enable-lto.patch"
 
-#  # Fix FS#29984: [clang] -coverage is broken
-#  patch -d tools/clang -Np1 -i \
-#    "$srcdir/clang-3.1-fix-libprofile_rt.a-location.patch"
+  # Fix FS#34861: crash on apps built using C++11's std::thread
+  # http://llvm.org/bugs/show_bug.cgi?id=12730
+  patch -d tools/clang -Np2 -i \
+    "$srcdir/clang-3.2-fix-std-thread-with-libstdc++.patch"
+
+  # Fix FS#29984: [clang] -coverage is broken
+  patch -d tools/clang -Np1 -i \
+    "$srcdir/clang-3.1-fix-libprofile_rt.a-location.patch"
 
   # Fix FS#31098: LLVM 3.1 produces invalid debug information
   # http://llvm.org/bugs/show_bug.cgi?id=13211
@@ -103,7 +103,6 @@ prepare() {
 }
 
 build() {
-  prepare
   cd "$srcdir/$pkgname-$pkgver.src"
 
   # Apply strip option to configure
@@ -142,13 +141,13 @@ package_llvm() {
 
   cd "$srcdir/$pkgname-$pkgver.src"
 
-#  # We move the clang directory out of the tree so it won't get installed and
-#  # then we bring it back in for the clang package
-#  mv tools/clang "$srcdir"
+  # We move the clang directory out of the tree so it won't get installed and
+  # then we bring it back in for the clang package
+  mv tools/clang "$srcdir"
 
   # -j1 is due to race conditions during the installation of the OCaml bindings
   gmake -j1 DESTDIR="$pkgdir" install
-#  mv "$srcdir/clang" tools
+  mv "$srcdir/clang" tools
 
   # OCaml bindings go to a separate package
   rm -rf "$srcdir"/{ocaml,ocamldoc}
@@ -215,13 +214,13 @@ package_llvm-ocaml() {
   install -m644 LICENSE.TXT "$pkgdir/usr/share/licenses/llvm-ocaml/LICENSE"
 }
 
-package_clang() {
+package_libclang() {
   pkgdesc="C language family frontend for LLVM"
   url="http://clang.llvm.org/"
   depends=("llvm=$pkgver-$pkgrel" 'gcc')
 
   # Fix installation path for clang docs
-  sed -i 's:$(PROJ_prefix)/share/doc/llvm:$(PROJ_prefix)/share/doc/clang:' \
+  gsed -i 's:$(PROJ_prefix)/share/doc/llvm:$(PROJ_prefix)/share/doc/clang:' \
     "$srcdir/llvm-$pkgver.src/Makefile.config"
 
   cd "$srcdir/llvm-$pkgver.src/tools/clang"
@@ -231,17 +230,23 @@ package_clang() {
   chmod -x "$pkgdir"/usr/lib/llvm/*.a
 
   # Revert the path change in case we want to do a repackage later
-  sed -i 's:$(PROJ_prefix)/share/doc/clang:$(PROJ_prefix)/share/doc/llvm:' \
+  gsed -i 's:$(PROJ_prefix)/share/doc/clang:$(PROJ_prefix)/share/doc/llvm:' \
     "$srcdir/llvm-$pkgver.src/Makefile.config"
 
   install -dm755 "$pkgdir/usr/share/licenses/clang"
   install -m644 LICENSE.TXT "$pkgdir/usr/share/licenses/clang/LICENSE"
+
+  # clang is provided by world, clear out the binaries
+  rm "$pkgdir/usr/bin/"{clang,clang++,clang-tblgen}
+  rm "$pkgdir/usr/share/man/man1/clang.1"
+  # so people don't get confused by the headers:
+  rm -rf "$pkgdir/usr/lib/clang"
 }
 
 package_clang-analyzer() {
   pkgdesc="A source code analysis framework"
   url="http://clang-analyzer.llvm.org/"
-  depends=("clang=$pkgver-$pkgrel" 'python2')
+  depends=("libclang=$pkgver-$pkgrel" 'python2')
 
   cd "$srcdir/llvm-$pkgver.src/tools/clang"
 
@@ -260,7 +265,7 @@ package_clang-analyzer() {
     "$pkgdir/usr/share/man/man1/"
 
   # Use Python 2
-  sed -i \
+  gsed -i \
     -e 's|env python$|&2|' \
     -e 's|/usr/bin/python$|&2|' \
     "$pkgdir/usr/lib/clang-analyzer/scan-view/scan-view" \
