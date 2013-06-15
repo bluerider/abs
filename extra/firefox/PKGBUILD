@@ -85,15 +85,18 @@ prepare() {
 build() {
   cd mozilla-release
 
+  if [[ -e /usr/lib/libgcov.a ]]; then
+  	  echo "--- /usr/lib/libgcov.a exists - the build would fail"
+  	  false
+  fi
+
   export PATH="$srcdir/path:$PATH"
   export LDFLAGS="$LDFLAGS -Wl,-rpath,/usr/lib/firefox"
   export PYTHON="/usr/bin/python2"
+  export MOZ_PGO=0
 
-  #export MOZ_MAKE_FLAGS="$MAKEFLAGS"
-  #unset MAKEFLAGS
-
-  export DISPLAY=:99
-  Xvfb -nolisten tcp -extension GLX -screen 0 1280x1024x24 $DISPLAY &
+  #export DISPLAY=:99
+  #Xvfb -nolisten tcp -extension GLX -screen 0 1280x1024x24 $DISPLAY &
 
   if ! gmake -f client.mk build MOZ_PGO=1; then
     kill $!
