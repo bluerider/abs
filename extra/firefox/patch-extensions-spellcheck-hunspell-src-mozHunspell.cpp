@@ -6,7 +6,7 @@
  
 +  // load system hunspell dictionaries
 +  nsIFile* hunDir;
-+  NS_NewNativeLocalFile(NS_LITERAL_CSTRING("%%LOCALBASE%%/share/hunspell"),
++  NS_NewNativeLocalFile(NS_LITERAL_CSTRING("/usr/share/hunspell"),
 +			true, &hunDir);
 +  LoadDictionariesFromDir(hunDir);
 +
