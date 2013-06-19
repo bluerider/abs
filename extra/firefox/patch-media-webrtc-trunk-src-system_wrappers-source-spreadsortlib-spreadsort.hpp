@@ -1,5 +1,5 @@
---- media/webrtc/trunk/src/system_wrappers/source/spreadsortlib/spreadsort.hpp~
-+++ media/webrtc/trunk/src/system_wrappers/source/spreadsortlib/spreadsort.hpp
+--- media/webrtc/trunk/webrtc/system_wrappers/source/spreadsortlib/spreadsort.hpp~
++++ media/webrtc/trunk/webrtc/system_wrappers/source/spreadsortlib/spreadsort.hpp
 @@ -21,6 +21,13 @@ Scott McMurray
  #include "constants.hpp"
  #include <cstring>
@@ -13,4 +13,4 @@
 +
  namespace boost {
    namespace detail {
-        //This only works on unsigned data types
+     //This only works on unsigned data types
