@@ -16,7 +16,7 @@ md5sums=('91340b28c61753a789eb6077675d87d2')
 
 build() {
   cd "${srcdir}/${pkgname}-7.2"
-  ./configure --prefix=/usr --enable-cplusplus
+  LDFLAGS="$LDFLAGS -pthread" ./configure --prefix=/usr --enable-cplusplus
   make
 }
 
