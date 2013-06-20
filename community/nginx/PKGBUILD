@@ -30,7 +30,7 @@ source=(http://nginx.org/download/nginx-$pkgver.tar.gz
 		nginx.initd
 		logrotate)
 sha256sums=('bca5d1e89751ba29406185e1736c390412603a7e6b604f5b4575281f6565d119'
-            '8998e705f9948de5a6c7f31284ef67055bfad0b59fe3fc785176b597f0fc8378'
+            '11ba14fd2c651c098c5c1cdaf0ddfca8a3a5c9e054aa79b094f13e2d8e55de9c'
             '9523a1fdd5eb61bf62f3049f6ee088b198e36d5edcce2d9b08bbeb2930aa5a16')
 
 build() {
@@ -89,7 +89,7 @@ package() {
 	install -dm755 "$pkgdir"/$_tmpdir
 	install -dm700 "$pkgdir"/$_tmpdir/proxy
 
-	chmod 750 "$pkgdir"/var/log/nginx
+	chmod 755 "$pkgdir"/var/log/nginx
 
 	install -d "$pkgdir"/usr/share/nginx
 	mv "$pkgdir"/etc/nginx/html/ "$pkgdir"/usr/share/nginx
