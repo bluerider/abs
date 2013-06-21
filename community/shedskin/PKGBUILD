@@ -8,7 +8,7 @@ pkgdesc='Python to C++ compiler'
 arch=('any')
 url='http://code.google.com/p/shedskin/'
 license=('GPL2')
-depends=('pcre' 'gc' 'python2')
+depends=('pcre' 'gc' 'python2' 'libexecinfo')
 conflicts=('shedskin-svn')
 source=("http://shedskin.googlecode.com/files/$pkgname-$pkgver.tgz"
         "$pkgname.py")
@@ -17,6 +17,8 @@ sha256sums=('cd81f5af25a5937ecca139ab2877d80fbc29020d34c97e65d0590b993f11918d'
 
 package() {
   cd "$srcdir/$pkgname-$pkgver"
+
+  LDFLAGS="$LDFLAGS -lexecinfo"
 
   install -d "$pkgdir/usr/bin"
   install -d "$pkgdir/usr/share/licenses/$pkgname"
