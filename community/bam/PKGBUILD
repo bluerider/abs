@@ -2,7 +2,7 @@
 # Contributors: Bmauet <careil.baptiste@gmail.com>
 pkgname=bam
 pkgver=0.4.0
-pkgrel=1
+pkgrel=2
 pkgdesc="A fast and flexible build system using Lua"
 arch=('i686' 'x86_64')
 url=http://github.com/matricks/bam
@@ -26,8 +26,8 @@ check() {
 }
 
 package() {
-	mkdir -p ${pkgdir}/usr/bin
-	mkdir -p ${pkgdir}/usr/share/licenses/${pkgname}
+	install -dm755 ${pkgdir}/usr/bin
+	install -dm755 ${pkgdir}/usr/share/licenses/${pkgname}
 	cd ${srcdir}/${pkgname}-${pkgver}
 	install -D -m755 bam ${pkgdir}/usr/bin/bam
 	install -D -m755 license.txt ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
