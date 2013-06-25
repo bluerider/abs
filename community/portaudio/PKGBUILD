@@ -1,0 +1,57 @@
+# $Id: PKGBUILD 66382 2012-02-24 12:03:33Z lfleischer $
+# Maintainer: Lukas Fleischer <archlinux at cryptocrack dot de>
+# Contributor: Eric Belanger <eric@archlinux.org>
+# Contributor: Darwin Bautista <djclue917@gmail.com>
+# Contributor: Bob Finch <w9ya@qrparci.net>
+
+pkgname=portaudio
+pkgver=18.1
+pkgrel=1
+pkgdesc='A free, cross-platform, open source, audio I/O library.'
+arch=('i686' 'x86_64')
+url='http://www.portaudio.com/'
+license=('custom')
+depends=('jack')
+makedepends=('dos2unix')
+options=('!libtool')
+port_patches=(
+	patch-Makefile.in
+	patch-configure
+	patch-pa_tests-patest__record.c
+	patch-pa_tests-patest__wire.c
+)
+source=("http://www.portaudio.com/archives/${pkgname}_v18_1.zip"
+	${port_patches[@]})
+md5sums=('ce66a732d263fde2b5ad2262ef37a691'
+         '2c3f6359521999393edcf2d2fe4548cd'
+         '5c5ce2fd0b38175738d9bc051d1e2b98'
+         '780dfa61783232fb83f8dc5300a8fb1e'
+         '6ab3d74ec92f2c7ccdba970f48e5beb1')
+
+build() {
+  cd "${srcdir}/${pkgname}_v18_1/"
+
+  find -E "${srcdir}/${pkgname}_v18_1/" -type f -iregex '.*' -print0 | \
+                        xargs -0 dos2unix
+  for _patch in ${port_patches[@]}; do
+    msg "Patching port patch $_patch"
+    patch -p0 -i "${srcdir}/$_patch"
+  done
+
+  sed -i '' -e 's|#include <malloc.h>|#include <stdlib.h>|' pa_unix_oss/pa_unix.h
+  sed -i '' -e 's|machine/soundcard.h|sys/soundcard.h|' pa_unix_oss/pa_unix_oss.c
+  sed -i '' -e 's|-lpthread|-pthread|g' configure configure.in \
+		pa_unix_oss/Makefile
+
+  chmod +x configure
+  ./configure --prefix=/usr
+  gmake -j1
+}
+
+package() {
+  cd "${srcdir}/${pkgname}_v18_1"
+  install -dm755 ${pkgdir}/usr/{include,lib}
+  gmake -j1 PREFIX="${pkgdir}/usr" install
+  install -dm755 "$pkgdir/usr/share/licenses/$pkgname/"
+  install -m0644 LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE.txt"
+}
