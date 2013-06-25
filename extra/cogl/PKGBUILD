@@ -1,0 +1,39 @@
+# $Id: PKGBUILD 186660 2013-05-30 12:23:15Z heftig $
+# Maintainer: Ionut Biru <ibiru@archlinux.org>
+
+pkgname=cogl
+pkgver=1.14.0
+pkgrel=3
+pkgdesc="An object oriented GL/GLES Abstraction/Utility Layer"
+arch=('i686' 'x86_64')
+url="http://www.clutter-project.org/"
+license=('GPL2')
+depends=('libdrm' 'libxext' 'libxdamage' 'libxcomposite' 'gdk-pixbuf2' 'pango' 'xorg-xrandr')
+gmakedepends=('mesa' 'gobject-introspection')
+options=(!libtool !emptydirs)
+source=(http://download.gnome.org/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.xz)
+sha256sums=('276e8c9f5ff0fcd57c1eaf74cc245f41ad469a95a18ac831fac2d5960baa5ae8')
+
+build() {
+  cd "$pkgname-$pkgver"
+
+  sed -i '' -e "/^ltmain=/!s|\$$ac_aux_dir/ltmain.sh|/usr/share/libtool/config/ltmain.sh|g" \
+            -e "/^LIBTOOL=/s|\$$\(top_builddir\)/libtool|/usr/bin/libtool|g" \
+            ${srcdir}/${pkgname}-${pkgver}/aclocal.m4
+  find ${srcdir}/${pkgname}-${pkgver} -name "Makefile.in" | xargs sed -i '' -e 's|^LIBTOOL[ ]*=.*|LIBTOOL=/usr/bin/libtool|g'
+
+  ./configure --prefix=/usr \
+    #--enable-wayland-egl-{platform,server} --enable-gles{1,2}
+
+  # https://bugzilla.gnome.org/show_bug.cgi?id=655517
+  sed -i '' -e 's/ -shared / -Wl,--as-needed/g' libtool
+
+  gmake
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  gmake DESTDIR="$pkgdir" install
+}
+
+# vim:set ts=2 sw=2 et:
