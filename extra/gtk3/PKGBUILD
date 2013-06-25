@@ -1,7 +1,7 @@
 # Maintainer: Ionut Biru <ibiru@archlinux.org>
 
 pkgname=gtk3
-pkgver=3.6.4
+pkgver=3.8.2
 pkgrel=1
 pkgdesc="GObject-based multi-platform GUI toolkit (v3)"
 arch=('i686' 'x86_64')
@@ -15,13 +15,12 @@ backup=(etc/gtk-3.0/settings.ini)
 license=('LGPL')
 source=(http://ftp.gnome.org/pub/gnome/sources/gtk+/${pkgver%.*}/gtk+-$pkgver.tar.xz
         settings.ini
-        patch-Makefile.in
-        patch-docs_Makefile.in
-        patch-docs_reference_Makefile.in
-        patch-docs_reference_gtk_Makefile.in
-        patch-gtk_gtkbuilderparser.c
-        patch-gtk_updateiconcache.c
-        )
+	patch-Makefile.in
+	patch-docs_Makefile.in
+	patch-docs_reference_Makefile.in
+	patch-docs_reference_gtk_Makefile.in
+	patch-gtk_gtkbuilderparser.c
+	patch-gtk_updateiconcache.c)
 md5sums=('123d3dc6fc659539a308017934235b3e'
          '085ece008fa3a0b7a72e9fe3dda3631a'
          '907d57ec1abc65a453939fb4c799ae02'
