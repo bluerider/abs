@@ -20,6 +20,7 @@ build() {
   ./configure --prefix=/usr --enable-static \
               --with-html-dir=/usr/share/share/doc
               # the glib-test uses variables from the glib-library but doesn -lglib
+  export CFLAGS="${CFLAGS} -fPIC"
   gmake
 }
 
@@ -28,7 +29,7 @@ package() {
   gmake DESTDIR="$pkgdir" install
 
   cd "${pkgdir}/usr/lib"
-  ln -sf libatk-1.0.so.20609 libatk-1.0.so.10
-  ln -sf libatk-1.0.so.20609 libatk-1.0.so.0
-  ln -sf libatk-1.0.so.20609 libatk-1.0.so
+  ln -sf libatk-1.0.so.20809 libatk-1.0.so.10
+  ln -sf libatk-1.0.so.20809 libatk-1.0.so.0
+  ln -sf libatk-1.0.so.20809 libatk-1.0.so
 }

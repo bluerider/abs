@@ -21,12 +21,12 @@ source=(http://ftp.gnome.org/pub/gnome/sources/gtk+/${pkgver%.*}/gtk+-$pkgver.ta
 	patch-docs_reference_gtk_Makefile.in
 	patch-gtk_gtkbuilderparser.c
 	patch-gtk_updateiconcache.c)
-md5sums=('123d3dc6fc659539a308017934235b3e'
+md5sums=('8e878e18fc385f2b813419dc7b40a968'
          '085ece008fa3a0b7a72e9fe3dda3631a'
          '907d57ec1abc65a453939fb4c799ae02'
          '2538cf0cd9166b591fb3204d7b72e22f'
          'a062091b4809d23da031a6b3d878b0d6'
-         'bee72f40f175b1345fa2e0231bc7b5a9'
+         'ac3439d2e18a8154f7043e6602d48c8a'
          'cfa7f90b097e5893865c2a45e227b1b5'
          'b859b1a2fe7d1606b9d237e5addafcc3')
 

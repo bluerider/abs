@@ -1,8 +1,8 @@
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 
 pkgname=fontconfig
-pkgver=2.10.2
-pkgrel=3
+pkgver=2.10.93
+pkgrel=1
 pkgdesc="A library for configuring and customizing font access"
 arch=(i686 x86_64)
 url="http://www.fontconfig.org/release/"
@@ -13,13 +13,13 @@ install=fontconfig.install
 source=(http://www.fontconfig.org/release/$pkgname-$pkgver.tar.bz2
         fc-cache.1 fc-cat.1 fc-list.1 fc-match.1 fc-query.1 fc-scan.1
 )
-md5sums=('2f239690057d1438aa282e051f721d08'
+md5sums=('0f8e5c63c2d6931626185c02802375a3'
          'f82dbf1a79162d3175542bf97ff4a924'
          '80c55af56e1a7edab804b2fc13ba51f1'
          '57f88294fd73f20cce200da8fd58bb2a'
          'ceff107066cdf5d21f6a147ca9892ad1'
-         'fdc7c94fd6b7b6109911bfe3e9e867e7'
-         '5a06294f5efe9f271b2b56fa6bab8f48')
+         '134a70e516b33df133ad1fc4309baa19'
+         '52b624f8722b5bd3385bf3438df599c9')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
@@ -28,7 +28,7 @@ build() {
   libtoolize -f
   autoreconf -fi
 
-  ./configure --prefix=/usr \
+    ./configure --prefix=/usr \
     --sysconfdir=/etc \
     --with-templatedir=/etc/fonts/conf.avail \
     --with-xmldir=/etc/fonts \
