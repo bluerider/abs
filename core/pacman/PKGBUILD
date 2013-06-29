@@ -12,7 +12,6 @@ pkgdesc="A library-based package manager with dependency support"
 arch=('i686' 'x86_64')
 url="http://www.archlinux.org/pacman/"
 license=('GPL')
-groups=('base' 'base-devel')
 depends=('bash>=4.2.042-2' 'libarchive>=3.1.2' 'curl>=7.30.0'
          'gpgme' 'pacman-mirrorlist' 'archbsd-keyring')
 checkdepends=('python2')
@@ -63,6 +62,7 @@ check() {
 package_pacman() {
   backup=(etc/pacman.conf etc/makepkg.conf)
   install=pacman.install
+  groups=('base' 'base-devel')
   provides=('pacman-contrib')
   conflicts=('pacman-contrib')
   replaces=('pacman-contrib')
