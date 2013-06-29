@@ -159,8 +159,8 @@ build() {
 	ui/base/strings/app_locale_settings_ko.xtb \
 	ui/base/strings/app_locale_settings_ml.xtb \
 	ui/base/strings/app_locale_settings_th.xtb
-  msg "Setting up a relative python path"
-  # There are still a lot of relative calls which need a workaround
+ # msg "Setting up a relative python path"
+ # There are still a lot of relative calls which need a workaround
 
   mkdir "$srcdir/python2-path"
   ln -s /usr/bin/python2 "$srcdir/python2-path/python"

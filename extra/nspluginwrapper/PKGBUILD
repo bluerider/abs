@@ -12,7 +12,7 @@ source=(http://nspluginwrapper.davidben.net/download/$pkgname-$pkgver.tar.gz
 	patch-src-npw-config.c
 	npw-player.patch)
 md5sums=('36f3e290fc4ce56f65ee695078961188'
-         'b83888cce33c8e8a1e86da6d1102c12e'
+         '7ad2d6be4f8e814991ba0eb3265737b5'
          '2f0f9e89de0000f873179d305a629e92'
          'aa6efb2f93d09fe5d87538b4029627d3')
 
@@ -23,10 +23,11 @@ build() {
   patch -p0 -i "${srcdir}"/patch-configure
   patch -p0 -i "${srcdir}"/patch-src-npw-config.c
   patch -p0 -i "${srcdir}"/npw-player.patch
-  sed -i '' -e 's,%%LOCALBASE%%,/usr/local,g' "$srcdir/$pkgname-$pkgver"/src/npw-config.c
-  ./configure --enable-generic --enable-strip --prefix=/usr/local \
+  sed -i '' -e 's,%%LOCALBASE%%,/usr,g' "$srcdir/$pkgname-$pkgver"/src/npw-config.c
+  sed -i '' -e 's|glib/.*\.h>|glib.h>|g' "$srcdir/$pkgname-$pkgver"/src/npruntime.c "$srcdir/$pkgname-$pkgver"/src/npw-player.c "$srcdir/$pkgname-$pkgver"/src/utils.c
+  ./configure --enable-generic --enable-strip --prefix=/usr \
 		--target-os=linux --target-cpu=i386 \
-		--with-cc=${CC} --with-cxx=${CXX}
+		--with-cc=gcc --with-cxx=g++
   gmake -j1
 }
 

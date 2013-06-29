@@ -26,10 +26,11 @@ md5sums=('3fab19520668156176f62be9e0af21c1'
          '40aae455d07111b6a38a2792f3dccb66'
          '68b329da9893e34099c7d8ad5cb9c940'
          'f3b6ae7db8adffaaa4bffc6099dcbd50'
-         '461507865683b0d07a090df9bcef6e16'
+         '5bdb68082a21582ecc6530fb54b6574e'
          '88ec33a1523b62b2e3f7488ff8ca7c48'
          '1e82a92ee6e6b9f67f69050ca0dee684'
          '239dd0da7c1de745c4a823b0404f7ee5')
+
 package() {
 
 cd ${pkgdir}

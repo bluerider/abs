@@ -6,7 +6,7 @@
 
 pkgname=openbox
 pkgver=3.5.0
-pkgrel=2
+pkgrel=3
 pkgdesc="A highly configurable and lightweight X11 window manager"
 arch=('i686' 'x86_64')
 url="http://openbox.org"
@@ -42,12 +42,12 @@ build() {
               --sysconfdir=/etc \
               --libexecdir=/usr/libexec/openbox
   
-  gmake
+  gmake -j1
 }
 
 package() {
   cd $srcdir/$pkgname-$pkgver
-  make DESTDIR=$pkgdir/ install
+  make -j1 DESTDIR=$pkgdir/ install
 
   sed -e 's:startkde:/usr/bin/\0:' \
          $pkgdir/usr/share/xsessions/openbox-kde.desktop
