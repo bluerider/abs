@@ -1,0 +1,21 @@
+pkgname=linux-pango
+pkgver=1.2.6
+pkgrel=1
+pkgdesc='linux pango'
+url='http://www.archlinux.org/'
+license=('GPL')
+arch=('any')
+depends=('linux-base' 'linux-cairo' 'linux-expat' 'linux-fontconfig' 
+'linux-png' 'linux-xorg-libs' 'linux-freetype' 'linux-thai' 'linux-datrie')
+options=(!strip)
+install=linux-pango.install
+source=(
+	http://arm.konnichi.com/2009/12/01/extra/os/i686/pango-1.26.1-1-i686.pkg.tar.gz
+)
+md5sums=('82976b767317d3ac8c057e5b4a2f7fce')
+
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+        cp -Ra "${srcdir}/etc" "${pkgdir}/compat/linux"
+}

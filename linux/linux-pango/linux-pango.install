@@ -1,0 +1,3 @@
+post_install(){
+	compat/linux/usr/bin/pango-querymodules > compat/linux/etc/pango/pango.modules
+}
