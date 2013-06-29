@@ -4,8 +4,8 @@
 # Maintainer: Dave Reisner <dreisner@archlinux.org>
 
 pkgname=pacman
-pkgver=4.1.0
-pkgrel=3
+pkgver=4.1.2
+pkgrel=1
 pkgdesc="A library-based package manager with dependency support"
 arch=('i686' 'x86_64')
 url="http://www.archlinux.org/pacman/"
@@ -13,8 +13,7 @@ license=('GPL')
 groups=('base' 'base-devel')
 depends=('bash>=4.2.042-2' 'libarchive>=3.1.2' 'curl>=7.30.0'
          'gpgme' 'pacman-mirrorlist' 'archbsd-keyring')
-checkdepends=('python2' 'fakechroot')
-optdepends=('fakeroot: for makepkg usage as normal user')
+checkdepends=('python2')
 provides=('pacman-contrib')
 conflicts=('pacman-contrib')
 replaces=('pacman-contrib')
@@ -24,14 +23,12 @@ options=(!libtool)
 source=(ftp://ftp.archlinux.org/other/pacman/$pkgname-$pkgver.tar.gz{,.sig}
         pacman.conf.x86_64
 	pacman.conf.i686
-        makepkg.conf
-	configure.patch)
-md5sums=('a0f2b3148bee4784f21cf373cf59a0bc'
+        makepkg.conf)
+md5sums=('063c8b0ff6bdf903dc235445525627cd'
          'SKIP'
          'de74a13618347f08ae4a9637f74471c4'
          '2db6c94709bb30cc614a176ecf8badb1'
-         '883292a326d2b3e0d9e7c3ec576263f5'
-         '8f5bde5cb13fe2987dcc16265f4c64d2')
+         '883292a326d2b3e0d9e7c3ec576263f5')
 
 
 build() {
@@ -39,8 +36,6 @@ build() {
 
   export LDFLAGS="-L/usr/local/lib,-rpath=/usr/local/lib"
   export CPPFLAGS="$CPPFLAGS -I/usr/include/gpgme"
-
-  patch -p0 -i ${srcdir}/configure.patch
 
   #Fix now being able to remove pkgdir as regular user
   sed -i '' -e 's/a\-srwx/a\-sx/g' scripts/makepkg.sh.in
