@@ -1,0 +1,18 @@
+pkgname=linux-sqlite
+pkgver=3.3.6.20
+pkgrel=1
+pkgdesc='linux sqlite'
+url='http://www.archlinux.org/'
+license=('GPL')
+arch=('any')
+depends=('linux-base')
+options=(!strip)
+source=(
+http://arm.konnichi.com/2009/12/01/core/os/i686/sqlite3-3.6.20-1-i686.pkg.tar.gz
+)
+md5sums=('2d04b7f9546ed603843f81d503497e1a')
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+	brandelf -t linux "${pkgdir}/compat/linux/usr/bin/sqlite3"
+}

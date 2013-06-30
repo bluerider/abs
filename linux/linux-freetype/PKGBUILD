@@ -1,0 +1,18 @@
+pkgname=linux-freetype
+pkgver=2.3.11
+pkgrel=1
+pkgdesc='linux freetype'
+url='http://www.archlinux.org/'
+license=('GPL')
+arch=('any')
+depends=('linux-base' 'linux-expat' 'linux-fontconfig')
+options=(!strip)
+source=(
+	http://arm.konnichi.com/2009/12/01/extra/os/i686/freetype2-2.3.11-1-i686.pkg.tar.gz
+)
+md5sums=('7202a83e8bec2189740efb8dd4a1b838')
+
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+}

@@ -1,0 +1,17 @@
+pkgname=linux-datrie
+pkgver=0.2.2
+pkgrel=1
+pkgdesc='linux datrie'
+url='http://www.archlinux.org/'
+license=('GPL')
+arch=('any')
+depends=('linux-base')
+options=(!strip)
+source=(
+	http://arm.konnichi.com/2009/12/01/extra/os/i686/libdatrie-0.2.2-1-i686.pkg.tar.gz
+)
+md5sums=('2523a2242fe3307f906d8aac7fbbc500')
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+}

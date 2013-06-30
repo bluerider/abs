@@ -1,0 +1,19 @@
+pkgname=linux-openldap
+pkgver=2.4.19
+pkgrel=1
+pkgdesc='linux openldap'
+url='http://www.archlinux.org/'
+license=('GPL')
+arch=('any')
+depends=('linux-base')
+options=(!strip)
+source=(
+http://arm.konnichi.com/2009/12/01/extra/os/i686/openldap-2.4.19-1-i686.pkg.tar.gz
+)
+md5sums=('2593af41fe081f87adc7e15ec3ebf831')
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}"/{usr,etc,var} "${pkgdir}/compat/linux"
+
+	find ${pkgdir}/compat/linux/{bin,sbin,usr/bin,usr/sbin} -type f -print0 | xargs brandelf -t Linux
+}

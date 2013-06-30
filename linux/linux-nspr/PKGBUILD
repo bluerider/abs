@@ -1,0 +1,17 @@
+pkgname=linux-nspr
+pkgver=4.8.2
+pkgrel=1
+pkgdesc='linux nspr'
+url='http://www.archlinux.org/'
+license=('GPL')
+arch=('any')
+depends=('linux-base')
+options=(!strip)
+source=(
+http://arm.konnichi.com/2009/12/01/extra/os/i686/nspr-4.8.2-1-i686.pkg.tar.gz
+)
+md5sums=('4e4b167569c0bbc36105582ff73fc6e1')
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+}

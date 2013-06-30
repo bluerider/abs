@@ -1,0 +1,19 @@
+pkgname=linux-tiff
+pkgver=3.9.2
+pkgrel=1
+pkgdesc='linux tiff'
+url='http://www.archlinux.org/'
+license=('GPL')
+arch=('any')
+depends=('linux-base' 'linux-jpeg')
+options=(!strip)
+source=(
+	http://arm.konnichi.com/2009/12/01/extra/os/i686/libtiff-3.9.2-1-i686.pkg.tar.gz
+)
+md5sums=('91335cfe2db34c9c971a92b579e0b3c5')
+
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+	find ${pkgdir}/compat/linux/{bin,sbin,usr/bin,usr/sbin} -type f -print0 | xargs brandelf -t Linux
+}

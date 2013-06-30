@@ -1,0 +1,19 @@
+pkgname=linux-openssh
+pkgver=5.3
+pkgrel=1
+pkgdesc='linux openssl'
+url='http://www.archlinux.org/'
+license=('GPL')
+arch=('any')
+depends=('linux-base')
+options=(!strip)
+source=(
+http://arm.konnichi.com/2009/12/01/core/os/i686/openssh-5.3p1-2-i686.pkg.tar.gz
+)
+md5sums=('97b1a3ea5bea198ec2c74ab0aa6b5b93')
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}/etc" "${pkgdir}/compat/linux"
+	brandelf -t linux "${pkgdir}"/compat/linux/usr/bin/{scp,sftp,slogin,ssh,ssh-add,ssh-agent,ssh-keygen,ssh-keyscan}
+}

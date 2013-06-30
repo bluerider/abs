@@ -1,0 +1,20 @@
+pkgname=linux-openssl
+pkgver=0.9.8
+pkgrel=1
+pkgdesc='linux openssl'
+url='http://www.archlinux.org/'
+license=('GPL')
+arch=('any')
+depends=('linux-base')
+options=(!strip)
+source=(
+	http://arm.konnichi.com/2009/12/01/core/os/i686/openssl-0.9.8l-1-i686.pkg.tar.gz
+)
+md5sums=('cfd280e6f9c0a6a7292fd24f80a969d6')
+
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}/etc" "${pkgdir}/compat/linux"
+	brandelf -t linux "${pkgdir}/compat/linux/usr/bin/openssl"
+}

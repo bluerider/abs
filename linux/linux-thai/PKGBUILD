@@ -1,0 +1,18 @@
+pkgname=linux-thai
+pkgver=0.1.12
+pkgrel=1
+pkgdesc='linux thai'
+url='http://www.archlinux.org/'
+license=('GPL')
+arch=('any')
+depends=('linux-base')
+options=(!strip)
+source=(
+	http://arm.konnichi.com/2009/12/01/extra/os/i686/libthai-0.1.12-1-i686.pkg.tar.gz
+)
+md5sums=('5d52871e2ed649567d877eaf8131ebdf')
+
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+}
