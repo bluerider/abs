@@ -1,13 +1,13 @@
 # Contributor: Wolfgang Bumiller <archbsd at bumiller dot com>
 pkgname=readpkgelf
 pkgver=0.0
-pkgrel=1
+pkgrel=2
 pkgdesc="a tool which shows the required libraries of files inside a package"
 license=(BSD)
 arch=(i686 x86_64)
 url=http://github.com/Blub/readpkgelf
 source=("${pkgname}-${pkgver}-${pkgrel}.tar.gz::https://github.com/Blub/${pkgname}/archive/${pkgver}.tar.gz")
-md5sums=('af87bedbdbab53adb8a9bb85eb943ce2')
+md5sums=('616c595035311ec41e5779fdba0c3678')
 
 build() {
 	cd $pkgname-$pkgver
