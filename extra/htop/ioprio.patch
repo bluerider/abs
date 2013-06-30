@@ -1,0 +1,11 @@
+--- src/htop-1.0.2/Process.c	2013-06-28 21:48:32.000000000 +0200
++++ src/htop-1.0.2/Process.c	2012-10-20 03:44:44.000000000 +0200
+@@ -603,6 +603,8 @@
+    return Process_setPriority(this, this->nice + delta);
+ }
+ 
++#define SYS_ioprio_set 251
++#define SYS_ioprio_get 252
+ IOPriority Process_updateIOPriority(Process* this) {
+    IOPriority ioprio = syscall(SYS_ioprio_get, IOPRIO_WHO_PROCESS, this->pid);
+    this->ioPriority = ioprio;
