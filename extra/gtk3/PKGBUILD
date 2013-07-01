@@ -8,7 +8,7 @@ arch=('i686' 'x86_64')
 url="http://www.gtk.org/"
 install=gtk3.install
 #depends=('atk>=2.6.0' 'cairo' 'gtk-update-icon-cache' 'libcups' 'libxcursor' 'libxinerama' 'libxrandr' 'libxi' 'libxcomposite' 'libxdamage' 'pango>=1.30.0' 'shared-mime-info' 'colord' 'at-spi2-atk')
-depends=('atk>=2.6.0' 'cairo' 'gtk-update-icon-cache' 'libxcursor' 'libxinerama' 'libxrandr' 'libxi' 'libxcomposite' 'libxdamage' 'pango>=1.30.0' 'shared-mime-info' 'at-spi2-atk')
+depends=('atk>=2.6.0' 'cairo' 'gtk-update-icon-cache' 'libxcursor' 'libxinerama' 'libxrandr' 'libxi' 'libxcomposite' 'libxdamage' 'pango>=1.30.0' 'shared-mime-info' 'at-spi2-atk>=2.6.2-2')
 makedepends=('gobject-introspection')
 options=('!libtool')
 backup=(etc/gtk-3.0/settings.ini)
