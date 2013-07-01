@@ -1,11 +1,11 @@
 pkgbase=gtk2
 pkgname=('gtk2' 'gtk-update-icon-cache')
 pkgver=2.24.16
-pkgrel=3
+pkgrel=4
 arch=('i686' 'x86_64')
 url="http://www.gtk.org/"
 makedepends=('atk' 'pango' 'libxcursor' 'libxinerama' 'libxrandr' 'libxi' 'libxcomposite' 'libxdamage'
-             'shared-mime-info' 'cairo' 'gdk-pixbuf2' 'gobject-introspection')
+             'shared-mime-info' 'cairo' 'gdk-pixbuf2>=2.28.2-2' 'gobject-introspection')
 license=('LGPL')
 source=(http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-$pkgver.tar.xz
         xid-collision-debug.patch

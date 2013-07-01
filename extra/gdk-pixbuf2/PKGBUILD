@@ -3,7 +3,7 @@
 
 pkgname=gdk-pixbuf2
 pkgver=2.28.2
-pkgrel=1
+pkgrel=2
 pkgdesc="An image loading library"
 arch=('i686' 'x86_64')
 url="http://www.gtk.org/"
@@ -22,6 +22,13 @@ build() {
     --with-x11 \
     --with-libjasper \
     --with-included-loaders=png
+# ltverhack:
+  for i in ltmain.sh libtool; do
+    sed -i '' -e '/freebsd-elf)/,/;;/ s|major="\.$current"|major=.0|' \
+              -e '/freebsd-elf)/,/;;/ s|versuffix="\.$current"|versuffix="$major"|' \
+        $i
+  done
+
   gmake
 }
 
