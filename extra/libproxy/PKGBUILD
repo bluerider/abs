@@ -35,7 +35,7 @@ source=(http://libproxy.googlecode.com/files/${pkgname}-${pkgver}.tar.gz
         ${_port_patches[@]}
        )
 options=('!libtool')
-md5sums=('3cd1ae2a4abecf44b3f24d6639d2cd84'
+md5sums=('199c6b120baf1f7258a55f38d5ec74f5'
          'c11896c77bbc081a20d4732825736ee6'
          '2214f2639d5aba21cb2854b472e8e31f'
          'afa917941a09582c9c9331d2f4fb641f'
