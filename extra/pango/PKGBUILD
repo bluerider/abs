@@ -2,12 +2,12 @@
 
 pkgname=pango
 pkgver=1.34.1
-pkgrel=1
+pkgrel=2
 pkgdesc="A library for layout and rendering of text"
 arch=('i686' 'x86_64')
 license=('LGPL')
-depends=('libthai' 'cairo' 'libxft' 'harfbuzz')
-makedepends=('harfbuzz' 'fontconfig' 'cairo' 'libxft' 'libthai' 'gobject-introspection')
+depends=('libthai' 'cairo' 'libxft' 'harfbuzz>=0.9.18')
+makedepends=('fontconfig' 'cairo' 'libxft' 'libthai' 'gobject-introspection')
 options=('!libtool')
 install=pango.install
 source=(http://download.gnome.org/sources/${pkgname}/${pkgver:0:4}/${pkgname}-${pkgver}.tar.xz)
