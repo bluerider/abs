@@ -1,6 +1,6 @@
 pkgname=vala
-pkgver=0.18.1
-pkgrel=2
+pkgver=0.20.1
+pkgrel=1
 pkgdesc="Compiler for the GObject type system"
 arch=('i686' 'x86_64')
 url="http://live.gnome.org/Vala"
@@ -11,34 +11,36 @@ options=('!libtool')
 source=(http://ftp.gnome.org/pub/gnome/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.xz
 	patch-vapi_glib-2.0.vapi
 	patch-vapi_libpq.vapi
-	patch-vapigen_Makefile.in
 )
-sha256sums=('7f5e2e8ca03f9fa2cf13acaf93bfdc3a7ad0a10b000a337ba9c6bdc021bdca32'
+sha256sums=('9cb7ecd18a23525e401c204d4d08341c7d911cd5d78078eee10b747ecb45e481'
             '6fdd22f0a15359d6ee6829eb9e92fe93804c0a52052c4af4503889f21480ff79'
-            'ef456434b627ac4e9ec5c6742e0dd9fb64b02152505e09e6f9e4c42e6c4aa334'
-            '6b1d3c863617fc5078641d326a0b5451a9c12d5dccdad0473763a7f401fb9501')
+            'ef456434b627ac4e9ec5c6742e0dd9fb64b02152505e09e6f9e4c42e6c4aa334')
 
-build() {
+prepare() {
     cd $pkgname-$pkgver
 
     patch -p0 -i ${srcdir}/patch-vapi_glib-2.0.vapi
     patch -p0 -i ${srcdir}/patch-vapi_libpq.vapi
-    patch -p0 -i ${srcdir}/patch-vapigen_Makefile.in
+#    patch -p0 -i ${srcdir}/patch-vapigen_Makefile.in
 
-    sed -i ''  -e 's|@vapigen_decl@|vapigen=$${bindir}/vapigen-0.18|g' \
-		-e 's|@gen_introspect_decl@|gen_introspect=$${libdir}/vala-0.18/gen-introspect-0.18|g' \
-		-e 's|@vala_gen_introspect_decl@|vala_gen_introspect=$${bindir}/vala-gen-introspect-0.18|g' \
-		${srcdir}/$pkgname-$pkgver/libvala.pc.in
-#    sed -i '' -e 's|cp $< $@|cp libvala.pc libvala-0.18.pc|g' \
+# Or just use Gmake...
+#    sed -i ''  -e 's|@vapigen_decl@|vapigen=$${bindir}/vapigen-0.20|g' \
+#		-e 's|@gen_introspect_decl@|gen_introspect=$${libdir}/vala-0.20/gen-introspect-0.20|g' \
+#		-e 's|@vala_gen_introspect_decl@|vala_gen_introspect=$${bindir}/vala-gen-introspect-0.20|g' \
+#		${srcdir}/$pkgname-$pkgver/libvala.pc.in
+#    sed -i '' -e 's|cp $< $@|cp libvala.pc libvala-0.20|g' \
 #		${srcdir}/$pkgname-$pkgver/Makefile.in
+}
 
+build() {
+    cd $pkgname-$pkgver
 
     ./configure --prefix=/usr --enable-vapigen
 
-    make
+    gmake
 }
 
 package() {
     cd $pkgname-$pkgver
-    make DESTDIR="$pkgdir" install
+    gmake DESTDIR="$pkgdir" install
 }
