@@ -3,13 +3,13 @@
 
 pkgname=clutter-gtk
 pkgver=1.4.4
-pkgrel=1
+pkgrel=2
 pkgdesc="GTK clutter widget"
 arch=('i686' 'x86_64')
 url="http://clutter-project.org/"
 options=('!libtool')
 license=('LGPL')
-depends=('clutter' 'gtk3')
+depends=('clutter>=1.14.4-4' 'gtk3>=3.8.2-3')
 makedepends=('gobject-introspection')
 source=(http://download.gnome.org/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.xz)
 sha256sums=('bc3108594a01a08bb6d9b538afe995e4fd78634a8356064ee8137d87aad51b2e')
