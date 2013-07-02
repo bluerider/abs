@@ -5,7 +5,7 @@
 
 pkgname=chromium
 pkgver=27.0.1453.116
-pkgrel=1
+pkgrel=2
 pkgdesc="The open-source project behind Google Chrome, an attempt at creating a safer, faster, and more stable browser"
 arch=('i686' 'x86_64')
 url="http://www.chromium.org/"
@@ -17,7 +17,8 @@ depends=('gtk2' 'nss' 'xdg-utils' 'libevent' 'libxss'
          'bash' 'libpulse'
          'alsa-lib' 'libxslt' 'libvpx'
          'alsa-plugins'
-         'libxml2' 'atk')
+         'libxml2' 'atk'
+         'speechd')
 makedepends=('python2' 'perl' 'gperf' 'yasm' 'mesa' 'libgnome-keyring'
              'flock' 'v4l-compat>=1.0.20110603')
 optdepends=('kdebase-kdialog: needed for file dialogs in KDE')
@@ -137,9 +138,8 @@ source=(http://commondatastorage.googleapis.com/chromium-browser-official/$pkgna
         ${port_patches[@]}
 )
 
-build() {
+prepare() {
   cd "$srcdir/chromium-$pkgver"
-
   for i in ${port_patches[@]}; do
     msg "patch $i"
     patch -p0 -i "${srcdir}/$i"
@@ -164,6 +164,11 @@ build() {
 
   mkdir "$srcdir/python2-path"
   ln -s /usr/bin/python2 "$srcdir/python2-path/python"
+}
+
+build() {
+  cd "$srcdir/chromium-$pkgver"
+
   export PATH="$srcdir/python2-path:$PATH"
 
   CFLAGS="${CFLAGS} -Wno-error "
