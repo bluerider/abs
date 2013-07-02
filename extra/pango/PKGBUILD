@@ -21,6 +21,14 @@ build() {
       --localstatedir=/var --with-included-modules=basic-fc \
       --enable-static \
       --with-html-dir=/usr/share/doc
+
+#ltverhack:
+  for i in ltmain.sh libtool; do
+    sed -i '' -e '/freebsd-elf)/,/;;/ s|major="\.$current"|major=.0|' \
+              -e '/freebsd-elf)/,/;;/ s|versuffix="\.$current"|versuffix="$major"|' \
+        $i
+  done
+
   gmake
 }
 
