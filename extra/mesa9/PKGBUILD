@@ -18,10 +18,26 @@ md5sums=('5c65a0fe315dd347e09b1f2826a1df5a'
          '5fe9ad0c5beed19bc98d8c34aaad4ade'
          'dc45d1192203e418163e0017640e1cfc')
 
+prepare() {
+    cd ${srcdir}/?esa-*
+    patch -Np1 -i ${srcdir}/llvm32.patch
+
+# *facepalm* ...
+# if you use autotools / libtool
+# do it right please...
+    sed -i '' -e 's@\(ln -f \.libs/libglapi\.so\.0\)\.0\.0 @\1 @' src/mapi/shared-glapi/Makefile.am
+    sed -i '' -e 's@\(ln -sf libglapi\.so\.0\)\.0\.0 @\1 @' src/mapi/shared-glapi/Makefile.am
+    sed -i '' -e 's|\(ln -f \.libs/libdricore@VERSION@\.so\.1\)\.0\.0 |\1 |' src/mesa/libdricore/Makefile.am
+    sed -i '' -e 's|\(ln -f \.libs/libGLESv1_CM\.so\.1\)\.1\.0 |\1 |' src/mapi/es1api/Makefile.am
+    sed -i '' -e 's|\(ln -f \.libs/libGLESv2\.so\.2\)\.0\.0 |\1 |' src/mapi/es2api/Makefile.am
+    sed -i '' -e 's|\(ln -f \.libs/lib@GL_LIB@\.so\.1\)\.2\.0 |\1 |' src/glx/Makefile.am
+    sed -i '' -e 's|\(ln -f \.libs/libEGL\.so\.1\)\.0\.0 |\1 |' src/egl/main/Makefile.am
+
+    autoreconf -vfi
+}
+
 build() {
     cd ${srcdir}/?esa-*
-    
-    patch -Np1 -i ${srcdir}/llvm32.patch
 
     export CFLAGS="${CFLAGS} -fPIC"
     export CXXFLAGS="${CXXFLAGS} -fPIC"
@@ -34,7 +50,7 @@ build() {
     COMMONOPTS="--prefix=/usr/ \
     --sysconfdir=/etc \
     --with-dri-driverdir=/usr/lib/dri \
-    --with-gallium-drivers=nouveau,swrast \
+    --with-gallium-drivers=r300,r600,nouveau,swrast \
     --with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
     --enable-shared-glapi \
     --enable-glx-tls \
@@ -54,18 +70,6 @@ build() {
 #                          [default=disable]
 #    --enable-xa             enable build of the XA X Acceleration API                          [default=no]
 
-# *facepalm* ...
-# if you use autotools / libtool
-# do it right please...
-    sed -i '' -e 's@\(ln -f \.libs/libglapi\.so\.0\)\.0\.0 @\1 @' src/mapi/shared-glapi/Makefile.am
-    sed -i '' -e 's@\(ln -sf libglapi\.so\.0\)\.0\.0 @\1 @' src/mapi/shared-glapi/Makefile.am
-    sed -i '' -e 's|\(ln -f \.libs/libdricore@VERSION@\.so\.1\)\.0\.0 |\1 |' src/mesa/libdricore/Makefile.am
-    sed -i '' -e 's|\(ln -f \.libs/libGLESv1_CM\.so\.1\)\.1\.0 |\1 |' src/mapi/es1api/Makefile.am
-    sed -i '' -e 's|\(ln -f \.libs/libGLESv2\.so\.2\)\.0\.0 |\1 |' src/mapi/es2api/Makefile.am
-    sed -i '' -e 's|\(ln -f \.libs/lib@GL_LIB@\.so\.1\)\.2\.0 |\1 |' src/glx/Makefile.am
-    sed -i '' -e 's|\(ln -f \.libs/libEGL\.so\.1\)\.0\.0 |\1 |' src/egl/main/Makefile.am
-
-    autoreconf -vfi
     ./configure \
       $COMMONOPTS
 
