@@ -3,8 +3,8 @@
 # Contributor: Thomas Haider <t.haider@vcnc.org>
 
 pkgname=libev
-pkgver=4.12
-pkgrel=2
+pkgver=4.15
+pkgrel=1
 pkgdesc="A full-featured and high-performance event loop"
 arch=('i686' 'x86_64')
 url="http://software.schmorp.de/pkg/libev.html"
@@ -14,7 +14,7 @@ source=(http://dist.schmorp.de/${pkgname}/${pkgname}-${pkgver}.tar.gz
         patch-configure patch-ev.c
         libev.pc.in
         )
-md5sums=('cda69b858a1849dfe6ce17c930cf10cd'
+md5sums=('3a73f247e790e2590c01f3492136ed31'
          '2cd91765c1f58d09077fdf0726187759'
          'b6184007c83a43669d3c916a0d10de87'
          '33624c88092d4b431477d78a3e93b0f7')
