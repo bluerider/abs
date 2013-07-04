@@ -6,7 +6,7 @@
 
 pkgname=xmlto
 pkgver=0.0.25
-pkgrel=2
+pkgrel=3
 pkgdesc="Convert xml to many other formats"
 arch=('i686' 'x86_64')
 url="http://cyberelk.net/tim/software/xmlto/"
@@ -16,13 +16,17 @@ makedepends=('docbook-xsl' 'getopt' 'bash')
 source=("https://fedorahosted.org/releases/x/m/${pkgname}/${pkgname}-${pkgver}.tar.bz2")
 md5sums=('6b6267b1470f8571fe5f63a128970364')
 
-build() {
-  cd "$srcdir/${pkgname}-${pkgver}"
+prepare() {
+  cd "${pkgname}-${pkgver}"
 	
   # remove non-standard type -t
   find . -type f -exec sed -i '' -e 's/type -t/which/;' '{}' '+'
   # remove GNUISM
   sed -i '' -e '/^GEN_MANPAGE/{s/\$</$>/;}' Makefile.in
+}
+
+build() {
+  cd "$srcdir/${pkgname}-${pkgver}"
 
   GETOPT=/usr/local/bin/getopt \
   BASH=/usr/bin/bash \
