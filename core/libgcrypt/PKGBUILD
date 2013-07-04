@@ -3,8 +3,8 @@
 # Contributor: Wolfgang Bumiller <blub@speed.at>
 
 pkgname=libgcrypt
-pkgver=1.5.0
-pkgrel=3
+pkgver=1.5.2
+pkgrel=1
 pkgdesc="a general purpose crypto library based on the code used"
 arch=(i686 x86_64)
 url="http://www.gnupg.org"
@@ -14,39 +14,42 @@ options=('!emptydirs')
 install=$pkgname.install
 makedepends=('libtool' 'libgpg-error')
 depends=('gettext' 'libiconv' 'libgpg-error')
+_port_patches=(
+        patch-cipher-rijndael.c
+        patch-mpi-longlong.h
+)
 source=(ftp://ftp.gnupg.org/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2
 	    #ftp://ftp.franken.de/pub/crypt/mirror/ftp.gnupg.org/gcrypt/libgcrypt/${pkgname}-${pkgver}.tar.bz2
-        patch-cipher-rijndael.c
-        patch-ltmain.sh
-        patch-mpi-longlong.h
-        patch-src__gcrypt.h.in
+	    ltmain.sh
+	    ${_port_patches[@]}
 )
-md5sums=('693f9c64d50c908bc4d6e01da3ff76d8'
-         '3e77065dbb002d6efb150b0e67d9a987'
-         'a2f2573b556bc79c2d19a30b2fcd71db'
-         'e7032d4cd109c03dcb76bed756ae7cdd'
-         '2b2dd02412e2a25277889922127f00e4')
+sha1sums=('c9998383532ba3e8bcaf690f2f0d65e814b48d2f'
+          '3aaa9f7794534fe617189f32b3a35e269e8aa6e4'
+          '92662974174a8d14410837babc8802e8cb976b0e'
+          '5b3915d4d4cd34a7b583d2d6bec8a2eb25ee8d7e')
+
+prepare() {
+  cd ${pkgname}-${pkgver}
+  for i in ${_port_patches[@]}; do
+    msg "patch $i"
+    patch -p0 -i "${srcdir}/$i"
+  done
+# fix up ltmain.sh patch
+  sed -i '' -e "s|%%PTHREAD_LIBS%%|-pthread|" ltmain.sh
+# remove info files
+  rm -f doc/gcrypt.info*
+
+# use our own libtool...
+  gsed -i -e '/^SUBDIRS =/s/ doc//g' Makefile.in
+  #cp "${srcdir}/ltmain.sh" .
+}
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
 
-# ports patches
-  patch -p0 -i "${srcdir}/patch-cipher-rijndael.c"
-  patch -p0 -i "${srcdir}/patch-ltmain.sh"
-  patch -p0 -i "${srcdir}/patch-mpi-longlong.h"
-  patch -p0 -i "${srcdir}/patch-src__gcrypt.h.in"
-
-# from ports
-  sed -i '' -e "s|%%PTHREAD_LIBS%%|-pthread|" ltmain.sh
-
-  rm -f doc/gcrypt.info*
-
   ./configure --prefix=/usr \
-    --mandir=/usr/share/man \
-    --infodir=/usr/share/info \
     --disable-padlock-support \
-    --enable-shared --enable-static \
-    CFLAGS="${CFLAGS} -std=gnu89"
+    --enable-shared --enable-static
   make
 }
 
@@ -62,3 +65,4 @@ package() {
   install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}-${pkgver}"
   install -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}-${pkgver}/LICENSE"
 }
+
