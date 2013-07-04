@@ -12,7 +12,7 @@ license=('LGPL')
 depends=('libgpg-error>=1.10-2')
 options=('!emptydirs')
 install=$pkgname.install
-makedepends=('libtool' 'libgpg-error')
+makedepends=('libtool>=2.4.2-11' 'libgpg-error')
 depends=('gettext' 'libiconv' 'libgpg-error')
 _port_patches=(
         patch-cipher-rijndael.c
@@ -20,11 +20,9 @@ _port_patches=(
 )
 source=(ftp://ftp.gnupg.org/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2
 	    #ftp://ftp.franken.de/pub/crypt/mirror/ftp.gnupg.org/gcrypt/libgcrypt/${pkgname}-${pkgver}.tar.bz2
-	    ltmain.sh
 	    ${_port_patches[@]}
 )
 sha1sums=('c9998383532ba3e8bcaf690f2f0d65e814b48d2f'
-          '3aaa9f7794534fe617189f32b3a35e269e8aa6e4'
           '92662974174a8d14410837babc8802e8cb976b0e'
           '5b3915d4d4cd34a7b583d2d6bec8a2eb25ee8d7e')
 
@@ -34,14 +32,13 @@ prepare() {
     msg "patch $i"
     patch -p0 -i "${srcdir}/$i"
   done
-# fix up ltmain.sh patch
-  sed -i '' -e "s|%%PTHREAD_LIBS%%|-pthread|" ltmain.sh
 # remove info files
   rm -f doc/gcrypt.info*
 
-# use our own libtool...
   gsed -i -e '/^SUBDIRS =/s/ doc//g' Makefile.in
-  #cp "${srcdir}/ltmain.sh" .
+
+# library versioning fix:
+  cp /usr/share/libtool/config/ltmain.sh .
 }
 
 build() {
