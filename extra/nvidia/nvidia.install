@@ -42,5 +42,5 @@ post_install() {
   post_upgrade
 
  #Add the nvidia libs to the path
- ldconfig -m usr/lib/nvidia/tools/lib/
+ ldconfig -m usr/lib/nvidia/tools/lib
 }
