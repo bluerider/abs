@@ -1,16 +1,18 @@
 # Contributor: Wolfgang Bumiller <archbsd at bumiller dot com>
-pkgname=readpkgelf
+pkgname=pkgdepdb
 pkgver=0.0.99
 pkgrel=2
 _pkgver=0.1-rc2
 pkgdesc="a tool which shows the required libraries of files inside a package"
 license=(BSD)
 arch=(i686 x86_64)
-url=http://github.com/Blub/readpkgelf
+url=http://github.com/Blub/pkgdepdb
 depends=(libarchive)
 makedepends=(llvm)
 source=("${pkgname}-${pkgver}-${pkgrel}.tar.gz::https://github.com/Blub/${pkgname}/archive/${_pkgver}.tar.gz")
-sha1sums=('e5a3ec457e64971f0a1ec6d2fdd92609dfcbc54b')
+sha1sums=('52eb4e9811d75f57f60eadc6c1b1087372312fed')
+conflicts=('readpkgelf')
+replaces=('readpkgelf')
 
 build() {
 	cd $pkgname-$_pkgver
