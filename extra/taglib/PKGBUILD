@@ -11,7 +11,7 @@ pkgdesc="A Library for reading and editing the meta-data of several popular audi
 arch=('i686' 'x86_64')
 url="http://developer.kde.org/~wheeler/taglib.html"
 license=('LGPL' 'MPL')
-depends=('bash' 'gcc-libs') # zlib in world
+depends=('zlib' 'gcc-libs')
 makedepends=('cmake' 'pkg-config')
 options=('!libtool')
 source=("https://github.com/downloads/$pkgname/$pkgname/$pkgname-$pkgver.tar.gz")
@@ -28,10 +28,10 @@ build() {
     -DCMAKE_BUILD_TYPE=Release \
     -DWITH_MP4=ON \
     -DWITH_ASF=ON
-  gmake
+  make
 }
 
 package() {
   cd "${srcdir}"/build
-  gmake DESTDIR="${pkgdir}" install
+  make DESTDIR="${pkgdir}" install
 }
