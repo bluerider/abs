@@ -179,6 +179,9 @@ _package_freebsd-world() {
   rm -f "${pkgdir}/$i"
   done
 
+  #Fix iconv path in ndisgen
+  sed -i '' -e 's|/usr/local/bin/iconv|/usr/bin/iconv|g' "${pkgdir}"/usr/sbin/ndisgen
+
   #set var/cache to 755
   chmod -Rv 755 ${pkgdir}/var/cache
 
