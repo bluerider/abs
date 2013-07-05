@@ -17,8 +17,11 @@ sha1sums=('89ec5683a46f000dc23c9bf8a8808985759220e4')
 build() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
 
+	export CC="clang"
+	export CSS="clang++"
 	export CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing"
 	./configure \
+		CC="clang" CXX="clang++" \
 		--prefix=/usr \
 		--disable-debug \
 		--with-xmlrpc-c \
@@ -29,5 +32,6 @@ build() {
 package() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
 	make DESTDIR="${pkgdir}" install
-	install -D doc/rtorrent.rc "${pkgdir}"/usr/share/doc/rtorrent/rtorrent.rc
+	install -dm755 ${pkgdir}/usr/share/doc/${pkgname}
+	install -Dm644 doc/rtorrent.rc "${pkgdir}"/usr/share/doc/rtorrent/rtorrent.rc
 }
