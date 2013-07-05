@@ -4,7 +4,7 @@
 pkgname=moc
 pkgver=2.5beta1
 pkgrel=3
-epoch=1
+#epoch=1
 pkgdesc="An ncurses console audio player designed to be powerful and easy to use"
 arch=('i686' 'x86_64')
 url="http://moc.daper.net/"
