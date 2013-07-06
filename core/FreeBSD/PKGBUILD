@@ -2,7 +2,7 @@
 # This PKGBUILD needs to be run as root due to FreeBSD chflags used during compiled
 # makepkg --asroot
 #
-pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32')
+pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32' 'freebsd-init')
 pkgver=20130502
 _freebsdver=9.1
 pkgrel=3
@@ -217,6 +217,20 @@ _package_freebsd-lib32() {
    install -dm755 "${pkgdir}"/usr/lib32
    install -dm755 "${pkgdir}"/usr/libexec/
    make TARGET=$TARGET DESTDIR="$pkgdir" install32
+}
+
+_package_freebsd-init() {
+   pkgdesc="FreeBSD init scripts"
+   pkgver=${_freebsdver}
+   provides=('init')
+   conflicts=('openrc')
+   options=('!strip')
+   arch=('x86_64')
+
+   cd "${srcdir}/${_gitname}"
+   #remove rc tools for openrc
+   install -dm755 ${pkgdir}/etc/
+   cp -Ra "${srcdir}/${_gitname}"/etc/rc* ${pkgdir}/etc/ 
 }
 
 build() {
