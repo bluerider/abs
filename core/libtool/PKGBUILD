@@ -8,28 +8,38 @@
 
 pkgname=('libtool' 'libltdl')
 pkgver=2.4.2
-pkgrel=10
+pkgrel=11
 pkgdesc="A generic library support script"
 arch=('i686' 'x86_64')
 url="http://www.gnu.org/software/libtool"
 license=('GPL')
 source=(ftp://ftp.gnu.org/pub/gnu/libtool/${pkgname}-${pkgver}.tar.xz{,.sig}
         patch-libltdl-Makefile.in
-        patch-libltdl_config_ltmain.sh)
+        patch-libltdl_config_ltmain.sh
+        sane_versions_ltmain.sh.diff)
 md5sums=('2ec8997e0c07249eb4cbd072417d70fe'
-         '1e6ba57420c82c663c85e745d11c7eed'
+         'SKIP'
          '876903a91469634627e2aa7c549998f4'
-         'c0cce952eb6daaf1ede2465e46487046')
+         'c0cce952eb6daaf1ede2465e46487046'
+         'c769836fe826c14a9717159039f454bd')
 
-build() {
-  cd ${srcdir}/${pkgbase}-${pkgver}
+prepare() {
+  cd ${pkgbase}-${pkgver}
 
   patch -p0 -i ${srcdir}/patch-libltdl-Makefile.in
   patch -p0 -i ${srcdir}/patch-libltdl_config_ltmain.sh
 
+# libtool's versioning sucks on freebsd
+  patch -p1 -i ${srcdir}/sane_versions_ltmain.sh.diff
+
   sed -i "" -e 's|sed gsed|sed|g' \
-		 -e 's|CC=cc|CC=${CC}|g' \
+            -e 's|CC=cc|CC=${CC}|g' \
       configure libltdl/configure
+
+}
+
+build() {
+  cd ${srcdir}/${pkgbase}-${pkgver}
 
   ./configure --prefix=/usr --sysconfdir=/etc \
               --mandir=/usr/share/man \
