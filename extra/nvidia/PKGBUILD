@@ -12,7 +12,7 @@ source=("ftp://download.nvidia.com/XFree86/FreeBSD-${CARCH}/${pkgver}/NVIDIA-Fre
         nvidia-settings.in
        )
 md5sums=('d6f59c9a0d39e7b919ee62baf954781c'
-         '7f3ba646bc7bd44c7ef92dda414cbbba')
+         '86da362e820aafb226affa8dec13db3d')
 
 build() {
   cd "${srcdir}/NVIDIA-FreeBSD-${CARCH}-${pkgver}/"
