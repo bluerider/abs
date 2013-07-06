@@ -5,7 +5,7 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32' 'freebsd-init')
 pkgver=20130502
 _freebsdver=9.1
-pkgrel=3
+pkgrel=4
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
