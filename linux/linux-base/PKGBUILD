@@ -14,7 +14,7 @@ source=(http://arm.konnichi.com/2009/12/01/core/os/i686/bash-4.0.035-1-i686.pkg.
 	http://arm.konnichi.com/2009/12/01/core/os/i686/e2fsprogs-1.41.9-1-i686.pkg.tar.gz
 	http://arm.konnichi.com/2009/12/01/core/os/i686/filesystem-2009.07-1-i686.pkg.tar.gz	
 	http://arm.konnichi.com/2009/12/01/core/os/i686/gdbm-1.8.3-6-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/glibc-2.11-1-i686.pkg.tar.gz
+	http://arm.konnichi.com/2010/07/31/core/os/i686/glibc-2.12-4-i686.pkg.tar.xz
 	http://arm.konnichi.com/2009/12/01/core/os/i686/glib2-2.22.2-1-i686.pkg.tar.gz
 	http://arm.konnichi.com/2009/12/01/core/os/i686/grep-2.5.4-3-i686.pkg.tar.gz
 	http://arm.konnichi.com/2009/12/01/core/os/i686/texinfo-4.13a-3-i686.pkg.tar.gz

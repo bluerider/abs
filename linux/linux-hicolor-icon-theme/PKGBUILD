@@ -1,0 +1,18 @@
+pkgname=linux-hicolor-icon-theme
+pkgver=0.15.1
+pkgrel=1
+pkgdesc='linux hicolor-icon-theme'
+url='http://www.archlinux.org/'
+license=('GPL')
+arch=('any')
+depends=('linux-base')
+options=(!strip)
+source=(
+	http://arm.konnichi.com/2009/12/01/extra/os/i686/hicolor-icon-theme-0.11-1-any.pkg.tar.gz 
+) 
+md5sums=('0ac2e99e34cc3d53def99c414825a649') 
+
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+}

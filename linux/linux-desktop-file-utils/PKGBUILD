@@ -1,0 +1,19 @@
+pkgname=linux-desktop-file-utils
+pkgver=0.15.1
+pkgrel=1
+pkgdesc='linux desktop-file-utils'
+url='http://www.archlinux.org/'
+license=('GPL')
+arch=('any')
+depends=('linux-base')
+options=(!strip)
+source=(
+	http://arm.konnichi.com/2009/12/01/extra/os/i686/desktop-file-utils-0.15-1-i686.pkg.tar.gz
+)
+md5sums=('7eb5ab69c94f90a6cdc0d4c66bca8287')
+
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+	brandelf -t linux "${pkgdir}/compat/linux/usr/bin/"*
+}
