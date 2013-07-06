@@ -33,7 +33,7 @@ md5sums=('d896371d533a22de4cf57c7371c4d6e8'
          '5527c30b1f101bfe27b061d2a8d4dacb'
          'd0e6c4d30a5b789fe36ab20f50517698'
          '6855b684a7cc9363d6694a790d7c80f2'
-         'aacd26da78ba273425bb53952ea9986b')
+         '41597df204caf6cdb4310be28027f7e5')
 
 
 _makeargs=(BRANDING='Arch BSD')

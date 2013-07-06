@@ -102,6 +102,7 @@ _package_freebsd-world() {
   pkgdesc="FreeBSD base package"
   pkgver=${_freebsdver}
   groups=('base')
+  depends=('init')
   provides=(libc=${_freebsdver} zlib=${_freebsdver})
 
   cd ${srcdir}/${_gitname}
