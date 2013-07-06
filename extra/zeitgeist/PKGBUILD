@@ -17,6 +17,7 @@ conflicts=(zeitgeist-datahub)
 replaces=(zeitgeist-datahub)
 options=('!libtool')
 source=("https://launchpad.net/$pkgname/${pkgver%.*}/$pkgver/+download/$pkgname-$pkgver.tar.xz"
+	'patch-Makefile'
 	'patch-log.vala')
 sha256sums=('f9b1b656dcd4da57438289316d44f8960ce0ee4773ea2fbab4bce165330f41cd'
             '7ab94a780e58b77dee7bfc051dab57c1a571410e80efc88d7fa439c3080160dd')
@@ -30,6 +31,7 @@ build() {
   cd $pkgname-$pkgver
   export PYTHON=/usr/bin/python2
   autoreconf -fi
+  patch -p0 -i "${srcdir}/patch-Makefile"
   patch -p0 -i "${srcdir}/patch-log.vala"
   ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
     --libexecdir=/usr/lib/$pkgname
