@@ -4,7 +4,7 @@
 
 pkgname=texlive-bin
 pkgver=2012.0
-pkgrel=11
+pkgrel=12
 _biber_ver=1.5 # for biblatex 2.5 only.
 pkgdesc="TeX Live binaries"
 license=('GPL')
@@ -23,12 +23,12 @@ source=('texmf.cnf'
         'poppler-0.20.patch'
         'http://mirrors.kernel.org/archlinux/other/texlive/texlive-bin-source-20120623.tar.xz'
         'http://mirrors.kernel.org/archlinux/other/texlive/texlive-bin-texmf-20120623.tar.xz'
-        "http://downloads.sourceforge.net/project/biblatex-biber/biblatex-biber/${_biber_ver}/binaries/Linux/biber-linux_x86_64.tar.gz"
-        "http://downloads.sourceforge.net/project/biblatex-biber/biblatex-biber/${_biber_ver}/binaries/Linux/biber-linux_x86_32.tar.gz"
+        "http://downloads.sourceforge.net/project/biblatex-biber/biblatex-biber/${_biber_ver}/binaries/FreeBSD/biber-amd64-freebsd.tar.xz"
+        "http://downloads.sourceforge.net/project/biblatex-biber/biblatex-biber/${_biber_ver}/binaries/FreeBSD/biber-i386-freebsd.tar.xz"
         'luatex-r4449-radical-rule-thickness.patch'
 )
-noextract=(biber-linux_x86_64.tar.gz
-           biber-linux_x86_32.tar.gz)
+noextract=(biber-amd64-freebsd.tar.xz
+           biber-i386-freebsd.tar.xz)
 backup=(etc/texmf/web2c/texmf.cnf \
     etc/texmf/chktex/chktexrc \
 	etc/texmf/dvipdfm/config/config \
@@ -42,15 +42,15 @@ backup=(etc/texmf/web2c/texmf.cnf \
 	etc/texmf/web2c/mktex.cnf \
 	etc/texmf/xdvi/XDvi)
 
-md5sums=('220a4f4cc0d915bf8fcbcb553dcee1ae'
-         'bfb9716aa00c86c08cd31e5b32edeb98'
-         '393a4bf67adc7ca5df2b386759d1a637'
-         'e3a664d5a7f0923f35060fe9d25d2573'
-         'ac2c3c3aa765581f8504e21a5edbfb9f'
-         'f315a860158cfc952c82a6d759961024'
-         '0072193934e925e0bb6ceb70325e7cb8'
-         '84e9676af4a4d99c34353bb4466c3d5e'
-         '5190f3295eb9a604c5f17f5bd607299b')
+sha1sums=('efb60a682c5aa786d2aaf7a196f1bee97f9aeee2'
+          '5301263529702ccfda0adb3706f461888dea22eb'
+          '332844120fe850d10311772e572f57f33871d522'
+          '32adfa13604d13dc951c17c404e2c6381788181c'
+          '3f428b3a8f1c9d986cba56104e8a3030ccdcd2b0'
+          '7fdc8972d22347880d1117bec8c3b75f82c4fbd5'
+          '01a9adfcdeffa570dce6605b44bcc90419c92d87'
+          '94225131e9e9aa622740fdadb23241ceea0d4a0f'
+          '73cb530b6b2b1146a477a17dd98ecaaedce42c58')
 
 build() {
    cd "$srcdir"
@@ -58,9 +58,9 @@ build() {
    if [ "${CARCH}" = "x86_64" ]; then
      export CFLAGS="${CFLAGS} -fPIC"
      export CXXFLAGS="${CXXFLAGS} -fPIC"
-     tar xf biber-linux_x86_64.tar.gz     
+     tar xf biber-amd64-freebsd.tar.xz
    else
-     tar xf biber-linux_x86_32.tar.gz
+     tar xf biber-i386-freebsd.tar.xz
    fi
 
    # this patch removes spurious error message with locale "xx_YY.utf8"
@@ -320,4 +320,3 @@ vpe"
    done
    ###################################################################
 }
-
