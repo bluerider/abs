@@ -4,13 +4,13 @@
 
 pkgname=libxslt
 pkgver=1.1.28
-pkgrel=3
+pkgrel=4
 pkgdesc="XML stylesheet transformation library"
 arch=('i686' 'x86_64')
 url="http://xmlsoft.org/XSLT/"
 license=('custom')
 depends=('libxml2' 'libgcrypt')
-makedepends=('python2')
+makedepends=('python2' 'libtool>=2.4.2-11')
 checkdepends=('docbook-xml')
 options=('!libtool')
 source=(ftp://xmlsoft.org/libxslt/${pkgname}-${pkgver}.tar.gz
@@ -27,8 +27,9 @@ md5sums=('9667bf6f9310b957254fdcf6596600b7'
          'bced8181aee93682f5d6f8aaa182fd53'
          'caef09cdd3107b75324b5e3ce58232b4')
 
-build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+prepare() {
+  cd ${pkgname}-${pkgver}
+
   sed -i '' -e 's|/usr/bin/python -u|/usr/bin/python2 -u|g' \
             -e 's|/usr/bin/python$|/usr/bin/python2|g' \
       python/tests/*.py
@@ -43,6 +44,11 @@ build() {
   sed -i '' -e 's|[$](bindir)/xsltproc|../xsltproc/xsltproc|g ; s|[$](bindir)/xmllint|../xmllint/xmllint|g' \
       doc/Makefile.in
 
+  find . -name ltmain.sh -exec cp /usr/share/libtool/config/ltmain.sh '{}' \;
+}
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
   ./configure --prefix=/usr --with-python=/usr/bin/python2 \
               --with-html-dir=/usr/share/doc
 
