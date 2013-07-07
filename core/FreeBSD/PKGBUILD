@@ -235,7 +235,7 @@ _package_freebsd-init() {
    cp -Ra "${srcdir}/${_gitname}"/etc/rc* ${pkgdir}/etc/ 
 
   #Files kept in world as needed by openrc also
-  rm -f "${pkgdir}/etc/rc.{bsdextended,firewall,initdiskless,resume,sendmail,subr,suspend}
+  rm -f "${pkgdir}"/etc/rc.{bsdextended,firewall,initdiskless,resume,sendmail,subr,suspend}
 }
 
 build() {
