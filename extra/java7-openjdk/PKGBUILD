@@ -10,6 +10,7 @@ pkgname=('jre7-openjdk-headless' 'jre7-openjdk' 'jdk7-openjdk'
 pkgbase=java7-openjdk
 _java_ver=7
 _updatever=u6
+# well they say it's u25
 _patched_updatever=u25
 _builddate=09_aug_2012
 _buildnumber=b24
@@ -59,7 +60,6 @@ _jvmdir=/usr/lib/jvm/java-7-openjdk
 [ "$CARCH" = "x86_64" ] && _JARCH=amd64
 [ "$CARCH" = "i686"   ] && _JARCH=i386
 
-# because ports is annoying
 _security_icons=(
         security-icon-bw16.png
 		security-icon-bw24.png
@@ -96,7 +96,6 @@ prepare() {
   sed -i '' -e 's@FILES_java =.*@& sun/nio/fs/LinuxFileSystemProvider.java@' \
       jdk/make/java/nio/FILES_java.gmk
 
-# 'cause ports = annoying
   mkdir -p jdk/src/share/classes/sun/awt/resources
   for icon in "${_security_icons[@]}"
   do
