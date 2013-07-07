@@ -3,7 +3,7 @@
 
 pkgname=ghostscript
 pkgver=9.06
-pkgrel=4
+pkgrel=5
 pkgdesc="An interpreter for the PostScript language"
 arch=('i686' 'x86_64')
 license=('GPL3' 'custom')
@@ -13,7 +13,7 @@ optdepends=('texlive-core:      needed for dvipdf'
             'gtk2:              needed for gsx')
 url="http://www.ghostscript.com/"
 options=('!makeflags')
-source=(http://downloads.ghostscript.com/public/ghostscript-${pkgver}.tar.bz2
+_port_patches=(
         patch-Resource-Init-FAPIcidfmap
         patch-Resource-Init-FAPIconfig
         patch-Resource-Init-cidfmap
@@ -41,6 +41,9 @@ source=(http://downloads.ghostscript.com/public/ghostscript-${pkgver}.tar.bz2
         patch-openjpeg-libopenjpeg-opj_malloc.h
         patch-psi-zicc.c
 )
+source=(http://downloads.ghostscript.com/public/ghostscript-${pkgver}.tar.bz2
+        "${_port_patches[@]}"
+)
 md5sums=('46f9ebe40dc52755287b30704270db11' 'a6395dcd9163425b8421e3740f6d98a5'
          'f19d54c313908ef95f55e6c3e03dfc20' 'cb174adc22ed5495fe5a2aae33de258b'
          'fb22529e86db28fe2bbc17833ae88c70' '68f8c5d71fcbf840a05cd921018bc149'
@@ -56,22 +59,10 @@ md5sums=('46f9ebe40dc52755287b30704270db11' 'a6395dcd9163425b8421e3740f6d98a5'
          'b56088f58baa74c1daf60b6db192d884' '51e2f5803d04b8d540fa3c9345b4a806'
          '43eea63d9408f7647a0afe7d9c695cc2')
 
-build() {
-  cd ${srcdir}/ghostscript-${pkgver}
+prepare() {
+  cd ghostscript-${pkgver}
 
-  for i in \
-           patch-Resource-Init-FAPIcidfmap patch-Resource-Init-FAPIconfig \
-           patch-Resource-Init-cidfmap patch-Resource-Init-gs_statd.ps \
-           patch-Resource-Init-gs_ttf.ps patch-Resource-Init-pdf_font.ps \
-           patch-base-configure.ac \
-           patch-base-devs.mak patch-base-gdevl256.c patch-base-gdevperm.c \
-           patch-base-gdevplib.c patch-base-gdevvglb.c patch-base-gs.mak \
-           patch-base-gsicc_create.c patch-base-gxobj.h patch-base-openjpeg.mak \
-           patch-base-unix-gcc.mak patch-base-unixinst.mak patch-contrib-contrib.mak \
-           patch-contrib__japanese__dmp_site.ps patch-contrib__japanese__gdevdmpr.c \
-           patch-lips:gdevlips.c patch-lips:gdevlips.h patch-openjpeg-libopenjpeg-opj_includes.h \
-           patch-openjpeg-libopenjpeg-opj_malloc.h patch-psi-zicc.c
-  do
+  for i in "${_port_patches[@]}"; do
     msg "patch $i"
     patch -p0 -i "${srcdir}/$i"
   done
@@ -81,6 +72,11 @@ build() {
   rm -rf jpeg libpng zlib expat tiff freetype lcms lcms2 jasper openjpeg
 
   autoreconf
+}
+
+build() {
+  cd ghostscript-${pkgver}
+
   ./configure --prefix=/usr \
 	--with-ijs \
 	--with-jbig2dec \
