@@ -5,7 +5,7 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32' 'freebsd-init')
 pkgver=20130502
 _freebsdver=9.1
-pkgrel=5
+pkgrel=6
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -233,6 +233,9 @@ _package_freebsd-init() {
    #remove rc tools for openrc
    install -dm755 ${pkgdir}/etc/
    cp -Ra "${srcdir}/${_gitname}"/etc/rc* ${pkgdir}/etc/ 
+
+  #Files kept in world as needed by openrc also
+  rm -f "${pkgdir}/etc/rc.{bsdextended,firewall,initdiskless,resume,sendmail,subr,suspend}
 }
 
 build() {
