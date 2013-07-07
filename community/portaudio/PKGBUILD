@@ -6,7 +6,9 @@
 
 pkgname=portaudio
 pkgver=18.1
-pkgrel=1
+pkgrel=2
+# set this to CURRENT - AGE as this package uses no libtool
+_lib_version=0
 pkgdesc='A free, cross-platform, open source, audio I/O library.'
 arch=('i686' 'x86_64')
 url='http://www.portaudio.com/'
@@ -28,8 +30,8 @@ md5sums=('ce66a732d263fde2b5ad2262ef37a691'
          '780dfa61783232fb83f8dc5300a8fb1e'
          '6ab3d74ec92f2c7ccdba970f48e5beb1')
 
-build() {
-  cd "${srcdir}/${pkgname}_v18_1/"
+prepare() {
+  cd ${pkgname}_v18_1
 
   find -E "${srcdir}/${pkgname}_v18_1/" -type f -iregex '.*' -print0 | \
                         xargs -0 dos2unix
@@ -44,6 +46,11 @@ build() {
 		pa_unix_oss/Makefile
 
   chmod +x configure
+}
+
+build() {
+  cd "${srcdir}/${pkgname}_v18_1/"
+
   ./configure --prefix=/usr
   gmake -j1
 }
@@ -54,4 +61,6 @@ package() {
   gmake -j1 PREFIX="${pkgdir}/usr" install
   install -dm755 "$pkgdir/usr/share/licenses/$pkgname/"
   install -m0644 LICENSE.txt "$pkgdir/usr/share/licenses/$pkgname/LICENSE.txt"
+
+  ln -sf libportaudio.so.0.0.18 "${pkgdir}/usr/lib/libportaudio.so.${_lib_version}"
 }
