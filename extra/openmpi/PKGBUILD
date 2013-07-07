@@ -2,12 +2,12 @@
 # Maintainer: Stéphane Gaudreault <stephane@archlinux.org>
 pkgname=openmpi
 pkgver=1.6.4
-pkgrel=2
+pkgrel=3
 pkgdesc="High performance message passing library (MPI)"
 arch=('i686' 'x86_64')
 url="http://www.open-mpi.org"
 license=('custom')
-depends=('gcc-fortran' 'valgrind' 'libltdl' 'hwloc')
+depends=('gcc-fortran' 'valgrind' 'libltdl>=2.4.2-11' 'hwloc')
 options=(!libtool)
 source=(http://www.open-mpi.org/software/ompi/v1.6/downloads/${pkgname}-${pkgver}.tar.bz2)
 sha1sums=('38095d3453519177272f488d5058a98f7ebdbf10')
@@ -16,7 +16,7 @@ build() {
    cd "${srcdir}/${pkgname}-${pkgver}"
 
    # Make sure we use the system ltdl librariry rather than the ones in the tarball
-   rm -r opal/libltdl
+   rm -rf opal/libltdl
 
    ./configure --prefix=/usr \
                --sysconfdir=/etc/${pkgname} \
