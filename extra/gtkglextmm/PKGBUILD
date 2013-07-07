@@ -14,15 +14,18 @@ makedepends=('mesa')
 options=('!libtool')
 license=('GPL')
 source=("http://downloads.sourceforge.net/sourceforge/gtkglext/${pkgname}-${pkgver}.tar.bz2"
-        'gdkspanfunc.patch')
-md5sums=('27c05f4d45c5fd07b6fb0f044add3056'
-         'd7c8ea33c748a6857ee629c16b2d9bff')
+        'gdkspanfunc.patch'
+        'fix_ftbfs_gtk_2_36.deb.patch')
+sha1sums=('45bcc7a4dac30cf0f9e5012a74b471d60782cd0b'
+          '1cbeb4b3c790a7f2b725c4f5c18f3a84d076c2b6'
+          '499f4e008cdfaa0ae37408fcdad0c0e80a7195c4')
 
 prepare() {
   cd "${pkgname}-${pkgver}"
 
   # FS#24706
   patch -Np1 -i "${srcdir}/gdkspanfunc.patch"
+  patch -Np1 -i "${srcdir}/fix_ftbfs_gtk_2_36.deb.patch"
 
   # automake 1.8 fix
   gsed -i "s|\(AC_DEFUN(\)\(AC_.*_MULTIHEAD\)|\1[\2]|" m4macros/gtkglextmm.m4
@@ -30,9 +33,11 @@ prepare() {
   sed -i '' -e "/^ltmain=/!s|\$$ac_aux_dir/ltmain.sh|/usr/share/libtool/config/ltmain.sh|g" \
       -e "/^LIBTOOL=/s|\$$\(top_builddir\)/libtool|/usr/bin/libtool|g" \
       ${srcdir}/${pkgname}-${pkgver}/aclocal.m4
-  find ${srcdir}/${pkgname}-${pkgver} -name "Makefile.in" | xargs sed -i '' -e 's|^LIBTOOL[ ]*=.*|LIBTOOL=/usr/bin/libtool|g'
+  find ${srcdir}/${pkgname}-${pkgver} -name "Makefile.in" \
+    | xargs sed -i '' -e 's|^LIBTOOL[ ]*=.*|LIBTOOL=/usr/bin/libtool|g'
 
-  find ${srcdir}/${pkgname}-${pkgver} -name "configure" -type f | xargs sed -i '' -e 's|-lpthread|-gthread -pthread|g'
+  find ${srcdir}/${pkgname}-${pkgver} -name "configure" -type f \
+    | xargs sed -i '' -e 's|-lpthread|-pthread|g'
 
   mkdir bin
   ln -s /usr/bin/gmake bin/make
