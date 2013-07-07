@@ -5,7 +5,7 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32' 'freebsd-init')
 pkgver=20130502
 _freebsdver=9.1
-pkgrel=4
+pkgrel=5
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -215,7 +215,9 @@ _package_freebsd-lib32() {
 
    cd "${srcdir}/${_gitname}"
    install -dm755 "${pkgdir}"/usr/lib32
+   install -dm755 "${pkgdir}"/libexec/
    install -dm755 "${pkgdir}"/usr/libexec/
+   install -dm755 "${pkgdir}"/usr/bin/
    make TARGET=$TARGET DESTDIR="$pkgdir" install32
 }
 
