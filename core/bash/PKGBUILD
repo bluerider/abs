@@ -23,7 +23,6 @@ source=(http://ftp.gnu.org/gnu/bash/bash-$_basever.tar.gz{,.sig}
         bash_interrupted_syscall_work-around.patch
 	bashref.texi
 	realine_display.c
-	bash.1
 	Makefile.in
 	xpatch-colonbreakswords
 	xpatch-implicitcd
