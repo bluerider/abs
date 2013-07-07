@@ -4,14 +4,14 @@
 
 pkgname=guile
 pkgver=1.8.8
-pkgrel=2
+pkgrel=3
 pkgdesc="a portable, embeddable Scheme implementation written in C"
 url="http://www.gnu.org/software/guile/"
 arch=(i686 x86_64)
 license=('GPL')
 depends=('gmp' 'libltdl' 'ncurses>=5.7' 'texinfo')
 install=guile.install
-source=(ftp://ftp.gnu.org/pub/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz
+_port_patches=(
 	patch-config.h.in
 	patch-configure.in
 	patch-libguile___scm.h
@@ -23,6 +23,8 @@ source=(ftp://ftp.gnu.org/pub/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz
 	patch-libguile_pthread-threads.h
 	patch-libguile_read.c
 	patch-libguile_threads.c)
+source=(ftp://ftp.gnu.org/pub/gnu/${pkgname}/${pkgname}-${pkgver}.tar.gz
+    "${_port_patches[@]}")
 options=('!libtool')
 md5sums=('18661a8fdfef13e2fcb7651720aa53f3'
          '64ed569740c7d1c2767e139a167da083'
@@ -37,27 +39,23 @@ md5sums=('18661a8fdfef13e2fcb7651720aa53f3'
          '530bfb73b5ca428311a55cec13272322'
          '6c9ca9d7b817e0876203d8f0edc3a741')
 
-build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
-   for i in patch-config.h.in \
-	patch-configure.in \
-	patch-libguile___scm.h \
-	patch-libguile_eval.c \
-	patch-libguile_gc.c \
-	patch-libguile_gc_os_dep.c \
-	patch-libguile_gen-scmconfig.c \
-	patch-libguile_numbers.c \
-	patch-libguile_pthread-threads.h \
-	patch-libguile_read.c \
-	patch-libguile_threads.c; do 
-  patch -p0 -i ${srcdir}/$i
-  done 
+prepare() {
+  cd "${pkgname}-${pkgver}"
+
+  for i in "${_port_patches[@]}"; do
+    msg "patch $i"
+    patch -p0 -i "${srcdir}/$i"
+  done
 
   for x in libguile/smob.c libguile/filesys.c libguile/gc.c \
 			libguile/mallocs.c libguile/eval.c libguile/gc-malloc.c \
 			libguile/ports.c libguile/gc-mark.c libguile/gc_os_dep.c; do
   sed -i '' -e 's|<malloc\.h>|<stdlib.h>|g' $x
   done
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
 
   ./configure --prefix=/usr \
 	--disable-static  \
