@@ -13,13 +13,13 @@ source=(http://ftp.gnome.org/pub/GNOME/sources/$pkgname/${pkgver%.*}/$pkgname-$p
 options=('!libtool')
 url="http://www.gtkmm.org/"
 sha256sums=('f15b65bf5740257be03c69f2f5ae71436ac3011ebeb02274b2b99b796c6837cf')
-build() {
+
+prepare() {
   cd "$pkgname-$pkgver"
 
   #Doesn't find gmake?
   mkdir ${srcdir}/bin
   ln -s /usr/bin/gmake ${srcdir}/bin/make
-  export PATH=${srcdir}/bin:$PATH
   
   sed -i '' -e "/^ltmain=/!s|\$$ac_aux_dir/ltmain.sh|/usr/share/libtool/config/ltmain.sh|g" \
   	  -e "/^LIBTOOL=/s|\$$\(top_builddir\)/libtool|/usr/bin/libtool|g" \
@@ -27,7 +27,12 @@ build() {
   find ${srcdir}/${pkgname}-${pkgver} -name "Makefile.in" | xargs sed -i '' -e 's|^LIBTOOL[ ]*=.*|LIBTOOL=/usr/bin/libtool|g'
 
   find ${srcdir}/${pkgname}-${pkgver} -name "configure" -type f | xargs sed -i '' -e 's|-lpthread|-pthread|g'
+}
 
+build() {
+  cd "$pkgname-$pkgver"
+
+  export PATH=${srcdir}/bin:$PATH
   ./configure --prefix=/usr
   gmake
 }
