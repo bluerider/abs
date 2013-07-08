@@ -1,6 +1,6 @@
 pkgname=jade
 pkgver=1.2.1
-pkgrel=8
+pkgrel=9
 _bsdpatch=35
 pkgdesc="James Clark's DSSSL Engine"
 url='http://www.jclark.com/jade/'
@@ -42,8 +42,9 @@ md5sums=('4239670ca6b578bff68b8c2e7cd1225f' '5e4397961036d32a314afb88d8212b31'
          'db34ae33961200008bde7616a26ab1a1' '093ed52d39a787d6249c04bc7dc89982'
          '28debff79807adf66aa9a709724bdb11')
 
-build() {
-  cd "${srcdir}"/${pkgname}-${pkgver}
+prepare() {
+  cd ${pkgname}-${pkgver}
+
   patch -p1 -i "${srcdir}"/jade_${pkgver}-${_bsdpatch}.diff
 
   for i in patch-CharsetRegistry.cxx \
@@ -72,13 +73,14 @@ build() {
   mkdir -p m4
   aclocal -I m4
   autoreconf --install
+}
+
+build() {
+  cd ${pkgname}-${pkgver}
+
   ./configure --prefix=/usr --enable-default-catalog=/usr/share/sgml/catalog
   make clean -j7
   make -j7
-
-  #chmod 755 configure
-  #./configure --prefix=/usr --enable-default-catalog=/usr/share/sgml/catalog
-  #gmake
 }
 
 package() {

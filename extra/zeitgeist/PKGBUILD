@@ -5,7 +5,7 @@
 
 pkgname=zeitgeist
 pkgver=0.9.12
-pkgrel=1
+pkgrel=2
 pkgdesc="Service logging user activities and events"
 arch=(i686 x86_64)
 url="http://zeitgeist-project.com/"
@@ -20,7 +20,8 @@ source=("https://launchpad.net/$pkgname/${pkgver%.*}/$pkgver/+download/$pkgname-
 	'patch-Makefile'
 	'patch-log.vala')
 sha256sums=('f9b1b656dcd4da57438289316d44f8960ce0ee4773ea2fbab4bce165330f41cd'
-            '7ab94a780e58b77dee7bfc051dab57c1a571410e80efc88d7fa439c3080160dd')
+            '5ea3c3467599bc46a00757a28c2a914c609939aded33db11651bc13a05eeab46'
+            'ab61f5b30ba2a6e6d482801e5a32e2b4e8f1437960332f05cd09242af5c6842b')
 
 prepare() {
   cd $pkgname-$pkgver
