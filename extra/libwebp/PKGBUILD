@@ -5,13 +5,15 @@
 
 pkgname=libwebp
 pkgver=0.3.1
-pkgrel=1
+pkgrel=2
 pkgdesc="WebP library and conversion tools"
 arch=(x86_64 i686)
 url="https://developers.google.com/speed/webp/"
 license=(BSD)
 depends=(libpng libjpeg libtiff giflib)
 options=('!libtool')
+optdepends=('freeglut: for vwebp')
+makedepends=('freeglut')
 source=("http://webp.googlecode.com/files/$pkgname-$pkgver.tar.gz")
 sha256sums=('b37932c625322a69fe4e9b88884b5c7aed2b3eaf9fd5e5b480aee339a92e6ee7')
 
