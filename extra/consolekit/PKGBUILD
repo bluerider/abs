@@ -1,14 +1,13 @@
 pkgname=consolekit
 pkgver=0.4.5
-pkgrel=2
+pkgrel=3
 pkgdesc="A framework for defining and tracking users, login sessions, and seats"
 arch=('i686' 'x86_64')
 url="http://www.freedesktop.org/wiki/Software/ConsoleKit"
 license=('GPL')
 depends=('polkit')
-makedepends=('pkgconf' 'libxslt' 'python2')
+makedepends=('pkgconf' 'libxslt' 'python2' 'dbus')
 options=('!libtool')
-install=consolekit.install
 source=(http://www.freedesktop.org/software/ConsoleKit/dist/ConsoleKit-$pkgver.tar.bz2
 	patch-src_ck-sysdeps-freebsd.c
 	patch-src_ck-sysdeps-unix.c
@@ -16,7 +15,9 @@ source=(http://www.freedesktop.org/software/ConsoleKit/dist/ConsoleKit-$pkgver.t
 	patch-src_test-vt-monitor.c
 	patch-tools_Makefile.in
 	patch-tools_ck-collect-session-info.c
-	patch-tools_ck-log-system-start.c)
+	patch-tools_ck-log-system-start.c
+	ck-get-x11-display-device
+	ck-get-x11-server-pid)
 md5sums=('f2657f93761206922d558471a936fbc3'
          '0e13c3e9e120ab492fdab198d3baed2f'
          '5c86b500c91c7f833ba85dcd5f1d92e3'
@@ -24,7 +25,9 @@ md5sums=('f2657f93761206922d558471a936fbc3'
          'f4f788c72ee1fd12efdf679d82986469'
          '146f0c1d9363ea4d5a2b13dcfb6d7d00'
          'fb1e4dee9947201aff51aa2a78bd61a5'
-         '9a7f0f98a5afa4474b74b21f2f600032')
+         '9a7f0f98a5afa4474b74b21f2f600032'
+         '34fa74354c5d4544ab47426c0096c294'
+         'ba784bfee90394e30e67a20f85b1a518')
 build() {
   cd "${srcdir}/ConsoleKit-$pkgver"
  
@@ -39,7 +42,8 @@ build() {
   done
 
   ./configure --with-pid-file=/var/run/${pkgname}.pid \
-	      --localstatedir=/var --prefix=/usr
+	      --localstatedir=/var --prefix=/usr \
+	      --sysconfdir=/etc --libexecdir=/usr/libexec
 
   gmake
 
@@ -48,4 +52,10 @@ build() {
 package() {
   cd "${srcdir}/ConsoleKit-$pkgver"
   gmake DESTDIR=$pkgdir install
+
+  install -m644 "${srcdir}/ck-get-x11-display-device" \
+	 "${pkgdir}/usr/libexec/"
+  install -m644 "${srcdir}/ck-get-x11-server-pid" \
+         "${pkgdir}/usr/libexec/"
+
 }
