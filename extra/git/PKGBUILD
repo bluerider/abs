@@ -2,7 +2,7 @@
 # Maintainer: Dan McGee <dan@archlinux.org>
 
 pkgname=git
-pkgver=1.8.1.1
+pkgver=1.8.3.2
 pkgrel=1
 pkgdesc="the fast distributed version control system"
 arch=(i686 x86_64)
@@ -21,21 +21,22 @@ optdepends=('tk: gitk and git gui'
             'cvsps: git cvsimport')
 replaces=('git-core')
 provides=('git-core')
-backup=('etc/conf.d/git-daemon.conf')
+backup=('etc/conf.d/git-daemon')
 install=git.install
+portpatches=('patch-Documentation__Makefile'
+	     'patch-Makefile'
+	     'patch-wrapper.c')
 source=("http://git-core.googlecode.com/files/git-$pkgver.tar.gz"
         "http://git-core.googlecode.com/files/git-manpages-$pkgver.tar.gz"
         init.d-git-daemon
         conf.d-git-daemon
-        patch-Documentation__Makefile
-        patch-Makefile
-        patch-wrapper.c)
+        ${portpatches[@]})
 
 build() {
   export PYTHON_PATH='/usr/bin/python2'
   cd "$srcdir/$pkgname-$pkgver"
 
-  for i in patch-Documentation__Makefile patch-Makefile patch-wrapper.c
+  for i in ${portpatches[@]}
   do
     patch -p0 -i "${srcdir}/$i"
   done
@@ -121,8 +122,8 @@ package() {
     done
   done
 
-  # remove perllocal.pod, .packlist, and empty directories.
-  rm -rf "$pkgdir"/usr/lib/perl5
+  # remove empty directories.
+  rm -f "$pkgdir"/usr/lib/perl5/auto
 
   # git daemon script
   install -dm755 "$pkgdir"/etc/init.d
@@ -130,12 +131,10 @@ package() {
   install -m755 "$srcdir"/init.d-git-daemon "$pkgdir"/etc/init.d/git-daemon
   install -m644 "$srcdir"/conf.d-git-daemon "$pkgdir"/etc/conf.d/git-daemon
 }
-
-md5sums=('2bf7fd005ecf2e0a311b849e6add7994'
-         '4ac4ea5a72ec96ac24b7d6fba9ad1277'
+md5sums=('83b792fd06066c77e1d4911ebba2d701'
+         'f850829e1e7f32e388d2ffb61759fcc9'
          'fc18331ec12a3529216f3b45f385b831'
          '66fb74fb87bfe83b7023e1d82bbf7f24'
          'acd7bd553afbba47a31f9f275f643c26'
-         '50a53f2c8621de5b2f942db6d095d69a'
-         'cc588f77d72ab658f06d24dcfc6cf4c4')
-
+         'bcc41c58405281df66d5f280e079de62'
+         '091927fa5339b1953fefd6d12e03eb6e')
