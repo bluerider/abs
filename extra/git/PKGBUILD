@@ -123,7 +123,7 @@ package() {
   done
 
   # remove empty directories.
-  rm -f "$pkgdir"/usr/lib/perl5/auto
+  rm -rf "$pkgdir"/usr/lib/perl5/auto
 
   # git daemon script
   install -dm755 "$pkgdir"/etc/init.d
