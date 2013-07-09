@@ -186,6 +186,10 @@ _package_freebsd-world() {
   #set var/cache to 755
   chmod -Rv 755 ${pkgdir}/var/cache
 
+  # fix lib32 dir breakage
+  rmdir "${pkgdir}/usr/lib32/"{dtrace,i18n}
+  rmdir "${pkgdir}/usr/lib32/"
+
   backup=('boot/device.hints'
         'boot/loader.conf')
 
