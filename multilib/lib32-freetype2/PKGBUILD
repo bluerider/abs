@@ -5,7 +5,7 @@
 _pkgbasename=freetype2
 pkgname=lib32-$_pkgbasename
 pkgver=2.5.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc="TrueType font rendering library (32-bit)"
 arch=(x86_64)
 license=('GPL')
@@ -33,13 +33,12 @@ prepare() {
 }
 
 build() {
-  export CC="gcc -m32"
-  export CXX="g++ -m32"
+  export CC="clang -m32"
+  export CXX="clang++ -m32"
   export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 
   cd "freetype-${pkgver}"
 
-  export CC=clang CXX=clang++ CPP=clang-cpp
   GNUMAKE=$(which gmake) \
   ./configure --prefix=/usr --libdir=/usr/lib32 --without-png
   gmake
