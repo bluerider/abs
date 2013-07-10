@@ -105,8 +105,8 @@ package_gcc-libs()
   find ${pkgdir} -name *.a -delete
   
   # Install Runtime Library Exception
-  install -dm644 ${pkgdir}/usr/share/licenses/gcc-libs/
-  install -m644 ${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc-libs/
+  install -dm755 ${pkgdir}/usr/share/licenses/gcc-libs/
+  install -m644 ${srcdir}/${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc-libs/
 }
 
 package_gcc()
@@ -171,8 +171,8 @@ EOF
   chmod 755 $pkgdir/usr/bin/c{8,9}9
 
  # Install Runtime Library Exception
-  install -dm644 ${pkgdir}/usr/share/licenses/gcc/
-  install -m644 ${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc/
+  install -dm755 ${pkgdir}/usr/share/licenses/gcc/
+  install -m644 ${srcdir}/${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc/
 
 }
 
@@ -194,8 +194,8 @@ package_gcc-fortran()
   rm ${pkgdir}/usr/lib/libgfortran.so*
 
   # Install Runtime Library Exception
-    install -dm644 ${pkgdir}/usr/share/licenses/gcc-fortran/
-    install -m644 ${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc-fortran/
+    install -dm755 ${pkgdir}/usr/share/licenses/gcc-fortran/
+    install -m644 ${srcdir}/${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc-fortran/
 
 }
 
@@ -213,6 +213,6 @@ package_gcc-objc()
   rm ${pkgdir}/usr/lib/libobjc.so*
 
   # Install Runtime Library Exception
-  install -dm644 ${pkgdir}/usr/share/licenses/gcc-obj/
-  install -m644 ${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc-obj/
+  install -dm755 ${pkgdir}/usr/share/licenses/gcc-obj/
+  install -m644 ${srcdir}/${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc-obj/
 }
