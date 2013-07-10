@@ -23,6 +23,10 @@ else
   _basedir="gcc-${pkgver}"
 fi
 
+prepare() {
+	mkdir gcc-build
+}
+
 build() {
   cd ${srcdir}/${_basedir}
 
@@ -46,8 +50,7 @@ build() {
       _CARCH=x86_64
   fi
 
-  cd ${srcdir}/
-  mkdir gcc-build && cd gcc-build
+  cd ${srcdir}/gcc-build
 
   ${_basedir}/configure --prefix=/usr \
       --libdir=/usr/lib --libexecdir=/usr/lib \
