@@ -44,7 +44,7 @@ build() {
       _CARCH=i386
   else
       _CARCH=x86_64
-  fi
+fi
 
   cd ${srcdir}/
   mkdir gcc-build && cd gcc-build
@@ -124,7 +124,7 @@ package_gcc()
       _CARCH=i386
   else
       _CARCH=x86_64
-  fi
+  fi
   rm $pkgdir/usr/bin/${_CARCH}-unknown-freebsd9.1-gfortran
   rm $pkgdir/usr/lib/*.so*
   rm $pkgdir/usr/lib/lib{gfortran,objc}.a
