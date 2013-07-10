@@ -7,7 +7,7 @@
 # Contributor: Wolfgang Bumiller <archbsd at bumiller dot com>
 
 pkgname=curl
-pkgver=7.30.0
+pkgver=7.31.0
 pkgrel=1
 pkgdesc="An URL retrieval utility and library"
 arch=('i686' 'x86_64')
@@ -18,9 +18,9 @@ source=("http://curl.haxx.se/download/$pkgname-$pkgver.tar.gz"{,.asc}
 	    patch-configure
 	    patch-lib__url.c
 	    patch-src-tool_operate.c)
-md5sums=('60bb6ff558415b73ba2f00163fd307c5'
+md5sums=('6f26843f7e3a2fb06e02f68a55efe8c7'
          'SKIP'
-         'e185d12a072313f0aa3fdc21f2d4bc31'
+         '42f600417222a60b59ad6a07f1d2469d'
          '0f525e858606e1f5dfabb4c1561bd1f8'
          '8d79d96667240fd52a0ebd793a0eb738')
 
