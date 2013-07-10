@@ -18,13 +18,17 @@ md5sums=('e6040024eb9e761c3bea348d1fa5abb0')
 
 
 if [ -n "${_snapshot}" ]; then
-  _basedir="${srcdir}/gcc-${_snapshot}"
+  _basedir="gcc-${_snapshot}"
 else
-  _basedir="${srcdir}/gcc-${pkgver}"
+  _basedir="gcc-${pkgver}"
 fi
 
+prepare() {
+	mkdir gcc-build
+}
+
 build() {
-  cd ${_basedir}
+  cd ${srcdir}/${_basedir}
 
   # Do not install libiberty
   gsed -i 's/install_to_$(INSTALL_DEST) //' libiberty/Makefile.in
@@ -44,10 +48,9 @@ build() {
       _CARCH=i386
   else
       _CARCH=x86_64
-fi
+  fi
 
-  cd ${srcdir}/
-  mkdir gcc-build && cd gcc-build
+  cd ${srcdir}/gcc-build
 
   ${_basedir}/configure --prefix=/usr \
       --libdir=/usr/lib --libexecdir=/usr/lib \
