@@ -5,10 +5,10 @@
 pkgname=lib32-devel
 _gccver=4.8.0
 pkgver=$_gccver
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 options=('!strip' 'emptydirs')
-depends=("gcc=${_gccver}" "gcc-libs=${_gccver}" 'freebsd-source')
+depends=("gcc=${_gccver}" "gcc-libs=${_gccver}" 'freebsd-source' 'freebsd-world>=9.1-7' 'freebsd-lib32>=9.1-7')
 makedepends=("gcc=${_gccver}")
 source=(ftp://gcc.gnu.org/pub/gcc/releases/gcc-${pkgver}/gcc-${pkgver}.tar.bz2
         specs.diff
@@ -67,22 +67,25 @@ build() {
 }
 
 package() {
-	# machine headers:
-	install -dm755 "${pkgdir}/usr/lib32/include/machine"
-	# The slash at the end is important!
-	cp -R include32/machine/ "${pkgdir}/usr/lib32/include/machine"
+	# install and cleanup
+	cd build
+	gmake DESTDIR="$srcdir/temp-install-dir" install
+	install -dm755 "${pkgdir}/usr"
+	mv "${srcdir}/temp-install-dir/usr/lib32" "${pkgdir}/usr"
+	install -dm755 "${pkgdir}/usr/include/c++/${_gccver}/${_CHOST_}"
+	mv "${srcdir}/temp-install-dir/usr/include/c++/${_gccver}/${_CHOST_}/32" \
+	   "${pkgdir}/usr/include/c++/${_gccver}/${_CHOST_}/32"
+	rm -r "$srcdir/temp-install-dir"
 
 
+	cd "$srcdir"
 	# specs file
 	install -dm755 "${pkgdir}/usr/lib/gcc/x86_64-unknown-freebsd9.1/${_gccver}"
 	install -m644 inst-specs "${pkgdir}/usr/lib/gcc/x86_64-unknown-freebsd9.1/${_gccver}/specs"
 
 
-	# install and cleanup
-	cd build
-	gmake DESTDIR="$srcdir/temp-install-dir" install
-	install -dm755 "${pkgdir}/usr/include/c++/${_gccver}/${_CHOST_}"
-	mv "${srcdir}/temp-install-dir/usr/include/c++/${_gccver}/${_CHOST_}/32" \
-	   "${pkgdir}/usr/include/c++/${_gccver}/${_CHOST_}/32"
-	rm -r "$srcdir/temp-install-dir"
+	# machine headers:
+	install -dm755 "${pkgdir}/usr/lib32/include/machine"
+	# The slash at the end is important!
+	cp -R include32/machine/ "${pkgdir}/usr/lib32/include/machine"
 }

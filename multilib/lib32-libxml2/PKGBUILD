@@ -1,17 +1,20 @@
-# $Id$
+# $Id: PKGBUILD 90462 2013-05-12 20:22:01Z bluewind $
 # Maintainer: Jan de Groot <jgc@archlinux.org>
 # Contributor: John Proctor <jproctor@prium.net>
 
-pkgname=libxml2
+_pkgbasename=libxml2
+pkgname=lib32-$_pkgbasename
 pkgver=2.8.0
-pkgrel=2
-pkgdesc="XML parsing library, version 2"
-arch=(i686 x86_64)
+pkgrel=1
+pkgdesc="XML parsing library, version 2 (32-bit)"
+arch=(x86_64)
 license=('custom')
-depends=('pkgconf')
-makedepends=('python2')
+depends=('lib32-readline>=6.1' 'lib32-ncurses>=5.7' $_pkgbasename)
+depends=($_pkgbasename)
+makedepends=(lib32-devel)
+options=('!libtool')
 url="http://www.xmlsoft.org/"
-source=(ftp://ftp.xmlsoft.org/${pkgname}/${pkgname}-${pkgver}.tar.gz
+source=(ftp://ftp.xmlsoft.org/${_pkgbasename}/${_pkgbasename}-${pkgver}.tar.gz
         http://www.w3.org/XML/Test/xmlts20080205.tar.gz
         patch-aa
         patch-config.h.in
@@ -41,20 +44,25 @@ prepare() {
 }
 
 build() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  export CC="gcc -m32"
+  export CXX="g++ -m32"
+  export CPP=cpp
+  export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+  export CFLAGS="${CFLAGS//-fstack-protector/}"
+  export CPPFLAGS="${CPPFLAGS//-fstack-protector/}"
+  export CXXFLAGS="${CXXFLAGS//-fstack-protector/}"
 
-  ./configure  --prefix=/usr \
-                --with-html-dir=/usr/share/doc \
-                --with-python=/usr/bin/python2
-
+  cd "${_pkgbasename}-${pkgver}"
+  #autoreconf -fi
+  ./configure --prefix=/usr --with-threads --with-history --libdir=/usr/lib32 --without-lzma
   gmake
 }
 
 package() {
-  cd "${srcdir}/${pkgname}-${pkgver}"
+  cd "${srcdir}/${_pkgbasename}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install
 
-  mv "${pkgdir}/usr/etc" "${pkgdir}"
-  install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
-  install -m644  COPYING "${pkgdir}/usr/share/licenses/${pkgname}/"
+  rm -rf "${pkgdir}"/usr/{include,share,bin} "$pkgdir/usr/lib32/xml2Conf.sh"
+  mkdir -p "$pkgdir/usr/share/licenses"
+  ln -s $_pkgbasename "$pkgdir/usr/share/licenses/$pkgname"
 }
