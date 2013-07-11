@@ -56,7 +56,7 @@ source=(http://www.apache.org/dist/httpd/httpd-${pkgver}.tar.bz2
 	http.conf
 	freebsd-init-apache)
 md5sums=('91bd1484aca13a7095d6432be37fc7ae'
-         'f8f0d879b5fda028aad7ac9f329e057b'
+         'SKIP'
          'f1d9d41360908ceb2374da55ae99197a'
          'cdfa04985a0efa850976aef01c2a0c40'
          '0930d2d0612eb0a53a0d00aea7e8687f'
@@ -89,7 +89,8 @@ md5sums=('91bd1484aca13a7095d6432be37fc7ae'
          'b0a91baac8f4c2a2e58552bff3ddeb6b'
          'df580557de691daee3ab883fd8316b89'
          '2218a71b7a10000c814a97c4fd5f72d6'
-         '3649efa202140c119615da252e6dfb90')
+         '3649efa202140c119615da252e6dfb90'
+         '375ea399beb2e567c4d9c63157c90c60')
 
 build() {
 	cd "${srcdir}/httpd-${pkgver}"
@@ -166,13 +167,17 @@ build() {
 			--with-pcre=/usr \
 			--with-mpm=${mpm}
 		make
-		if [ "${mpm}" = "prefork" ]; then
-			make DESTDIR="${pkgdir}" install
-		else
-			install -m755 httpd "${pkgdir}/usr/sbin/httpd.${mpm}"
-		fi
-		popd
+
+	if [ "${mpm}" = "prefork" ]; then
+		make DESTDIR="${pkgdir}" install
+	else
+		install -m755 httpd "${pkgdir}/usr/sbin/httpd.${mpm}"
+	fi
+	popd
 	done
+}
+
+package() {
 	install -dm755 "${pkgdir}/srv/http/"
 	install -dm755 "${pkgdir}/etc/rc.d"
         install -dm755 "${pkgdir}/etc/init.d/"
