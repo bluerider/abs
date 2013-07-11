@@ -5,7 +5,7 @@
 
 pkgname=apache
 pkgver=2.2.24
-pkgrel=1
+pkgrel=2
 pkgdesc='A high performance Unix-based HTTP server'
 arch=('i686' 'x86_64')
 options=('!libtool')
@@ -53,7 +53,8 @@ source=(http://www.apache.org/dist/httpd/httpd-${pkgver}.tar.bz2
 	patch-support__envvars-std.in
 	patch-support__log_server_status.in
 	httpd
-	http.conf)
+	http.conf
+	freebsd-init-apache)
 md5sums=('91bd1484aca13a7095d6432be37fc7ae'
          'f8f0d879b5fda028aad7ac9f329e057b'
          'f1d9d41360908ceb2374da55ae99197a'
@@ -173,8 +174,12 @@ build() {
 		popd
 	done
 	install -dm755 "${pkgdir}/srv/http/"
+	install -dm755 "${pkgdir}/etc/rc.d"
         install -dm755 "${pkgdir}/etc/init.d/"
 	install -m755 "${srcdir}/httpd" "${pkgdir}/etc/init.d/httpd"
+        install -m644 "${srcdir}/freebsd-init-apache" "${pkgdir}/etc/rc.d/apache"
+	chmod +x "${pkgdir}/etc/rc.d/apache"
+	chmod +x "${pkgdir}/etc/init.d/httpd"
 	install -dm755 "${pkgdir}/etc/logrotate.d/"
 	install -m644 "${srcdir}/httpd.logrotate" "${pkgdir}/etc/logrotate.d/httpd"
 	install -dm755 "${pkgdir}/etc/conf.d/"
