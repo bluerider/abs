@@ -62,7 +62,8 @@ build() {
       --with-libiconv-prefix=/usr \
       --with-pkgversion="ArchBSD Package Collection" \
       --with-system-zlib --disable-libgcj \
-      --enable-cloog-backend=isl --disable-cloog-version-check
+      --enable-cloog-backend=isl --disable-cloog-version-check \
+      --enable-multilib
 
   gmake
 }
