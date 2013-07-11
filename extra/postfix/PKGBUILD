@@ -77,4 +77,9 @@ package() {
 	cd "${pkgdir}"
 	patch -p0 -i "${srcdir}"/aliases.patch
 	gsed 's/^\(\$manpage[^:]*\):/\1.gz:/' -i "usr/lib/${pkgname}/postfix-files"
+
+	#Files provided by world
+	rm -f "$pkgdir"/usr/bin/{mailq,newaliases}
+	rm -f "$pkgdir"/usr/share/man/man1/{mailq,newaliases}.1
+	rm -f "$pkgdir"/usr/share/man/man5/aliases.5
 }

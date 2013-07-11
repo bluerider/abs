@@ -4,15 +4,15 @@ post_upgrade() {
 }
 
 post_install() {
-	getent group postdrop &>/dev/null || groupadd -g 75 postdrop >/dev/null
-	getent group postfix  &>/dev/null || groupadd -g 73 postfix  >/dev/null
-	getent passwd postfix &>/dev/null || useradd -u 73 -d /var/spool/postfix -g postfix -s /bin/false postfix >/dev/null
+	getent group postdrop &>/dev/null || pw group add postdrop >/dev/null
+	getent group postfix  &>/dev/null || pw group add postfix  >/dev/null
+	getent passwd postfix &>/dev/null || pw user add postfix -d /var/spool/postfix -g postfix -s /bin/false >/dev/null
 	post_upgrade
 }
 
 pre_remove() {
-	getent passwd postfix &>/dev/null && userdel  postfix  >/dev/null
-	getent group postfix  &>/dev/null && groupdel postfix  >/dev/null
-	getent group postdrop &>/dev/null && groupdel postdrop >/dev/null
+	getent passwd postfix &>/dev/null && pw user del  postfix  >/dev/null
+	getent group postfix  &>/dev/null && pw group del postfix  >/dev/null
+	getent group postdrop &>/dev/null && pw group del postdrop >/dev/null
 	true
 }
