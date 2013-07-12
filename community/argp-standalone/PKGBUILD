@@ -38,4 +38,7 @@ build() {
 package() {
 	cd "${pkgname}-${pkgver}"
 	make DESTDIR="$pkgdir" install
+
+	install -dm755 "$pkgdir/usr/include"
+	install -m644 argp.h "$pkgdir/usr/include"
 }
