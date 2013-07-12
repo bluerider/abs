@@ -10,11 +10,14 @@ _pkgbasename=libtool
 pkgname=('lib32-libltdl')
 pkgver=2.4.2
 pkgrel=11
-pkgdesc="A generic library support script (32-bit)"
+pkgdesc="A system independent dlopen wrapper for GNU libtool (32-bit)"
 arch=('x86_64')
 url="http://www.gnu.org/software/libtool"
 license=('GPL')
-depends=('freebsd-lib32')
+depends=(freebsd-lib32 libltdl)
+replaces=(lib32-libtool)
+provides=("lib32-libtool=$pkgver-$pkgrel")
+conflicts=(lib32-libtool)
 makedepends=('lib32-devel')
 source=(ftp://ftp.gnu.org/pub/gnu/libtool/${_pkgbasename}-${pkgver}.tar.xz{,.sig}
         patch-libltdl-Makefile.in
@@ -63,12 +66,6 @@ build() {
 }
 
 package_lib32-libltdl() {
-  pkgdesc="A system independent dlopen wrapper for GNU libtool"
-  depends=(freebsd-lib32 libltdl)
-  replaces=(lib32-libtool)
-  provides=("lib32-libtool=$pkgver-$pkgrel")
-  conflicts=(lib32-libtool)
-
   cd ${srcdir}/${_pkgbasename}-${pkgver}
   make DESTDIR=${pkgdir} install-libLTLIBRARIES install-includeHEADERS \
                          install-ltdlincludeHEADERS install-data-local
