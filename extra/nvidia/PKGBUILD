@@ -3,7 +3,7 @@
 pkgbase=nvidia
 pkgname=('nvidia' 'nvidia-utils')
 pkgver=319.17
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 license=('NVIDIA')
 makedepends=('freebsd-source')
@@ -36,10 +36,6 @@ package_nvidia() {
   install -dm755 "${pkgdir}/usr/lib/xorg/modules/drivers"
   install -m755 "obj/nvidia_drv.so" "${pkgdir}/usr/lib/xorg/modules/drivers/nvidia_drv.so"
 
-# X11 GLX module
-  install -dm755 "${pkgdir}/usr/lib/xorg/modules/extensions"
-  install -m755 "obj/libglx.so.1" "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so.1"
-  ln -s 'libglx.so.1' "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so"
 }
 
 package_nvidia-utils() {
@@ -73,6 +69,11 @@ package_nvidia-utils() {
   install -dm755 "${pkgdir}/usr/bin"
   install -m755 "obj/nvidia-bug-report.sh" "${pkgdir}/usr/bin/"
   install -m755 "obj/nvidia-xconfig"       "${pkgdir}/usr/bin/"
+
+# X11 GLX module
+  install -dm755 "${pkgdir}/usr/lib/xorg/modules/extensions"
+  install -m755 "obj/libglx.so.1" "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so.1"
+  ln -s 'libglx.so.1' "${pkgdir}/usr/lib/xorg/modules/extensions/libglx.so"
 
 # work around nvidia relying on ports-hacks
   install -dm755 "${pkgdir}/usr/lib/nvidia/tools"
