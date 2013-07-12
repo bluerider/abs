@@ -15,7 +15,10 @@ _port_patches=(
         )
 source=("http://www.lysator.liu.se/~nisse/misc/${pkgname}-${pkgver}.tar.gz"
         "${_port_patches[@]}")
-md5sums=('720704bac078d067111b32444e24ba69')
+md5sums=('720704bac078d067111b32444e24ba69'
+         'c487d7123fad0d951c5d6e3460aa41fa'
+         '4c87275bf64afd6890f2a1fd0ea24006'
+         '2d70bd5b8532725a93f14a6e9ffc1ab8')
 
 prepare() {
 	cd "${pkgname}-${pkgver}"
