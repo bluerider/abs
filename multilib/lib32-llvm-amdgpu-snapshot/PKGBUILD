@@ -7,7 +7,7 @@
 pkgbase=lib32-llvm-amdgpu-snapshot
 pkgname=('lib32-llvm-amdgpu-snapshot' 'lib32-llvm-amdgpu-lib-snapshot')
 pkgver=20130403
-pkgrel=2
+pkgrel=3
 pkgdesc='Low Level Virtual Machine with AMDGPU enabled to build r600g shader llvm support (32-bits)'
 arch=('x86_64')
 url="http://llvm.org"
@@ -100,6 +100,8 @@ package_lib32-llvm-amdgpu-snapshot() {
   mv "$pkgdir/config.h" "$pkgdir/usr/include/llvm/Config/config-32.h"
   mv "$pkgdir/llvm-config.h" "$pkgdir/usr/include/llvm/Config/llvm-config-32.h"
 
+  rm -r "$pkgdir/usr/lib/ocaml"
+
   install -d "$pkgdir"/usr/bin
   mv "$pkgdir/usr/lib32/llvm-config" "$pkgdir/usr/bin/llvm-config32"
 }
@@ -117,6 +119,8 @@ package_lib32-llvm-amdgpu-lib-snapshot() {
   rm -r "$pkgdir"/usr/{bin,include,docs,lib32/*}
 
   mv "$pkgdir"/libLLVM-3.2svn.so "$pkgdir"/usr/lib32/
+
+  rm -r "$pkgdir/usr/lib/ocaml"
 
   install -dm755 "$pkgdir/usr/share/licenses/$pkgname"
   install -m644 LICENSE.TXT "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
