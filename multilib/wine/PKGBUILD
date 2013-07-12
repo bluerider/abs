@@ -6,7 +6,7 @@
 
 pkgname=wine
 pkgver=1.6rc4
-pkgrel=3
+pkgrel=4
 
 _pkgbasever=${pkgver/rc/-rc}
 
@@ -27,7 +27,13 @@ install=wine.install
 M32_CPPFLAGS='-nostdlibinc -I/usr/include/c++/4.7.2/x86_64-unknown-freebsd9.1 -I/usr/include/c++/4.7.2 -I/usr/include'
 M32_CPPLIBS='-lstdc++'
 
-WITH_WIN64=yes
+WITH_WIN64=no
+
+missing_deps=(
+  samba
+  opencl-headers
+  libcl lib32-libcl
+  )
 
 _depends=(
   fontconfig      lib32-fontconfig
@@ -61,11 +67,11 @@ makedepends=(autoconf ncurses bison perl fontforge flex prelink lib32-devel
   libxcomposite   lib32-libxcomposite
   mesa            lib32-mesa
   mesa-libgl      lib32-mesa-libgl
-  libcl           lib32-libcl
-  samba
-  opencl-headers
 )
+# libcl           lib32-libcl
 # v4l-utils       lib32-v4l-utils
+# samba
+# opencl-headers
 
 optdepends=(
   giflib          lib32-giflib
@@ -83,11 +89,11 @@ optdepends=(
   libxcomposite   lib32-libxcomposite
   libxinerama     lib32-libxinerama
   ncurses         lib32-ncurses
-  libcl           lib32-libcl
   cups
-  samba
 )
+#libcl           lib32-libcl
 #v4l-utils       lib32-v4l-utils
+#samba
 
 if [[ $CARCH == i686 ]]; then
   # Strip lib32 etc. on i686
@@ -137,6 +143,18 @@ build() {
   # These additional CPPFLAGS solve FS#27662 and FS#34195
   export CPPFLAGS="${CPPFLAGS/-D_FORTIFY_SOURCE=2/} -D_FORTIFY_SOURCE=0"
 
+  _PORTOPTS=(
+    --with-oss
+    --without-opencl
+    --without-sane
+    --without-v4l
+    --without-alsa
+    --without-dbus
+    --without-gsm
+    --without-gphoto
+    --without-capi
+  )
+
   if [[ $WITH_WIN64 == yes && $CARCH == x86_64 ]]; then
     msg2 "Building Wine-64..."
 
@@ -147,7 +165,7 @@ build() {
       --libdir=/usr/lib \
       --with-x \
       --without-gstreamer \
-      --enable-win64
+      --enable-win64 "${_PORTOPTS[@]}"
     # Gstreamer was disabled for FS#33655
 
     gmake
@@ -166,7 +184,8 @@ build() {
     --prefix=/usr \
     --with-x \
     --without-gstreamer \
-    "${_wine32opts[@]}"
+    "${_wine32opts[@]}" \
+    "${_PORTOPTS[@]}"
 
   # These additional flags solve FS#23277
   # not all the places seem to use LDPATH from prepare() properly
