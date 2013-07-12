@@ -6,7 +6,7 @@
 
 pkgname=wine
 pkgver=1.6rc4
-pkgrel=2
+pkgrel=3
 
 _pkgbasever=${pkgver/rc/-rc}
 
@@ -15,7 +15,8 @@ source=(http://prdownloads.sourceforge.net/$pkgname/$pkgname-$_pkgbasever.tar.bz
         patch-partial-reservation)
 md5sums=('9a5db73b08292742be108f12b7af54d2'
          'SKIP'
-         '1ff4e467f59409272088d92173a0f801')
+         '1ff4e467f59409272088d92173a0f801'
+         '18e673066065d41a8c4b3da7f255c549')
 
 pkgdesc="A compatibility layer for running Windows programs"
 url="http://www.winehq.com"
@@ -26,7 +27,7 @@ install=wine.install
 M32_CPPFLAGS='-nostdlibinc -I/usr/include/c++/4.7.2/x86_64-unknown-freebsd9.1 -I/usr/include/c++/4.7.2 -I/usr/include'
 M32_CPPLIBS='-lstdc++'
 
-WITH_WIN64=no
+WITH_WIN64=yes
 
 _depends=(
   fontconfig      lib32-fontconfig
