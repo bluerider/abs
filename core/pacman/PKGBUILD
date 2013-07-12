@@ -37,7 +37,6 @@ prepare() {
 }
 
 _flags() {
-  export LDFLAGS="-L/usr/local/lib,-rpath=/usr/local/lib"
   export CPPFLAGS="$CPPFLAGS -I/usr/include/gpgme"
 }
 
