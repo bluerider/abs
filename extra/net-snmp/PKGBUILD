@@ -79,6 +79,7 @@ package() {
   cd ${pkgname}-${pkgver}
   gsed -i -e "s:install --basedir=\$\$dir:install --basedir=\$\$dir --root=${pkgdir}:" Makefile
   make -j1 DESTDIR="${pkgdir}" INSTALL_PREFIX="${pkgdir}" INSTALLDIRS=vendor install
+  rm -f "${pkgdir}"/usr/share/snmp/mibs/BRIDGE-MIB.txt
   
   install -dm755 "${pkgdir}"/etc/{rc.d,init.d,conf.d}
   
