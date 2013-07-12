@@ -8,7 +8,6 @@ arch=('i686' 'x86_64')
 url='http://www.lysator.liu.se/~nisse/misc/'
 license=('GPL')
 depends=('libc')
-backup=('etc/prelink.conf')
 _port_patches=(
         patch-Makefile.am
         patch-configure.ac
