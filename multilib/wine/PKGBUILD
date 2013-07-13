@@ -6,7 +6,7 @@
 
 pkgname=wine
 pkgver=1.6rc4
-pkgrel=4
+pkgrel=5
 
 _pkgbasever=${pkgver/rc/-rc}
 
@@ -126,6 +126,7 @@ _setvars() {
   export CFLAGS="${CFLAGS//-fstack-protector/}"
   export CPPFLAGS="${CPPFLAGS//-fstack-protector/}"
   export CXXFLAGS="${CXXFLAGS//-fstack-protector/}"
+  export FLEX=/usr/local/bin/flex
 }
 
 build() {
