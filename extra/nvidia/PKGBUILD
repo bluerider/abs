@@ -20,6 +20,8 @@ build() {
   export CPP=clang-cpp
   export CXX=clang++	
   unset CFLAGS LDFLAGS CPPFLAGS CXXFLAGS
+  export CFLAGS="-O"
+
   make
 }
 
