@@ -26,7 +26,7 @@ md5sums=('895c1c581f8d28e8b3bb02472b2ccf6a'
          'e892382ae3f528c2f8d54fe93f01969f'
          '535a7af52654c0aef320ea9dfdbac0b5'
          'bb5b7a32a3dd8753e88bdba11e4beb58'
-         'ec1f567f8e289d5465e1624e8db3bd8d')
+         '384fe0bf7f7d4654c74ff59f2b5ea4cf')
 
 build() {
   cd ruby-${pkgver//_/-}
