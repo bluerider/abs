@@ -5,16 +5,18 @@
 pkgname=lib32-devel
 _gccver=4.8.0
 pkgver=$_gccver
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 options=('!strip' 'emptydirs')
-depends=("gcc=${_gccver}" "gcc-libs=${_gccver}" 'freebsd-source' 'freebsd-world>=9.1-7' 'freebsd-lib32>=9.1-7')
+depends=("gcc=${_gccver}" "gcc-libs=${_gccver}" 'freebsd-world>=9.1-7' 'freebsd-lib32>=9.1-7')
 makedepends=("gcc=${_gccver}")
 source=(ftp://gcc.gnu.org/pub/gcc/releases/gcc-${pkgver}/gcc-${pkgver}.tar.bz2
         specs.diff
         )
 md5sums=('e6040024eb9e761c3bea348d1fa5abb0'
-         'a8edaf776d3defdd07bff1db0fddaa17')
+         '0858e56506fa6470942fc20b2ebfc2ee')
+
+provides=("lib32-gcc-libs=${_gccver}" "gcc-multilib=${_gccver}")
 
 _CHOST_=x86_64-unknown-freebsd9.1
 
@@ -32,14 +34,8 @@ build() {
 	gcc -dumpspecs > specs
 	patch -p1 -i specs.diff
 
-	# create our temporary specs:
-	sed -e 's,@@INCLUDE32@@,'"$srcdir"'/include32,g' specs > build-specs
-	# create to-be-installed specs:
-	sed -e 's,@@INCLUDE32@@,/usr/lib32/include,g' specs > inst-specs
-
-
-	export CC="gcc -specs=$srcdir/build-specs"
-	export CXX="g++ -specs=$srcdir/build-specs"
+	export CC="gcc -specs=$srcdir/specs"
+	export CXX="g++ -specs=$srcdir/specs"
 	export CPP=cpp
 
 	cd build
@@ -81,11 +77,11 @@ package() {
 	cd "$srcdir"
 	# specs file
 	install -dm755 "${pkgdir}/usr/lib/gcc/x86_64-unknown-freebsd9.1/${_gccver}"
-	install -m644 inst-specs "${pkgdir}/usr/lib/gcc/x86_64-unknown-freebsd9.1/${_gccver}/specs"
+	install -m644 specs "${pkgdir}/usr/lib/gcc/x86_64-unknown-freebsd9.1/${_gccver}/specs"
 
 
-	# machine headers:
-	install -dm755 "${pkgdir}/usr/lib32/include/machine"
-	# The slash at the end is important!
-	cp -R include32/machine/ "${pkgdir}/usr/lib32/include/machine"
+	## machine headers:
+	#install -dm755 "${pkgdir}/usr/lib32/include/machine"
+	## The slash at the end is important!
+	#cp -R include32/machine/ "${pkgdir}/usr/lib32/include/machine"
 }
