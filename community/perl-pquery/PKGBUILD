@@ -9,7 +9,7 @@ pkgdesc="A port of jQuery.js to Perl"
 arch=('any')
 license=('PerlArtistic' 'GPL')
 options=('!emptydirs')
-depends=('perl>=5.8.3' 'perl-html-tree')
+depends=('perl>=5.8.3' 'perl-libwww' 'perl-html-tree')
 makedepends=()
 url='http://search.cpan.org/dist/pQuery'
 source=('http://search.cpan.org/CPAN/authors/id/I/IN/INGY/pQuery-0.09.tar.gz')
