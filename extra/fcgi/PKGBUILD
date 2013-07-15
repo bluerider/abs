@@ -9,6 +9,7 @@ pkgrel=8
 pkgdesc="FASTCgi(fcgi) islanguage independent, high performant extension to CGI"
 arch=('i686' 'x86_64')
 license=('custom')
+depends=('gcc-libs')
 options=('!libtool' '!makeflags')
 url="http://www.fastcgi.com"
 source=("http://www.fastcgi.com/dist/${pkgname}-${pkgver}.tar.gz"
