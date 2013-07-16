@@ -4,7 +4,7 @@
 
 pkgname=mplayer2
 pkgver=20130309
-pkgrel=2
+pkgrel=3
 pkgdesc='Advanced general-purpose media player. A fork of the original MPlayer project'
 arch=('i686' 'x86_64')
 license=('GPL')
@@ -32,6 +32,13 @@ source=(ftp://ftp.archlinux.org/other/community/$pkgname/$pkgname-$pkgver.tar.xz
         patch-stream-tvi_bsdbt848.c
         patch-stream-tvi_v4l2.c
         )
+md5sums=('e11d91e73c661f8958883e783bb72091'
+         'SKIP'
+         '11a653e6f5209ec6063d3c123ad1fcc0'
+         '3d72ca563f8344d7bc03b3b591c433b6'
+         'd53fc4a6d7973d1be9aaf08395620567'
+         '614c9bd94527a5d5c01db3a766895d36'
+         '98bb7da24651de91dbeab80e58659fcb')
 
 prepare() {
   cd $pkgname-$pkgver

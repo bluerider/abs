@@ -3,7 +3,7 @@
 
 pkgname=bdf-unifont
 pkgver=5.1.20080820
-pkgrel=2
+pkgrel=3
 pkgdesc="GNU Unifont Glyphs"
 arch=('any')
 license=('custom' 'GPL2')
