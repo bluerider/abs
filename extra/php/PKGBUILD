@@ -21,7 +21,7 @@ pkgname=('php'
          'php-tidy'
          'php-xsl')
 pkgver=5.4.16
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 license=('PHP')
 url='http://www.php.net'
@@ -202,7 +202,7 @@ build() {
 
 package_php() {
 	pkgdesc='An HTML-embedded scripting language'
-	depends=('pcre' 'libxml2' 'curl' 'readline')
+	depends=('pcre' 'libxml2' 'curl')
 	replaces=('php-fileinfo' 'php-gmp' 'php-curl')
 	provides=('php-fileinfo' 'php-gmp' 'php-curl')
 	conflicts=('php-fileinfo' 'php-gmp' 'php-curl')
