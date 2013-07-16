@@ -1,5 +1,5 @@
 pkgname=linux-base
-pkgver=1.0
+pkgver=1.1
 pkgrel=1
 pkgdesc='Arch linux base for binary compaitability.'
 url='http://www.archlinux.org/'
@@ -7,59 +7,83 @@ license=('GPL')
 arch=('any')
 install=linuxbase.install
 options=(!strip)
-source=(http://arm.konnichi.com/2009/12/01/core/os/i686/bash-4.0.035-1-i686.pkg.tar.gz 
-	http://arm.konnichi.com/2009/12/01/core/os/i686/bzip2-1.0.5-5-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/coreutils-7.6-1-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/db-4.8.24-1-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/e2fsprogs-1.41.9-1-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/filesystem-2009.07-1-i686.pkg.tar.gz	
-	http://arm.konnichi.com/2009/12/01/core/os/i686/gdbm-1.8.3-6-i686.pkg.tar.gz
-	http://arm.konnichi.com/2011/09/05/core/os/i686/gcc-libs-4.6.1-4-i686.pkg.tar.xz
-	http://arm.konnichi.com/2011/09/05/core/os/i686/glibc-2.14-5-i686.pkg.tar.xz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/glib2-2.22.2-1-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/grep-2.5.4-3-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/texinfo-4.13a-3-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/acl-2.2.48-1-i686.pkg.tar.gz		
-	http://arm.konnichi.com/2009/12/01/core/os/i686/attr-2.4.44-1-i686.pkg.tar.gz
-        http://arm.konnichi.com/2009/12/01/core/os/i686/libcap-2.17-1-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/ncurses-5.7-2-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/pcre-8.00-1-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/popt-1.15-1-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/readline-6.0.004-1-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/zlib-1.2.3.3-3-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/pacman-3.3.3-1-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/pacman-mirrorlist-20090616-1-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/libarchive-2.7.1-1-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/libfetch-2.26-1-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/core/os/i686/libgcrypt-1.4.4-2-i686.pkg.tar.gz
+_pkglist=(
+	bash                 4.2.010-1-i686   2011/09/05 xz
+	bzip2                1.0.6-1-i686     2011/09/05 xz
+	coreutils            8.12-3-i686      2011/09/05 xz
+	db                   5.2.28-1-i686    2011/09/05 xz
+	e2fsprogs            1.41.14-1-i686   2011/09/05 xz
+	filesystem           2011.08-1-any    2011/09/05 xz
+	gdbm                 1.8.3-8-i686     2011/09/05 xz
+	gcc-libs             4.6.1-4-i686     2011/09/05 xz
+	glibc                2.14-5-i686      2011/09/05 xz
+	glib2                2.28.8-1-i686    2011/09/05 xz
+	grep                 2.9-1-i686       2011/09/05 xz
+	texinfo              4.13a-5-i686     2011/09/05 xz
+	acl                  2.2.51-1-i686    2011/09/05 xz
+	attr                 2.4.46-1-i686    2011/09/05 xz
+	libcap               2.22-1-i686      2011/09/05 xz
+	ncurses              5.9-1-i686       2011/09/05 xz
+	pcre                 8.13-2-i686      2011/09/05 xz
+	popt                 1.16-3-i686      2011/09/05 xz
+	readline             6.2.001-2-i686   2011/09/05 xz
+	zlib                 1.2.5-4-i686     2011/09/05 xz
+	pacman               3.5.4-4-i686     2011/09/05 gz
+	pacman-mirrorlist    20110816-1-any   2011/09/05 gz
+	libarchive           2.8.4-2-i686     2011/09/05 gz
+	libfetch             2.33-3-i686      2011/09/05 gz
+	libgcrypt            1.5.0-1-i686     2011/09/05 xz
+	openssl              1.0.0.d-1-i686   2011/09/05 gz
+	util-linux           2.19.1-3-i686    2011/09/05 xz
+	xz                   5.0.3-1-i686     2011/09/05 gz
+	expat                2.0.1-6-i686     2011/09/05 xz
+	libgpg-error         1.10-1-i686      2011/09/05 xz
+	gmp                  5.0.2-3-i686     2011/09/05 xz
+	)
+source=()
+i=0
+cnt=${#_pkglist[@]}
+while [ $i -lt $cnt ]; do
+	source=("${source[@]}"
+		http://arm.konnichi.com/${_pkglist[$[i+2]]}/core/os/i686/${_pkglist[$i]}-${_pkglist[$[i+1]]}.pkg.tar.${_pkglist[$[i+3]]}
+	)
+	i=$[i+4]
+done
+source=("${source[@]}"
 	yp.conf)
 provides=('linux')
 
-md5sums=('c7ebfae88411d303bf3fab08667f0db0'
-         'add4a37ffac56244b2eb1da32e301d3c'
-         '00c3f11549f6e94e8ade9e03c5bcd7fb'
-         'a32040a2d4fec94764cc962a9c327792'
-         'a13c4d9f4cbce7212c78484cf4ace4e1'
-         '627762020d6043561eb066e4edbb111c'
-         'a638e353570548eeec7da44a8da35078'
-         '1c2b738dd40e86b224e0c0e1f0e7a1cd'
-         '5860524514925bbe56ff124995c076f0'
-         '0c28914fe078b2e52466f4a35acc0084'
-         '332ef9d56d82a4686588a1184e915fe8'
-         'f9b8b320f2f6f57339e706c65b8cf5a8'
-         'ff9c97d1d23baffdc1413876bce9eade'
-         'ba2aa43e64d59719b6eae0340f75c10f'
-         '97078019bfcd2c2d6eee026ea25ac763'
-         'c4740e92ae4946d2dd4febb6ee686321'
-         'f60cf2d208573ed59654f1516fd4487c'
-         'f12d083ae7c19fc3b99ac67305df57ec'
-         '307fb2d34f753467e10c4aee62419cab'
-         'fac386c898c0c84772598dd1ac1fc3b5'
-         'f623aa7608373948a59dfeb7c23ead12'
-         'e11d4185f8a45dd6380716428bd8f9ed'
-         '9daa87c9417acb61d6c9ed8312d28ec3'
-         '577bd5fa656869f4bc1718af462a4034'
-         '0b7936c9b91528a7960cf1adf5039135'
+md5sums=('525179ac38b6295a61825fba818f1159'
+         'fb7081aaa3a2f41dbe83c1db24a9d70a'
+         '0a04658b68ebb9104359cc2ea2db03b7'
+         'd276db142b4035adc4576198a2146a2b'
+         'ec26671811b5f2ad5b39c52dedeb014f'
+         '981553bbe725912ec5343ad4a5b5332d'
+         'f723bf84ffe9ca40bb593b24ff36232b'
+         '590309cbdc072c11d458fe8c91c4c3a0'
+         '2b757e00d1e959b85ba79fd0bbb07d0b'
+         'ff18943088e621c40ccda681e036227c'
+         '89298affdc5859deab637aedc46420d0'
+         '4fb4d2d623e051514d7e645fe9059e23'
+         '74016c34abde2b230c5d3569a354865f'
+         '6b8a61ef941a6ff8bbf20518e648499a'
+         'fe906c243bcbd1906cf672fa3257caf0'
+         'd935575432ed01a1bedfbc8790eec378'
+         '6e6c62690d8a5ff7f1dfc72a1da074ca'
+         '4d02e5cdbd48fc8e35c735f124d60735'
+         '3ff07c0250fe8a0136c958f7cbc3466b'
+         '7275267a42c66ea831cf62add3191f05'
+         '9b29f8b0ffe20fbc254a7277137657fb'
+         '43467e5938326d74d7c1def5c056265c'
+         '0a7b6a41885c5300e3c3bfb8495a0ba6'
+         'b8958e8e0bfa229593ec4071a75e873a'
+         '6a65733e41c286fbfda953b72a1fd908'
+         'f097a5bcddcdb3b436e55900322a5ce0'
+         '735b7ac166dae5d27717a5f53fd91c97'
+         '54d87493e621c8e88cbb50020a3f3046'
+         '6c459f6aeb6290bcbdb3e2b1fc5d0e9d'
+         '2b59b4ea5995dee09d8c6947200e9abd'
+         'd85b4e65084d5a5a48ccabced197a943'
          '794378866aad7e90d877469f3281d5af')
 
 build() {
@@ -69,26 +93,29 @@ build() {
 
     #Remove uneeded directories
     for d in boot dev etc/fonts home \
-	     initrd media root tmp \
-	     var/log var/run var/tmp \
-	     usr/local usr/tmp; do
-    rm -rf "${srcdir}/${d}"
+             initrd media root tmp \
+             var/log var/run var/tmp \
+             usr/local usr/tmp
+    do
+        rm -rf "${srcdir}/${d}"
     done
-  
+
     #Remove uneeded files
     for f in bin/df bin/su etc/exports \
-	     etc/group etc/localtime \
+             etc/group etc/localtime \
              etc/motd etc/passwd \
-	     etc/printcap etc/services \
-	     etc/protocols; do
-    rm -f "${srcdir}/${f}"
+             etc/printcap etc/services \
+             etc/protocols
+    do
+        rm -f "${srcdir}/${f}"
     done
 
     #Add some directories
     for a in usr/X11R6/share usr/X11R6/man \
-	     usr/X11R6/lib/tls \
-	     usr/X11R6/include usr/X11R6/bin; do
-    mkdir -p "${srcdir}/${a}"
+             usr/X11R6/lib/tls \
+             usr/X11R6/include usr/X11R6/bin
+    do
+        mkdir -p "${srcdir}/${a}"
     done
 
     # Create a good ld.so.conf and touch ld.so.cache
@@ -101,14 +128,26 @@ build() {
 
     chmod u+w ${srcdir}/usr/bin/db*
 
-    find ${srcdir}/bin ${srcdir}/sbin/ ${srcdir}/usr/bin \
-		${srcdir}/usr/sbin -type f -print0 | xargs -0 file \
-		| grep ELF | cut -d : -f 1 \
-		| xargs brandelf -t Linux
-
+    msg "Branding ELF files, this may take a moment..."
+    # Brand elfs...
+    #   these 2 have 555 permissions
+    chmod 755 "${srcdir}/lib/libhistory.so.6.2"
+    chmod 755 "${srcdir}/lib/libreadline.so.6.2"
+    chmod 755 "${srcdir}/usr/lib/libssl.so.1.0.0"
+    chmod 755 "${srcdir}/usr/lib/libcrypto.so.1.0.0"
+    chmod 755 "${srcdir}/usr/lib/engines"/lib*.so
+    find ${srcdir} \
+         -type f -print0 | xargs -0 file \
+        | grep ELF | cut -d : -f 1 \
+        | xargs brandelf -t Linux
+    chmod 555 "${srcdir}/lib/libhistory.so.6.2"
+    chmod 555 "${srcdir}/lib/libreadline.so.6.2"
+    chmod 555 "${srcdir}/usr/lib/libssl.so.1.0.0"
+    chmod 555 "${srcdir}/usr/lib/libcrypto.so.1.0.0"
+    chmod 555 "${srcdir}/usr/lib/engines"/lib*.so
 }
 
 package() {
-	install -dm755 "${pkgdir}"/compat/linux
-	cp -Ra "${srcdir}"/* "${pkgdir}"/compat/linux
+    install -dm755 "${pkgdir}"/compat/linux
+    cp -Ra "${srcdir}"/* "${pkgdir}"/compat/linux
 }
