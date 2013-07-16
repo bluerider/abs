@@ -11,7 +11,6 @@ url="http://www.gnupg.org"
 license=('LGPL')
 depends=('libgpg-error>=1.10-2')
 options=('!emptydirs')
-install=$pkgname.install
 makedepends=('libtool>=2.4.2-11' 'libgpg-error')
 depends=('gettext' 'libiconv' 'libgpg-error')
 _port_patches=(
