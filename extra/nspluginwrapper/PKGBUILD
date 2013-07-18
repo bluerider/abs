@@ -1,11 +1,11 @@
 pkgname=nspluginwrapper
 pkgver=1.4.4
-pkgrel=3
+pkgrel=7
 pkgdesc="Cross-platform NPAPI compatible plugin viewer"
 arch=('any')
 url="http://nspluginwrapper.davidben.net/"
 license=('GPL')
-depends=('curl' 'libxt' 'gtk2' 'linux-gtk2')
+depends=('curl' 'libxt' 'gtk2' 'linux-gtk2' 'linux-gdk-pixbuf')
 install="install"
 source=(http://nspluginwrapper.davidben.net/download/$pkgname-$pkgver.tar.gz
 	http://ftp.freebsd.org/pub/FreeBSD/ports/local-distfiles/jkim/$pkgname-i386-$pkgver-1.tar.gz
@@ -25,9 +25,9 @@ build() {
   patch -p0 -i "${srcdir}"/patch-configure
   patch -p0 -i "${srcdir}"/patch-src-npw-config.c
   patch -p0 -i "${srcdir}"/npw-player.patch
-  sed -i '' -e 's,%%LOCALBASE%%,/usr,g' "$srcdir/$pkgname-$pkgver"/src/npw-config.c
+  sed -i '' -e 's,%%LOCALBASE%%,/usr/local,g' "$srcdir/$pkgname-$pkgver"/src/npw-config.c
   sed -i '' -e 's|glib/.*\.h>|glib.h>|g' "$srcdir/$pkgname-$pkgver"/src/npruntime.c "$srcdir/$pkgname-$pkgver"/src/npw-player.c "$srcdir/$pkgname-$pkgver"/src/utils.c
-  ./configure --enable-generic --enable-strip --prefix=/usr \
+  ./configure --enable-generic --enable-strip --prefix=/usr/local \
 		--target-os=linux --target-cpu=i386 \
 		--with-cc=gcc --with-cxx=g++
   gmake -j1
@@ -38,9 +38,11 @@ package() {
 
   gmake -j1 DESTDIR="$pkgdir/" install
 
-  install -dm755 "${pkgdir}/usr/lib/$pkgname/i386/linux"
+  install -dm755 "${pkgdir}/usr/local/lib/$pkgname/i386/linux"
   install -m644 ${srcdir}/usr/lib/nspluginwrapper/i386/linux/*.bin \
             ${srcdir}/usr/lib/nspluginwrapper/i386/linux/*.so \
-            ${pkgdir}/usr/lib/$pkgname/i386/linux/
-  install ${srcdir}/usr/lib/$pkgname/i386/linux/npviewer ${pkgdir}/usr/lib/$pkgname/i386/linux/
+            ${pkgdir}/usr/local/lib/$pkgname/i386/linux/
+  chmod +x ${pkgdir}/usr/local/lib/$pkgname/i386/linux/*.bin
+  install ${srcdir}/usr/lib/$pkgname/i386/linux/npviewer ${pkgdir}/usr/local/lib/$pkgname/i386/linux/
+  sed -i '' -e 's|/usr|/usr/local|g' ${pkgdir}/usr/local/lib/nspluginwrapper/i386/linux/npviewer
 }

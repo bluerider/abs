@@ -1,6 +1,6 @@
 pkgname=linux-xorg-libs
 pkgver=2.0.1
-pkgrel=1
+pkgrel=2
 pkgdesc='linux xorg libs'
 url='http://www.archlinux.org/'
 license=('GPL')
@@ -41,6 +41,7 @@ _pkglist=(
 	xcb-util	0.3.6-1-i686	2011/09/05 gz
 	libxkbfile	1.0.7-1-i686	2011/09/05 xz
 	libdrm		2.4.26-1-i686	2011/09/05 xz
+	libxau		1.0.6-1-i686	2011/09/05 xz
 )
 source=()
 i=0
@@ -84,8 +85,8 @@ md5sums=('8d0debb352066b96638fb08bbcc007b6'
          '8127a469b0358cd911ee6bbcc44256dd'
          '4bfca93cee96f5b825f8eb4e82c395b9'
          '0b9c4e6bcee0503ba5709daa7ac6f378'
-         'dd61dc7d5296707195a6d8132a89a110')
-
+         'dd61dc7d5296707195a6d8132a89a110'
+         '2a978ca48b10a020d013dc6ed26aba44')
 package() {
 	install -dm755 "${pkgdir}/compat/linux"
 	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
