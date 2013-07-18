@@ -1,8 +1,8 @@
 # Contributor: Wolfgang Bumiller <archbsd at bumiller dot com>
 pkgname=pkgdepdb
-pkgver=0.1.1.99
-pkgrel=1
-_pkgver=0.1.2-rc2
+pkgver=0.1.2
+pkgrel=2
+_pkgver=0.1.2.1
 pkgdesc="maintain library dependencies of packages in a database"
 license=(BSD)
 arch=(i686 x86_64)
@@ -12,14 +12,17 @@ makedepends=(llvm)
 conflicts=('readpkgelf')
 replaces=('readpkgelf')
 source=("${pkgname}-${pkgver}-${pkgrel}.tar.gz::https://github.com/Blub/${pkgname}/archive/${_pkgver}.tar.gz")
-sha1sums=('a78ccc704f4c8bd839450fe808eef73f29df1d22')
+sha1sums=('90d1221a86e3bc65e0ab97cb480d3f74541b024f')
 
 build() {
 	cd $pkgname-$_pkgver
-	make
+	make SYSCONFDIR=/etc
 }
 
 package() {
 	cd $pkgname-$_pkgver
-	make DESTDIR="${pkgdir}" PREFIX=/usr install
+	make DESTDIR="${pkgdir}" \
+		SYSCONFDIR=/etc \
+		PREFIX=/usr \
+		install
 }

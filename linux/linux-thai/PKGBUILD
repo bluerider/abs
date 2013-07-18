@@ -1,18 +1,22 @@
 pkgname=linux-thai
-pkgver=0.1.12
+pkgver=0.1.15
 pkgrel=1
 pkgdesc='linux thai'
 url='http://www.archlinux.org/'
 license=('GPL')
 arch=('any')
-depends=('linux-base')
+depends=('linux-base' 'linux-datrie')
 options=(!strip)
-source=(
-	http://arm.konnichi.com/2009/12/01/extra/os/i686/libthai-0.1.12-1-i686.pkg.tar.gz
-)
-md5sums=('5d52871e2ed649567d877eaf8131ebdf')
+source=(http://arm.konnichi.com/2011/09/05/extra/os/i686/libthai-0.1.15-1-i686.pkg.tar.xz)
+md5sums=('456b3dc1369eef7b3d38943ad9998d54')
 
 package() {
 	install -dm755 "${pkgdir}/compat/linux"
 	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+
+        msg "Branding elf files"
+        find ${srcdir} \
+           -type f -print0 | xargs -0 file \
+          | grep ELF | cut -d : -f 1 \
+          | xargs brandelf -t linux
 }

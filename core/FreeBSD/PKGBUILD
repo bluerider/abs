@@ -5,7 +5,7 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32' 'freebsd-init')
 pkgver=20130502
 _freebsdver=9.1
-pkgrel=6
+pkgrel=7
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -80,10 +80,10 @@ _build() {
   ln -sf "${srcdir}/$KERNCONF" "${srcdir}/${_gitname}/sys/${TARGET}/conf/$KERNCONF"
 
   msg "Building Kernel"
-  make NO_CLEAN=YES TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
+  make NOCLEAN=YES TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
 
   msg "Building world"
-  make NO_CLEAN=YES TARGET=$TARGET buildworld || (echo buildworld failed... && return 1)
+  make TARGET=$TARGET buildworld || (echo buildworld failed... && return 1)
 
 }
 
@@ -186,6 +186,10 @@ _package_freebsd-world() {
   #set var/cache to 755
   chmod -Rv 755 ${pkgdir}/var/cache
 
+  # fix lib32 dir breakage
+  rmdir "${pkgdir}/usr/lib32/"{dtrace,i18n}
+  rmdir "${pkgdir}/usr/lib32/"
+
   backup=('boot/device.hints'
         'boot/loader.conf')
 
@@ -193,6 +197,62 @@ _package_freebsd-world() {
 
   for f in `find -E etc -type f ! -regex ".*periodic.*|.*mtree.*|.*defaults.*|.*README|.*Makefile"` `find root var -type f`; do
     backup=(${backup[@]} "${f}")
+  done
+
+  msg "Fixing up 32/64 bit include files"
+  # Move machine headers to a 64/ directory and create wrappers
+  rm -rf "${srcdir}/machine64"
+  mv "$pkgdir"/usr/include/machine "$srcdir"/machine64
+  install -dm755 "$pkgdir"/usr/include/machine
+  mv "$srcdir"/machine64 "$pkgdir"/usr/include/machine/64
+  # Install 32 bit machine headers to /usr/include/machine/32
+  cp -R "$srcdir"/freebsd/sys/i386/include "$pkgdir"/usr/include/machine/32
+  cd "$pkgdir"/usr/include/machine
+  install -dm755 pc
+  for i in 64/pc/*; do
+    b=${i#64/pc/}
+    cat > "pc/$b" <<EOF
+#if __x86_64
+#  include <machine/64/pc/$b>
+#else
+#  include <machine/32/pc/$b>
+#endif
+EOF
+  done
+
+  for i in 64/*; do
+    b=${i#64/}
+    if [ "$b" = "pc" ]; then continue; fi
+    if [ -e "32/$b" ]; then
+      cat > "$b" <<EOF
+#if __x86_64
+#  include <machine/64/$b>
+#else
+#  include <machine/32/$b>
+#endif
+EOF
+    else
+      cat > "$b" <<EOF
+#if __x86_64
+#  include <machine/64/$b>
+#else
+#  error "No such 32-bit include: <machine/32/$b>"
+#endif
+EOF
+    fi
+  done
+  for i in 32/*; do
+    if [ "$b" = "pc" ]; then continue; fi
+    b=${i#32/}
+    if [ ! -e "$b" ]; then
+      cat > "$b" <<EOF
+#if __x86_64
+#  error "No such 64-bit include: <machine/64/$b>"
+#else
+#  include <machine/32/$b>
+#endif
+EOF
+    fi
   done
 }
 
@@ -219,6 +279,10 @@ _package_freebsd-lib32() {
    install -dm755 "${pkgdir}"/usr/libexec/
    install -dm755 "${pkgdir}"/usr/bin/
    make TARGET=$TARGET DESTDIR="$pkgdir" install32
+
+   # these are provided by lib32-devel:
+   rm "${pkgdir}"/usr/lib32/libstdc++.{a,so,so.6}
+   rm "${pkgdir}"/usr/lib32/libsupc++.{a,so,so.1}
 }
 
 _package_freebsd-init() {

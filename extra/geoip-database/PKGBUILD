@@ -3,7 +3,7 @@
 
 pkgname=geoip-database
 pkgver=20130607
-pkgrel=1
+pkgrel=2
 pkgdesc="GeoLite country geolocation database compiled by MaxMind"
 arch=('any')
 url="http://www.maxmind.com/app/ip-location"

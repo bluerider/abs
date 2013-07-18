@@ -6,25 +6,23 @@ pkgname=tcl
 pkgver=8.6.0
 #pkgver=8.6b3
 _includever=8.6
-pkgrel=3
+pkgrel=4
 pkgdesc="The Tcl scripting language"
 arch=('i686' 'x86_64')
 url="http://tcl.sourceforge.net/"
 license=('custom')
 source=(http://downloads.sourceforge.net/sourceforge/tcl/tcl${pkgver}-src.tar.gz
-        patch-generic-tclPort.h
         patch-unix-Makefile.in
         patch-unix-configure
         )
 md5sums=('573aa5fe678e9185ef2b3c56b24658d3'
-         'f77c48c806c1a5a911e18f4cd84acfa1'
          '75ad215a5aa397f463cb6bde539606dd'
          'c4e644d81362205d7b67209e7ec168db')
 
-build() {
-  cd ${srcdir}/tcl${pkgver}/unix
+prepare() {
+  cd tcl${pkgver}/unix
 
-  for i in patch-generic-tclPort.h patch-unix-Makefile.in patch-unix-configure
+  for i in patch-unix-Makefile.in patch-unix-configure
   do
     patch -p0 -i "${srcdir}/$i"
   done
@@ -36,6 +34,10 @@ build() {
 # those don't build
   rm -rf ../pkgs/tdbc*
   sed -i '' -e 's|-lpthread|-pthread|g' configure
+}
+
+build() {
+  cd tcl${pkgver}/unix
 
   [[ $CARCH == "x86_64" ]] && BIT="--enable-64bit"
   ./configure --prefix=/usr --mandir=/usr/share/man \

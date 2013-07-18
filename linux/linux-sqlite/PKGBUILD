@@ -1,5 +1,5 @@
 pkgname=linux-sqlite
-pkgver=3.3.6.20
+pkgver=3.7.7.1
 pkgrel=1
 pkgdesc='linux sqlite'
 url='http://www.archlinux.org/'
@@ -7,12 +7,15 @@ license=('GPL')
 arch=('any')
 depends=('linux-base')
 options=(!strip)
-source=(
-http://arm.konnichi.com/2009/12/01/core/os/i686/sqlite3-3.6.20-1-i686.pkg.tar.gz
-)
-md5sums=('2d04b7f9546ed603843f81d503497e1a')
+source=(http://arm.konnichi.com/2011/09/05/core/os/i686/sqlite3-3.7.7.1-1-i686.pkg.tar.xz)
+md5sums=('49c471fc36a6dfc7cf51386f4a168017')
+
 package() {
 	install -dm755 "${pkgdir}/compat/linux"
 	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
-	brandelf -t linux "${pkgdir}/compat/linux/usr/bin/sqlite3"
+
+    find ${srcdir} \
+         -type f -print0 | xargs -0 file \
+        | grep ELF | cut -d : -f 1 \
+        | xargs brandelf -t Linux
 }

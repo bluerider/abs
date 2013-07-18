@@ -1,5 +1,5 @@
 pkgname=linux-nss
-pkgver=3.12.4
+pkgver=3.12.11
 pkgrel=1
 pkgdesc='linux nss'
 url='http://www.archlinux.org/'
@@ -7,12 +7,14 @@ license=('GPL')
 arch=('any')
 depends=('linux-base')
 options=(!strip)
-source=(
-http://arm.konnichi.com/2009/12/01/extra/os/i686/nss-3.12.4-2-i686.pkg.tar.gz
-)
-md5sums=('bc30e5925b761d749c8a1908afdee2a9')
+source=(http://arm.konnichi.com/2011/09/05/extra/os/i686/nss-3.12.11-3-i686.pkg.tar.xz)
+md5sums=('ba53c5d8c0590d71746390810f8bae3c')
 package() {
 	install -dm755 "${pkgdir}/compat/linux"
 	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
-	find ${pkgdir}/compat/linux/{bin,sbin,usr/bin,usr/sbin} -type f -print0 | xargs brandelf -t Linux
+
+    find ${srcdir} \
+         -type f -print0 | xargs -0 file \
+        | grep ELF | cut -d : -f 1 \
+        | xargs brandelf -t Linux
 }

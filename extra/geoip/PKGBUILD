@@ -4,7 +4,7 @@
 
 pkgname=geoip
 pkgver=1.5.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Non-DNS IP-to-country resolver C library & utils"
 arch=('i686' 'x86_64')
 url="http://www.maxmind.com/app/c"

@@ -18,13 +18,24 @@ md5sums=('e6040024eb9e761c3bea348d1fa5abb0')
 
 
 if [ -n "${_snapshot}" ]; then
-  _basedir="${srcdir}/gcc-${_snapshot}"
+  _basedir="gcc-${_snapshot}"
 else
-  _basedir="${srcdir}/gcc-${pkgver}"
+  _basedir="gcc-${pkgver}"
 fi
 
+if [[ "$CARCH" == "i686" ]]; then
+    _CARCH=i386
+else
+    _CARCH=x86_64
+fi
+_CHOST_=${_CARCH}-unknown-freebsd9.1
+
+prepare() {
+	mkdir gcc-build
+}
+
 build() {
-  cd ${_basedir}
+  cd ${srcdir}/${_basedir}
 
   # Do not install libiberty
   gsed -i 's/install_to_$(INSTALL_DEST) //' libiberty/Makefile.in
@@ -44,12 +55,11 @@ build() {
       _CARCH=i386
   else
       _CARCH=x86_64
-  fi
+  fi
 
-  cd ${srcdir}/
-  mkdir gcc-build && cd gcc-build
+  cd ${srcdir}/gcc-build
 
-  ${_basedir}/configure --prefix=/usr \
+  ../${_basedir}/configure --prefix=/usr \
       --libdir=/usr/lib --libexecdir=/usr/lib \
       --mandir=/usr/share/man --infodir=/usr/share/info \
       --with-bugurl=https://bugs.archlinux.org/ \
@@ -59,7 +69,8 @@ build() {
       --with-libiconv-prefix=/usr \
       --with-pkgversion="ArchBSD Package Collection" \
       --with-system-zlib --disable-libgcj \
-      --enable-cloog-backend=isl --disable-cloog-version-check
+      --enable-cloog-backend=isl --disable-cloog-version-check \
+      --enable-multilib
 
   gmake
 }
@@ -83,13 +94,13 @@ package_gcc-libs()
   install=gcc-libs.install
 
   cd ${srcdir}/gcc-build
-  gmake -j1 -C ${_CARCH}-unknown-freebsd9.1/libgcc DESTDIR=${pkgdir} install-shared
+  gmake -j1 -C ${_CHOST_}/libgcc DESTDIR=${pkgdir} install-shared
   for lib in libmudflap libgomp libstdc++-v3/src libitm; do
-    gmake -j1 -C ${_CARCH}-unknown-freebsd9.1/$lib DESTDIR=${pkgdir} install-toolexeclibLTLIBRARIES
+    gmake -j1 -C ${_CHOST_}/$lib DESTDIR=${pkgdir} install-toolexeclibLTLIBRARIES
   done
-  gmake -j1 -C ${_CARCH}-unknown-freebsd9.1/libstdc++-v3/po DESTDIR=${pkgdir} install
-  gmake -j1 -C ${_CARCH}-unknown-freebsd9.1/libgomp DESTDIR=${pkgdir} install-info
-  gmake -j1 -C ${_CARCH}-unknown-freebsd9.1/libitm DESTDIR=${pkgdir} install-info
+  gmake -j1 -C ${_CHOST_}/libstdc++-v3/po DESTDIR=${pkgdir} install
+  gmake -j1 -C ${_CHOST_}/libgomp DESTDIR=${pkgdir} install-info
+  gmake -j1 -C ${_CHOST_}/libitm DESTDIR=${pkgdir} install-info
 
   gmake -j1 DESTDIR=${pkgdir} install-target-libquadmath  
   gmake -j1 DESTDIR=${pkgdir} install-target-libgfortran
@@ -102,8 +113,8 @@ package_gcc-libs()
   find ${pkgdir} -name *.a -delete
   
   # Install Runtime Library Exception
-  install -dm644 ${pkgdir}/usr/share/licenses/gcc-libs/
-  install -m644 ${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc-libs/
+  install -dm755 ${pkgdir}/usr/share/licenses/gcc-libs/
+  install -m644 ${srcdir}/${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc-libs/
 }
 
 package_gcc()
@@ -120,19 +131,14 @@ package_gcc()
   mv $pkgdir{,/usr/share/gdb/auto-load}/usr/lib/libstdc++.so.6-gdb.py
 
   # unfortunately it is much, much easier to install the lot and clean-up the mess...
-  if [[ "$CARCH" == "i686" ]]; then
-      _CARCH=i386
-  else
-      _CARCH=x86_64
-  fi
-  rm $pkgdir/usr/bin/${_CARCH}-unknown-freebsd9.1-gfortran
+  rm $pkgdir/usr/bin/{${_CHOST_}-,}gfortran
   rm $pkgdir/usr/lib/*.so*
-  rm $pkgdir/usr/lib/lib{gfortran,objc}.a
+  rm $pkgdir/usr/lib/lib{atomic,gfortran,objc}.a
   rm $pkgdir/usr/lib/libgfortran.spec
- 
-  rm $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/${pkgver}/f951
-  rm $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/${pkgver}/{libcaf_single,libgfortranbegin}.a
-  rm $pkgdir/usr/share/info/{gfortran,libgomp,libitm,libquadmath}.info
+  rm -r $pkgdir/usr/lib/gcc/${_CHOST_}/${pkgver}/{finclude,include/objc}
+  rm $pkgdir/usr/lib/gcc/${_CHOST_}/${pkgver}/{cc1obj,f951}
+  rm $pkgdir/usr/lib/gcc/${_CHOST_}/${pkgver}/{libcaf_single,libgfortranbegin}.a
+  rm $pkgdir/usr/share/info/{gfortran,libgomp,libquadmath,libitm}.info
   rm $pkgdir/usr/share/man/man1/gfortran.1
 
   # many packages expect this symlinks
@@ -167,9 +173,15 @@ EOF
 
   chmod 755 $pkgdir/usr/bin/c{8,9}9
 
+  # Hmm I want those...
+  ## install the libstdc++ man pages
+  #install -dm755 ${pkgdir}/usr/share/man/man3
+  #install -m644 ${_CHOST_}/libstdc++-v3/doc/doxygen/man/man3/*.3 \
+  #              ${pkgdir}/usr/share/man/man3
+
  # Install Runtime Library Exception
-  install -dm644 ${pkgdir}/usr/share/licenses/gcc/
-  install -m644 ${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc/
+  install -dm755 ${pkgdir}/usr/share/licenses/gcc/
+  install -m644 ${srcdir}/${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc/
 
 }
 
@@ -181,18 +193,23 @@ package_gcc-fortran()
 
   cd ${srcdir}/gcc-build
   gmake -j1 DESTDIR=$pkgdir install-target-libgfortran
-  gmake -j1 -C ${_CARCH}-unknown-freebsd9.1/libgomp DESTDIR=$pkgdir install-nodist_fincludeHEADERS
+  gmake -j1 -C ${_CHOST_}/libgomp DESTDIR=$pkgdir install-nodist_fincludeHEADERS
   gmake -j1 -C gcc DESTDIR=$pkgdir fortran.install-{common,man,info}
-  install -dm755 $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/$pkgver/
-  install -m755 gcc/f951 $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/$pkgver/
+  install -dm755 $pkgdir/usr/lib/gcc/${_CHOST_}/$pkgver/
+  install -m755 gcc/f951 $pkgdir/usr/lib/gcc/${_CHOST_}/$pkgver/
 
   ln -s gfortran ${pkgdir}/usr/bin/f95
 
-  rm ${pkgdir}/usr/lib/libgfortran.so*
+  # remove files included in gcc-libs or gcc
+  rm ${pkgdir}/usr/lib/lib{gfortran,gcc_s}.so*
+  rm ${pkgdir}/usr/lib/libquadmath.{a,so*}
+  rm ${pkgdir}/usr/lib/gcc/${_CHOST_}/${pkgver}/{*.o,libgc*}
+  rm ${pkgdir}/usr/share/info/libquadmath.info
+  rm -r ${pkgdir}/usr/lib/gcc/${_CHOST_}/${pkgver}/include
 
   # Install Runtime Library Exception
-    install -dm644 ${pkgdir}/usr/share/licenses/gcc-fortran/
-    install -m644 ${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc-fortran/
+    install -dm755 ${pkgdir}/usr/share/licenses/gcc-fortran/
+    install -m644 ${srcdir}/${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc-fortran/
 
 }
 
@@ -203,13 +220,15 @@ package_gcc-objc()
 
   cd ${srcdir}/gcc-build
   gmake -j1 DESTDIR=$pkgdir install-target-libobjc
-  install -dm755 $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/$pkgver/
-  install -m755 gcc/cc1obj $pkgdir/usr/lib/gcc/${_CARCH}-unknown-freebsd9.1/$pkgver/
+  install -dm755 $pkgdir/usr/lib/gcc/${_CHOST_}/$pkgver/
+  install -m755 gcc/cc1obj $pkgdir/usr/lib/gcc/${_CHOST_}/$pkgver/
 
-  # remove libraries included in gcc-libs
-  rm ${pkgdir}/usr/lib/libobjc.so*
+  # remove files included in gcc-libs or gcc
+  rm ${pkgdir}/usr/lib/lib{gcc_s,objc}.so*
+  rm $pkgdir/usr/lib/gcc/${_CHOST_}/${pkgver}/{*.o,lib*}
+  rm $pkgdir/usr/lib/gcc/${_CHOST_}/${pkgver}/include/unwind.h
 
   # Install Runtime Library Exception
-  install -dm644 ${pkgdir}/usr/share/licenses/gcc-obj/
-  install -m644 ${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc-obj/
+  install -dm755 ${pkgdir}/usr/share/licenses/gcc-obj/
+  install -m644 ${srcdir}/${_basedir}/COPYING.RUNTIME ${pkgdir}/usr/share/licenses/gcc-obj/
 }

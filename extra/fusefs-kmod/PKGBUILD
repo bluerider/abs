@@ -4,7 +4,7 @@ HG_SHORTREV=498acaef33b0
 
 pkgname=fusefs-kmod
 pkgver=0.3.9
-pkgrel=3
+pkgrel=4
 pkgdesc="Kernel module for fusefs based filesystems"
 arch=('i686' 'x86_64')
 url="http://fuse4bsd.creo.hu/"

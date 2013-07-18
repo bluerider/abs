@@ -1,18 +1,22 @@
 pkgname=linux-freetype
-pkgver=2.3.11
+pkgver=2.4.6
 pkgrel=1
 pkgdesc='linux freetype'
 url='http://www.archlinux.org/'
 license=('GPL')
 arch=('any')
-depends=('linux-base' 'linux-expat' 'linux-fontconfig')
+depends=('linux-base')
 options=(!strip)
-source=(
-	http://arm.konnichi.com/2009/12/01/extra/os/i686/freetype2-2.3.11-1-i686.pkg.tar.gz
-)
-md5sums=('7202a83e8bec2189740efb8dd4a1b838')
+source=(http://arm.konnichi.com/2011/09/05/extra/os/i686/freetype2-$pkgver-1-i686.pkg.tar.xz)
+md5sums=('0bf879932f8f89960f559f97b54f4819')
 
 package() {
 	install -dm755 "${pkgdir}/compat/linux"
 	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+
+	msg "Branding elf files"
+        find ${srcdir} \
+           -type f -print0 | xargs -0 file \
+          | grep ELF | cut -d : -f 1 \
+          | xargs brandelf -t linux
 }

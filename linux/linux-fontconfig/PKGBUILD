@@ -6,18 +6,19 @@ url='http://www.archlinux.org/'
 license=('GPL')
 arch=('any')
 options=(!strip)
-source=(http://arm.konnichi.com/2009/12/01/extra/os/i686/fontconfig-2.8.0-1-i686.pkg.tar.gz
+source=(http://arm.konnichi.com/2011/09/05/extra/os/i686/fontconfig-2.8.0-1-i686.pkg.tar.gz
 	fonts.conf)
 md5sums=('049d2f18e40c749eca8b79e83ca47bd6'
          'f19d3dd862361b8440802803e2c20f85')
-depends=('linux-expat')
+depends=('linux-expat' 'linux-freetype')
 build() {
+
 cd "${srcdir}"
-     rm etc/fonts/fonts.conf \
+	rm etc/fonts/fonts.conf \
 	usr/bin/fc-cache \
 	usr/share/man/man1/fc-cache.1.gz
 
-cat "${srcdir}"/fonts.conf | sed 's:/usr/X11R6:/compat/linux:g' > "${srcdir}"/etc/fonts/fonts.conf
+  cat "${srcdir}"/fonts.conf | sed 's:/usr/X11R6:/compat/linux:g' > "${srcdir}"/etc/fonts/fonts.conf
 }
 
 package() {
@@ -25,4 +26,11 @@ package() {
 	for i in var etc usr; do
 		cp -Ra "${srcdir}/$i" "${pkgdir}/compat/linux"
 	done
+
+
+	msg "Branding elf files"
+	find ${srcdir} \
+           -type f -print0 | xargs -0 file \
+           | grep ELF | cut -d : -f 1 \
+	   | xargs brandelf -t linux
 }

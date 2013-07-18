@@ -1,5 +1,5 @@
 pkgname=linux-xorg-libs
-pkgver=2.0.0
+pkgver=2.0.1
 pkgrel=1
 pkgdesc='linux xorg libs'
 url='http://www.archlinux.org/'
@@ -7,89 +7,92 @@ license=('GPL')
 arch=('any')
 depends=('linux-base' 'linux-expat' 'linux-fontconfig')
 options=(!strip)
-source=(
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libice-1.0.6-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libfs-1.0.2-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libsm-1.1.1-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libx11-1.3.2-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxtrap-1.0.0-2-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxau-1.0.5-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxaw-1.0.7-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxcomposite-0.4.1-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxcursor-1.1.10-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxdamage-1.1.2-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxdmcp-1.0.3-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxevie-1.0.2-2-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxext-1.1.1-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxfixes-4.0.4-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxfont-1.4.1-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxft-2.1.14-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxi-1.3-2-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxinerama-1.1-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxmu-1.0.5-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxp-1.0.0-3-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxpm-3.5.8-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxrandr-1.3.0-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxrender-0.9.5-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxres-1.0.4-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxt-1.0.7-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxslt-1.1.26-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxv-1.0.5-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxvmc-1.0.5-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxxf86dga-1.1.1-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxxf86misc-1.0.2-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxxf86vm-1.1.0-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libfontenc-1.0.5-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxcb-1.4-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/xcb-util-0.3.6-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libxkbfile-1.0.6-1-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/mesa-7.6-2-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libgl-7.6-2-i686.pkg.tar.gz
-http://arm.konnichi.com/2009/12/01/extra/os/i686/libdrm-2.4.15-1-i686.pkg.tar.gz
+_pkglist=(
+	libice		1.0.7-1-i686    2011/09/05 xz
+	libfs		1.0.3-1-i686   2011/09/05 xz
+	libsm		1.2.0-1-i686	2011/09/05 xz
+	libx11		1.4.4-1-i686	2011/09/05 xz
+	libxaw		1.0.9-1-i686	2011/09/05 xz
+	libxcomposite	0.4.3-1-i686	2011/09/05 xz
+	libxcursor	1.1.12-1-i686	2011/09/05 xz
+	libxdamage	1.1.3-1-i686	2011/09/05 xz
+	libxdmcp	1.1.0-1-i686	2011/09/05 xz
+	libxevie	1.0.3-1-i686	2011/09/05 xz
+	libxext		1.3.0-1-i686	2011/09/05 xz
+	libxfixes	5.0-1-i686	2011/09/05 xz
+	libxfont	1.4.4-1-i686	2011/09/05 xz
+	libxft		2.2.0-1-i686	2011/09/05 xz
+	libxi		1.4.3-1-i686	2011/09/05 xz
+	libxinerama	1.1.1-1-i686	2011/09/05 xz
+	libxmu		1.1.0-1-i686	2011/09/05 xz
+	libxp		1.0.1-2-i686	2011/09/05 xz
+	libxpm		3.5.9-1-i686	2011/09/05 xz
+	libxrandr	1.3.2-1-i686	2011/09/05 xz
+	libxrender	0.9.6-1-i686	2011/09/05 xz
+	libxres		1.0.5-1-i686	2011/09/05 xz
+	libxt		1.1.1-1-i686	2011/09/05 xz
+	libxslt		1.1.26-2-i686	2011/09/05 xz
+	libxv		1.0.6-1-i686	2011/09/05 xz
+	libxvmc		1.0.6-1-i686	2011/09/05 xz
+	libxxf86dga	1.1.2-1-i686	2011/09/05 xz
+	libxxf86vm	1.1.1-1-i686	2011/09/05 xz
+	libfontenc	1.1.0-1-i686	2011/09/05 xz
+	libxcb		1.7-2-i686	2011/09/05 xz
+	xcb-util	0.3.6-1-i686	2011/09/05 gz
+	libxkbfile	1.0.7-1-i686	2011/09/05 xz
+	libdrm		2.4.26-1-i686	2011/09/05 xz
 )
-md5sums=('a2ee2c7a9112c2cbbd3e9910f758fa1d'
-         '2294326335cb952a794c3acdad974c81'
-         'c45bc1287f4cd76899d61467f60b9b24'
-         'ad39e47444daeff6e51a56511d13d29e'
-         '7b5b3dc3a44a0d254dc813861e0dcd9e'
-         '231cac62221133eb4141e2fb24379195'
-         '472d8337cedb291c62b8aaa8ce4a3bae'
-         '774c6c1483cc545ef2f2e446b8f872e4'
-         '21542ce01002eca1a911341762f0e65b'
-         'a31b690530c0c648c89cca9c7463aafc'
-         '0fb332c50bb82e0b37bff34d429c7b0d'
-         '9421323f11365e8503a239d012fe8b32'
-         '67734e5d6c6bf8458876eadedeb84939'
-         'af6fed654b9569b1443fff1544b7e9b9'
-         '135f4d7ccdce9600f0ae7e670a467915'
-         'b61b8cb07051cb52ff3efa578db32c65'
-         'e3a6be9c968bf7c741b0c87e63dfbc15'
-         '28ac378333bce1749e1aa09f68179450'
-         '16e582d8a11936292c0bb770a3bf3201'
-         'e94f2fcfa26b7106fcf162fa201e8350'
-         '3a7bf4da6a3ffaa313391f6802e09a35'
-         '6d612b698d8b469e930f5c390f598ee9'
-         '0ec00e904f03e8422d23717efc0fcdbf'
-         'c24d885491ad200fff5b46cd4248b112'
-         '44d7108efa1e9522861c6dbd1fbd787d'
-         '46134e42cba96503dd35262f8d4cd87c'
-         '565b4bf45df2e69ddd49d3f6a8302d08'
-         'b4d9a1d2fadc0174ae3e99afb59eca0f'
-         'd87e0f66faa58320c58649059ac70d21'
-         '2a03a22a9b4dd12f44a0c699c25e000f'
-         '2f1913cf6299e9106f1cab3fec50df41'
-         'd5083bdf0e5bffd0cf1a7185f25aee29'
-         '5ab28e3c4c873c83885cb8cf1b350277'
+source=()
+i=0
+cnt=${#_pkglist[@]}
+while [ $i -lt $cnt ]; do
+	source=("${source[@]}"
+		http://arm.konnichi.com/${_pkglist[$[i+2]]}/extra/os/i686/${_pkglist[$i]}-${_pkglist[$[i+1]]}.pkg.tar.${_pkglist[$[i+3]]}
+	)
+	i=$[i+4]
+done
+source=("${source[@]}")
+md5sums=('8d0debb352066b96638fb08bbcc007b6'
+         'f6e1b37ab047d3e80f265c899c5b6179'
+         '5a854db33a43ca755bb4634b4306a2d7'
+         '9da8ddd482965e2ea34109a2bffaa09a'
+         '5f52e83cd5a9d578019b8030f3034c1d'
+         'ee965d9a06cdb7c1a9bec72f1086915a'
+         'abdc6d5e0eb6c6bab8cac7408a5d6ab8'
+         'a18118ebc42ef34036054f105e42ee0d'
+         '379948378b69cc1238de295c5d34005b'
+         'd3cbf4de59b78476dd450bdcecb03466'
+         '13319a2f154eb2ffa48e0834f6476def'
+         'b6cd7cab2202d2355caaec71050862c8'
+         '9963f439aac5cac0552f700a7ee59e25'
+         'cfe7d35943e5c98f9d56dee9bc3a40be'
+         '0bcb6764177c143c441bed519dab459c'
+         '8549e47fa12253b8be0f2feb5e3d03df'
+         '4f2e4108caf9da2fa1a430c642f05268'
+         '638eb7a561d3c168d1a697d7d410ac94'
+         '55672ca2c00670f3c588a0509f5dba71'
+         '99762dd26cc84767906a0e4c604ab108'
+         '6c401a3e099999352c285191e7835086'
+         '9818ecd2ee2af4d3a4f1732cda77acce'
+         '26a34c9b76b2866f348c948b63268a1b'
+         'e3964bda7a1010b5b1740c21455da266'
+         'cce73c53c594fe08077b32c763fece37'
+         '51145dffe1aa74de2c023e2ed6740d16'
+         'c0f236d81659198ddacb1d69f6e210f3'
+         '81acf4a721c6efac0548f0075142044f'
+         '0799817973474033c0b91393b21550fe'
+         '8127a469b0358cd911ee6bbcc44256dd'
          '4bfca93cee96f5b825f8eb4e82c395b9'
-         'ab495581540481fda50390a90b7226d5'
-         '5758b86ec32d81681f8471df7154b650'
-         'f7af152ba7ac480d46526f20e4287c7c'
-         'e17a5659c6829a345c6f7b9470fef196')
+         '0b9c4e6bcee0503ba5709daa7ac6f378'
+         'dd61dc7d5296707195a6d8132a89a110')
 
 package() {
 	install -dm755 "${pkgdir}/compat/linux"
 	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
         cp -Ra "${srcdir}/etc" "${pkgdir}/compat/linux"
 
-	brandelf -t Linux "${pkgdir}"/compat/linux/usr/bin/{cxpm,glxgears,glxinfo,sxpm,xsltproc}
+    find ${srcdir} \
+         -type f -print0 | xargs -0 file \
+        | grep ELF | cut -d : -f 1 \
+        | xargs brandelf -t Linux
 }

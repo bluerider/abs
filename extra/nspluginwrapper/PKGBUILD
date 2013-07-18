@@ -1,6 +1,6 @@
 pkgname=nspluginwrapper
 pkgver=1.4.4
-pkgrel=2.1
+pkgrel=3
 pkgdesc="Cross-platform NPAPI compatible plugin viewer"
 arch=('any')
 url="http://nspluginwrapper.davidben.net/"
@@ -8,11 +8,13 @@ license=('GPL')
 depends=('curl' 'libxt' 'gtk2' 'linux-gtk2')
 install="install"
 source=(http://nspluginwrapper.davidben.net/download/$pkgname-$pkgver.tar.gz
+	http://ftp.freebsd.org/pub/FreeBSD/ports/local-distfiles/jkim/$pkgname-i386-$pkgver-1.tar.gz
 	patch-configure
 	patch-src-npw-config.c
 	npw-player.patch)
 md5sums=('36f3e290fc4ce56f65ee695078961188'
-         '7ad2d6be4f8e814991ba0eb3265737b5'
+         'e90e6421bd2d8d99fdec50d459a5c6f7'
+         'b83888cce33c8e8a1e86da6d1102c12e'
          '2f0f9e89de0000f873179d305a629e92'
          'aa6efb2f93d09fe5d87538b4029627d3')
 
@@ -35,4 +37,10 @@ package() {
   cd "$srcdir/$pkgname-$pkgver"
 
   gmake -j1 DESTDIR="$pkgdir/" install
+
+  install -dm755 "${pkgdir}/usr/lib/$pkgname/i386/linux"
+  install -m644 ${srcdir}/usr/lib/nspluginwrapper/i386/linux/*.bin \
+            ${srcdir}/usr/lib/nspluginwrapper/i386/linux/*.so \
+            ${pkgdir}/usr/lib/$pkgname/i386/linux/
+  install ${srcdir}/usr/lib/$pkgname/i386/linux/npviewer ${pkgdir}/usr/lib/$pkgname/i386/linux/
 }
