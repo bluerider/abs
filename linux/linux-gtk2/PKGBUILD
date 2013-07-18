@@ -1,5 +1,5 @@
 pkgname=linux-gtk2
-pkgver=2.18.3
+pkgver=2.24.6
 pkgrel=1
 pkgdesc='linux gtk2'
 url='http://www.archlinux.org/'
@@ -10,17 +10,33 @@ depends=('linux-base' 'linux-atk' 'linux-cairo' 'linux-expat'
 	'linux-tiff' 'linux-xorg-libs') 
 options=(!strip)
 install=linux-gtk2.install
-source=(
-	http://arm.konnichi.com/2009/12/01/extra/os/i686/gtk2-2.18.3-2-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/extra/os/i686/gtk-engines-2.18.4-1-i686.pkg.tar.gz
-	http://arm.konnichi.com/2009/12/01/extra/os/i686/pixman-0.16.2-1-i686.pkg.tar.gz
+_pkglist=(
+	gtk2		2.24.6-2-i686	2011/09/05 xz
+	gtk-engines	2.20.2-1-i686	2011/09/05 xz
+	pixman		0.22.2-1-i686	2011/09/05 xz
 )
-md5sums=('c22d836b27cde6da547c5b5b769e39ac'
-         'b024d917e357b02bd31b27d00ab322e0'
-         '8823ab1e4cd8ededa57b4f5a6c16aeac')
+source=()
+i=0
+cnt=${#_pkglist[@]}
+while [ $i -lt $cnt ]; do
+	source=("${source[@]}"
+		http://arm.konnichi.com/${_pkglist[$[i+2]]}/extra/os/i686/${_pkglist[$i]}-${_pkglist[$[i+1]]}.pkg.tar.${_pkglist[$[i+3]]}
+	)
+	i=$[i+4]
+done
+source=("${source[@]}")
+md5sums=('5cb4ab5c51d6ad62879dde2930f7c0bf'
+         '9e89ac3d00ead878d6c883eacaedba47'
+         'f50ef49dd4f9bb3f23a1e61be27d282b')
+
 package() {
 	install -dm755 "${pkgdir}/compat/linux"
 	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
         cp -Ra "${srcdir}/etc" "${pkgdir}/compat/linux"
-	find ${pkgdir}/compat/linux/{bin,sbin,usr/bin,usr/sbin} -type f -print0 | xargs brandelf -t Linux
+
+    find ${srcdir} \
+         -type f -print0 | xargs -0 file \
+        | grep ELF | cut -d : -f 1 \
+        | xargs brandelf -t Linux
+
 }
