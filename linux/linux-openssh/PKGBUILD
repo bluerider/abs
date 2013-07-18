@@ -1,19 +1,23 @@
 pkgname=linux-openssh
-pkgver=5.3
+pkgver=5.8
 pkgrel=1
-pkgdesc='linux openssl'
+pkgdesc='linux openssh'
 url='http://www.archlinux.org/'
 license=('GPL')
 arch=('any')
 depends=('linux-base')
 options=(!strip)
-source=(
-http://arm.konnichi.com/2009/12/01/core/os/i686/openssh-5.3p1-2-i686.pkg.tar.gz
-)
-md5sums=('97b1a3ea5bea198ec2c74ab0aa6b5b93')
+source=(http://arm.konnichi.com/2011/09/05/core/os/i686/openssh-5.8p2-9-i686.pkg.tar.xz)
+md5sums=('a6d46a4b1d7f2ed4e26ad2fb809693a1')
+
 package() {
 	install -dm755 "${pkgdir}/compat/linux"
 	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
 	cp -Ra "${srcdir}/etc" "${pkgdir}/compat/linux"
-	brandelf -t linux "${pkgdir}"/compat/linux/usr/bin/{scp,sftp,slogin,ssh,ssh-add,ssh-agent,ssh-keygen,ssh-keyscan}
+
+	msg "Branding elf files"
+	find ${srcdir} \
+         -type f -print0 | xargs -0 file \
+        | grep ELF | cut -d : -f 1 \
+        | xargs brandelf -t Linux
 }

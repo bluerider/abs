@@ -1,5 +1,5 @@
 pkgname=linux-atk
-pkgver=2.18.3
+pkgver=2.0.1
 pkgrel=1
 pkgdesc='linux atk package'
 url='http://www.archlinux.org/'
@@ -7,10 +7,16 @@ license=('GPL')
 arch=('any')
 options=(!strip)
 depends=('linux-base')
-source=(http://arm.konnichi.com/2009/12/01/extra/os/i686/atk-1.28.0-1-i686.pkg.tar.gz)
-md5sums=('e40d94b243af714c39651d1e6523a384')
+source=(http://arm.konnichi.com/2011/09/05/extra/os/i686/atk-2.0.1-1-i686.pkg.tar.xz)
+md5sums=('ad67ad4d152a2c380c0f4d5b390eb35b')
 
 package() {
 	install -dm755 "${pkgdir}/compat/linux"
 	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+
+	msg "Branding elf files"
+	find ${srcdir} \
+           -type f -print0 | xargs -0 file \
+          | grep ELF | cut -d : -f 1 \
+	  | xargs brandelf -t linux
 }
