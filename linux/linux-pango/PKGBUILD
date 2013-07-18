@@ -1,5 +1,5 @@
 pkgname=linux-pango
-pkgver=1.2.6
+pkgver=1.28.4
 pkgrel=1
 pkgdesc='linux pango'
 url='http://www.archlinux.org/'
@@ -9,13 +9,16 @@ depends=('linux-base' 'linux-cairo' 'linux-expat' 'linux-fontconfig'
 'linux-png' 'linux-xorg-libs' 'linux-freetype' 'linux-thai' 'linux-datrie')
 options=(!strip)
 install=linux-pango.install
-source=(
-	http://arm.konnichi.com/2009/12/01/extra/os/i686/pango-1.26.1-1-i686.pkg.tar.gz
-)
-md5sums=('82976b767317d3ac8c057e5b4a2f7fce')
+source=(http://arm.konnichi.com/2011/09/05/extra/os/i686/pango-1.28.4-3-i686.pkg.tar.xz)
+md5sums=('14133173cf560b50c2fe3068ad8f6fdc')
 
 package() {
 	install -dm755 "${pkgdir}/compat/linux"
 	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
         cp -Ra "${srcdir}/etc" "${pkgdir}/compat/linux"
+
+    find ${srcdir} \
+         -type f -print0 | xargs -0 file \
+        | grep ELF | cut -d : -f 1 \
+        | xargs brandelf -t Linux
 }
