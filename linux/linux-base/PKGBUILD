@@ -1,6 +1,6 @@
 pkgname=linux-base
 pkgver=1.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Arch linux base for binary compaitability.'
 url='http://www.archlinux.org/'
 license=('GPL')
@@ -36,7 +36,6 @@ _pkglist=(
 	openssl              1.0.0.d-1-i686   2011/09/05 gz
 	util-linux           2.19.1-3-i686    2011/09/05 xz
 	xz                   5.0.3-1-i686     2011/09/05 gz
-	expat                2.0.1-6-i686     2011/09/05 xz
 	libgpg-error         1.10-1-i686      2011/09/05 xz
 	gmp                  5.0.2-3-i686     2011/09/05 xz
 	)
@@ -81,7 +80,6 @@ md5sums=('525179ac38b6295a61825fba818f1159'
          'f097a5bcddcdb3b436e55900322a5ce0'
          '735b7ac166dae5d27717a5f53fd91c97'
          '54d87493e621c8e88cbb50020a3f3046'
-         '6c459f6aeb6290bcbdb3e2b1fc5d0e9d'
          '2b59b4ea5995dee09d8c6947200e9abd'
          'd85b4e65084d5a5a48ccabced197a943'
          '794378866aad7e90d877469f3281d5af')
