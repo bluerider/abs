@@ -30,7 +30,7 @@ backup=(etc/pekwm/autoproperties
 source=("http://www.pekwm.org/projects/pekwm/files/$pkgname-$pkgver.tar.bz2"
         "${pkgname}_kdm.desktop")
 sha256sums=('8a1fd3bf9f38e8c7bb2b2864c090f986b60cec2281ecf1bba462d120fb327d00'
-            '4c1817d328dad84407c9ba7219015eb3be0345be9e98fc03fa693b6b443a8dc6')
+            '2f569e6dcc67f465656dd6e86fa3915ea4b6f4def9f01a82423e6e3555dc6966')
 
 prepare() {
   cd "$srcdir"
