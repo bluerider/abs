@@ -23,7 +23,7 @@ install="$pkgname.install"
 backup=('usr/lib/go/bin')
 
 if [ "$CARCH" == 'x86_64' ]; then
-  source=("http://go.googlecode.com/files/${pkgname}$pkgver.freebsd-amd64.tar.gz"
+source=("http://go.googlecode.com/files/${pkgname}$pkgver.freebsd-amd64.tar.gz"
           "$pkgname.sh")
 sha256sums=('4d53aaa085735058e12a92bf4b13e3d631efc62fbae2d1f2f5816c3a4a5238fd'
             'a03db71d323ed2794123bb31b5c8ad5febd551c490b5c0b341052c8e5f0ba892')
@@ -39,13 +39,10 @@ build() {
 
   export GOROOT_FINAL=/usr/lib/go
 
-  # Enable ARM crosscompilation for linux
-  export GOOS=linux
-  export GOARCH=arm
   bash make.bash
 
   # Crosscompilation for various platforms (including linux)
-  for os in linux; do # darwin freebsd windows; do
+  for os in freebsd; do # darwin freebsd windows; do
     for arch in amd64 386; do
       export GOOS="$os"
       export GOARCH="$arch"
@@ -57,7 +54,7 @@ build() {
 check() {
   cd "$srcdir/$pkgname"
 
-  export GOOS=linux
+  export GOOS=freebsd
   if [ "$CARCH" == 'x86_64' ]; then
     export GOARCH=amd64
   elif [ "$CARCH" == 'i686' ]; then
