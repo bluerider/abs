@@ -5,7 +5,7 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32' 'freebsd-init')
 pkgver=20130502
 _freebsdver=9.1
-pkgrel=7
+pkgrel=8
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -156,6 +156,10 @@ _package_freebsd-world() {
   rm -f "${pkgdir}"/usr/bin/{ar,gprof,ranlib}
   rm -f "${pkgdir}"/usr/share/man/man1/{ar,gprof,ranlib}.1.gz
   
+
+  #remove rc.conf ind efautls provided by FreeBSD-Configs
+  rm -f "${pkgdir}"/etc/defaults/rc.conf
+
   #Leftover libarchive files
   rm -f "${pkgdir}"/usr/bin/bsdtar
   rm -f "${pkgdir}"/usr/include/{archive,archive_entry}.h
