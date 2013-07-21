@@ -5,10 +5,11 @@
 
 pkgname=('ruby' 'ruby-docs')
 pkgver=2.0.0_p0
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64')
 url='http://www.ruby-lang.org/en/'
 license=('BSD' 'custom')
+depends=("libexecinfo")
 makedepends=('tk' 'libffi' 'doxygen' 'graphviz' 'libyaml' 'libexecinfo')
 options=('!emptydirs' '!makeflags')
 source=("ftp://ftp.ruby-lang.org/pub/ruby/${pkgver%.*}/ruby-${pkgver//_/-}.tar.bz2"
