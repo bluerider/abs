@@ -35,6 +35,8 @@ sha256sums=('8a1fd3bf9f38e8c7bb2b2864c090f986b60cec2281ecf1bba462d120fb327d00'
 prepare() {
   cd "$srcdir"
   gendesk --pkgname "$pkgname" --pkgdesc "$pkgdesc"
+  export CC=clang
+  export CXX=clang++
 }
 
 build() {
