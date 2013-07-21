@@ -119,7 +119,7 @@ package() {
 	cd "${pkgdir}"/usr/include; ln -s avahi-compat-libdns_sd/dns_sd.h dns_sd.h; ln -s avahi-compat-howl howl
 	cd "${pkgdir}"/usr/lib/pkgconfig; ln -s avahi-compat-howl.pc howl.pc
 
-	install -dm755 "${pkgdir}/usr/share/dbus-1/system-services
+	install -dm755 "${pkgdir}/usr/share/dbus-1/system-services"
 	install -m644 ${srcdir}/org.freedesktop.Avahi.service \
 		${pkgdir}/usr/share/dbus-1/system-services
 
