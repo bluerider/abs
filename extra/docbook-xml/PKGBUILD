@@ -1,10 +1,6 @@
-# $Id$
-# Maintainer: dorphell <dorphell@archlinux.org>
-# Committer: Judd Vinet <jvinet@zeroflux.org>
-
 pkgname=docbook-xml
 pkgver=4.5
-pkgrel=6
+pkgrel=8
 pkgdesc="A widely used XML scheme for writing documentation and help"
 arch=('any')
 url="http://www.oasis-open.org/docbook/"
@@ -31,7 +27,7 @@ package() {
     pushd docbook-xml-${ver}
     bsdtar xf "${srcdir}/docbook-xml-${ver}.zip"
     mkdir -p "${pkgdir}/usr/share/xml/docbook/xml-dtd-${ver}"
-    cp -Rf docbook.cat *.dtd ent/ *.mod \
+    cp -afv docbook.cat *.dtd ent *.mod \
         "${pkgdir}/usr/share/xml/docbook/xml-dtd-${ver}/"
     popd
   done
@@ -39,7 +35,7 @@ package() {
   pushd docbook-xml-4.1.2
   bsdtar xf "${srcdir}/docbkx412.zip"
   mkdir -p "${pkgdir}/usr/share/xml/docbook/xml-dtd-4.1.2"
-  cp -Rf docbook.cat *.dtd ent/ *.mod \
+  cp -afv docbook.cat *.dtd ent *.mod \
       "${pkgdir}/usr/share/xml/docbook/xml-dtd-4.1.2/"
   popd
 
@@ -267,6 +263,7 @@ package() {
     "http://www.oasis-open.org/docbook/xml/4.5" \
     "file:///usr/share/xml/docbook/xml-dtd-4.5" \
     "${pkgdir}/etc/xml/docbook-xml"
+
 
 # license
   install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}/"
