@@ -13,17 +13,15 @@ depends=('libc')
 makedepends=('python2' 'docbook-xsl')
 optdepends=('python2: for python bindings')
 source=("http://samba.org/ftp/${pkgname}/${pkgname}-${pkgver}.tar.gz"
-	'patch-buildtools__wafsamba__samba_install.py'
-	'patch-wscript')
+	'patch-buildtools__wafsamba__samba_install.py')
 md5sums=('7857200b58a8617ca18fe2c91296cd93'
          '78b14f952475eca47efe43b0cfc92334'
-         'ce6f1aa636284b868be6cad1d616afb5'
 )
 prepare() {
    cd "${srcdir}/${pkgname}-${pkgver}"
    patch -p0 -i "${srcdir}/patch-buildtools__wafsamba__samba_install.py"
-   patch -p0 -i "${srcdir}/patch-wscript"
 }
+
 build() {
    cd "${srcdir}/${pkgname}-${pkgver}"
    sed -i -e 's#python#python2#g' buildtools/bin/waf
