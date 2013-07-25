@@ -207,7 +207,7 @@ backup=(etc/logrotate.d/samba
 
     find ${pkgdir}/usr/lib/python${_pyver}/site-packages/ -name '*.py' | \
          xargs gsed -i "s|#!/usr/bin/env python$|#!/usr/bin/env python2|"
-    find ${pkgdir}/usr/bin ${pkgdir}/usr/bin -type f -executable | \
+    find ${pkgdir}/usr/bin ${pkgdir}/usr/bin -type f | \
          xargs gsed -i "s|#!/usr/bin/env python$|#!/usr/bin/env python2|"
 
     # Make admin scripts look in the right place for the samba python module
@@ -234,9 +234,10 @@ sys.path.insert(0, '/usr/lib/python${_pyver}/site-packages')" \
   mkdir -p ${pkgdir}/etc/samba/private
   chmod 700 ${pkgdir}/etc/samba/private
 
-  install -D -m644 ${srcdir}/samba.logrotate ${pkgdir}/etc/logrotate.d/samba
-  install -D -m644 ${srcdir}/swat.xinetd ${pkgdir}/etc/xinetd.d/swat
-  install -D -m644 ${srcdir}/samba.pam ${pkgdir}/etc/pam.d/samba 
+  install -d -m755  ${pkgdir}/etc/{logrotate.d,xinetd.d,pam.d}
+  install -m644 ${srcdir}/samba.logrotate ${pkgdir}/etc/logrotate.d/samba
+  install -m644 ${srcdir}/swat.xinetd ${pkgdir}/etc/xinetd.d/swat
+  install -m644 ${srcdir}/samba.pam ${pkgdir}/etc/pam.d/samba
 
   # winbind krb5 locator
   mkdir -p ${pkgdir}/usr/lib/krb5/plugins/libkrb5
@@ -261,7 +262,7 @@ md5sums=('d887c1383654fc60b7bb1b74d273a826'
          '96f82c38f3f540b53f3e5144900acf17'
          '227565650bcb0bbce2cfb7912a7b0a55'
          'cc2cbb167bc02e5f83bed24b63efddf3'
-         'c632db2d728810e9f61b4025c992def3'
+         'c034717d5d6bca6c3aa8013d4d912c4d'
          'e82e1f09669ede84816d4b71ac94486e'
          '12d9b786326b0cae9a6567411f63bbb5'
          '103a12f76d3e2d056267c4d98ba4d329'
