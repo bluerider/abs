@@ -52,5 +52,5 @@ package() {
   install -m755 "$srcdir/gconfpkg" "$pkgdir/usr/sbin/gconfpkg"
 
   #Fix /bin/bash link in gconf-merge-schema
-  sed -i '' -e 's|/bin/bash|/usr/bin/bash|g' "$pkgdir/usr/bin/gconf-merge-schema"
+  sed -i '' -e 's|/bin/bash|/usr/bin/bash|g' -e 's|sed|gsed|g' "$pkgdir/usr/bin/gconf-merge-schema"
 }
