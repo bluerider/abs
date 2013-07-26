@@ -109,7 +109,6 @@ _samba4_auth_modules=auth_unix,auth_wbc,auth_server,auth_netlogond,auth_script,a
 
 package_libwbclient() {
 pkgdesc="Samba winbind client library"
-depends=('glibc' 'libbsd')
   # Use samba-pkg as a staging directory for the split packages
   # (This is so RPATHS and symlinks are generated correctly via
   # make install, but the otherwise unsplit pieces can be split)
@@ -130,9 +129,9 @@ depends=('glibc' 'libbsd')
 
 package_smbclient() {
 pkgdesc="Tools to access a server's filespace and printers via SMB"
-depends=('popt' 'cifs-utils' 'tdb' "libwbclient>=$pkgver" 'ldb'
+depends=('popt' 'tdb' "libwbclient>=$pkgver" 'ldb'
          'tevent' 'libgcrypt' 'python2' 'talloc' 'readline' 'gnutls' 
-         'libbsd' 'libldap' 'libcups')
+         'libldap' 'libcups')
 
     _smbclient_bins=('smbclient' 'smbclient4' 'rpcclient' 'smbspool'
                      'smbtree' 'smbcacls' 'smbcquotas' 'smbget' 'net'
@@ -187,8 +186,8 @@ depends=('popt' 'cifs-utils' 'tdb' "libwbclient>=$pkgver" 'ldb'
 
 package_samba() {
 pkgdesc="SMB Fileserver and AD Domain server"
-depends=('db>=4.7' 'popt' 'libcups' 'libcap>=2.16' 'gamin' 'gnutls>=2.4.1'
-         'talloc' 'ldb' 'libbsd' 'python2' 'tdb' 'iniparser' 'libaio' "smbclient>=$pkgver")
+depends=('db>=4.7' 'popt' 'libcups' 'gamin' 'gnutls>=2.4.1'
+         'talloc' 'ldb' 'python2' 'tdb' 'iniparser' "smbclient>=$pkgver")
 backup=(etc/logrotate.d/samba
         etc/pam.d/samba
         etc/samba/smb.conf
