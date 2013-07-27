@@ -15,7 +15,7 @@ pkgver=4.0.7
 # to append 'a','b',etc to their subsequent releases, which pamcan
 # misconstrues as alpha, beta, etc.  Bad samba!
 _realver=4.0.7
-pkgrel=1
+pkgrel=2
 arch=(i686 x86_64)
 url="http://www.samba.org"
 license=('GPL3')
@@ -187,7 +187,7 @@ depends=('popt' 'tdb' "libwbclient>=$pkgver" 'ldb'
 package_samba() {
 pkgdesc="SMB Fileserver and AD Domain server"
 depends=('db>=4.7' 'popt' 'libcups' 'gamin' 'gnutls>=2.4.1'
-         'talloc' 'ldb' 'python2' 'tdb' 'iniparser' "smbclient>=$pkgver")
+         'talloc' 'ldb' 'python2' 'tdb' "smbclient>=$pkgver")
 backup=(etc/logrotate.d/samba
         etc/pam.d/samba
         etc/samba/smb.conf
