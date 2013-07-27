@@ -40,7 +40,9 @@ build() {
 package() {
   cd ${srcdir}/${pkgname}-${pkgver}
   gmake DESTDIR=${pkgdir} install
-  
+
+  cd ${pkgdir}/${pngname}/usr/lib/
+  ln -s libsmpeg.so.1.3 libsmpeg.so
   # fix aclocal warnings
   sed -i '' "s|(AM_PATH_SMPEG|([AM_PATH_SMPEG]|" ${pkgdir}/usr/share/aclocal/smpeg.m4
 }
