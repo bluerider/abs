@@ -14,16 +14,18 @@ makedepends=('gtk' 'mesa' 'glu')
 builddepends=('gmake')
 optdepends=('gtk: to use gtv ' 'glu: to use glmovie')
 options=('!libtool' '!makeflags')
-_port_patches=('patch-MPEGaudio.h' 'patch-ab' 'patch-ac' 'patch-configure' 'patch-video.h')
+_port_patches=('patch-MPEGaudio.h' 'patch-ab' 'patch-configure' 'patch-video.h')
 source=(
 	"ftp://ftp.su.se/pub/lunar/source-archive/${pkgname}-${pkgver}.tar.gz"
 	${_port_patches[@]}
         "smpeg-0.4.4-gcc41.patch"
         )
 md5sums=('59c76ac704088ef5539210190c4e1fe3'
-	 'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP'
-         '8b979a58307d7196655758bd3d2466c4'
-         )
+         'ecfcd93198f7f54ea206ef7ec6726f76'
+         'df1f78eafdbc8208e61e24a992794ef4'
+         'a65133fd17085f578c89e04c6dd8cb63'
+         'd2468fd8ab8294be53555b96fd0e7aaf'
+         '8b979a58307d7196655758bd3d2466c4')
 
 build() {
   cd ${srcdir}/${pkgname}-${pkgver}
