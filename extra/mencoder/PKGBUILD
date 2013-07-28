@@ -93,5 +93,6 @@ build() {
 package() {
     cd "$srcdir/$pkgbase-export-2013-03-08"
     gmake DESTDIR="$pkgdir" install-mencoder install-mencoder-man
+    mv 
     find "$pkgdir/usr/share/man" -name mplayer.1 -exec rename mplayer.1 mencoder.1 {} +
 }
