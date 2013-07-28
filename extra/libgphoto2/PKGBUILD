@@ -21,12 +21,13 @@ port_patches=(patch-MAX_ENTRIES
 	patch-libgphoto2_port-usb-libusb.c)
 source=(http://downloads.sourceforge.net/gphoto/${pkgname}-${pkgver}.tar.gz
 	${port_patches[@]})
-md5sums=('d9f4462957e59bf2b2eb3b1ea8423570'
+md5sums=('492bec63dd610906c3a28030be77e650'
          '18ee167acf713a1aa625f3ba57490c6c'
          'fbf65b8b9da984036883839f69017ce9'
          '78ea6d16dd899f1ed1bfe438a6948899'
          '2406df05ec6a928dcbfbf0435bbc3189'
          'a7e11a28b7fe787dec88f083d701de79')
+
 prepare(){
   cd "${srcdir}/${pkgname}-${pkgver}"
 
@@ -35,6 +36,7 @@ prepare(){
     patch -p0 -i "${srcdir}/$_patch"
   done
 }
+
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   ./configure \
