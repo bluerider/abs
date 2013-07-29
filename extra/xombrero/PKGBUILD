@@ -33,6 +33,7 @@ prepare() {
    patch -p0 -i "${srcdir}/patch-freebsd__Makefile"
 
    unset LDFLAGS
+   sed -i '' -e 's|/usr/local/bin/mplayer|/usr/bin/mplayer|g' playflash.sh
 }
 
 build() {
