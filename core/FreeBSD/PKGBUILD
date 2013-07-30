@@ -21,7 +21,7 @@ md5sums=('1da3141782687c8d455b63ae747d6c32'
          '9ab0e68675bab4a90a07dc7f0ae19d79'
          'f1ec479c9280a109e0391dcfae29f1ab')
 
-makedepends=('pacman>=4.1.0')
+makedepends=('pacman>=4.1.0' 'git')
 
 _gitroot="git://github.com/freebsd/freebsd.git"
 _gitname="freebsd"
@@ -108,7 +108,7 @@ _package_freebsd-world() {
   cd ${srcdir}/${_gitname}
 
   msg "Running make installworld distribution..."
-  make -j1 TARGET=$TARGET DESTDIR="$pkgdir" SRCONF=${srcdir}/src.conf \
+  make NO_FSCHG= -j1 TARGET=$TARGET DESTDIR="$pkgdir" SRCONF=${srcdir}/src.conf \
 	-DWITHOUT_LIB32 -DWITHOUT_GCC -DWITHOUT_BINUTILS -DWITHOUT_BSD_CPIO  \
   installworld distribution
 
