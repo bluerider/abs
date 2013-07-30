@@ -1,9 +1,10 @@
 # Contributor: Wolfgang Bumiller <blub at speed dot at>
+# Contributor: Kim Carlbäcker <kim dot carlbacker at gmail dot com>
 
 pkgbase=nvidia
-pkgname=('nvidia' 'nvidia-utils')
-pkgver=319.17
-pkgrel=3
+pkgname=('nvidia' 'nvidia-utils' 'linux-nvidia-utils') # 'linux-nvidia' 'linux-nvidia-utils')
+pkgver=319.32
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('NVIDIA')
 makedepends=('freebsd-source')
@@ -13,7 +14,7 @@ url="http://www.nvidia.com/"
 source=("ftp://download.nvidia.com/XFree86/FreeBSD-${_arch}/${pkgver}/NVIDIA-FreeBSD-${_arch}-${pkgver}.tar.gz"
         nvidia-settings.in
        )
-md5sums=('d6f59c9a0d39e7b919ee62baf954781c'
+md5sums=('eb4a2b639668b7894e140f8b28f27bbd'
          '86da362e820aafb226affa8dec13db3d')
 
 build() {
@@ -92,3 +93,35 @@ package_nvidia-utils() {
     ln -s "/usr/lib/$i" "${pkgdir}/usr/lib/nvidia/tools/lib/${i}.0"
   done
 }
+
+package_linux-nvidia-utils() {
+ pkgdesc="Linux - NVidia binary OpenGL libraries"
+ depends=('linux-base' "nvidia=${pkgver}" 'linux-gtk2' 'linux-pango')
+ conflicts=('linux-libgl')
+ provides=('linux-libgl')
+  cd "${srcdir}/NVIDIA-FreeBSD-${_arch}-${pkgver}/"
+
+# OpenGL & CUDA Libraries
+  install -dm755 "${pkgdir}/compat/linux/usr/lib"
+  for i in libGL.so.319.32 \
+  	   libcuda.so.319.32 \
+           libnvidia-cfg.so.319.32 \
+           libnvidia-glcore.so.319.32 \
+           libnvidia-tls.so.319.32
+  do
+    install -m755 "obj/linux/$i" "${pkgdir}/compat/linux/usr/lib/$i"
+    #ln -sv "$i" "${pkgdir}/compat/linux/usr/lib/${i%%.1}"
+  done
+
+# vdpau
+  install -dm755 "${pkgdir}/compat/linux/usr/lib/vdpau"
+  # libvdpau{,_trace}.so.319.32 is provided here until linux-libvdpau does...
+  for i in libvdpau_nvidia.so.319.32 \
+  	   libvdpau.so.319.32 \
+  	   libvdpau_trace.so.319.32
+  do
+    install -m755 "obj/linux/$i" "${pkgdir}/compat/linux/usr/lib/vdpau/$i"
+    #ln -sv "$i" "${pkgdir}/compat/linux/usr/lib/vdpau/${i%%.1}"
+  done
+}
+
