@@ -2,14 +2,14 @@
 # Maintainer: Anthony Amzo@ArchBSD.net>
 
 pkgname=freebsd-configs
-pkgver=2013.05
-pkgrel=1
+pkgver=2013.07
+pkgrel=2
 pkgdesc='System wide FreeBSD configs'
 arch=('any')
 license=('BSL')
 url='http://www.archbsd.net'
 groups=('base')
-depends=('freebsd-world>=9.1.8')
+depends=("freebsd-world>=9.1-8")
 backup=('etc/profile' 'etc/sysctl.conf' 'boot/loader.conf' 'boot/brand.4th' 
         'boot/beastie.4th' 'etc/devd/asus.conf' 'etc/devd/uath.conf' 
         'etc/devd/usb.conf' 'etc/csh.cshrc' 'etc/devd.conf' 'etc/devfs.conf'

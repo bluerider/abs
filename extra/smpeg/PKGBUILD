@@ -15,8 +15,7 @@ builddepends=('gmake')
 optdepends=('gtk: to use gtv ' 'glu: to use glmovie')
 options=('!libtool' '!makeflags')
 _port_patches=('patch-MPEGaudio.h' 'patch-ab' 'patch-configure' 'patch-video.h')
-source=(
-	"ftp://ftp.su.se/pub/lunar/source-archive/${pkgname}-${pkgver}.tar.gz"
+source=("ftp://ftp.uwsg.indiana.edu/linux/gentoo/distfiles/${pkgname}-${pkgver}.tar.gz"
 	${_port_patches[@]}
         "smpeg-0.4.4-gcc41.patch"
         )
