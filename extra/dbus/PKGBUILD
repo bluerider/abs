@@ -26,7 +26,7 @@ source=(http://dbus.freedesktop.org/releases/dbus/dbus-$pkgver.tar.gz #{,.asc}
         patch-dbus_dbus-connection.c
         patch-dbus_dbus-sysdeps-util-unix.c
         patch-doc_Makefile.in
-        )
+	dbus.in)
 md5sums=('3bf059c7dd5eda5f539a1b7cfe7a14a2'
          '659d3de2e72991542f7dc153706aad24'
          'ecb16fff9a0deec0a1d0fabef6160609'
@@ -53,6 +53,7 @@ build() {
               --localstatedir=/var \
               --with-test-socket-dir="${srcdir}/test" \
               --with-system-pid-file=/var/run/dbus/pid \
+	      --libexecdir=/usr/libexec
               --with-system-socket=/var/run/dbus/system_bus_socket \
               --with-session-socket-dir=/tmp \
               --disable-doxygen-docs \
@@ -68,8 +69,9 @@ package(){
 
   rm -rf "$pkgdir/var/run"
 
-  install -m755 -d "$pkgdir/etc/init.d/"
+  install -m755 -d "$pkgdir"/etc/{init.d,rc.d}
   install -m755 ../dbus "$pkgdir/etc/init.d/dbus"
+  install -m755 ../dbus.in "$pkgdir/etc/rc.d/dbus"
 
   install -dm755 "$pkgdir/usr/share/licenses/dbus/"
   install -m644 COPYING "$pkgdir/usr/share/licenses/dbus/COPYING"
