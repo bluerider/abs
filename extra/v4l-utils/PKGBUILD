@@ -3,17 +3,11 @@
 pkgname=('v4l-utils' 'libv4l')
 _pkgname=v4l-utils
 pkgver=0.8.8
-pkgrel=3
+pkgrel=7
 pkgdesc="Userspace tools and conversion library for Video 4 Linux"
 arch=('i686' 'x86_64')
 url="http://freshmeat.net/projects/libv4l"
-provides=("libv4l=$pkgver")
-replaces=('libv4l')
-conflicts=('libv4l')
-backup=(etc/rc_maps.cfg)
 license=('LGPL')
-makedepends=('qt4')
-optdepends=('qt4')
 depends=('libc' 'gcc-libs' 'libjpeg-turbo' 'v4l-compat' 'argp')
 makedepends=('libv4l')
 port_patches=(patch-Make.rules
@@ -64,8 +58,8 @@ prepare(){
 	     ../include/linux/ivtv.h
 
   sed -i '' -e 's|linux/ioctl.h|sys/ioctl.h|g' ../lib/include/libv4l1-videodev.h
-  LIBDIR="${PREFIX}/lib" 
-  export  LDFLAGS="-largp"
+  export  LDFLAGS="-L/usr/lib -largp"
+  
 
 }
 
@@ -79,12 +73,15 @@ build() {
 }
 
 package_libv4l() {
+  install=libv4l.install
   cd "${srcdir}/${_pkgname}-${pkgver}/lib/"
   MAKEFLAGS="-j1" gmake install PREFIX=/usr DESTDIR="${pkgdir}"
 }
 
 package_v4l-utils() {
   depends=('libv4l' 'libc' 'gcc-libs' 'libjpeg-turbo' 'v4l-compat' 'argp')
+  backup=(etc/rc_maps.cfg)
+
   cd "${srcdir}/${_pkgname}-${pkgver}/utils/"
   MAKEFLAGS="-j1" gmake install PREFIX=/usr LIBDIR=/usr/lib DESTDIR="${pkgdir}"
   rm "${pkgdir}/usr/bin/ivtv-ctl"
