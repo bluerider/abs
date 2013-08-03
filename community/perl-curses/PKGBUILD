@@ -5,7 +5,7 @@
 
 pkgname=perl-curses
 pkgver=1.28
-pkgrel=6
+pkgrel=7
 pkgdesc="Character screen handling and windowing"
 arch=('i686' 'x86_64')
 url="http://search.cpan.org/dist/Curses"
@@ -17,6 +17,10 @@ md5sums=('ed9f7ddf2d90f4266da91c3dc9fad9c9')
 
 build() {
   cd  $srcdir/Curses-$pkgver
+
+  export CURSES_CFLAGS=`ncursesw6-config --cflags`
+  export CURSES_LDFLAGS=`ncursesw6-config --libs`
+  export CURSES_LIBTYPE=ncursesw
   PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
   make
 }
