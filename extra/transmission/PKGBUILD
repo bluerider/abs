@@ -4,7 +4,7 @@
 pkgbase=transmission
 pkgname=('transmission-cli' 'transmission-gtk')
 pkgver=2.77
-pkgrel=5
+pkgrel=6
 arch=('i686' 'x86_64')
 url="http://www.transmissionbt.com/"
 license=('MIT')
@@ -18,7 +18,8 @@ build() {
   ./configure --enable-cli \
 	      --disable-daemon \
 	      --disable-mac \
-	      --enable-inotify
+	      --enable-inotify \
+	      --prefix=/usr
   gmake
 
 }
