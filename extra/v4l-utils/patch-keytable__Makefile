@@ -11,14 +11,14 @@
 -	install -m 644 -p 70-infrared.rules $(DESTDIR)/lib/udev/rules.d
 -	install -m 755 -d $(DESTDIR)$(MANDIR)/man1
 -	install -m 644 -p ir-keytable.1 $(DESTDIR)$(MANDIR)/man1
-+	install -m 644 -p rc_maps.cfg $(DESTDIR)$(PREFIX)/etc
-+	install -m 755 -d $(DESTDIR)$(PREFIX)/etc/rc_keymaps
-+	install -m 644 -p rc_keymaps/* $(DESTDIR)$(PREFIX)/etc/rc_keymaps
++	install -m 644 -p rc_maps.cfg $(DESTDIR)/etc
++	install -m 755 -d $(DESTDIR)/etc/rc_keymaps
++	install -m 644 -p rc_keymaps/* $(DESTDIR)/etc/rc_keymaps
 +ifdef UDEV
-+	install -m 755 -d $(DESTDIR)$(PREFIX)/etc/udev/rules.d
-+	install -m 644 -p 70-infrared.rules $(DESTDIR)$(PREFIX)/etc/udev/rules.d
++	install -m 755 -d $(DESTDIR)/etc/udev/rules.d
++	install -m 644 -p 70-infrared.rules $(DESTDIR)/etc/udev/rules.d
 +endif
-+	install -m 755 -d $(DESTDIR)$(PREFIX)/man/man1
-+	install -m 644 -p ir-keytable.1 $(DESTDIR)$(PREFIX)/man/man1
++	install -m 755 -d $(DESTDIR)$(PREFIX)/share/man/man1
++	install -m 644 -p ir-keytable.1 $(DESTDIR)$(PREFIX)/share/man/man1
  
  include ../../Make.rules

@@ -15,6 +15,7 @@ license=('LGPL')
 makedepends=('qt4')
 optdepends=('qt4')
 depends=('libc' 'gcc-libs' 'libjpeg-turbo' 'v4l-compat' 'argp')
+makedepends=('libv4l')
 port_patches=(patch-Make.rules
 	patch-Makefile
 	patch-decode_tm6000__decode_tm6000.c
@@ -23,7 +24,8 @@ port_patches=(patch-Make.rules
 	patch-qv4l2__v4l2-api.h
 	patch-v4l2-ctl__ivtv-ctl.c
 	patch-v4l2-ctl__v4l2-ctl.cpp
-	patch-v4l2-dbg__v4l2-dbg.cpp)
+	patch-v4l2-dbg__v4l2-dbg.cpp
+	patch-keytable__Makefile)
 source=(http://linuxtv.org/downloads/v4l-utils/${_pkgname}-${pkgver}.tar.bz2
         http://linuxtv.org/downloads/v4l-utils/${_pkgname}-${pkgver}.tar.bz2.asc
 	patch-libv4lconvert_control_libv4lcontrol.c
@@ -39,7 +41,8 @@ sha256sums=('5fa4c6f4b6f5410de57271a03cc9a15f15195ef3fc05a8e42ecf507d6d70a87f'
             '04fa7cdff13489e628f49801ad8fd8612136d6f3eeedf01d2e2116d416a5d7a7'
             '27457ef8e699605dc1615c166cef95149fbd63ef92074a00d2d87040e4e37286'
             'ecf1d4f1d0d6d23ac9ab81c877c5abdb8b3f572e94626f5cabe8518e2e9493a5'
-            'e2b93143557ac16fcffa1eed05d2758f1784e69a67314a045a824b8d99af49d5')
+            'e2b93143557ac16fcffa1eed05d2758f1784e69a67314a045a824b8d99af49d5'
+            '03f6f0542e772111610116d1c58f03b120a5369d90fc3f83eeb3d0edecf8d167')
 options=(!libtool)
 
 prepare(){
@@ -83,6 +86,6 @@ package_libv4l() {
 package_v4l-utils() {
   depends=('libv4l' 'libc' 'gcc-libs' 'libjpeg-turbo' 'v4l-compat' 'argp')
   cd "${srcdir}/${_pkgname}-${pkgver}/utils/"
-  MAKEFLAGS="-j1" gmake install PREFIX=/usr DESTDIR="${pkgdir}"
+  MAKEFLAGS="-j1" gmake install PREFIX=/usr LIBDIR=/usr/lib DESTDIR="${pkgdir}"
   rm "${pkgdir}/usr/bin/ivtv-ctl"
 }
