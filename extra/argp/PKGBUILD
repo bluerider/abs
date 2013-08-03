@@ -10,7 +10,11 @@ source=(http://www.lysator.liu.se/~nisse/misc/${pkgname}-standalone-${pkgver}.ta
 	patch-configure.ac
 	patch-testsuite_Makefile.am
 	ltmain.sh)
-md5sums=('720704bac078d067111b32444e24ba69')
+md5sums=('720704bac078d067111b32444e24ba69'
+         'c487d7123fad0d951c5d6e3460aa41fa'
+         '4c87275bf64afd6890f2a1fd0ea24006'
+         '2d70bd5b8532725a93f14a6e9ffc1ab8'
+         '5d6f3068219765b2367a429f7068b283')
 
 prepare(){
   cd "${srcdir}/${pkgname}-standalone-${pkgver}"
@@ -20,12 +24,9 @@ prepare(){
   patch -p0 -i "${srcdir}"/patch-testsuite_Makefile.am
   cp ${srcdir}/ltmain.sh "${srcdir}/${pkgname}-standalone-${pkgver}/"
 
-  aclocal --automake-acdir=/usr/share/aclocal-1.14
-  autoconf #-I /usr/share/autoconf/
-  
-
-  automake -c -a #--libdir=/usr/share/automake-1.14/
-  
+  aclocal
+  autoconf 
+  automake -c -a 
   libtoolize --automake
 }
 
@@ -43,4 +44,6 @@ package() {
  install -m755 .libs/libargp.la "${pkgdir}"/usr/lib/
  install -m755 .libs/libargp.a "${pkgdir}"/usr/lib/
  install -m755 .libs/libargp.so.0 "${pkgdir}"/usr/lib/
+ cd "${pkgdir}"/usr/lib/
+ ln -sh libargp.so.0 libargp.so
 }
