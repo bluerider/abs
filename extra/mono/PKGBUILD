@@ -72,4 +72,7 @@ package() {
   
   #fix .pc file to be able to request mono on what it depends, fixes #go-oo build
   gsed -i -e "s:#Requires:Requires:" "${pkgdir}"/usr/lib/pkgconfig/mono.pc
+
+  rm "${pkgdir}/usr/bin/mono"
+  ln -s mono-sgen "${pkgdir}/usr/bin/mono"
 }
