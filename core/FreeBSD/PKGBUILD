@@ -4,7 +4,7 @@
 #
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32' 'freebsd-init')
 pkgver=20130502
-_freebsdver=9.1
+_freebsdver=9.2
 pkgrel=8
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
@@ -173,6 +173,9 @@ _package_freebsd-world() {
 
   #Remove unzip provided by world
   rm -f "${pkgdir}"/usr/bin/unzip
+
+  #Remove freebsd-update
+  rm -f "${pkgdir}"/usr/sbinfreebsd-update
 
   #Remove files now provided by FreeBSD-config
   for i in /etc/freebsd-update.conf /etc/netstart \
