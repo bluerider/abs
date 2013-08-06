@@ -3,7 +3,7 @@
 
 pkgname=freebsd-configs
 pkgver=2013.07
-pkgrel=2
+pkgrel=3
 pkgdesc='System wide FreeBSD configs'
 arch=('any')
 license=('BSL')
@@ -30,7 +30,7 @@ md5sums=('3fab19520668156176f62be9e0af21c1'
          '88ec33a1523b62b2e3f7488ff8ca7c48'
          '1e82a92ee6e6b9f67f69050ca0dee684'
          '239dd0da7c1de745c4a823b0404f7ee5'
-         'e0e7ac55312092864b25c20dc8e21aff')
+         '473f32aa2c4fb428e9d964aadbf00d1a')
 
 package() {
 
@@ -61,5 +61,6 @@ done
 
 install -dm755 "${pkgdir}/etc/defaults"
 install -m644 "${srcdir}/rc.conf" "${pkgdir}/etc/defaults/"
+install -dm755 "${pkgdir}/etc/rc.local"
 touch etc/arch-release
 }
