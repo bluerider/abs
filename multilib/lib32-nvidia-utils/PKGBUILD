@@ -5,7 +5,7 @@
 _pkgbasename=nvidia-utils
 pkgbase=lib32-$_pkgbasename
 pkgname=('lib32-nvidia-utils' 'lib32-nvidia-libgl') # 'lib32-opencl-nvidia')
-pkgver=319.17
+pkgver=319.32
 pkgrel=1
 arch=('x86_64')
 url="http://www.nvidia.com/"
@@ -15,7 +15,7 @@ options=('!strip')
 _arch='x86'
 _pkg="NVIDIA-FreeBSD-${_arch}-${pkgver}"
 source=("ftp://download.nvidia.com/XFree86/FreeBSD-${_arch}/${pkgver}/${_pkg}.tar.gz")
-md5sums=('3cfa9e48016f10bf957bb5c5f89a687c')
+md5sums=('666fd21eb7cb02346a0df6f754cc6752')
 
 prepare() {
     cd "${srcdir}/NVIDIA-FreeBSD-${_arch}-${pkgver}/"
