@@ -28,7 +28,7 @@ if [[ "$CARCH" == "i686" ]]; then
 else
     _CARCH=x86_64
 fi
-_CHOST_=${_CARCH}-unknown-freebsd9.1
+_CHOST_=${_CARCH}-unknown-freebsd9.2
 
 prepare() {
 	mkdir gcc-build

@@ -35,15 +35,11 @@ md5sums=('d896371d533a22de4cf57c7371c4d6e8'
          '6855b684a7cc9363d6694a790d7c80f2'
          '41597df204caf6cdb4310be28027f7e5')
 
-_makeargs=(BRANDING='Arch BSD')
+_makeargs=(BRANDING='Arch BSD' OS=FreeBSD)
 
 build() {
-	cd "$srcdir"/$pkgname-$pkgver
+  cd "$srcdir"/$pkgname-$pkgver
   
-	#For some reason it fails to build the binaries for FreeBSD:
-  #This fixes the 'exec format error' on boot
-  patch -p1 < "${srcdir}/openrc.patch"
-  sed -i '' -e 's|os-${OS}|os-FreeBSD|' mk/os.mk
   find "$srcdir"/$pkgname-$pkgver -name *.sh | xargs sed -i '' -e 's|/bin/sh|/usr/bin/bash|g'
   gmake "${_makeargs}"
 }
