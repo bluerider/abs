@@ -14,13 +14,17 @@ makedepends=('xorg-server-devel' 'X-ABI-VIDEODRV_VERSION=13' 'resourceproto' 'sc
 conflicts=('xorg-server<1.13.0' 'X-ABI-VIDEODRV_VERSION<13' 'X-ABI-VIDEODRV_VERSION>=15')
 groups=('xorg-drivers' 'xorg')
 options=('!libtool')
-source=(${url}/releases/individual/driver/${pkgname}-${pkgver}.tar.bz2)
-sha256sums=('aa5286b3e4f0187d7df14785c06dd800255d9405205dbf061da5d77df86bec36')
+_port_patches=('patch-config.h')
+source=(${url}/releases/individual/driver/${pkgname}-${pkgver}.tar.bz2
+	${_port_patches[@]})
+sha256sums=('aa5286b3e4f0187d7df14785c06dd800255d9405205dbf061da5d77df86bec36'
+            '8da0c50141dcc9f2e5eebdde242dfa7fbba5c525996ed68d415d2c622ef20858')
 
 build() {
   cd ${srcdir}/${pkgname}-${pkgver}
   ./configure --prefix=/usr \
-    --disable-kms
+    --disable-kms USE_XAA=0
+  patch -p1 < ../patch-config.h
   make
 }
 
