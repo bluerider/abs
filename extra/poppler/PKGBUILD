@@ -4,7 +4,7 @@
 pkgbase=poppler
 pkgname=('poppler' 'poppler-glib' 'poppler-qt')
 pkgver=0.22.4
-pkgrel=1
+pkgrel=2
 arch=(i686 x86_64)
 license=('GPL')
 makedepends=('libjpeg' 'cairo' 'fontconfig' 'openjpeg' 'gtk2' 'qt4' 'pkgconf' 'lcms' 'gobject-introspection' 'icu')
@@ -45,8 +45,7 @@ check() {
 
 package_poppler() {
   pkgdesc="PDF rendering library based on xpdf 3.0"
-#  depends=('libjpeg' 'cairo' 'fontconfig' 'openjpeg' 'lcms' 'poppler-data')
-  depends=('libjpeg' 'cairo' 'fontconfig' 'lcms' 'poppler-data')
+  depends=('libjpeg' 'cairo' 'fontconfig' 'openjpeg' 'lcms' 'poppler-data')
   conflicts=("poppler-qt3<${pkgver}")
 
   cd "${srcdir}/${pkgbase}-${pkgver}"
