@@ -3,9 +3,9 @@
 # makepkg --asroot
 #
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32' 'freebsd-init')
-pkgver=20130502
 _freebsdver=9.2
-pkgrel=8
+pkgver=$_freebsdver
+pkgrel=1
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -48,6 +48,10 @@ prepare() {
 }
 
 flags_for_all() {
+  cd "$srcdir/freebsd"
+  pkgver=${pkgver}git$(git describe --always)
+  cd "$srcdir"
+
   export MAKEOBJDIRPREFIX="$srcdir/obj"
   unset LDFLAGS CXXFLAGS CPPFLAGS CFLAGS M4 LD RANLIB ld
   if [[ "$CARCH" == "x86_64" ]]; then
@@ -89,7 +93,6 @@ _build() {
 
 _package_freebsd-kernel() {
   pkgdesc="FreeBSD kernel package"
-  pkgver=${_freebsdver}
   groups=('base')
   options=('!strip')
 
@@ -100,7 +103,6 @@ _package_freebsd-kernel() {
 
 _package_freebsd-world() {
   pkgdesc="FreeBSD base package"
-  pkgver=${_freebsdver}
   groups=('base')
   depends=('init')
   provides=(libc=${_freebsdver} zlib=${_freebsdver})
@@ -267,6 +269,7 @@ _package_freebsd-source() {
   pkgdesc="FreeBSD source matching FreeBSD kernel"
   options=('!strip')
   arch=('any')
+  cd freebsd
   mkdir -p "${pkgdir}/usr/src"
   cp -a "${srcdir}/${_gitname}"/* "${pkgdir}/usr/src/"
   rm -rf "${pkgdir}"/usr/src/.git
@@ -274,7 +277,6 @@ _package_freebsd-source() {
 
 _package_freebsd-lib32() {
    pkgdesc="FreeBSD lib32 libraries"
-   pkgver=${_freebsdver}
    provides=(lib32-libc=${_freebsdver})
    options=('!strip')
    arch=('x86_64')
@@ -294,7 +296,6 @@ _package_freebsd-lib32() {
 
 _package_freebsd-init() {
    pkgdesc="FreeBSD init scripts"
-   pkgver=${_freebsdver}
    provides=('init')
    conflicts=('openrc')
    options=('!strip')
