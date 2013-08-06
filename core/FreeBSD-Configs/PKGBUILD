@@ -3,7 +3,7 @@
 
 pkgname=freebsd-configs
 pkgver=2013.07
-pkgrel=3
+pkgrel=4
 pkgdesc='System wide FreeBSD configs'
 arch=('any')
 license=('BSL')
@@ -13,7 +13,7 @@ depends=("freebsd-world>=9.1-8")
 backup=('etc/profile' 'etc/sysctl.conf' 'boot/loader.conf' 'boot/brand.4th' 
         'boot/beastie.4th' 'etc/devd/asus.conf' 'etc/devd/uath.conf' 
         'etc/devd/usb.conf' 'etc/csh.cshrc' 'etc/devd.conf' 'etc/devfs.conf'
-        'etc/motd' 'etc/os-release' 'etc/defaults/rc.conf')
+        'etc/motd' 'etc/os-release')
 source=('asus.conf' 'beastie.4th' 'brand.4th' 'csh.cshrc' 'devd.conf'
         'devfs.conf' 'loader.conf' 'motd' 'profile' 'sysctl.conf' 
         'uath.conf' 'usb.conf' 'os-release' 'rc.conf')
@@ -30,7 +30,7 @@ md5sums=('3fab19520668156176f62be9e0af21c1'
          '88ec33a1523b62b2e3f7488ff8ca7c48'
          '1e82a92ee6e6b9f67f69050ca0dee684'
          '239dd0da7c1de745c4a823b0404f7ee5'
-         '473f32aa2c4fb428e9d964aadbf00d1a')
+         '40356a0b878c49232fc15571e311354e')
 
 package() {
 
@@ -61,6 +61,6 @@ done
 
 install -dm755 "${pkgdir}/etc/defaults"
 install -m644 "${srcdir}/rc.conf" "${pkgdir}/etc/defaults/"
-install -dm755 "${pkgdir}/etc/rc.local"
+install -dm755 "${pkgdir}/etc/local.d"
 touch etc/arch-release
 }
