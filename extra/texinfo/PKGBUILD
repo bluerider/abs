@@ -3,7 +3,7 @@
 
 pkgname=texinfo
 pkgver=4.13a
-pkgrel=8
+pkgrel=9
 pkgdesc="Utilities to work with and produce manuals, ASCII text, and on-line documentation from a single source file"
 arch=('i686' 'x86_64')
 url="http://www.gnu.org/software/texinfo/"
@@ -21,7 +21,7 @@ build() {
   cd ${srcdir}/${pkgname}-4.13
   patch -Np1 -i $srcdir/texinfo-4.13a-data_types.patch
   LDFLAGS="$LDFLAGS -lintl" \
-  ./configure --prefix=/usr/usr/local --without-included-gettext
+  ./configure --prefix=/usr/local --without-included-gettext
   gmake
 }
 
