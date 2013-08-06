@@ -1,5 +1,5 @@
 post_install() {
-	/sbin/ldconfig -m -32 /usr/lib32
+	/sbin/ldconfig -32 -m /usr/lib32
 }
 
 post_remove() {
