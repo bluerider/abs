@@ -10,7 +10,7 @@ _gccver=4.8.0
 
 pkgname=('libtool' 'libltdl')
 pkgver=2.4.2
-pkgrel=12
+pkgrel=13
 pkgdesc="A generic library support script"
 arch=('i686' 'x86_64')
 url="http://www.gnu.org/software/libtool"
@@ -54,7 +54,8 @@ build() {
 }
 
 package_libtool() {
-  depends=("libltdl=$pkgver" "gcc=$_gccver")
+  #We want gcc libs pulled first
+  depends=("gcc-libs" "libltdl=$pkgver" "gcc=$_gccver")
   groups=('base-devel')
 
   cd ${srcdir}/${pkgbase}-${pkgver}
