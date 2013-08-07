@@ -6,7 +6,7 @@
 
 pkgname=wine
 pkgver=1.6rc4
-pkgrel=5
+pkgrel=6
 
 _pkgbasever=${pkgver/rc/-rc}
 
@@ -23,9 +23,6 @@ url="http://www.winehq.com"
 arch=(i686 x86_64)
 license=(LGPL)
 install=wine.install
-
-M32_CPPFLAGS='-nostdlibinc -I/usr/include/c++/4.7.2/x86_64-unknown-freebsd9.1 -I/usr/include/c++/4.7.2 -I/usr/include'
-M32_CPPLIBS='-lstdc++'
 
 WITH_WIN64=no
 
