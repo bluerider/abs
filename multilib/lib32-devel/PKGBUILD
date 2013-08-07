@@ -4,12 +4,13 @@
 
 pkgname=lib32-devel
 _gccver=4.8.0
+_gccrel=2
 pkgver=$_gccver
-pkgrel=3
+pkgrel=4
 arch=('x86_64')
 options=('!strip' 'emptydirs')
-depends=("gcc=${_gccver}" "gcc-libs=${_gccver}" 'freebsd-world>=9.1-7' 'freebsd-lib32>=9.1-7')
-makedepends=("gcc=${_gccver}")
+depends=("gcc=${_gccver}" "gcc-libs=${_gccver}" 'freebsd-world>=9.2git-1' 'freebsd-lib32>=9.2git-1')
+makedepends=("gcc=${_gccver}-${_gccrel}")
 source=(ftp://gcc.gnu.org/pub/gcc/releases/gcc-${pkgver}/gcc-${pkgver}.tar.bz2
         specs.diff
         )
@@ -18,7 +19,7 @@ md5sums=('e6040024eb9e761c3bea348d1fa5abb0'
 
 provides=("lib32-gcc-libs=${_gccver}" "gcc-multilib=${_gccver}")
 
-_CHOST_=x86_64-unknown-freebsd9.1
+_CHOST_=x86_64-unknown-freebsd9.2
 
 prepare() {
 	mkdir include32
@@ -76,8 +77,8 @@ package() {
 
 	cd "$srcdir"
 	# specs file
-	install -dm755 "${pkgdir}/usr/lib/gcc/x86_64-unknown-freebsd9.1/${_gccver}"
-	install -m644 specs "${pkgdir}/usr/lib/gcc/x86_64-unknown-freebsd9.1/${_gccver}/specs"
+	install -dm755 "${pkgdir}/usr/lib/gcc/${_CHOST_}/${_gccver}"
+	install -m644 specs "${pkgdir}/usr/lib/gcc/${_CHOST_}/${_gccver}/specs"
 
 
 	## machine headers:
