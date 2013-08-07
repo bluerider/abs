@@ -9,7 +9,7 @@ pkgver=$_gccver
 pkgrel=4
 arch=('x86_64')
 options=('!strip' 'emptydirs')
-depends=("gcc=${_gccver}" "gcc-libs=${_gccver}" 'freebsd-world>=9.2git-1' 'freebsd-lib32>=9.2git-1')
+depends=("gcc=${_gccver}" "gcc-libs=${_gccver}" 'freebsd-world>=9.1-8' 'freebsd-lib32>=9.1-8')
 makedepends=("gcc=${_gccver}-${_gccrel}")
 source=(ftp://gcc.gnu.org/pub/gcc/releases/gcc-${pkgver}/gcc-${pkgver}.tar.bz2
         specs.diff
