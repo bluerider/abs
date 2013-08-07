@@ -6,10 +6,10 @@ pkgname=lib32-devel
 _gccver=4.8.0
 _gccrel=2
 pkgver=$_gccver
-pkgrel=4
+pkgrel=5
 arch=('x86_64')
 options=('!strip' 'emptydirs')
-depends=("gcc=${_gccver}" "gcc-libs=${_gccver}" 'freebsd-world>=9.1-8' 'freebsd-lib32>=9.1-8')
+depends=("gcc>=${_gccver}-${_gccrel}" "gcc-libs=${_gccver}" 'freebsd-world>=9.1-8' 'freebsd-lib32>=9.1-8')
 makedepends=("gcc=${_gccver}-${_gccrel}")
 source=(ftp://gcc.gnu.org/pub/gcc/releases/gcc-${pkgver}/gcc-${pkgver}.tar.bz2
         specs.diff
