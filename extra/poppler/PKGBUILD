@@ -80,7 +80,7 @@ package_poppler-glib() {
 
 package_poppler-qt() {
   pkgdesc="Poppler Qt bindings"
-  depends=("poppler=${pkgver}" 'qt')
+  depends=("poppler=${pkgver}" 'qt4')
 
   cd "${srcdir}/${pkgbase}-${pkgver}/poppler"
   gmake DESTDIR="${pkgdir}" install-libLTLIBRARIES
