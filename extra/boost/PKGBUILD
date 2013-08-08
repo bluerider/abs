@@ -10,7 +10,7 @@ pkgbase=boost
 pkgname=('boost-libs' 'boost')
 pkgver=1.53.0
 _boostver=${pkgver//./_}
-pkgrel=4
+pkgrel=5
 url="http://www.boost.org/"
 arch=('i686' 'x86_64')
 license=('custom')
@@ -117,6 +117,5 @@ export _stagedir="${srcdir}/stagedir"
 
   cd ${pkgdir}/usr/lib
   rm -rf lib*.so
-  for l in lib*.so*; do mv ${l} ${l%.*.*}; done
-  for l in lib*.so*; do ln -sf ${l} ${l%.*.*}.so; done
+  for l in lib*.so.*; do ln -sf ${l} ${l%.*.*}.so; done
 }
