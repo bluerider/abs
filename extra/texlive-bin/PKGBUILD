@@ -4,12 +4,12 @@
 
 pkgname=texlive-bin
 pkgver=2012.0
-pkgrel=13
+pkgrel=14
 _biber_ver=1.5 # for biblatex 2.5 only.
 pkgdesc="TeX Live binaries"
 license=('GPL')
 arch=('i686' 'x86_64')
-depends=('t1lib' 'gd' 'poppler>=0.22.4' 'libsigsegv' 'zziplib' 'libpng' 'libjpeg' 'freetype2')
+depends=('t1lib' 'gd' 'poppler>=0.24.0' 'libsigsegv' 'zziplib' 'libpng' 'libjpeg' 'freetype2')
 makedepends=('perl' 'clisp' 'ffcall')
 optdepends=('ed: for texconfig')
 provides=('lcdf-typetools' 'kpathsea' 'xindy' 'pdfjam')

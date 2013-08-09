@@ -5,7 +5,7 @@
 # Contributor: Wolfgang Bumiller <blub@speed.at>
 
 pkgname=qpdf
-pkgver=4.0.1
+pkgver=5.0.0
 pkgrel=1
 pkgdesc="QPDF: A Content-Preserving PDF Transformation System"
 arch=('i686' 'x86_64')
@@ -15,7 +15,7 @@ depends=('pcre' 'perl')
 makedepends=('bash')
 options=('!libtool')
 source=(http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.gz)
-md5sums=('093baece867a0a7e07774bd4008156b3')
+md5sums=('d501c61a8979132f6d601641483850cc')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
