@@ -116,6 +116,5 @@ export _stagedir="${srcdir}/stagedir"
       "${pkgdir}"/usr/share/licenses/boost-libs/LICENSE_1_0.txt
 
   cd ${pkgdir}/usr/lib
-  rm -rf lib*.so
-  for l in lib*.so.*; do ln -sf ${l} ${l%.*.*}.so; done
+  for l in lib*.so.*; do ln -sf ${l} ${l%.*.*}; done
 }
