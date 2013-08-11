@@ -24,7 +24,7 @@ source=(LICENSE llvm32.patch
 	"ftp://ftp.freedesktop.org/pub/mesa/${pkgver}/MesaLib-${pkgver}.tar.bz2")
 md5sums=('5c65a0fe315dd347e09b1f2826a1df5a'
          '5fe9ad0c5beed19bc98d8c34aaad4ade'
-         'dc45d1192203e418163e0017640e1cfc')
+         'a2c4e25d0e27918bc67f61bae04d0cb8')
 
 prepare() {
     cd ${srcdir}/?esa-*
