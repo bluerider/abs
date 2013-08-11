@@ -145,7 +145,7 @@ package_nouveau-dri() {
 
 package_mesa() {
   pkgdesc="an open-source implementation of the OpenGL specification"
-  depends=('libdrm' 'libvdpau' 'libxxf86vm' 'libxdamage' 'llvm-amdgpu-lib-snapshot')
+  depends=('libdrm' 'libvdpau' 'libxxf86vm' 'libxdamage' 'llvm-amdgpu-lib-snapshot' 'expat')
   optdepends=('opengl-man-pages: for the OpenGL API man pages')
   provides=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
   conflicts=('libglapi' 'osmesa' 'libgbm' 'libgles' 'libegl' 'khrplatform-devel')
