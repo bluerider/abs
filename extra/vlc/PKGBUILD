@@ -5,7 +5,7 @@
 
 pkgname=vlc
 pkgver=2.0.7
-pkgrel=2
+pkgrel=3
 pkgdesc="A multi-platform MPEG, VCD/DVD, and DivX player"
 arch=('i686' 'x86_64')
 url="http://www.videolan.org/vlc/"
@@ -18,7 +18,7 @@ makedepends=('live-media' 'libnotify' 'libbluray' 'flac' 'kdelibs'
              'libdc1394' 'libcaca' 
              'librsvg' 'portaudio' 'libgme' 'projectm' 
              'twolame' 'aalib' 'libmtp' 'libdvdcss' 'gnome-vfs' 
-             'libtar' 'vcdimager' 'opus' 'mesa')
+             'libtar' 'vcdimager' 'opus' 'mesa' 'libgl')
 optdepends=('avahi: for service discovery using bonjour protocol'
             'libnotify: for notification plugin'
             'libdvdcss: for decoding encrypted DVDs'
