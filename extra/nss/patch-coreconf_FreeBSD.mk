@@ -1,5 +1,5 @@
---- ../../security/coreconf/FreeBSD.mk.orig	2009-08-22 07:33:09.000000000 +0200
-+++ ../../security/coreconf/FreeBSD.mk	2010-03-28 23:01:33.000000000 +0200
+--- coreconf/FreeBSD.mk.orig	2009-08-22 07:33:09.000000000 +0200
++++ coreconf/FreeBSD.mk	2010-03-28 23:01:33.000000000 +0200
 @@ -37,9 +37,9 @@
  
  include $(CORE_DEPTH)/coreconf/UNIX.mk
@@ -27,18 +27,14 @@
  
  OS_CFLAGS		= $(DSO_CFLAGS) -ansi -Wall -Wno-switch -DFREEBSD -DHAVE_STRERROR -DHAVE_BSD_FLOCK
  
-@@ -65,20 +80,18 @@
- USE_PTHREADS		= 1
- DEFINES			+= -D_THREAD_SAFE -D_REENTRANT
- OS_LIBS			+= -pthread
--DSO_LDOPTS		+= -pthread
-+DSO_LDOPTS		+= $(BSD_LDOPTS)
- endif
+@@ -70,15 +85,15 @@
  
  ARCH			= freebsd
  
 -MOZ_OBJFORMAT		:= $(shell test -x /usr/bin/objformat && /usr/bin/objformat || echo elf)
++ifndef MOZILLA_CLIENT
 +DLL_SUFFIX		= so.1
++endif
  
 -ifeq ($(MOZ_OBJFORMAT),elf)
 -DLL_SUFFIX		= so
