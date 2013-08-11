@@ -103,7 +103,7 @@ build() {
   #export DISPLAY=:99
   #Xvfb -nolisten tcp -extension GLX -screen 0 1280x1024x24 $DISPLAY &
 
-  if ! gmake -f client.mk build MOZ_PGO=1; then
+  if ! gmake -f client.mk build MOZ_PGO=0; then
     kill $!
     return 1
   fi
