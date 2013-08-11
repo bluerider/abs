@@ -294,7 +294,8 @@ source /etc/profile.d/perlbin.sh
 		--enable-neon \
 		--with-system-neon \
 		--disable-odk \
-		--without-help
+		--without-help \
+		--disable-lockdown
 
 #		--enable-mergelibs \ # https://bugs.archlinux.org/task/34414
 
@@ -304,7 +305,7 @@ source /etc/profile.d/perlbin.sh
 
 #	touch src.downloaded
 	#./download
-	gmake -j1
+	gmake
 	# fake installation to create split file lists
 	mkdir $srcdir/fakeinstall
 	gmake -j1 DESTDIR=${srcdir}/fakeinstall distro-pack-install
@@ -651,15 +652,15 @@ package_libreoffice-en-US() {
  done
 }
 
-package_libreoffice-extension-presentation-minimizer() {
+#package_libreoffice-extension-presentation-minimizer() {
 
- pkgdesc="This extension reduce the file size of the current presentation"
- depends=('libreoffice-common' 'gcc-libs')
- groups=('libreoffice-extensions')
+# pkgdesc="This extension reduce the file size of the current presentation"
+# depends=('libreoffice-common' 'gcc-libs')
+# groups=('libreoffice-extensions')
 
-	install -dm755 ${pkgdir}/usr/lib/libreoffice/share/extensions
-	unzip -q ${srcdir}/libreoffice-$_LOver/solver/unxlng*/bin/presentation-minimizer.oxt -d ${pkgdir}/usr/lib/libreoffice/share/extensions/presentation-minimizer
-}
+#	install -dm755 ${pkgdir}/usr/lib/libreoffice/share/extensions
+#	unzip -q ${srcdir}/libreoffice-$_LOver/solver/unxlng*/bin/presentation-minimizer.oxt -d ${pkgdir}/usr/lib/libreoffice/share/extensions/presentation-minimizer
+#}
 
 package_libreoffice-extension-report-builder() {
 
