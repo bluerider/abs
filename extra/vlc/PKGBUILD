@@ -18,7 +18,7 @@ makedepends=('live-media' 'libnotify' 'libbluray' 'flac' 'kdelibs'
              'libdc1394' 'libcaca' 
              'librsvg' 'portaudio' 'libgme' 'projectm' 
              'twolame' 'aalib' 'libmtp' 'libdvdcss' 'gnome-vfs' 
-             'libtar' 'vcdimager' 'opus' 'mesa')
+             'libtar' 'vcdimager' 'opus' 'mesa' 'libgl')
 optdepends=('avahi: for service discovery using bonjour protocol'
             'libnotify: for notification plugin'
             'libdvdcss: for decoding encrypted DVDs'
