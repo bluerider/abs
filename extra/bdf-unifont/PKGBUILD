@@ -3,12 +3,12 @@
 
 pkgname=bdf-unifont
 pkgver=5.1.20080820
-pkgrel=3
+pkgrel=4
 pkgdesc="GNU Unifont Glyphs"
 arch=('any')
 license=('custom' 'GPL2')
 url="http://unifoundry.com/unifont.html"
-depends=('fontconfig' 'xorg-fonts-encodings' 'xorg-font-util')
+depends=('fontconfig' 'xorg-fonts-encodings' 'xorg-font-utils')
 install=unifont.install
 source=("http://unifoundry.com/unifont-${pkgver}.bdf.gz" 'LICENSE')
 md5sums=('6b8263ceccef33bd633aa019d74b7943'
