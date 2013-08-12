@@ -21,7 +21,12 @@ _port_patches=(
 )
 source=("http://libtorrent.rakshasa.no/downloads/${pkgname}-${pkgver}.tar.gz"
 	${_port_patches[@]})
-sha1sums=('e65a20b9e6d5c04b4e0849543d58befb60d948b7')
+sha1sums=('e65a20b9e6d5c04b4e0849543d58befb60d948b7'
+          '68183ccb315d5f1e0ac927e3175e7f6568c39ea3'
+          '49e8796ac35b288ddfa3fd91759fef11984fe194'
+          'b84938fa3885a5b111c1c732db98ce922b2f459f'
+          '8690082f88c2cd263df30e2902c54704b7c4ff8b'
+          'ad0d6bf97a418539a3526dd9f994f7c14450031a')
 
 options=('!libtool')
 
@@ -31,16 +36,17 @@ build() {
 	export CC="clang"
 	export CXX="clang++"
 	export CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing"
-	#sed -i '' -e "/^ltmain=/!s|\$$ac_aux_dir/ltmain.sh|/usr/share/libtool/config/ltmain.sh|g" \
-	#	  -e "/^LIBTOOL=/s|\$$\(top_builddir\)/libtool|/usr/bin/libtool|g" \
-	#	  ${srcdir}/${pkgname}-${pkgver}/aclocal.m4
-	#find ${srcdir}/${pkgname}-${pkgver} -name "Makefile.in" | xargs sed -i '' -e 's|^LIBTOOL[ ]*=.*|LIBTOOL=/usr/bin/libtool|g'
+	sed -i '' -e "/^ltmain=/!s|\$$ac_aux_dir/ltmain.sh|/usr/share/libtool/config/ltmain.sh|g" \
+		  -e "/^LIBTOOL=/s|\$$\(top_builddir\)/libtool|/usr/bin/libtool|g" \
+		  ${srcdir}/${pkgname}-${pkgver}/aclocal.m4
+	find ${srcdir}/${pkgname}-${pkgver} -name "Makefile.in" | xargs sed -i '' -e 's|^LIBTOOL[ ]*=.*|LIBTOOL=/usr/bin/libtool|g'
 	for _p in ${_port_patches[@]}; do
 		patch -p0 < ../$_p
 	done
 #	sleep 15
 	./configure \
-		OPENSSL_LIBS=/lib  \
+		OPENSSL_LIBS=/lib OPENSSL_CFLAGS=/lib \
+		STUFF_LIBS=/lib STUFF_CFLAGS=/lib \
 		--prefix=/usr \
 #		--disable-debug \
 
