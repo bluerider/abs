@@ -6,7 +6,7 @@
 
 pkgname=libtorrent
 pkgver=0.13.3
-pkgrel=3
+pkgrel=4
 pkgdesc='BitTorrent library with a focus on high performance and good code'
 url='http://libtorrent.rakshasa.no/'
 arch=('i686' 'x86_64')
@@ -45,8 +45,8 @@ build() {
 	done
 #	sleep 15
 	./configure \
-		OPENSSL_LIBS=/lib OPENSSL_CFLAGS=/lib \
-		STUFF_LIBS=/lib STUFF_CFLAGS=/lib \
+		OPENSSL_CFLAGS="-I/usr/include/openssl" OPENSSL_LIBS="-L/usr/lib -lssl -lcrypto" \
+		STUFF_CFLAGS="-I/usr/include/openssl" STUFF_LIBS="-L/usr/lib -lssl -lcrypto" \
 		--prefix=/usr \
 #		--disable-debug \
 
