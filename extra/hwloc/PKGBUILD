@@ -5,12 +5,12 @@
 
 pkgname=hwloc
 pkgver=1.6.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Portable Hardware Locality is a portable abstraction of hierarchical architectures"
 arch=('i686' 'x86_64')
 url="http://www.open-mpi.org/projects/hwloc/"
 license=('BSD')
-depends=('pciutils' 'cairo' 'libxml2')
+depends=('pciutils' 'cairo' 'libxml2' 'libpciaccess')
 makedepends=('pkg-config')
 options=('!libtool' '!docs')
 source=(http://www.open-mpi.org/software/hwloc/v1.6/downloads/${pkgname}-${pkgver}.tar.bz2)
