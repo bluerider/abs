@@ -4,7 +4,7 @@
 # Contributor: Anthony Amzo <Amzo@archbsd.net
 pkgname=fakeroot
 pkgver=1.18.4
-pkgrel=2
+pkgrel=3
 pkgdesc="Gives a fake root environment, useful for building packages as a non-privileged user"
 arch=('i686' 'x86_64')
 license=('GPL')
@@ -37,4 +37,8 @@ package() {
   # install README for sysv/tcp usage
   install -dm755 $pkgdir/usr/share/doc/$pkgname
   install -m644 $srcdir/$pkgname-$pkgver/README $pkgdir/usr/share/doc/$pkgname/README
+
+  # ldconfig path
+  install -dm755 "${pkgdir}/usr/libdata/ldconfig"
+  echo "/usr/lib/libfakeroot" >> "${pkgdir}/usr/libdata/ldconfig/$pkgname"
 }
