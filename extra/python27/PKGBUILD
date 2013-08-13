@@ -5,13 +5,13 @@
 
 pkgname=python2
 pkgver=2.7.3
-pkgrel=4
+pkgrel=5
 _pybasever=2.7
 pkgdesc="A high-level scripting language"
 arch=('i686' 'x86_64')
 license=('PSF')
 url="http://www.python.org/"
-depends=('gettext' 'expat' 'libffi')
+depends=('gettext' 'sqlite' 'expat' 'libffi')
 #depends=('expat' 'sqlite' 'libffi')
 #makedepends=('tk>=8.6.0' 'bluez')
 #optdepends=('tk: for IDLE')
@@ -27,11 +27,6 @@ source=(http://www.python.org/ftp/python/${pkgver%rc?}/Python-${pkgver}.tar.xz
         extra-patch-setup.py)
 
 build() {
-#  export CC=clang
-#  export CPP=clang-cpp
-#  export CXX=clang++
-
-  #fixes missing -lpython26
   export LDFLAGS="${LDFLAGS} -L${srcdir}/Python-${pkgver}"
 
   cd "${srcdir}/Python-${pkgver}"
@@ -148,6 +143,6 @@ md5sums=('62c4c1699170078c469f79ddfed21bc0'
          'e41eb017f4a7233d675b9750e985d843'
          '3da318f0eb469eff822246af23cc729b'
          '760218101a55fda2d0b3ea1f90e4f5ad'
-         '6a536d3f127671716a8f565e4000aa3f'
+         'a91292c3562e5136adfc2b989d6f19e9'
          'c523edec479d859e894217e35113ef6e'
          'ac4ac7f39e26a421e9f02eac3e82db7e')
