@@ -49,7 +49,7 @@ prepare() {
 
 flags_for_all() {
   cd "$srcdir/freebsd"
-  pkgver=${pkgver}git_$(git describe --always)
+  pkgver=${_freebsdver}git_$(git describe --always)
   cd "$srcdir"
 
   export MAKEOBJDIRPREFIX="$srcdir/obj"
