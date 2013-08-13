@@ -103,11 +103,11 @@ package_linux-nvidia-utils() {
 
 # OpenGL & CUDA Libraries
   install -dm755 "${pkgdir}/compat/linux/usr/lib"
-  for i in libGL.so.319.32 \
-  	   libcuda.so.319.32 \
-           libnvidia-cfg.so.319.32 \
-           libnvidia-glcore.so.319.32 \
-           libnvidia-tls.so.319.32
+  for i in libGL.so.${pkgver} \
+  	   libcuda.so.${pkgver} \
+           libnvidia-cfg.so.${pkgver} \
+           libnvidia-glcore.so.${pkgver} \
+           libnvidia-tls.so.${pkgver}
   do
     install -m755 "obj/linux/$i" "${pkgdir}/compat/linux/usr/lib/$i"
     #ln -sv "$i" "${pkgdir}/compat/linux/usr/lib/${i%%.1}"
@@ -115,10 +115,10 @@ package_linux-nvidia-utils() {
 
 # vdpau
   install -dm755 "${pkgdir}/compat/linux/usr/lib/vdpau"
-  # libvdpau{,_trace}.so.319.32 is provided here until linux-libvdpau does...
-  for i in libvdpau_nvidia.so.319.32 \
-  	   libvdpau.so.319.32 \
-  	   libvdpau_trace.so.319.32
+  # libvdpau{,_trace}.so.${pkgver} is provided here until linux-libvdpau does...
+  for i in libvdpau_nvidia.so.${pkgver} \
+  	   libvdpau.so.${pkgver} \
+  	   libvdpau_trace.so.${pkgver}
   do
     install -m755 "obj/linux/$i" "${pkgdir}/compat/linux/usr/lib/vdpau/$i"
     #ln -sv "$i" "${pkgdir}/compat/linux/usr/lib/vdpau/${i%%.1}"
