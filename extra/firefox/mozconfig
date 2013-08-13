@@ -36,4 +36,4 @@ ac_add_options --disable-necko-wifi
 ac_add_options --enable-applications=browser
 
 # PGO
-#mk_add_options PROFILE_GEN_SCRIPT='$(PYTHON) $(MOZ_OBJDIR)/_profile/pgo/profileserver.py 10'
+#mk_add_options PROFILE_GEN_SCRIPT='$(PYTHON) $(MOZ_OBJDIR)/_profile/pgo/profileserver.py'
