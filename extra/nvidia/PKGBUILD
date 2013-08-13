@@ -14,7 +14,7 @@ url="http://www.nvidia.com/"
 source=("ftp://download.nvidia.com/XFree86/FreeBSD-${_arch}/${pkgver}/NVIDIA-FreeBSD-${_arch}-${pkgver}.tar.gz"
         nvidia-settings.in
        )
-md5sums=('eb4a2b639668b7894e140f8b28f27bbd'
+md5sums=('68d26cb0a7fbff0d814cdad945bf1e2f'
          '86da362e820aafb226affa8dec13db3d')
 
 build() {
