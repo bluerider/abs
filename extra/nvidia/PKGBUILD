@@ -3,7 +3,7 @@
 
 pkgbase=nvidia
 pkgname=('nvidia' 'nvidia-utils' 'linux-nvidia-utils') # 'linux-nvidia' 'linux-nvidia-utils')
-pkgver=319.32
+pkgver=325.15
 pkgrel=1
 arch=('i686' 'x86_64')
 license=('NVIDIA')
