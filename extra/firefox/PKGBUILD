@@ -98,12 +98,17 @@ build() {
   export PATH="$srcdir/path:$PATH"
   export LDFLAGS="$LDFLAGS -Wl,-rpath,/usr/lib/firefox"
   export PYTHON="/usr/bin/python2"
-  export MOZ_PGO=0
+  export MOZ_PGO=0 MOZ_PROFILE_GENERATE=0
 
   #export DISPLAY=:99
   #Xvfb -nolisten tcp -extension GLX -screen 0 1280x1024x24 $DISPLAY &
 
-  if ! gmake -f client.mk build MOZ_PGO=0; then
+  autoconf-2.13
+  cd js/src
+  autoconf-2.13
+  cd ../..
+
+  if ! gmake -f client.mk build MOZ_PGO=0 MOZ_PROFILE_GENERATE=0; then
     kill $!
     return 1
   fi
