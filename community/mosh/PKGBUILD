@@ -5,7 +5,7 @@
 
 pkgname=mosh
 pkgver=1.2.4
-pkgrel=1
+pkgrel=2
 pkgdesc='Mobile shell, surviving disconnects with local echo and line editing'
 arch=('x86_64' 'i686')
 url='http://mosh.mit.edu/'
@@ -24,7 +24,11 @@ build() {
             -e "/^LIBTOOL=/s|\$$\(top_builddir\)/libtool|/usr/bin/libtool|g" \
             ${srcdir}/${pkgname}-${pkgver}/aclocal.m4
   find ${srcdir}/${pkgname}-${pkgver} -name "Makefile.in" | xargs sed -i '' -e 's|^LIBTOOL[ ]*=.*|LIBTOOL=/usr/bin/libtool|g'
-  ./configure --prefix=/usr --with-utempter OPENSSL_CFLAGS="-I/usr/include/openssl" OPENSSL_LIBS="-L/usr/lib -lssl -lcrypto"
+  ./configure --prefix=/usr \
+              OPENSSL_CFLAGS="-I/usr/include/openssl" \
+              OPENSSL_LIBS="-L/usr/lib -lssl -lcrypto" \
+              --without-utempter \
+              #LDFLAGS="${LDFLAGS} -L/usr/lib -lutempter"
   make
 }
 
