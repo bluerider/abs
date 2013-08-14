@@ -4,7 +4,6 @@
 #
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32' 'freebsd-init')
 _freebsdver=9.2
-pkgver=$_freebsdver
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
@@ -27,6 +26,11 @@ _gitroot="git://github.com/freebsd/freebsd.git"
 _gitname="freebsd"
 _gitbranch="stable/9"
 
+pkgver() {
+  cd freebsd
+  git log -1 --format="${_freebsdver}.%cd.%h" --date=short | sed 's/-//g'
+}
+
 prepare() {
   cd "${srcdir}"
   msg "Connecting to GIT server...."
@@ -48,8 +52,6 @@ prepare() {
 }
 
 flags_for_all() {
-  cd "$srcdir/freebsd"
-  pkgver=${pkgver}git_$(git describe --always)
   cd "$srcdir"
 
   export MAKEOBJDIRPREFIX="$srcdir/obj"
