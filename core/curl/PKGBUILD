@@ -14,26 +14,33 @@ arch=('i686' 'x86_64')
 url="http://curl.haxx.se"
 license=('MIT')
 depends=('ca_root_nss')
+_port_patches=(
+        patch-configure
+        patch-lib__url.c
+        patch-src-tool_operate.c)
 source=("http://curl.haxx.se/download/$pkgname-$pkgver.tar.gz"{,.asc}
-	    patch-configure
-	    patch-lib__url.c
-	    patch-src-tool_operate.c)
+        "${_port_patches[@]}")
 md5sums=('6f26843f7e3a2fb06e02f68a55efe8c7'
          'SKIP'
          '42f600417222a60b59ad6a07f1d2469d'
          '0f525e858606e1f5dfabb4c1561bd1f8'
          '8d79d96667240fd52a0ebd793a0eb738')
 
-build() {
+prepare() {
   cd "$pkgname-$pkgver"
 
-  patch -p0 -i ${srcdir}/patch-configure
-  patch -p0 -i ${srcdir}/patch-lib__url.c
-  patch -p0 -i ${srcdir}/patch-src-tool_operate.c
+  for i in "${_port_patches[@]}"; do
+    msg "patch $i"
+    patch -p0 -i "${srcdir}/$i"
+  done
 
   # ports are odd at times
   sed -i '' -e '/^SUBDIRS = / s|$$| docs|; /^DIST_SUBDIRS = / s| docs||; /cd docs &&/d' Makefile.in
   sed -i '' -e '/require "valgrind.pm";/d' tests/runtests.pl
+}
+
+build() {
+  cd "$pkgname-$pkgver"
 
   ./configure \
       --prefix=/usr \
