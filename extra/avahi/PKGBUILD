@@ -98,6 +98,7 @@ build() {
 		--sbindir=/usr/bin \
 		--disable-static \
 		--disable-monodoc \
+		--enable-compat-libdns_sd \
 		--enable-compat-howl \
 		--with-distro=freebsd \
 		--with-autoipd-user=avahi \
