@@ -2,7 +2,7 @@
 # Maintainer: Dan McGee <dan@archlinux.org>
 
 pkgname=git
-pkgver=1.8.3.2
+pkgver=1.8.3.4
 pkgrel=2
 pkgdesc="the fast distributed version control system"
 arch=(i686 x86_64)
@@ -24,8 +24,8 @@ provides=('git-core')
 backup=('etc/conf.d/git-daemon')
 install=git.install
 portpatches=('patch-Documentation__Makefile'
-	     'patch-Makefile'
-	     'patch-wrapper.c')
+             'patch-Makefile'
+             'patch-wrapper.c')
 source=("http://git-core.googlecode.com/files/git-$pkgver.tar.gz"
         "http://git-core.googlecode.com/files/git-manpages-$pkgver.tar.gz"
         init.d-git-daemon
@@ -48,12 +48,11 @@ build() {
     -e '/documented,gitcvs-migration/d' \
     -e 's/git-cvsserver//' \
     Makefile
-# without SVN
-  sed -i '' -e '/git-svn.perl/d' Makefile
 # without gitweb for now
   sed -i '' -e '/$$(MAKE) -C gitweb install/d' Makefile
 
   ./configure --prefix=/usr --mandir=/usr/share/man --enable-pthreads=-pthread \
+  	      --sysconfdir=/etc \
               --with-python=/usr/bin/python2 \
               --with-iconv=/usr \
               --with-libpcre \
@@ -131,8 +130,8 @@ package() {
   install -m755 "$srcdir"/init.d-git-daemon "$pkgdir"/etc/init.d/git-daemon
   install -m644 "$srcdir"/conf.d-git-daemon "$pkgdir"/etc/conf.d/git-daemon
 }
-md5sums=('83b792fd06066c77e1d4911ebba2d701'
-         'f850829e1e7f32e388d2ffb61759fcc9'
+md5sums=('80eec3201a5d012913d287b85adaee8e'
+         '86fd812754d25201fd72c7476045dfec'
          'fc18331ec12a3529216f3b45f385b831'
          '66fb74fb87bfe83b7023e1d82bbf7f24'
          'acd7bd553afbba47a31f9f275f643c26'
