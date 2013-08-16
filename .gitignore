@@ -2,3 +2,5 @@ pkg
 src
 *.tar.*
 *.tgz
+*.tbz
+*.txz
