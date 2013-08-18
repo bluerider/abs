@@ -5,6 +5,7 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32' 'freebsd-init')
 _freebsdver=9.2
 pkgrel=1
+pkgver=0.0.0
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -27,7 +28,11 @@ _gitname="freebsd"
 _gitbranch="stable/9"
 
 pkgver() {
-  cd freebsd
+  cd ${srcdir}
+  if [ ! -d ${_gitname} ]; then
+  	  git clone --depth=1 -b ${_gitbranch} ${_gitroot} ${_gitname}
+  fi
+  cd "${_gitname}"
   git log -1 --format="${_freebsdver}.%cd.%h" --date=short | sed 's/-//g'
 }
 
@@ -36,7 +41,9 @@ prepare() {
   msg "Connecting to GIT server...."
  
   if [ -d ${_gitname} ] ; then
-    cd ${_gitname} && git reset --hard && git clean -df && git checkout $_gitbranch && git pull
+     ## DON'T EVER DO THIS! -.-
+#    cd ${_gitname} && git reset --hard && git clean -df && git checkout $_gitbranch && git pull
+    cd ${_gitname} && git checkout ${_gitbranch} && git reset --hard && git clean -df && git pull
     msg "The local files are updated."
   else
     git clone --depth=1 -b $_gitbranch ${_gitroot} ${_gitname}
