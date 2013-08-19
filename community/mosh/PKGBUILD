@@ -16,20 +16,21 @@ sha256sums=('e74d0d323226046e402dd469a176075fc2013b69b0e67cea49762c957175df46')
 optdepends=('ufw-extras' 'bash-completion')
 options=('!emptydirs')
 
+prepare() {
+  export CC='clang'
+  export CXX='clang++'
+  export LDFLAGS="${LDFLAGS} -fPIC"
+}
+
 build() {
   cd "$srcdir/$pkgname-$pkgver"
 
   ./autogen.sh
-  sed -i '' -e "/^ltmain=/!s|\$$ac_aux_dir/ltmain.sh|/usr/share/libtool/config/ltmain.sh|g" \
-            -e "/^LIBTOOL=/s|\$$\(top_builddir\)/libtool|/usr/bin/libtool|g" \
-            ${srcdir}/${pkgname}-${pkgver}/aclocal.m4
-  find ${srcdir}/${pkgname}-${pkgver} -name "Makefile.in" | xargs sed -i '' -e 's|^LIBTOOL[ ]*=.*|LIBTOOL=/usr/bin/libtool|g'
   ./configure --prefix=/usr \
               OPENSSL_CFLAGS="-I/usr/include/openssl" \
               OPENSSL_LIBS="-L/usr/lib -lssl -lcrypto" \
-              --with-utempter \
-              #LDFLAGS="${LDFLAGS} -L/usr/lib -lutempter"
-  make
+              --with-utempter --disable-hardening
+  LDFLAGS="${LDFLAGS} -fPIC" make
 }
 
 package() {
