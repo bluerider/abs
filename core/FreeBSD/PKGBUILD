@@ -43,7 +43,7 @@ prepare() {
   if [ -d ${_gitname} ] ; then
      ## DON'T EVER DO THIS! -.-
 #    cd ${_gitname} && git reset --hard && git clean -df && git checkout $_gitbranch && git pull
-    git checkout ${_gitbranch} && git pull
+    cd ${_gitname} && git checkout ${_gitbranch} && git reset --hard && git clean -df && git pull
     msg "The local files are updated."
   else
     git clone --depth=1 -b $_gitbranch ${_gitroot} ${_gitname}
