@@ -3,7 +3,7 @@
 
 pkgname=shared-mime-info
 pkgver=1.0
-pkgrel=6
+pkgrel=7
 pkgdesc="Freedesktop.org Shared MIME Info"
 arch=('i686' 'x86_64')
 license=('GPL')
