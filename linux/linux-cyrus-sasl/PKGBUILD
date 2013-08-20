@@ -1,0 +1,28 @@
+pkgname=linux-cyrus-sasl
+pkgver=2.1.22
+pkgrel=1
+pkgdesc='linux cyrus-sasl package'
+url='http://www.fedoraproject.org/'
+license=('GPL')
+arch=('any')
+options=(!strip)
+depends=('linux-base')
+source=('http://critical.ch/distfiles/rpm/i386/fedora/10/cyrus-sasl-lib-2.1.22-19.fc10.i386.rpm')
+md5sums=('5a4ee3c84ec9581723fd56b658eec994')
+
+prepare() {
+ rm -f "${srcdir}"/*.rpm
+}
+
+prepare(){
+       find ${srcdir} \
+         -type f -print0 | xargs -0 file \
+        | grep ELF | cut -d : -f 1 \
+        | xargs brandelf -t Linux
+
+}
+
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}"/* "${pkgdir}/compat/linux"
+}

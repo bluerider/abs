@@ -1,11 +1,11 @@
 pkgname=linux-gtk2
 pkgver=2.24.6
-pkgrel=2
+pkgrel=3
 pkgdesc='linux gtk2'
 url='http://www.archlinux.org/'
 license=('GPL')
 arch=('any')
-depends=('linux-base' 'linux-atk' 'linux-cairo' 'linux-expat' 
+depends=('linux-base' 'linux-atk' 'linux-cairo' 'linux-expat' 'linux-libcups' 
 	'linux-fontconfig' 'linux-jpeg' 'linux-pango' 'linux-png' 
 	'linux-tiff' 'linux-xorg-libs' 'linux-pixman' 'linux-jasper') 
 options=(!strip)
