@@ -4,3 +4,6 @@ src
 *.tgz
 *.tbz
 *.txz
+*.rpm
+*.db
+*.sig

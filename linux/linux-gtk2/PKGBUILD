@@ -1,42 +1,34 @@
 pkgname=linux-gtk2
 pkgver=2.24.6
-pkgrel=1
+pkgrel=2
 pkgdesc='linux gtk2'
 url='http://www.archlinux.org/'
 license=('GPL')
 arch=('any')
 depends=('linux-base' 'linux-atk' 'linux-cairo' 'linux-expat' 
 	'linux-fontconfig' 'linux-jpeg' 'linux-pango' 'linux-png' 
-	'linux-tiff' 'linux-xorg-libs') 
+	'linux-tiff' 'linux-xorg-libs' 'linux-pixman' 'linux-jasper') 
 options=(!strip)
 install=linux-gtk2.install
-_pkglist=(
-	gtk2		2.24.6-2-i686	2011/09/05 xz
-	gtk-engines	2.20.2-1-i686	2011/09/05 xz
-	pixman		0.22.2-1-i686	2011/09/05 xz
+source=('http://critical.ch/distfiles/rpm/i386/fedora/10/gtk2-2.14.7-9.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/gtk2-engines-2.16.1-1.fc10.i386.rpm'
 )
-source=()
-i=0
-cnt=${#_pkglist[@]}
-while [ $i -lt $cnt ]; do
-	source=("${source[@]}"
-		http://arm.konnichi.com/${_pkglist[$[i+2]]}/extra/os/i686/${_pkglist[$i]}-${_pkglist[$[i+1]]}.pkg.tar.${_pkglist[$[i+3]]}
-	)
-	i=$[i+4]
-done
-source=("${source[@]}")
-md5sums=('5cb4ab5c51d6ad62879dde2930f7c0bf'
-         '9e89ac3d00ead878d6c883eacaedba47'
-         'f50ef49dd4f9bb3f23a1e61be27d282b')
 
-package() {
-	install -dm755 "${pkgdir}/compat/linux"
-	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
-        cp -Ra "${srcdir}/etc" "${pkgdir}/compat/linux"
+md5sums=('5b8d2c431a6d4ee13fe7c77562402484'
+         '5a7ee3f7e8e6bc3f10f3998bd512100b')
 
+prepare() {
+	rm -f "${srcdir}"/*.rpm
+}
+
+build() {
     find ${srcdir} \
          -type f -print0 | xargs -0 file \
         | grep ELF | cut -d : -f 1 \
         | xargs brandelf -t Linux
+}
 
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}"/* "${pkgdir}/compat/linux"
 }
