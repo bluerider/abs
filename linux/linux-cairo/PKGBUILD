@@ -1,11 +1,11 @@
 pkgname=linux-cairo
 pkgver=1.8.0
-pkgrel=2
+pkgrel=3
 pkgdesc='linux cairo'
 url='http://www.fedoraproject.org/'
 license=('GPL')
 arch=('any')
-depends=('linux-base' 'linux-fontconfig' 'linux-png' 'linux-xorg-libs')
+depends=('linux-base' 'linux-fontconfig' 'linux-png' 'linux-xorg-libs' 'linux-pixman')
 options=(!strip)
 source=(http://critical.ch/distfiles/rpm/i386/fedora/10/cairo-${pkgver}-1.fc10.i386.rpm)
 md5sums=('8d9fb08d0500167310d25812c9ecba8d')

@@ -1,98 +1,131 @@
 pkgname=linux-xorg-libs
 pkgver=2.0.1
-pkgrel=2
+pkgrel=3
 pkgdesc='linux xorg libs'
-url='http://www.archlinux.org/'
+url='http://www.fedoraproject.org/'
 license=('GPL')
 arch=('any')
 depends=('linux-base' 'linux-expat' 'linux-fontconfig' 'linux-libxml2')
 options=(!strip)
-_pkglist=(
-	libice		1.0.7-1-i686    2011/09/05 xz
-	libfs		1.0.3-1-i686   2011/09/05 xz
-	libsm		1.2.0-1-i686	2011/09/05 xz
-	libx11		1.4.4-1-i686	2011/09/05 xz
-	libxaw		1.0.9-1-i686	2011/09/05 xz
-	libxcomposite	0.4.3-1-i686	2011/09/05 xz
-	libxcursor	1.1.12-1-i686	2011/09/05 xz
-	libxdamage	1.1.3-1-i686	2011/09/05 xz
-	libxdmcp	1.1.0-1-i686	2011/09/05 xz
-	libxevie	1.0.3-1-i686	2011/09/05 xz
-	libxext		1.3.0-1-i686	2011/09/05 xz
-	libxfixes	5.0-1-i686	2011/09/05 xz
-	libxfont	1.4.4-1-i686	2011/09/05 xz
-	libxft		2.2.0-1-i686	2011/09/05 xz
-	libxi		1.4.3-1-i686	2011/09/05 xz
-	libxinerama	1.1.1-1-i686	2011/09/05 xz
-	libxmu		1.1.0-1-i686	2011/09/05 xz
-	libxp		1.0.1-2-i686	2011/09/05 xz
-	libxpm		3.5.9-1-i686	2011/09/05 xz
-	libxrandr	1.3.2-1-i686	2011/09/05 xz
-	libxrender	0.9.6-1-i686	2011/09/05 xz
-	libxres		1.0.5-1-i686	2011/09/05 xz
-	libxt		1.1.1-1-i686	2011/09/05 xz
-	libxslt		1.1.26-2-i686	2011/09/05 xz
-	libxv		1.0.6-1-i686	2011/09/05 xz
-	libxvmc		1.0.6-1-i686	2011/09/05 xz
-	libxxf86dga	1.1.2-1-i686	2011/09/05 xz
-	libxxf86vm	1.1.1-1-i686	2011/09/05 xz
-	libfontenc	1.1.0-1-i686	2011/09/05 xz
-	libxcb		1.7-2-i686	2011/09/05 xz
-	xcb-util	0.3.6-1-i686	2011/09/05 gz
-	libxkbfile	1.0.7-1-i686	2011/09/05 xz
-	libdrm		2.4.26-1-i686	2011/09/05 xz
-	libxau		1.0.6-1-i686	2011/09/05 xz
+noextrac=('libICE-1.0.4-4.fc10.i386.rpm'
+        'libFS-1.0.1-2.fc10.i386.rpm'
+        'libSM-1.1.0-2.fc10.i386.rpm'
+        'libX11-1.1.5-4.fc10.i386.rpm'
+        'libXaw-1.0.4-3.fc10.i386.rpm'
+        'libXcomposite-0.4.0-5.fc10.i386.rpm'
+        'libXcursor-1.1.9-3.fc10.i386.rpm'
+        'libXdamage-1.1.1-4.fc9.i386.rpm'
+        'libXdmcp-1.0.2-6.fc10.i386.rpm'
+        'libXevie-1.0.2-4.fc10.i386.rpm'
+        'libXext-1.0.4-1.fc9.i386.rpm'
+        'libXfixes-4.0.3-4.fc10.i386.rpm'
+        'libXfont-1.3.3-1.fc10.i386.rpm'
+        'libXft-2.1.13-1.fc10.i386.rpm'
+        'libXi-1.1.3-4.fc9.i386.rpm'
+        'libXinerama-1.0.3-2.fc10.i386.rpm'
+        'libXmu-1.0.4-1.fc9.i386.rpm'
+        'libXp-1.0.0-11.fc9.i386.rpm'
+        'libXpm-3.5.7-4.fc9.i386.rpm'
+        'libXrandr-1.2.3-1.fc10.i386.rpm'
+        'libXrender-0.9.4-3.fc9.i386.rpm'
+        'libXres-1.0.3-5.fc10.i386.rpm'
+        'libXt-1.0.5-1.fc10.i386.rpm'
+        'libXtst-1.0.3-3.fc9.i386.rpm'
+        'libXv-1.0.4-1.fc10.i386.rpm'
+        'libXvMC-1.0.4-5.fc10.i386.rpm'
+        'libXxf86dga-1.0.2-3.fc10.i386.rpm'
+        'libXxf86vm-1.0.2-1.fc10.i386.rpm'
+        'libfontenc-1.0.4-6.fc10.i386.rpm'
+        'libxcb-1.1.91-5.fc10.i386.rpm'
+        'libxcb-1.1.91-5.fc10.i386.rpm'
+        'libxkbfile-1.0.4-5.fc9.i386.rpm'
+        'libdrm-2.4.0-0.21.fc10.i386.rpm'
+        'libXau-1.0.4-1.fc10.i386.rpm'
 )
-source=()
-i=0
-cnt=${#_pkglist[@]}
-while [ $i -lt $cnt ]; do
-	source=("${source[@]}"
-		http://arm.konnichi.com/${_pkglist[$[i+2]]}/extra/os/i686/${_pkglist[$i]}-${_pkglist[$[i+1]]}.pkg.tar.${_pkglist[$[i+3]]}
-	)
-	i=$[i+4]
-done
-source=("${source[@]}")
-md5sums=('8d0debb352066b96638fb08bbcc007b6'
-         'f6e1b37ab047d3e80f265c899c5b6179'
-         '5a854db33a43ca755bb4634b4306a2d7'
-         '9da8ddd482965e2ea34109a2bffaa09a'
-         '5f52e83cd5a9d578019b8030f3034c1d'
-         'ee965d9a06cdb7c1a9bec72f1086915a'
-         'abdc6d5e0eb6c6bab8cac7408a5d6ab8'
-         'a18118ebc42ef34036054f105e42ee0d'
-         '379948378b69cc1238de295c5d34005b'
-         'd3cbf4de59b78476dd450bdcecb03466'
-         '13319a2f154eb2ffa48e0834f6476def'
-         'b6cd7cab2202d2355caaec71050862c8'
-         '9963f439aac5cac0552f700a7ee59e25'
-         'cfe7d35943e5c98f9d56dee9bc3a40be'
-         '0bcb6764177c143c441bed519dab459c'
-         '8549e47fa12253b8be0f2feb5e3d03df'
-         '4f2e4108caf9da2fa1a430c642f05268'
-         '638eb7a561d3c168d1a697d7d410ac94'
-         '55672ca2c00670f3c588a0509f5dba71'
-         '99762dd26cc84767906a0e4c604ab108'
-         '6c401a3e099999352c285191e7835086'
-         '9818ecd2ee2af4d3a4f1732cda77acce'
-         '26a34c9b76b2866f348c948b63268a1b'
-         'e3964bda7a1010b5b1740c21455da266'
-         'cce73c53c594fe08077b32c763fece37'
-         '51145dffe1aa74de2c023e2ed6740d16'
-         'c0f236d81659198ddacb1d69f6e210f3'
-         '81acf4a721c6efac0548f0075142044f'
-         '0799817973474033c0b91393b21550fe'
-         '8127a469b0358cd911ee6bbcc44256dd'
-         '4bfca93cee96f5b825f8eb4e82c395b9'
-         '0b9c4e6bcee0503ba5709daa7ac6f378'
-         'dd61dc7d5296707195a6d8132a89a110'
-         '2a978ca48b10a020d013dc6ed26aba44')
-package() {
-	install -dm755 "${pkgdir}/compat/linux"
-	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
-        cp -Ra "${srcdir}/etc" "${pkgdir}/compat/linux"
+source=('http://critical.ch/distfiles/rpm/i386/fedora/10/libICE-1.0.4-4.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libFS-1.0.1-2.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libSM-1.1.0-2.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libX11-1.1.5-4.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXaw-1.0.4-3.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXcomposite-0.4.0-5.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXcursor-1.1.9-3.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXdamage-1.1.1-4.fc9.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXdmcp-1.0.2-6.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXevie-1.0.2-4.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXext-1.0.4-1.fc9.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXfixes-4.0.3-4.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXfont-1.3.3-1.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXft-2.1.13-1.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXi-1.1.3-4.fc9.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXinerama-1.0.3-2.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXmu-1.0.4-1.fc9.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXp-1.0.0-11.fc9.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXpm-3.5.7-4.fc9.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXrandr-1.2.3-1.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXrender-0.9.4-3.fc9.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXres-1.0.3-5.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXt-1.0.5-1.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXtst-1.0.3-3.fc9.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXv-1.0.4-1.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXvMC-1.0.4-5.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXxf86dga-1.0.2-3.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXxf86vm-1.0.2-1.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libfontenc-1.0.4-6.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libxcb-1.1.91-5.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libxcb-1.1.91-5.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libxkbfile-1.0.4-5.fc9.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libdrm-2.4.0-0.21.fc10.i386.rpm'
+	'http://critical.ch/distfiles/rpm/i386/fedora/10/libXau-1.0.4-1.fc10.i386.rpm'
+)
 
-    find ${srcdir} \
+md5sums=('104166cc4fb0527a341cf2d750a3b3ff'
+         'a6dbec876b580eea328bc2a110ac93ac'
+         '98d0bcc5578ce3586804958b86354791'
+         '91030a1bd0ac44264cebaa5b83c36607'
+         'ff99e63629ebf8f94bd674b37529b207'
+         '03d4e997ef22c91f015a059a86ed3420'
+         'ae766a72e5a2e158fb431a9c1798429c'
+         '115b69966ccf5a30b90c26eb83e64ddc'
+         '901102cd338a010b6663a9fb4d7a43f8'
+         'd4ed21032b5b086544b2c214c87b2a3d'
+         '106b17a8f88b85a312b50714c2306413'
+         '19d52fe60d3499fa8a0542d064c4def4'
+         '96d78f3da4a1c0ef826d900d2cdb17ca'
+         '439e4fcd1a54573835b281af42205bb4'
+         'c76924f5f6525b6b08ecebc9ede71019'
+         'b9f82fbb80763e32020da67d4b978602'
+         '68d5291ee3a6772f3704984b186e10e1'
+         'abaa38ae42c06fc93db80c7b46ec07f5'
+         '7e5553803aa8fce74a27df2b13bc72f6'
+         'da10e57e2f6fd8b8d20af54bb5b18436'
+         '083b2bed72bd888d927fbe7c5de321a2'
+         '54e3b4a52d822b107887946789485537'
+         'c97ecb74ba1a085274bdf33c8ce567d7'
+         '7cc20b6268c631e079447ca5e9f1ea90'
+         'd2a8e1fa99c85258a61be11f2a152c80'
+         'e10c1e4e38d82139f722abf9c36de83f'
+         '89fb26568640beb174fad89023e58164'
+         '67c1203a5686a69a0d438a7a6f9893de'
+         '2cbb669d75af43623b1d189eca8228c0'
+         '2b13a8bbe450d49cc8395650f5d198c6'
+         '2b13a8bbe450d49cc8395650f5d198c6'
+         '8666797389eafc76dea8e38b73e5c980'
+         'a55ddb33de715ec23f2670828212b575'
+         'a651a8e22e55074b266be8fcb57dc329')
+
+prepare() {
+  cd ${srcdir}
+  for i in $(ls *rpm); do
+    echo $i
+   rpmextract.sh $i
+  done
+}
+
+package() {
+    install -dm755 "${pkgdir}"/compat/linux
+    cp -Ra "${srcdir}"/* "${pkgdir}"/compat/linux
+
+    find ${pkgdir} \
          -type f -print0 | xargs -0 file \
         | grep ELF | cut -d : -f 1 \
         | xargs brandelf -t Linux

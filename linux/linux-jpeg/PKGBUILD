@@ -1,14 +1,14 @@
-pkgname=linux-png
+pkgname=linux-jpeg
 pkgver=1.4.8
-pkgrel=2
-pkgdesc='linux png package'
+pkgrel=1
+pkgdesc='linux jpeg package'
 url='http://www.fedoraproject.org/'
 license=('GPL')
 arch=('any')
 options=(!strip)
 depends=('linux-base')
-source=('http://critical.ch/distfiles/rpm/i386/fedora/10/libpng-1.2.37-1.fc10.i386.rpm')
-md5sums=('d1d6047bdd669cd0eb9bb4ce50fa31ca')
+source=('http://critical.ch/distfiles/rpm/i386/fedora/10/libjpeg-6b-43.fc10.i386.rpm')
+md5sums=('811d012a183df9f8024e336cd72fe3d7')
 
 prepare() {
  rm -f "${srcdir}"/*.rpm
