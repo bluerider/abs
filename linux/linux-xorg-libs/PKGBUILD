@@ -1,6 +1,6 @@
 pkgname=linux-xorg-libs
 pkgver=2.0.1
-pkgrel=6
+pkgrel=8
 pkgdesc='linux xorg libs'
 url='http://www.fedoraproject.org/'
 license=('GPL')
@@ -134,7 +134,8 @@ prepare() {
 }
 
 build() {
-    mv ${srcdir}/xorg-x11-i386.conf ${srcdir}/etc/ld.so.conf.d
+    install -dm755 ${srcdir}/etc/ld.so.conf.d
+    mv ${srcdir}/xorg-x11-i386.conf ${srcdir}/etc/ld.so.conf.d/
 
     find ${srcdir}/bin ${srcdir}/sbin/ ${srcdir}/usr/bin \
          ${srcdir}/usr/sbin \
@@ -144,6 +145,9 @@ build() {
 }
 
 package() {
-    install -dm755 "${pkgdir}"/compat/linux
-    cp -Ra "${srcdir}"/* "${pkgdir}"/compat/linux
+    cd ${srcdir}
+
+    find * -type d -exec mkdir -p "${pkgdir}/compat/linux/{}" \;
+    find * ! -type d | cpio -pm -R root:wheel ${pkgdir}/compat/linux
+
 }

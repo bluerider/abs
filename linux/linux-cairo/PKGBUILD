@@ -1,6 +1,6 @@
 pkgname=linux-cairo
 pkgver=1.8.0
-pkgrel=4
+pkgrel=5
 pkgdesc='linux cairo'
 url='http://www.fedoraproject.org/'
 license=('GPL')
@@ -22,6 +22,8 @@ build() {
         | xargs brandelf -t Linux
 }
 package() {
-	install -dm755 "${pkgdir}/compat/linux"
-	cp -Ra "${srcdir}"/* "${pkgdir}/compat/linux"
+    cd ${srcdir}
+
+    find * -type d -exec mkdir -p "${pkgdir}/compat/linux/{}" \;
+    find * ! -type d | cpio -pm -R root:wheel ${pkgdir}/compat/linux
 }

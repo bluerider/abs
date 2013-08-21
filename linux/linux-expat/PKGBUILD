@@ -1,6 +1,6 @@
 pkgname=linux-expat
 pkgver=2.0.1
-pkgrel=3
+pkgrel=4
 pkgdesc='linux expat package'
 url='http://www.fedoraproject.org/'
 license=('GPL')
@@ -23,6 +23,9 @@ build() {
 }
 
 package() {
-	install -dm755 "${pkgdir}/compat/linux"
-	cp -Ra "${srcdir}"/* "${pkgdir}/compat/linux"
+    cd ${srcdir}
+
+    find * -type d -exec mkdir -p "${pkgdir}/compat/linux/{}" \;
+    find * ! -type d | cpio -pm -R root:wheel ${pkgdir}/compat/linux
+
 }

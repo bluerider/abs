@@ -1,6 +1,6 @@
 pkgname=linux-base
 pkgver=1.2
-pkgrel=3
+pkgrel=5
 pkgdesc='Fedora Linux base for binary compaitability.'
 url='http://www.fedoraproject.org/'
 license=('GPL')
@@ -206,9 +206,16 @@ build() {
          -type f -print0 | xargs -0 file \
         | grep ELF | cut -d : -f 1 \
         | xargs brandelf -t Linux
+    brandelf -t linux ${srcdir}/lib/ld-2.9.so
 }
 
 package() {
-    install -dm755 "${pkgdir}"/compat/linux
-    cp -Ra "${srcdir}"/* "${pkgdir}"/compat/linux
+    cd ${srcdir}
+
+    find * -type d -exec mkdir -p "${pkgdir}/compat/linux/{}" \;
+    find * ! -type d | cpio -pm -R root:wheel ${pkgdir}/compat/linux
+
+#    install -dm755 "${pkgdir}"/compat/linux
+#    cp -Ra "${srcdir}"/* "${pkgdir}"/compat/linux
+
 }

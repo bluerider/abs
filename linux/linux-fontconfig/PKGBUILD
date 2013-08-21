@@ -1,6 +1,6 @@
 pkgname=linux-fontconfig
 pkgver=2.6.0
-pkgrel=5
+pkgrel=6
 pkgdesc='linux fontconfig package'
 url='http://www.archlinux.org/'
 license=('GPL')
@@ -24,6 +24,8 @@ build() {
 }
 
 package() {
-	install -dm755 "${pkgdir}/compat/linux"
-	cp -Ra "${srcdir}"/* "${pkgdir}/compat/linux"
+    cd ${srcdir}
+
+    find * -type d -exec mkdir -p "${pkgdir}/compat/linux/{}" \;
+    find * ! -type d | cpio -pm -R root:wheel ${pkgdir}/compat/linux
 }

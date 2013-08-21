@@ -1,6 +1,6 @@
 pkgname=linux-openssh
 pkgver=5.8
-pkgrel=4
+pkgrel=5
 pkgdesc='linux openssh'
 url='http://www.fedoraproject.org/'
 license=('GPL')
@@ -26,6 +26,8 @@ build() {
 }
 
 package() {
-	install -dm755 "${pkgdir}/compat/linux"
-	cp -Ra "${srcdir}"/* "${pkgdir}/compat/linux"
+    cd ${srcdir}
+
+    find * -type d -exec mkdir -p "${pkgdir}/compat/linux/{}" \;
+    find * ! -type d | cpio -pm -R root:wheel ${pkgdir}/compat/linux
 }

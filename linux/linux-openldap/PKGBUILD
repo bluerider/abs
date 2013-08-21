@@ -1,17 +1,19 @@
 pkgname=linux-openldap
 pkgver=2.4.26
-pkgrel=4
+pkgrel=6
 pkgdesc='linux openldap'
 url='http://www.fedoraproject.org/'
 license=('GPL')
 arch=('any')
 depends=('linux-base' 'linux-openssl' 'linux-cyrus-sasl')
 options=(!strip)
+install=openldap.install
 source=('http://critical.ch/distfiles/rpm/i386/fedora/10/openldap-2.4.12-1.fc10.i386.rpm')
 md5sums=('e3ea12058a8cdc54d6f270c802c92a00')
 
 prepare() {
 	rm -f "${srcdir}"/*.rpm
+	rm -rf ${srcdir}/etc
 }
 
 build() {
@@ -23,6 +25,9 @@ build() {
 }
 
 package() {
-	install -dm755 "${pkgdir}/compat/linux"
-	cp -Ra "${srcdir}"/* "${pkgdir}/compat/linux"
+    cd ${srcdir}
+
+    find * -type d -exec mkdir -p "${pkgdir}/compat/linux/{}" \;
+    find * ! -type d | cpio -pm -R root:wheel ${pkgdir}/compat/linux
+
 }

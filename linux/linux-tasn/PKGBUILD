@@ -1,6 +1,6 @@
 pkgname=linux-tasn
 pkgver=1.5.1
-pkgrel=3
+pkgrel=4
 pkgdesc='linux tasn package'
 url='http://www.fedoraproject.org/'
 license=('GPL')
@@ -24,6 +24,9 @@ prepare(){
 }
 
 package() {
-	install -dm755 "${pkgdir}/compat/linux"
-	cp -Ra "${srcdir}"/* "${pkgdir}/compat/linux"
+    cd ${srcdir}
+
+    find * -type d -exec mkdir -p "${pkgdir}/compat/linux/{}" \;
+    find * ! -type d | cpio -pm -R root:wheel ${pkgdir}/compat/linux
+
 }

@@ -1,6 +1,6 @@
 pkgname=linux-gnutls
 pkgver=2.4.4
-pkgrel=2
+pkgrel=3
 pkgdesc='linux gnutls package'
 url='http://www.fedoraproject.org/'
 license=('GPL')
@@ -24,6 +24,9 @@ prepare(){
 }
 
 package() {
-	install -dm755 "${pkgdir}/compat/linux"
-	cp -Ra "${srcdir}"/* "${pkgdir}/compat/linux"
+    cd ${srcdir}
+
+    find * -type d -exec mkdir -p "${pkgdir}/compat/linux/{}" \;
+    find * ! -type d | cpio -pm -R root:wheel ${pkgdir}/compat/linux
+
 }
