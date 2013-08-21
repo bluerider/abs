@@ -1,6 +1,6 @@
 pkgname=flashplugin
 pkgver=11.2.202.297
-pkgrel=8
+pkgrel=9
 pkgdesc='Adobe Flash Player'
 url='http://get.adobe.com/flashplayer'
 license=('custom')
@@ -12,8 +12,10 @@ depends=('linux-base' 'linux-atk' 'linux-cairo' 'linux-expat'
          'linux-nspr' 'linux-nss' 'linux-openldap' 'linux-sqlite' 'nspluginwrapper')
 optdepends=('libvdpau' 'linux-nvidia')
 install=flash.install
-source=("http://fpdownload.macromedia.com/get/flashplayer/pdc/$pkgver/install_flash_player_11_linux.i386.tar.gz")
-md5sums=('686fc9363d94213460f389581ca7ba3b')
+source=("http://fpdownload.macromedia.com/get/flashplayer/pdc/11.2.202.297/install_flash_player_11_linux.i386.tar.gz"
+	"http://ftp.FreeBSD.org/pub/FreeBSD/ports/local-distfiles/nox/linux-f10-flashsupport-9.0.1.i386.tar.gz")
+md5sums=('686fc9363d94213460f389581ca7ba3b'
+         '6e416c81497f65065d78dae1e0acad0d')
 npapi() {
   install -d "${pkgdir}"/usr/local/lib/npapi/symlinks/firefox \
 	"${pkgdir}"/usr/local/lib/npapi/symlinks/firefox-devel \
@@ -74,14 +76,15 @@ npapi() {
 }
 
 package() {
-	npapi
-
 	install -dm755 "${pkgdir}/compat/linux"
 	install -dm755 "${pkgdir}/compat/linux/usr/lib"
 	install -dm755 "${pkgdir}/compat/linux/etc"
 	install -dm755 "${pkgdir}/usr/local/lib/npapi/flashplugin"
-	install -m644 "${srcdir}/libflashplayer.so" "${pkgdir}/compat/linux/usr/lib/libflashplayer.so"
+	install -m644 "${srcdir}/libflashsupport.so" "${pkgdir}/compat/linux/usr/lib/libflashsupport.so"
 	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
-	cp "${pkgdir}/compat/linux/usr/lib/libflashplayer.so"  "${pkgdir}/usr/local/lib/npapi/flashplugin/libflashplayer.so"
+	cp "${srcdir}/libflashplayer.so"  "${pkgdir}/usr/local/lib/npapi/flashplugin/libflashplayer.so"
+
+	npapi
+
 #	install -m644 "${srcdir}/mms.cfg" "${pkgdir}/compat/linux/etc/"
 }
