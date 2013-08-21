@@ -1,6 +1,6 @@
 pkgname=flashplugin
 pkgver=11.2.202.297
-pkgrel=6
+pkgrel=8
 pkgdesc='Adobe Flash Player'
 url='http://get.adobe.com/flashplayer'
 license=('custom')
@@ -11,7 +11,7 @@ depends=('linux-base' 'linux-atk' 'linux-cairo' 'linux-expat'
 	 'linux-jpeg' 'linux-png' 'linux-tiff' 'linux-openssh' 'linux-curl' 
          'linux-nspr' 'linux-nss' 'linux-openldap' 'linux-sqlite' 'nspluginwrapper')
 optdepends=('libvdpau' 'linux-nvidia')
-#install=flash.install
+install=flash.install
 source=("http://fpdownload.macromedia.com/get/flashplayer/pdc/$pkgver/install_flash_player_11_linux.i386.tar.gz")
 md5sums=('686fc9363d94213460f389581ca7ba3b')
 npapi() {

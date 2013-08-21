@@ -1,6 +1,6 @@
 pkgname=linux-base
 pkgver=1.2
-pkgrel=5
+pkgrel=6
 pkgdesc='Fedora Linux base for binary compaitability.'
 url='http://www.fedoraproject.org/'
 license=('GPL')
