@@ -1,6 +1,6 @@
 pkgname=linux-gtk2
 pkgver=2.24.6
-pkgrel=3
+pkgrel=6
 pkgdesc='linux gtk2'
 url='http://www.archlinux.org/'
 license=('GPL')
@@ -9,7 +9,7 @@ depends=('linux-base' 'linux-atk' 'linux-cairo' 'linux-expat' 'linux-libcups'
 	'linux-fontconfig' 'linux-jpeg' 'linux-pango' 'linux-png' 
 	'linux-tiff' 'linux-xorg-libs' 'linux-pixman' 'linux-jasper') 
 options=(!strip)
-install=linux-gtk2.install
+#install=linux-gtk2.install
 source=('http://critical.ch/distfiles/rpm/i386/fedora/10/gtk2-2.14.7-9.fc10.i386.rpm'
 	'http://critical.ch/distfiles/rpm/i386/fedora/10/gtk2-engines-2.16.1-1.fc10.i386.rpm'
 )
@@ -22,7 +22,8 @@ prepare() {
 }
 
 build() {
-    find ${srcdir} \
+    find ${srcdir}/bin ${srcdir}/sbin/ ${srcdir}/usr/bin \
+         ${srcdir}/usr/sbin \
          -type f -print0 | xargs -0 file \
         | grep ELF | cut -d : -f 1 \
         | xargs brandelf -t Linux

@@ -1,23 +1,31 @@
 pkgname=linux-openssh
 pkgver=5.8
-pkgrel=1
+pkgrel=4
 pkgdesc='linux openssh'
-url='http://www.archlinux.org/'
+url='http://www.fedoraproject.org/'
 license=('GPL')
 arch=('any')
 depends=('linux-base')
 options=(!strip)
-source=(http://arm.konnichi.com/2011/09/05/core/os/i686/openssh-5.8p2-9-i686.pkg.tar.xz)
-md5sums=('a6d46a4b1d7f2ed4e26ad2fb809693a1')
+source=('http://critical.ch/distfiles/rpm/i386/fedora/10/libssh2-0.18-7.fc9.i386.rpm'
+	'http://archive.fedoraproject.org/pub/archive/fedora/linux/releases/10/Fedora/i386/os/Packages/openssh-5.1p1-3.fc10.i386.rpm')
+md5sums=('8c75a7ca985be83e8059ea2243a40095'
+         '1da3abea3e819fe47cdeb1247ba94741')
 
-package() {
-	install -dm755 "${pkgdir}/compat/linux"
-	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
-	cp -Ra "${srcdir}/etc" "${pkgdir}/compat/linux"
+prepare() {
+	rm -f "${srcdir}"/*.rpm
+}
 
-	msg "Branding elf files"
-	find ${srcdir} \
+build() {
+        msg "Branding elf files"
+    find ${srcdir}/bin ${srcdir}/sbin/ ${srcdir}/usr/bin \
+         ${srcdir}/usr/sbin \
          -type f -print0 | xargs -0 file \
         | grep ELF | cut -d : -f 1 \
         | xargs brandelf -t Linux
+}
+
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}"/* "${pkgdir}/compat/linux"
 }

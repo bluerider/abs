@@ -1,6 +1,6 @@
 pkgname=nspluginwrapper
 pkgver=1.4.4
-pkgrel=7
+pkgrel=10
 pkgdesc="Cross-platform NPAPI compatible plugin viewer"
 arch=('any')
 url="http://nspluginwrapper.davidben.net/"
@@ -15,7 +15,7 @@ source=(http://nspluginwrapper.davidben.net/download/$pkgname-$pkgver.tar.gz
 md5sums=('36f3e290fc4ce56f65ee695078961188'
          'e90e6421bd2d8d99fdec50d459a5c6f7'
          'b83888cce33c8e8a1e86da6d1102c12e'
-         '2f0f9e89de0000f873179d305a629e92'
+         '9eb894255204c36d394e6eabbf1ddb74'
          'aa6efb2f93d09fe5d87538b4029627d3')
 
 build() {

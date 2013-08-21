@@ -1,6 +1,6 @@
 pkgname=linux-cairo
 pkgver=1.8.0
-pkgrel=3
+pkgrel=4
 pkgdesc='linux cairo'
 url='http://www.fedoraproject.org/'
 license=('GPL')
@@ -10,12 +10,18 @@ options=(!strip)
 source=(http://critical.ch/distfiles/rpm/i386/fedora/10/cairo-${pkgver}-1.fc10.i386.rpm)
 md5sums=('8d9fb08d0500167310d25812c9ecba8d')
 
-package() {
-	install -dm755 "${pkgdir}/compat/linux"
-	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
+prepare() {
+	rm -f "${srcdir}"/*/rpm
+}
 
-    find ${srcdir} \
+build() {
+    find ${srcdir}/bin ${srcdir}/sbin/ ${srcdir}/usr/bin \
+         ${srcdir}/usr/sbin \
          -type f -print0 | xargs -0 file \
         | grep ELF | cut -d : -f 1 \
         | xargs brandelf -t Linux
+}
+package() {
+	install -dm755 "${pkgdir}/compat/linux"
+	cp -Ra "${srcdir}"/* "${pkgdir}/compat/linux"
 }

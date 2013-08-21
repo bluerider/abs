@@ -1,6 +1,6 @@
 pkgname=linux-gnutls
 pkgver=2.4.4
-pkgrel=1
+pkgrel=2
 pkgdesc='linux gnutls package'
 url='http://www.fedoraproject.org/'
 license=('GPL')
@@ -15,7 +15,8 @@ prepare() {
 }
 
 prepare(){
-       find ${srcdir} \
+    find ${srcdir}/bin ${srcdir}/sbin/ ${srcdir}/usr/bin \
+         ${srcdir}/usr/sbin \
          -type f -print0 | xargs -0 file \
         | grep ELF | cut -d : -f 1 \
         | xargs brandelf -t Linux

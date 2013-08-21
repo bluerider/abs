@@ -1,6 +1,6 @@
 pkgname=linux-sqlite
 pkgver=3.7.7.1
-pkgrel=2
+pkgrel=3
 pkgdesc='linux sqlite'
 url='http://www.archlinux.org/'
 license=('GPL')
@@ -15,7 +15,8 @@ prepare() {
 }
 
 build() {
-    find ${srcdir} \
+    find ${srcdir}/bin ${srcdir}/sbin/ ${srcdir}/usr/bin \
+         ${srcdir}/usr/sbin \
          -type f -print0 | xargs -0 file \
         | grep ELF | cut -d : -f 1 \
         | xargs brandelf -t Linux
