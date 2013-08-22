@@ -39,8 +39,8 @@ fi
 build() {
   cd "$srcdir/$pkgname-$pkgver"
 
-  [[ ! -x build ]] && mkdir build
-  cd build
+  [[ -x build ]] && rm -rf build
+  mkdir build && cd build
 
   [[ $CARCH == i686 ]] && ENABLESSE2="-DSUPPORT_SSE2_BUILD=OFF"
   [[ $CARCH == i686 ]] && BUILDCUDA="OFF" || BUILDCUDA="ON"
@@ -60,8 +60,6 @@ build() {
     -DWITH_PLAYER=ON \
     -DWITH_CODEC_FFMPEG=ON \
     -DWITH_CODEC_SNDFILE=ON \
-    -DWITH_CYCLES=ON \
-    -DWITH_CYCLES_OSL=ON \
     -DWITH_FFTW3=ON \
     -DWITH_MOD_OCEANSIM=ON \
     -DPYTHON_VERSION=3.3 \
@@ -71,6 +69,8 @@ build() {
     -DOPENJPEG_INCLUDE_DIR=/usr/include/openjpeg-1.5 \
     -DCMAKE_C_COMPILER="clang" \
     -DCMAKE_CXX_COMPILER="clang++" \
+    -DWITH_CYCLES=OFF \
+    -DWITH_CYCLES_OSL=OFF \
     $ENABLESSE2
     # Remove the openjpeg line once blender accepts my patch
   make
