@@ -1,25 +1,26 @@
-pkgname=linux-nss
-pkgver=3.12.3.99
+pkgname=linux-tasn
+pkgver=1.5.1
 pkgrel=4
-pkgdesc='linux nss'
+pkgdesc='linux tasn package'
 url='http://www.fedoraproject.org/'
 license=('GPL')
 arch=('any')
-depends=('linux-base' 'linux-sqlite' 'linux-nspr')
 options=(!strip)
-source=('http://critical.ch/distfiles/rpm/i386/fedora/10/nss-3.12.3.99.3-2.10.6.fc10.i386.rpm')
-md5sums=('3d950503523d1f97c0c1c06a3d3d411e')
+depends=('linux-base')
+source=('http://archive.fedoraproject.org/pub/archive/fedora/linux/releases/10/Fedora/i386/os/Packages/libtasn1-1.5-1.fc10.i386.rpm')
+md5sums=('58a51c761d35cf0ef95df1ca9af5410d')
 
 prepare() {
-	rm -f "${srcdir}"/*.rpm
+ rm -f "${srcdir}"/*.rpm
 }
 
-build() {
+prepare(){
     find ${srcdir}/bin ${srcdir}/sbin/ ${srcdir}/usr/bin \
          ${srcdir}/usr/sbin \
          -type f -print0 | xargs -0 file \
         | grep ELF | cut -d : -f 1 \
         | xargs brandelf -t Linux
+
 }
 
 package() {

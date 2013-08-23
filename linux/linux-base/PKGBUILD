@@ -1,6 +1,6 @@
 pkgname=linux-base
-pkgver=1.1
-pkgrel=4
+pkgver=1.2
+pkgrel=6
 pkgdesc='Fedora Linux base for binary compaitability.'
 url='http://www.fedoraproject.org/'
 license=('GPL')
@@ -92,7 +92,11 @@ source=('http://critical.ch/distfiles/rpm/i386/fedora/10/basesystem-10.0-1.noarc
 	'http://critical.ch/distfiles/rpm/i386/fedora/10/setup-2.7.4-4.fc10.noarch.rpm'
 	'http://critical.ch/distfiles/rpm/i386/fedora/10/slang-2.1.4-1.fc10.i386.rpm'
 	'http://critical.ch/distfiles/rpm/i386/fedora/10/zlib-1.2.3-18.fc9.i386.rpm'
-	'http://critical.ch/distfiles/rpm/i386/fedora/10/elfutils-0.142-1.fc10.i386.rpm'
+	'http://archive.fedoraproject.org/pub/archive/fedora/linux/updates/10/i386/elfutils-libelf-0.142-1.fc10.i386.rpm'
+	'http://archive.fedoraproject.org/pub/archive/fedora/linux/updates/10/i386/elfutils-libs-0.142-1.fc10.i386.rpm'
+	'http://archive.fedoraproject.org/pub/archive/fedora/linux/updates/10/i386/pam-1.0.4-4.fc10.i386.rpm'
+	'http://archive.fedoraproject.org/pub/archive/fedora/linux/updates/10/i386/audit-libs-1.7.13-1.fc10.i386.rpm'
+	'http://archives.fedoraproject.org/pub/archive/fedora/linux/releases/9/Fedora/i386/os/Packages/cracklib-2.8.12-2.i386.rpm'
 	yp.conf)
 provides=('linux')
 
@@ -138,8 +142,12 @@ md5sums=('2f5bcb4d4bf0174eca9a28e54c68c6b7'
          '06d63c9eb4364e035a6784159bca93b1'
          '42af2f41087c7bbf774bc7a1afd8857a'
          '43a85775e045e9ed74973259a100c8c2'
-         '22967cde51d9aa99a9656ae78bd85273'
-         '794378866aad7e90d877469f3281d5af')
+         'be1288a40a134b175696f80a6f4fcbbe'
+         '2d1e77f0aacc185a6465375d17a2a802'
+         'b1138fc49fddc4d6223e6b9748d93339'
+         '72e8b4b4e2dc5fae472fb09f49b26f5f'
+         '5b68e328eb558c1c558c5723ece45bdd'
+         '794378866aad7e90d877469f3281d5af') 
 
 prepare() {
   cd ${srcdir}
@@ -193,24 +201,21 @@ build() {
 
     msg "Branding ELF files, this may take a moment..."
     # Brand elfs...
-    #   these 2 have 555 permissions
-#    chmod 755 "${srcdir}/lib/libhistory.so.6.2"
-#    chmod 755 "${srcdir}/lib/libreadline.so.6.2"
-#    chmod 755 "${srcdir}/usr/lib/libssl.so.1.0.0"
-#    chmod 755 "${srcdir}/usr/lib/libcrypto.so.1.0.0"
-#    chmod 755 "${srcdir}/usr/lib/engines"/lib*.so
-    find ${srcdir} \
+    find ${srcdir}/bin ${srcdir}/sbin/ ${srcdir}/usr/bin \
+         ${srcdir}/usr/sbin \
          -type f -print0 | xargs -0 file \
         | grep ELF | cut -d : -f 1 \
         | xargs brandelf -t Linux
-#    chmod 555 "${srcdir}/lib/libhistory.so.6.2"
-#    chmod 555 "${srcdir}/lib/libreadline.so.6.2"
-#    chmod 555 "${srcdir}/usr/lib/libssl.so.1.0.0"
-#    chmod 555 "${srcdir}/usr/lib/libcrypto.so.1.0.0"
-#    chmod 555 "${srcdir}/usr/lib/engines"/lib*.so
+    brandelf -t linux ${srcdir}/lib/ld-2.9.so
 }
 
 package() {
-    install -dm755 "${pkgdir}"/compat/linux
-    cp -Ra "${srcdir}"/* "${pkgdir}"/compat/linux
+    cd ${srcdir}
+
+    find * -type d -exec mkdir -p "${pkgdir}/compat/linux/{}" \;
+    find * ! -type d | cpio -pm -R root:wheel ${pkgdir}/compat/linux
+
+#    install -dm755 "${pkgdir}"/compat/linux
+#    cp -Ra "${srcdir}"/* "${pkgdir}"/compat/linux
+
 }

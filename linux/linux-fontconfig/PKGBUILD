@@ -1,36 +1,31 @@
 pkgname=linux-fontconfig
-pkgver=2.8.0
-pkgrel=1
+pkgver=2.6.0
+pkgrel=6
 pkgdesc='linux fontconfig package'
 url='http://www.archlinux.org/'
 license=('GPL')
 arch=('any')
+#install=font.install
 options=(!strip)
-source=(http://arm.konnichi.com/2011/09/05/extra/os/i686/fontconfig-2.8.0-1-i686.pkg.tar.gz
-	fonts.conf)
-md5sums=('049d2f18e40c749eca8b79e83ca47bd6'
-         'f19d3dd862361b8440802803e2c20f85')
-depends=('linux-expat' 'linux-freetype')
+source=(http://critical.ch/distfiles/rpm/i386/fedora/10/fontconfig-2.6.0-3.fc10.i386.rpm)
+md5sums=('4fe660d830ddc2844efd649a61213ec8')
+depends=('linux-expat' 'linux-base')
+
+prepare() {
+	rm -f "${srcdir}"/*.rpm
+}
+
 build() {
-
-cd "${srcdir}"
-	rm etc/fonts/fonts.conf \
-	usr/bin/fc-cache \
-	usr/share/man/man1/fc-cache.1.gz
-
-  cat "${srcdir}"/fonts.conf | sed 's:/usr/X11R6:/compat/linux:g' > "${srcdir}"/etc/fonts/fonts.conf
+    find ${srcdir}/bin ${srcdir}/sbin/ ${srcdir}/usr/bin \
+         ${srcdir}/usr/sbin \
+           -type f -print0 | xargs -0 file \
+           | grep ELF | cut -d : -f 1 \
+           | xargs brandelf -t linux
 }
 
 package() {
-	install -dm755 "${pkgdir}/compat/linux"
-	for i in var etc usr; do
-		cp -Ra "${srcdir}/$i" "${pkgdir}/compat/linux"
-	done
+    cd ${srcdir}
 
-
-	msg "Branding elf files"
-	find ${srcdir} \
-           -type f -print0 | xargs -0 file \
-           | grep ELF | cut -d : -f 1 \
-	   | xargs brandelf -t linux
+    find * -type d -exec mkdir -p "${pkgdir}/compat/linux/{}" \;
+    find * ! -type d | cpio -pm -R root:wheel ${pkgdir}/compat/linux
 }

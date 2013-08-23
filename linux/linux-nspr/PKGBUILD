@@ -1,22 +1,30 @@
 pkgname=linux-nspr
 pkgver=4.8.9
-pkgrel=1
+pkgrel=4
 pkgdesc='linux nspr'
-url='http://www.archlinux.org/'
+url='http://www.fedoraproject.org/'
 license=('GPL')
 arch=('any')
 depends=('linux-base')
 options=(!strip)
-source=(http://arm.konnichi.com/2011/09/05/extra/os/i686/nspr-4.8.9-1-i686.pkg.tar.xz)
-md5sums=('f699d6790ac97d8b7f2d6f1887a477eb')
+source=('http://critical.ch/distfiles/rpm/i386/fedora/10/nspr-4.7.6-1.fc10.1.i386.rpm')
+md5sums=('52e6d88b152d7c69d5b04cf5be7bbd21')
 
-package() {
-	install -dm755 "${pkgdir}/compat/linux"
-	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
-
-    find ${srcdir} \
+prepare() {
+	rm -f "${srcdir}"/*.rpm
+}
+build(){
+    find ${srcdir}/bin ${srcdir}/sbin/ ${srcdir}/usr/bin \
+         ${srcdir}/usr/sbin \
          -type f -print0 | xargs -0 file \
         | grep ELF | cut -d : -f 1 \
         | xargs brandelf -t Linux
+}
+
+package() {
+    cd ${srcdir}
+
+    find * -type d -exec mkdir -p "${pkgdir}/compat/linux/{}" \;
+    find * ! -type d | cpio -pm -R root:wheel ${pkgdir}/compat/linux
 
 }

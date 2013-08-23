@@ -1,27 +1,26 @@
-pkgname=linux-thai
-pkgver=0.1.15
-pkgrel=4
-pkgdesc='linux thai'
-url='http://www.fedoraproject.org/'
+pkgname=linux-libxml2
+pkgver=2.7.3
+pkgrel=3
+pkgdesc='linux libxml2 package'
+url='http://www.archlinux.org/'
 license=('GPL')
 arch=('any')
 depends=('linux-base')
 options=(!strip)
-source=('http://archive.fedoraproject.org/pub/archive/fedora/linux/releases/10/Fedora/i386/os/Packages/libthai-0.1.9-4.fc9.i386.rpm')
-md5sums=('b2519a46097254bcd4ae884ccc0b001b')
+source=('http://critical.ch/distfiles/rpm/i386/fedora/10/libxml2-2.7.3-1.fc10.i386.rpm')
+md5sums=('d129a2d036aea982de8cfc176abcecf5')
 
 prepare() {
 	rm -f "${srcdir}"/*.rpm
 }
-
 build() {
-        msg "Branding elf files"
     find ${srcdir}/bin ${srcdir}/sbin/ ${srcdir}/usr/bin \
          ${srcdir}/usr/sbin \
            -type f -print0 | xargs -0 file \
           | grep ELF | cut -d : -f 1 \
           | xargs brandelf -t linux
 }
+
 package() {
     cd ${srcdir}
 

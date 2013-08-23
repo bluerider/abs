@@ -24,8 +24,8 @@
 +	"%%LOCALBASE%%/lib/browser_plugins",
 +	"%%LOCALBASE%%/lib/firefox/plugins",
 +	"%%LOCALBASE%%/lib/seamonkey/plugins",
++	"%%LOCALBASE%%/lib/npapi/flashplugin",
 +	"%%LOCALBASE%%/lib/npapi/linux-flashplugin",
-+	"%%LOCALBASE%%/lib/npapi/linux-f10-flashplugin",
 +	"%%LOCALBASE%%/Adobe/Acrobat7.0/ENU/Browser/intellinux",
 +	"%%LOCALBASE%%/Adobe/Reader8/ENU/Adobe/Reader8/Browser/intellinux",
  #endif

@@ -1,6 +1,6 @@
 pkgname=flashplugin
 pkgver=11.2.202.297
-pkgrel=4
+pkgrel=9
 pkgdesc='Adobe Flash Player'
 url='http://get.adobe.com/flashplayer'
 license=('custom')
@@ -12,78 +12,79 @@ depends=('linux-base' 'linux-atk' 'linux-cairo' 'linux-expat'
          'linux-nspr' 'linux-nss' 'linux-openldap' 'linux-sqlite' 'nspluginwrapper')
 optdepends=('libvdpau' 'linux-nvidia')
 install=flash.install
-source=("http://fpdownload.macromedia.com/get/flashplayer/pdc/$pkgver/install_flash_player_11_linux.i386.tar.gz"
-        mms.cfg)
+source=("http://fpdownload.macromedia.com/get/flashplayer/pdc/11.2.202.297/install_flash_player_11_linux.i386.tar.gz"
+	"http://ftp.FreeBSD.org/pub/FreeBSD/ports/local-distfiles/nox/linux-f10-flashsupport-9.0.1.i386.tar.gz")
 md5sums=('686fc9363d94213460f389581ca7ba3b'
-         '6e12380d4df3514984effd5d8ca65699')
+         '6e416c81497f65065d78dae1e0acad0d')
 npapi() {
-  install -d "${pkgdir}"/usr/lib/npapi/symlinks/firefox \
-	"${pkgdir}"/usr/lib/npapi/symlinks/firefox-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-firefox \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-firefox-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/flock \
-	"${pkgdir}"/usr/lib/npapi/symlinks/flock-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-flock \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-flock-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/mozilla \
-	"${pkgdir}"/usr/lib/npapi/symlinks/mozilla-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-mozilla \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-netscape-messenger \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-netscape-navigator \
-	"${pkgdir}"/usr/lib/npapi/symlinks/nvu \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-nvu \
-	"${pkgdir}"/usr/lib/npapi/symlinks/opera \
-	"${pkgdir}"/usr/lib/npapi/symlinks/opera-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-opera \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-opera-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/seamonkey \
-	"${pkgdir}"/usr/lib/npapi/symlinks/seamonkey-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-seamonkey \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-seamonkey-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/sunbird \
-	"${pkgdir}"/usr/lib/npapi/symlinks/sunbird-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-sunbird \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-sunbird-devel
+  install -d "${pkgdir}"/usr/local/lib/npapi/symlinks/firefox \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/firefox-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-firefox \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-firefox-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/flock \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/flock-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-flock \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-flock-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/mozilla \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/mozilla-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-mozilla \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-netscape-messenger \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-netscape-navigator \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/nvu \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-nvu \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/opera \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/opera-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-opera \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-opera-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/seamonkey \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/seamonkey-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-seamonkey \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-seamonkey-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/sunbird \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/sunbird-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-sunbird \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-sunbird-devel
 
-  for _dir in "${pkgdir}"/usr/lib/linux-firefox/plugins \
-	"${pkgdir}"/usr/lib/linux-firefox-devel/plugins \
-	"${pkgdir}"/usr/lib/linux-flock/plugins \
-	"${pkgdir}"/usr/lib/linux-flock-devel/plugins \
-	"${pkgdir}"/usr/lib/linux-mozilla/plugins \
-	"${pkgdir}"/usr/lib/linux-netscape-messenger/plugins \
-	"${pkgdir}"/usr/lib/linux-netscape-navigator/plugins \
-	"${pkgdir}"/usr/lib/linux-nvu/plugins \
-	"${pkgdir}"/usr/lib/linux-seamonkey/plugins \
-	"${pkgdir}"/usr/lib/linux-seamonkey-devel/plugins \
-	"${pkgdir}"/usr/lib/linux-sunbird/plugins \
-	"${pkgdir}"/usr/lib/linux-sunbird-devel/plugins \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-firefox \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-firefox-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-flock \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-flock-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-mozilla \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-netscape-messenger \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-netscape-navigator \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-nvu \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-opera \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-opera-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-seamonkey \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-seamonkey-devel \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-sunbird \
-	"${pkgdir}"/usr/lib/npapi/symlinks/linux-sunbird-devel; do
-  ln -sf "${pkgdir}"/usr/lib/npapi/flashplugin/libflashplayer.so $_dir/ 2>/dev/null || true;
+  for _dir in "${pkgdir}"/usr/local/liblinux-firefox/plugins \
+	"${pkgdir}"/usr/local/liblinux-firefox-devel/plugins \
+	"${pkgdir}"/usr/local/liblinux-flock/plugins \
+	"${pkgdir}"/usr/local/liblinux-flock-devel/plugins \
+	"${pkgdir}"/usr/local/liblinux-mozilla/plugins \
+	"${pkgdir}"/usr/local/liblinux-netscape-messenger/plugins \
+	"${pkgdir}"/usr/local/liblinux-netscape-navigator/plugins \
+	"${pkgdir}"/usr/local/liblinux-nvu/plugins \
+	"${pkgdir}"/usr/local/liblinux-seamonkey/plugins \
+	"${pkgdir}"/usr/local/liblinux-seamonkey-devel/plugins \
+	"${pkgdir}"/usr/local/liblinux-sunbird/plugins \
+	"${pkgdir}"/usr/local/liblinux-sunbird-devel/plugins \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-firefox \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-firefox-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-flock \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-flock-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-mozilla \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-netscape-messenger \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-netscape-navigator \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-nvu \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-opera \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-opera-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-seamonkey \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-seamonkey-devel \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-sunbird \
+	"${pkgdir}"/usr/local/lib/npapi/symlinks/linux-sunbird-devel; do
+  ln -sf "${pkgdir}"/usr/local/lib/npapi/flashplugin/libflashplayer.so $_dir/ 2>/dev/null || true;
   done
 }
 
 package() {
-	npapi
-
 	install -dm755 "${pkgdir}/compat/linux"
 	install -dm755 "${pkgdir}/compat/linux/usr/lib"
 	install -dm755 "${pkgdir}/compat/linux/etc"
-	install -dm755 "${pkgdir}/usr/lib/npapi/flashplugin"
-	install -m644 "${srcdir}/libflashplayer.so" "${pkgdir}/compat/linux/usr/lib/libflashplayer.so"
+	install -dm755 "${pkgdir}/usr/local/lib/npapi/flashplugin"
+	install -m644 "${srcdir}/libflashsupport.so" "${pkgdir}/compat/linux/usr/lib/libflashsupport.so"
 	cp -Ra "${srcdir}/usr" "${pkgdir}/compat/linux"
-	cp "${pkgdir}/compat/linux/usr/lib/libflashplayer.so"  "${pkgdir}/usr/lib/npapi/flashplugin/libflashplayer.so"
-	install -m644 "${srcdir}/mms.cfg" "${pkgdir}/compat/linux/etc/"
+	cp "${srcdir}/libflashplayer.so"  "${pkgdir}/usr/local/lib/npapi/flashplugin/libflashplayer.so"
+
+	npapi
+
+#	install -m644 "${srcdir}/mms.cfg" "${pkgdir}/compat/linux/etc/"
 }
