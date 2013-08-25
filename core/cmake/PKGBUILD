@@ -3,8 +3,8 @@
 # Contributor: Wolfgang Bumiller <blub@speed.at>
 
 pkgname=cmake
-pkgver=2.8.9
-pkgrel=3
+pkgver=2.8.11
+pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.cmake.org/"
 license=('custom')
@@ -14,28 +14,33 @@ optdepends=('qt: cmake-gui')
 options=('!docs')
 conflicts=('cmake-modules')
 provides=('cmake-modules')
+port_patches=(patch-CMakeLists.txt
+	patch-Modules_FindDCMTK.cmake
+	patch-Modules_FindQt4.cmake
+	patch-Modules_FindSDL.cmake
+	patch-Modules_FindwxWidgets.cmake
+	patch-Modules_FindwxWindows.cmake)
 source=("http://www.cmake.org/files/v2.8/${pkgname}-${pkgver}.tar.gz"
-        patch-Modules_FindDCMTK.cmake
-        patch-Modules_FindJava.cmake
-        patch-Modules_FindQt4.cmake
-        patch-Modules_FindwxWidgets.cmake
-        patch-Modules_FindwxWindows.cmake)
-md5sums=('801f4c87f8b604f727df5bf1f05a59e7'
+        ${port_patches[@]}
+)
+md5sums=('be6008f2299613d23fe82ab53ef7472e'
+         'a3caf63dc48e908c0536dcb0f6827ce9'
          'a58b1e1abe2c3cf9b81a225928725e01'
-         'f5efcae8c3d35575b93172cec7d6af59'
-         '715efdbe373b9c40249dde17fc2a998b'
-         'c717a03d877f6e248a09c3592ef5d098'
-         '3d54a7a68af89b8d9a8c51c6579c1461')
+         '4d88e1c9a4deac8de5577c5063ed801b'
+         '7c693aae0a0831d9cd792a9c5fcee3aa'
+         'd6713eb9b5e801636e8f5af78a75f4d0'
+         '45e8024c35ba5c15838e5ee501c5fe98')
 
-build() {
+prepare() {
   cd "${srcdir}/${pkgbase}-${pkgver}"
 
-# Ports patches
-  patch -p0 -i "${srcdir}/patch-Modules_FindDCMTK.cmake"
-  patch -p0 -i "${srcdir}/patch-Modules_FindJava.cmake"
-  patch -p0 -i "${srcdir}/patch-Modules_FindQt4.cmake"
-  patch -p0 -i "${srcdir}/patch-Modules_FindwxWidgets.cmake"
-  patch -p0 -i "${srcdir}/patch-Modules_FindwxWindows.cmake"
+  for _patch in ${port_patches[@]}; do
+    msg "Patching port patch $_patch"
+    patch -p0 -i "${srcdir}/$_patch"
+  done
+}
+build() {
+  cd "${srcdir}/${pkgbase}-${pkgver}"
 
   ./configure --prefix=/usr \
     --mandir=/share/man \
