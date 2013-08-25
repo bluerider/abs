@@ -109,8 +109,8 @@ package_linux-nvidia-utils() {
            libnvidia-glcore.so.${pkgver} \
            libnvidia-tls.so.${pkgver}
   do
-    install -m755 "obj/linux/$i" "${pkgdir}/compat/linux/usr/lib/$i"
-    #ln -sv "$i" "${pkgdir}/compat/linux/usr/lib/${i%%.1}"
+    install -m755 "obj/linux/$i" "${pkgdir}/compat/linux/usr/lib/${i%%.${pkgver}*}.1"
+#    ln -sv "$i" "${pkgdir}/compat/linux/usr/lib/${i%%.${pkgver}}.1"
   done
 
 # vdpau
@@ -120,8 +120,8 @@ package_linux-nvidia-utils() {
   	   libvdpau.so.${pkgver} \
   	   libvdpau_trace.so.${pkgver}
   do
-    install -m755 "obj/linux/$i" "${pkgdir}/compat/linux/usr/lib/vdpau/$i"
-    #ln -sv "$i" "${pkgdir}/compat/linux/usr/lib/vdpau/${i%%.1}"
+    install -m755 "obj/linux/$i" "${pkgdir}/compat/linux/usr/lib/vdpau/${i%%.${pkgver}*}.1"
+#    ln -sv "$i" "${pkgdir}/compat/linux/usr/lib/vdpau/${i%%.1}"
   done
 }
 
