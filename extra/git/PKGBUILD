@@ -3,7 +3,7 @@
 
 pkgname=git
 pkgver=1.8.3.4
-pkgrel=2
+pkgrel=3
 pkgdesc="the fast distributed version control system"
 arch=(i686 x86_64)
 url="http://git-scm.com/"
@@ -30,6 +30,7 @@ source=("http://git-core.googlecode.com/files/git-$pkgver.tar.gz"
         "http://git-core.googlecode.com/files/git-manpages-$pkgver.tar.gz"
         init.d-git-daemon
         conf.d-git-daemon
+        git_daemon.in
         ${portpatches[@]})
 
 build() {
@@ -124,8 +125,10 @@ package() {
   rm -rf "$pkgdir"/usr/lib/perl5/auto
 
   # git daemon script
+  install -dm755 "$pkgdir"/etc/rc.d
   install -dm755 "$pkgdir"/etc/init.d
   install -dm755 "$pkgdir"/etc/conf.d
+  install -m755 "$srcdir"/git_daemon.in "$pkgdir"/etc/rc.d/git_daemon
   install -m755 "$srcdir"/init.d-git-daemon "$pkgdir"/etc/init.d/git-daemon
   install -m644 "$srcdir"/conf.d-git-daemon "$pkgdir"/etc/conf.d/git-daemon
 }
@@ -133,6 +136,7 @@ md5sums=('80eec3201a5d012913d287b85adaee8e'
          '86fd812754d25201fd72c7476045dfec'
          'fc18331ec12a3529216f3b45f385b831'
          '66fb74fb87bfe83b7023e1d82bbf7f24'
+         '6295012674e1cc4df42944145d00c415'
          'acd7bd553afbba47a31f9f275f643c26'
          'bcc41c58405281df66d5f280e079de62'
          '091927fa5339b1953fefd6d12e03eb6e')
