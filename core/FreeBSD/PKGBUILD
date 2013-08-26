@@ -76,11 +76,12 @@ flags_for_all() {
   export CPP=clang-cpp
   export CXX=clang++
 
-  if [[ "$CARCH" = "x86_64" ]]; then
-		export CFLAGS+="-march=x86-64 -mtune=generic -O2"
-  else
-		export CFLAGS+="-march=$CARCH -mtune=generic -O2"
-  fi
+  export CFLAGS+="-march=${CARCH//_/-} -mtune=generic -O2"
+  #if [[ "$CARCH" = "x86_64" ]]; then
+#		export CFLAGS+="-march=x86-64 -mtune=generic -O2"
+#  else
+#		export CFLAGS+="-march=$CARCH -mtune=generic -O2"
+#  fi
   
   export PATH=/usr/local/bin:$PATH
 }
@@ -186,7 +187,7 @@ _package_freebsd-world() {
   rm -f "${pkgdir}"/usr/bin/unzip
 
   #Remove freebsd-update
-  rm -f "${pkgdir}"/usr/sbinfreebsd-update
+  rm -f "${pkgdir}"/usr/sbin/freebsd-update
 
   #Remove files now provided by FreeBSD-config
   for i in /etc/freebsd-update.conf /etc/netstart \
@@ -205,8 +206,10 @@ _package_freebsd-world() {
   chmod -Rv 755 ${pkgdir}/var/cache
 
   # fix lib32 dir breakage
-  rmdir "${pkgdir}/usr/lib32/"{dtrace,i18n}
-  rmdir "${pkgdir}/usr/lib32/"
+  if [[ "$CARCH" == "x86_64" ]]; then
+	  rmdir "${pkgdir}/usr/lib32/"{dtrace,i18n}
+	  rmdir "${pkgdir}/usr/lib32/"
+  fi
 
   backup=('boot/device.hints'
         'boot/loader.conf')
@@ -217,61 +220,63 @@ _package_freebsd-world() {
     backup=(${backup[@]} "${f}")
   done
 
-  msg "Fixing up 32/64 bit include files"
-  # Move machine headers to a 64/ directory and create wrappers
-  rm -rf "${srcdir}/machine64"
-  mv "$pkgdir"/usr/include/machine "$srcdir"/machine64
-  install -dm755 "$pkgdir"/usr/include/machine
-  mv "$srcdir"/machine64 "$pkgdir"/usr/include/machine/64
-  # Install 32 bit machine headers to /usr/include/machine/32
-  cp -R "$srcdir"/freebsd/sys/i386/include "$pkgdir"/usr/include/machine/32
-  cd "$pkgdir"/usr/include/machine
-  install -dm755 pc
-  for i in 64/pc/*; do
-    b=${i#64/pc/}
-    cat > "pc/$b" <<EOF
+  if [[ "$CARCH" == "x86_64" ]]; then
+	  msg "Fixing up 32/64 bit include files"
+	  # Move machine headers to a 64/ directory and create wrappers
+	  rm -rf "${srcdir}/machine64"
+	  mv "$pkgdir"/usr/include/machine "$srcdir"/machine64
+	  install -dm755 "$pkgdir"/usr/include/machine
+	  mv "$srcdir"/machine64 "$pkgdir"/usr/include/machine/64
+	  # Install 32 bit machine headers to /usr/include/machine/32
+	  cp -R "$srcdir"/freebsd/sys/i386/include "$pkgdir"/usr/include/machine/32
+	  cd "$pkgdir"/usr/include/machine
+	  install -dm755 pc
+	  for i in 64/pc/*; do
+	    b=${i#64/pc/}
+	    cat > "pc/$b" <<EOF
 #if __x86_64
 #  include <machine/64/pc/$b>
 #else
 #  include <machine/32/pc/$b>
 #endif
 EOF
-  done
+	  done
 
-  for i in 64/*; do
-    b=${i#64/}
-    if [ "$b" = "pc" ]; then continue; fi
-    if [ -e "32/$b" ]; then
-      cat > "$b" <<EOF
+	  for i in 64/*; do
+	    b=${i#64/}
+	    if [ "$b" = "pc" ]; then continue; fi
+	    if [ -e "32/$b" ]; then
+	      cat > "$b" <<EOF
 #if __x86_64
 #  include <machine/64/$b>
 #else
 #  include <machine/32/$b>
 #endif
 EOF
-    else
-      cat > "$b" <<EOF
+	    else
+	      cat > "$b" <<EOF
 #if __x86_64
 #  include <machine/64/$b>
 #else
 #  error "No such 32-bit include: <machine/32/$b>"
 #endif
 EOF
-    fi
-  done
-  for i in 32/*; do
-    if [ "$b" = "pc" ]; then continue; fi
-    b=${i#32/}
-    if [ ! -e "$b" ]; then
-      cat > "$b" <<EOF
+	    fi
+	  done
+	  for i in 32/*; do
+	    if [ "$b" = "pc" ]; then continue; fi
+	    b=${i#32/}
+	    if [ ! -e "$b" ]; then
+	      cat > "$b" <<EOF
 #if __x86_64
 #  error "No such 64-bit include: <machine/64/$b>"
 #else
 #  include <machine/32/$b>
 #endif
 EOF
-    fi
-  done
+	    fi
+	  done
+  fi
 }
 
 _package_freebsd-source() {
