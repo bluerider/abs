@@ -3,7 +3,7 @@
 
 pkgbase=xorg-server
 # dmx: depends on linux-specific headers
-pkgname=('xorg-server' 'xorg-server-xvfb' 'xorg-server-xnest' 'xorg-server-common' 'xorg-server-devel')
+pkgname=('xorg-server' 'xorg-server-xvfb' 'xorg-server-xnest' 'xorg-server-common' 'xorg-server-devel' 'xorg-server-xdmx')
 pkgver=1.13.2
 pkgrel=3
 arch=('i686' 'x86_64')
@@ -78,7 +78,7 @@ build() {
       --localstatedir=/var \
       --enable-ipv6 \
       --enable-dri \
-      --disable-dmx \
+      --enable-dmx \
       --enable-xvfb \
       --enable-xnest \
       --enable-composite \
