@@ -277,6 +277,9 @@ EOF
 	    fi
 	  done
   fi
+
+  echo "/lib" > "{$pkgdir}/usr/libdata/ldconfig/lib"
+
 }
 
 _package_freebsd-source() {
