@@ -278,7 +278,7 @@ EOF
 	  done
   fi
 
-  echo "/lib" > "{$pkgdir}/usr/libdata/ldconfig/lib"
+  echo "/lib" > "${pkgdir}/usr/libdata/ldconfig/lib"
 
 }
 
