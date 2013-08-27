@@ -4,18 +4,15 @@
 
 pkgname=cmake
 pkgver=2.8.11
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 url="http://www.cmake.org/"
 license=('custom')
 depends=('curl' 'shared-mime-info')
-makedepends=('expat')
+makedepends=('expat' 'qt4')
 optdepends=('qt: cmake-gui')
 options=('!docs')
-conflicts=('cmake-modules')
-provides=('cmake-modules')
-port_patches=(patch-CMakeLists.txt
-	patch-Modules_FindDCMTK.cmake
+port_patches=(patch-Modules_FindDCMTK.cmake
 	patch-Modules_FindQt4.cmake
 	patch-Modules_FindSDL.cmake
 	patch-Modules_FindwxWidgets.cmake
@@ -24,7 +21,6 @@ source=("http://www.cmake.org/files/v2.8/${pkgname}-${pkgver}.tar.gz"
         ${port_patches[@]}
 )
 md5sums=('be6008f2299613d23fe82ab53ef7472e'
-         'a3caf63dc48e908c0536dcb0f6827ce9'
          'a58b1e1abe2c3cf9b81a225928725e01'
          '4d88e1c9a4deac8de5577c5063ed801b'
          '7c693aae0a0831d9cd792a9c5fcee3aa'
@@ -42,11 +38,12 @@ prepare() {
 build() {
   cd "${srcdir}/${pkgbase}-${pkgver}"
 
-  ./configure --prefix=/usr \
+  ./bootstrap --prefix=/usr \
     --mandir=/share/man \
-    --docdir=/doc/cmake \
-    --datadir=/share \
-    --system-libs
+    --docdir=/share/doc/cmake \
+    --system-libs \
+    --qt-gui \
+    --parallel=$(/usr/bin/getconf NPROCESSORS_ONLN)
 
   gmake
 }
@@ -55,7 +52,7 @@ package() {
   pkgname="cmake"
   pkgdesc="A cross-platform open-source make system"
   install="${pkgname}.install"
-  depends=('curl' 'libarchive' 'shared-mime-info' 'cmake-modules')
+  depends=('curl' 'libarchive' 'shared-mime-info')
 
   cd "${srcdir}/${pkgbase}-${pkgver}"
   gmake DESTDIR="${pkgdir}" install

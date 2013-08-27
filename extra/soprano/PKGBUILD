@@ -4,7 +4,7 @@
 
 pkgname=soprano
 pkgver=2.9.3
-pkgrel=2
+pkgrel=3
 pkgdesc='A library which provides a highly usable object-oriented C++/Qt4 framework for RDF data'
 arch=('i686' 'x86_64')
 url='http://soprano.sourceforge.net/'
@@ -15,8 +15,6 @@ source=("http://downloads.sourceforge.net/${pkgname}/${pkgname}-${pkgver}.tar.bz
 md5sums=('714a729809943efd4b536ed15cd66aca')
 
 prepare() {
-  sed -i '' -e 's,soprano/cmake,cmake/Modules,' \
-		${pkgname}-${pkgver}/cmake/modules/CMakeLists.txt
   sed -i '' -e '/-DLINK_LIBRARIES=dl/d' \
 		${pkgname}-${pkgver}/cmake/modules/FindRedland.cmake
 }
