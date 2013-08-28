@@ -3,98 +3,144 @@
 # Maintainer:  Bartłomiej Piotrowski <nospam@bpiotrowski.pl>
 # Contributor: Miroslaw Szot <mss@czlug.icis.pcz.pl>
 
-_cfgdir=/etc/nginx
-_tmpdir=/var/lib/nginx
-
-pkgname=nginx
-pkgver=1.4.1
+pkgbase=nginx
+pkgname=('nginx' 'nginx-extra')
+pkgver=1.4.2
 pkgrel=4
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server'
 arch=('i686' 'x86_64')
 depends=('pcre' 'geoip')
-#makedepends=('passenger')
+makedepends=('pcre' 'zlib' 'gd' 'geoip' 'passenger')
 url="http://nginx.org"
 license=('custom')
 install=nginx.install
-backup=(${_cfgdir:1}/fastcgi.conf
-		${_cfgdir:1}/fastcgi_params
-		${_cfgdir:1}/koi-win
-		${_cfgdir:1}/koi-utf
-		${_cfgdir:1}/mime.types
-		${_cfgdir:1}/nginx.conf
-		${_cfgdir:1}/scgi_params
-		${_cfgdir:1}/uwsgi_params
-		${_cfgdir:1}/win-utf
-		etc/logrotate.d/nginx)
+backup=('etc/nginx/fastcgi.conf'
+        'etc/nginx/fastcgi_params'
+	'etc/nginx/koi-win'
+	'etc/nginx/koi-utf'
+	'etc/nginx/mime.types'
+	'etc/nginx/nginx.conf'
+	'etc/nginx/scgi_params'
+	'etc/nginx/uwsgi_params'
+	'etc/nginx/win-utf'
+	'etc/logrotate.d/nginx')
+_port_patches=(
+               'patch-conf-nginx.conf'
+               'extra-patch-agentzh-set-misc-nginx-module-config'
+               'extra-patch-calio-iconv-nginx-module-config'
+               'extra-patch-chaoslawful-drizzle-nginx-module-config'
+               'extra-patch-nginx-modsecurity-config'
+               'extra-patch-ngx_http_notice_module.c'
+               'extra-patch-ngx_http_sflow_config.c'
+               'extra-patch-ngx_http_streaming_module.c'
+               'extra-patch-ngx_http_udplog_module.c'
+               'extra-patch-ngx_http_upload_module.c'
+               'extra-patch-ngx_http_upstream.h'
+               'extra-patch-ngx_postgres-config'
+               'extra-patch-passenger-build-nginx.rb'
+               'extra-patch-syslog_support'
+               )
 source=(http://nginx.org/download/nginx-$pkgver.tar.gz
 		nginx.initd
 		nginx.in
-		logrotate)
-sha256sums=('bca5d1e89751ba29406185e1736c390412603a7e6b604f5b4575281f6565d119'
+		logrotate
+		${_port_patches[@]})
+sha256sums=('5361ffb7b0ebf8b1a04369bc3d1295eaed091680c1c58115f88d56c8e51f3611'
             'ae8a8d8cbc46c481dab3adf2466953cc3daf84a178c18e81111b1f2fcfa9a251'
             'ff564e753bba5e1ec9e71c050f9bb023e753075c203b186d8e4cd9e1129039da'
-            '9523a1fdd5eb61bf62f3049f6ee088b198e36d5edcce2d9b08bbeb2930aa5a16')
+            '9523a1fdd5eb61bf62f3049f6ee088b198e36d5edcce2d9b08bbeb2930aa5a16'
+            '18359f21b5013798245e55e2e06b939665bb98875fadc95740118ed93a3850ae'
+            '114bfa9f23e7a76d80f17063df97fff7a49747173680e04e83c982d45361309c'
+            '9ac2993bc4b67c9ccbce016115037d65120366e4772a48e1cc02b04c7625b155'
+            'e5e2cd3cc9c83eea5a2d4859c19ae1f953f292504137757a22f2c962272eb446'
+            '789325a36438f43de30bd0ead15604eec7846c399673fa78642c1e7815c493d0'
+            '18be0c16335c0ad265edd6ea60a8baa5b7b8614742867dc1339302b4f4c41209'
+            '047bfca9582ac8584fbcf85ce178dd90c5a4970a23517b50b26b7f5ec8cb8100'
+            '410127349191adb7eaa56e42cea6e4bb2ac99d29b18063e9de72e48c9d5f2403'
+            '1cacbc34673da16c15a4e89c1586a79a0dd8f7b98c53181cb60c4b81a2e90f38'
+            '959ba0ccde28827570ad26bf4e999d6333f991b88bb24b27547aedd717b2df06'
+            '01904d5682a2b387a5242dc87a362e3629cc710259de5b0dc9306e24807898f3'
+            'd2d04b3bb3b022f042bbdcee13fceeff284b20fa04eaf54996d34a04eaf93ed6'
+            '4634b52196ee462829b3ad3fc2b826be7e6116cc151afab3733b4d19887bb922'
+            '3ed72e8e2ddbfca6d064c072719d8cb1697bbd6093b84bf9ee372191669ce32a')
+
+_base_options=(
+	'--prefix=/etc/nginx'
+	'--conf-path=/etc/nginx/nginx.conf'
+	'--sbin-path=/usr/sbin/nginx'
+	'--pid-path=/var/run/nginx.pid'
+	'--lock-path=/var/run/lock/nginx.lock'
+	'--user=http'
+	'--group=http'
+	'--http-log-path=/var/log/nginx/access.log'
+	'--error-log-path=/var/log/nginx/error.log'
+	'--http-client-body-temp-path=/var/lib/nginx/client-body'
+	'--http-proxy-temp-path=/var/lib/nginx/proxy'
+	'--http-fastcgi-temp-path=/var/lib/nginx/fastcgi'
+	'--http-scgi-temp-path=/var/lib/nginx/scgi'
+	'--http-uwsgi-temp-path=/var/lib/nginx/uwsgi'
+	'--with-imap'
+	'--with-imap_ssl_module'
+	'--with-ipv6'
+	'--with-pcre-jit'
+	'--with-file-aio'
+	'--with-http_dav_module'
+	'--with-http_gunzip_module'
+	'--with-http_gzip_static_module'
+	'--with-http_realip_module'
+	'--with-http_spdy_module'
+	'--with-http_ssl_module'
+	'--with-http_stub_status_module'
+)
+prepare() {
+	cd "${srcdir}/${pkgname}-${pkgver}"
+
+	for _p in ${_port_patches[@]}; do
+		patch < ../${_p}
+	done
+}
 
 build() {
 	cd "$srcdir"/$pkgname-$pkgver
 
 	./configure \
-        --prefix=$_cfgdir \
-        --conf-path=$_cfgdir/nginx.conf \
-        --sbin-path=/usr/bin/nginx \
-        --pid-path=/var/run/nginx.pid \
-        --lock-path=/var/lock/nginx.lock \
-        --user=http --group=http \
-        --http-log-path=/var/log/nginx/access.log \
-        --error-log-path=/var/log/nginx/error.log \
-        --http-client-body-temp-path=$_tmpdir/client-body \
-        --http-proxy-temp-path=$_tmpdir/proxy \
-        --http-fastcgi-temp-path=$_tmpdir/fastcgi \
-        --http-scgi-temp-path=$_tmpdir/scgi \
-        --http-uwsgi-temp-path=$_tmpdir/uwsgi \
-        --with-imap --with-imap_ssl_module \
-        --with-ipv6 --with-pcre-jit \
-        --with-file-aio \
-        --with-http_dav_module \
-        --with-http_geoip_module \
-        --with-http_gunzip_module \
-        --with-http_gzip_static_module \
-        --with-http_realip_module \
-        --with-http_spdy_module \
-        --with-http_ssl_module \
-        --with-http_stub_status_module \
-        #--add-module=/usr/lib/passenger/ext/nginx \
-        #--with-http_mp4_module \
-        #--with-http_addition_module \
-        #--with-http_xslt_module \
-        #--with-http_image_filter_module \
-        #--with-http_sub_module \
-        #--with-http_flv_module \
-        #--with-http_random_index_module \
-        #--with-http_secure_link_module \
-        #--with-http_degradation_module \
-        #--with-http_perl_module \
+        	${_base_options[@]} \
+		--with-http_addition_module \
+		--with-http_degradation_module \
+		--with-http_flv_module \
+		--with-http_geoip_module \
+		--with-http_image_filter_module \
+		--with-http_mp4_module \
+		--with-http_secure_link_module \
+		--with-http_sub_module \
+		--add-module=/usr/lib/passenger/ext/nginx \
+		--add-module=../ngx_http_auth_pam_module-1.2
 
 	make
 }
 
-package() {
+package_nginx() {
+	pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server'
+	conflicts=('nginx-extra')
+	depends=('pcre' 'zlib')
+
 	cd "$srcdir"/$pkgname-$pkgver
 	make DESTDIR="$pkgdir" install
 
-	gsed -e 's|\<user\s\+\w\+;|user html;|g' \
+	sed -e 's|\<user\s\+\w\+;|user html;|g' \
 		-e '44s|html|/usr/share/nginx/html|' \
 		-e '54s|html|/usr/share/nginx/html|' \
-		-i "$pkgdir"/etc/nginx/nginx.conf
+		-i '' "$pkgdir"/etc/nginx/nginx.conf
 	rm "$pkgdir"/etc/nginx/*.default
 
-	install -dm755 "$pkgdir"/$_tmpdir
-	install -dm700 "$pkgdir"/$_tmpdir/proxy
+	install -dm755 "$pkgdir"/var/lib/nginx
+	install -dm700 "$pkgdir"/var/lib/nginx/proxy
 
-	chmod 755 "$pkgdir"/var/log/nginx
+	chmod 750 "$pkgdir"/var/log/nginx
+	chown http:log "$pkgdir"/var/log/nginx
 
-	install -d "$pkgdir"/usr/share/nginx
-	mv "$pkgdir"/etc/nginx/html/ "$pkgdir"/usr/share/nginx
+	install -dm755 "$pkgdir"/usr/share/nginx
+	mv "$pkgdir"/etc/nginx/html "$pkgdir"/usr/share/nginx
 
 	install -dm755 "$pkgdir"/etc/logrotate.d
 	install -dm755 "$pkgdir"/etc/init.d
@@ -104,5 +150,14 @@ package() {
 	install -m644 "$srcdir"/logrotate "$pkgdir"/etc/logrotate.d/nginx
 	install -m644 nginx.in "$pkgdir"/etc/rc.d/nginx
 	install -m644 LICENSE "$pkgdir"/usr/share/licenses/nginx/LICENSE
+
 	rm -rf "$pkgdir"/var/run
+}
+
+package_nginx-extra() {
+	package_nginx
+
+	pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server with extra modules'
+	conflicts=('nginx')
+	depends=('pcre' 'zlib' 'gd' 'geoip')
 }
