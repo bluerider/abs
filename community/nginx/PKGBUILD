@@ -8,7 +8,7 @@ _tmpdir=/var/lib/nginx
 
 pkgname=nginx
 pkgver=1.4.1
-pkgrel=3
+pkgrel=4
 pkgdesc='Lightweight HTTP server and IMAP/POP3 proxy server'
 arch=('i686' 'x86_64')
 depends=('pcre' 'geoip')
@@ -28,6 +28,7 @@ backup=(${_cfgdir:1}/fastcgi.conf
 		etc/logrotate.d/nginx)
 source=(http://nginx.org/download/nginx-$pkgver.tar.gz
 		nginx.initd
+		nginx.in
 		logrotate)
 sha256sums=('bca5d1e89751ba29406185e1736c390412603a7e6b604f5b4575281f6565d119'
             '11ba14fd2c651c098c5c1cdaf0ddfca8a3a5c9e054aa79b094f13e2d8e55de9c'
@@ -95,10 +96,12 @@ package() {
 	mv "$pkgdir"/etc/nginx/html/ "$pkgdir"/usr/share/nginx
 
 	install -dm755 "$pkgdir"/etc/logrotate.d
-	install -Dm644 "$srcdir"/logrotate "$pkgdir"/etc/logrotate.d/nginx
 	install -dm755 "$pkgdir"/etc/init.d
-	install -Dm644 "$srcdir"/nginx.initd "${pkgdir}/etc/init.d/nginx"
+	install -dm755 "$pkgdir"/etc/rc.d
 	install -dm755 "$pkgdir"/usr/share/licenses/nginx
-	install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/nginx/LICENSE
+	install -m644 "$srcdir"/nginx.initd "${pkgdir}/etc/init.d/nginx"
+	install -m644 "$srcdir"/logrotate "$pkgdir"/etc/logrotate.d/nginx
+	install -m644 nginx.in "$pkgdir"/etc/rc.d/nginx
+	install -m644 LICENSE "$pkgdir"/usr/share/licenses/nginx/LICENSE
 	rm -rf "$pkgdir"/var/run
 }
