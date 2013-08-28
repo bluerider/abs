@@ -14,7 +14,7 @@ nginx_config=${nginx_config:-/etc/nginx/nginx.conf}
 
 command="/usr/bin/nginx"
 command_args="-c ${nginx_config}"
-pidfile=${pidfile:-/run/nginx.pid}
+pidfile=${pidfile:-/var/run/nginx.pid}
 user=${user:-http}
 group=${group:-http}
 
