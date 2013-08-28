@@ -31,7 +31,8 @@ source=(http://nginx.org/download/nginx-$pkgver.tar.gz
 		nginx.in
 		logrotate)
 sha256sums=('bca5d1e89751ba29406185e1736c390412603a7e6b604f5b4575281f6565d119'
-            '11ba14fd2c651c098c5c1cdaf0ddfca8a3a5c9e054aa79b094f13e2d8e55de9c'
+            'ae8a8d8cbc46c481dab3adf2466953cc3daf84a178c18e81111b1f2fcfa9a251'
+            'ff564e753bba5e1ec9e71c050f9bb023e753075c203b186d8e4cd9e1129039da'
             '9523a1fdd5eb61bf62f3049f6ee088b198e36d5edcce2d9b08bbeb2930aa5a16')
 
 build() {
