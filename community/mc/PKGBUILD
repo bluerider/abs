@@ -1,0 +1,57 @@
+# $Id$
+# Contributor: Claudiu Traistaru <claudiu2004@gmail.com>
+# Contributor: Daniel J Griffiths <ghost1227@archlinux.us>
+# Maintainer: schuay <jakob.gruber@gmail.com>
+
+pkgname=mc
+pkgver=4.8.10
+pkgrel=1
+pkgdesc="Midnight Commander is a text based filemanager/shell that emulates Norton Commander"
+arch=('i686' 'x86_64')
+url="http://www.ibiblio.org/mc/"
+license=('GPL')
+depends=(
+    'glib2'
+    'libssh2'
+    'pcre'
+    'slang')
+makedepends=('libxt' 'libx11')
+optdepends=(
+    'cabextract: ucab extfs'
+    'cdparanoia: audio extfs'
+    'cdrkit: iso9660 extfs'
+    'gawk: hp48+ extfs'
+    'aspell: spelling corrections'
+    'cvs: CVS support'
+    'mtools: a+ extfs'
+    'perl: needed by several extfs scripts'
+    'python2-boto: s3+ extfs'
+    'python2-pytz: s3+ extfs'
+    'smb: VFS support'
+    'p7zip: support for 7zip archives')
+options=('!emptydirs' '!makeflags')
+backup=('etc/mc/edit.indent.rc'
+        'etc/mc/filehighlight.ini'
+        'etc/mc/mcedit.menu'
+        'etc/mc/mc.ext'
+        'etc/mc/mc.keymap'
+        'etc/mc/mc.menu'
+        'etc/mc/sfs.ini')
+source=("http://www.midnight-commander.org/downloads/${pkgname}-${pkgver}.tar.bz2")
+
+build() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+
+    ./configure --prefix=/usr/ --sysconfdir=/etc --enable-vfs-smb \
+        --with-x --libexecdir=/usr/libexec --with-slang --with-slang-libs=/usr/lib
+
+    gmake
+}
+
+package() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+
+    gmake DESTDIR="${pkgdir}" install
+}
+
+md5sums=('eb4bdc23abd4fdfa14911d53d65c8186')
