@@ -5,7 +5,7 @@
 pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32' 'freebsd-init')
 _freebsdver=9.2
 pkgrel=1
-pkgver=0.0.0
+pkgver=9.2.20130828.f007caf
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -76,11 +76,14 @@ flags_for_all() {
   export CPP=clang-cpp
   export CXX=clang++
 
-  export CFLAGS+="-march=${CARCH//_/-} -mtune=generic -O2"
-  #if [[ "$CARCH" = "x86_64" ]]; then
+  #export CFLAGS+="-march=${CARCH//_/-} -mtune=generic -O2"
+  ARCH=$(uname -m | sed "s/_/-/g")
+  export CFLAGS="-march=$ARCH -mtune=generic -O2"
+  [[ $ARCH == "x86-64" && $CARCH == "i686" ]] && CFLAGS+=" -m32"
+#  if [[ "$CARCH" = "x86_64" ]]; then
 #		export CFLAGS+="-march=x86-64 -mtune=generic -O2"
 #  else
-#		export CFLAGS+="-march=$CARCH -mtune=generic -O2"
+#		export CFLAGS+="-march=i686 -m32 -mtune=generic -O2"
 #  fi
   
   export PATH=/usr/local/bin:$PATH
