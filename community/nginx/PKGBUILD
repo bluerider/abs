@@ -25,21 +25,11 @@ backup=('etc/nginx/fastcgi.conf'
 	'etc/nginx/win-utf'
 	'etc/logrotate.d/nginx')
 _port_patches=(
-               'patch-conf-nginx.conf'
-               'extra-patch-agentzh-set-misc-nginx-module-config'
-               'extra-patch-calio-iconv-nginx-module-config'
-               'extra-patch-chaoslawful-drizzle-nginx-module-config'
-               'extra-patch-nginx-modsecurity-config'
-               'extra-patch-ngx_http_notice_module.c'
-               'extra-patch-ngx_http_sflow_config.c'
-               'extra-patch-ngx_http_streaming_module.c'
-               'extra-patch-ngx_http_udplog_module.c'
-               'extra-patch-ngx_http_upload_module.c'
                'extra-patch-ngx_http_upstream.h'
-               'extra-patch-ngx_postgres-config'
-               'extra-patch-passenger-build-nginx.rb'
                'extra-patch-syslog_support'
+               'patch-conf-nginx.conf'
                )
+
 source=(http://nginx.org/download/nginx-$pkgver.tar.gz
 		nginx.initd
 		nginx.in
@@ -49,20 +39,9 @@ sha256sums=('5361ffb7b0ebf8b1a04369bc3d1295eaed091680c1c58115f88d56c8e51f3611'
             'ae8a8d8cbc46c481dab3adf2466953cc3daf84a178c18e81111b1f2fcfa9a251'
             'ff564e753bba5e1ec9e71c050f9bb023e753075c203b186d8e4cd9e1129039da'
             '9523a1fdd5eb61bf62f3049f6ee088b198e36d5edcce2d9b08bbeb2930aa5a16'
-            '18359f21b5013798245e55e2e06b939665bb98875fadc95740118ed93a3850ae'
-            '114bfa9f23e7a76d80f17063df97fff7a49747173680e04e83c982d45361309c'
-            '9ac2993bc4b67c9ccbce016115037d65120366e4772a48e1cc02b04c7625b155'
-            'e5e2cd3cc9c83eea5a2d4859c19ae1f953f292504137757a22f2c962272eb446'
-            '789325a36438f43de30bd0ead15604eec7846c399673fa78642c1e7815c493d0'
-            '18be0c16335c0ad265edd6ea60a8baa5b7b8614742867dc1339302b4f4c41209'
-            '047bfca9582ac8584fbcf85ce178dd90c5a4970a23517b50b26b7f5ec8cb8100'
-            '410127349191adb7eaa56e42cea6e4bb2ac99d29b18063e9de72e48c9d5f2403'
-            '1cacbc34673da16c15a4e89c1586a79a0dd8f7b98c53181cb60c4b81a2e90f38'
-            '959ba0ccde28827570ad26bf4e999d6333f991b88bb24b27547aedd717b2df06'
             '01904d5682a2b387a5242dc87a362e3629cc710259de5b0dc9306e24807898f3'
-            'd2d04b3bb3b022f042bbdcee13fceeff284b20fa04eaf54996d34a04eaf93ed6'
-            '4634b52196ee462829b3ad3fc2b826be7e6116cc151afab3733b4d19887bb922'
-            '3ed72e8e2ddbfca6d064c072719d8cb1697bbd6093b84bf9ee372191669ce32a')
+            '3ed72e8e2ddbfca6d064c072719d8cb1697bbd6093b84bf9ee372191669ce32a'
+            '18359f21b5013798245e55e2e06b939665bb98875fadc95740118ed93a3850ae')
 
 _base_options=(
 	'--prefix=/etc/nginx'
