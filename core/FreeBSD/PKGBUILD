@@ -2,10 +2,14 @@
 # This PKGBUILD needs to be run as root due to FreeBSD chflags used during compiled
 # makepkg --asroot
 #
-pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32' 'freebsd-init')
+if [[ "$CARCH" == "x86_64" ]]; then
+	pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-lib32' 'freebsd-init')
+else
+	pkgname=('freebsd-world' 'freebsd-kernel' 'freebsd-source' 'freebsd-init')
+fi
 _freebsdver=9.2
 pkgrel=1
-pkgver=9.2.20130828.f007caf
+pkgver=9.2
 arch=('i686' 'x86_64')
 url="https://www.freebsd.org"
 license=('BSD')
@@ -100,7 +104,7 @@ _build() {
   make NOCLEAN=YES TARGET=$TARGET KERNCONF=${KERNCONF} buildkernel || (echo buildkernel failed... && return 1)
 
   msg "Building world"
-  make TARGET=$TARGET buildworld || (echo buildworld failed... && return 1)
+  make NO_CLEAN= TARGET=$TARGET buildworld || (echo buildworld failed... && return 1)
 
 }
 
@@ -295,6 +299,7 @@ _package_freebsd-source() {
   rm -rf "${pkgdir}"/usr/src/.git
 }
 
+if [[ "$CARCH" == "x86_64" ]]; then
 _package_freebsd-lib32() {
    pkgdesc="FreeBSD lib32 libraries"
    provides=(lib32-libc=${_freebsdver})
@@ -313,6 +318,7 @@ _package_freebsd-lib32() {
    rm "${pkgdir}"/usr/lib32/libstdc++.{a,so,so.6}
    rm "${pkgdir}"/usr/lib32/libsupc++.{a,so,so.1}
 }
+fi
 
 _package_freebsd-init() {
    pkgdesc="FreeBSD init scripts"
