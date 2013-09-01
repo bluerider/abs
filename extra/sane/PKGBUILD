@@ -52,7 +52,7 @@ prepare() {
 build() {
   cd "${srcdir}/${pkgname}-backends-${pkgver}"
 
-  ./configure --prefix=/usr --sbindir=/usr/bin \
+  ./configure --prefix=/usr --sbindir=/usr/sbin \
     --sysconfdir=/etc \
     --localstatedir=/var \
     --with-docdir=/usr/share/doc/sane \

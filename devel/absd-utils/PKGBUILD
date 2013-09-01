@@ -1,0 +1,28 @@
+#
+
+pkgname=absd-utils
+pkgver=20130830
+pkgrel=1
+arch=('any')
+license=('BSD')
+backup=('etc/archbsd-build.conf')
+url='http://github.com/ArchBSD/absd-build'
+source=(git://github.com/ArchBSD/pkg-submit-sys#commit=81369cc)
+md5sums=('SKIP')
+
+pkgver() {
+  cd pkg-submit-sys
+  git log -1 --format="%cd" --date=short | sed 's|-||g'
+}
+
+build() {
+  cd pkg-submit-sys
+  make
+}
+
+package() {
+  cd pkg-submit-sys
+  make DESTDIR="$pkgdir" install
+}
+
+# vim:set sw=2 sts=2 et:

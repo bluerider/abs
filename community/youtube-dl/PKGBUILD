@@ -2,7 +2,7 @@
 # Maintainer: Eric Bélanger <eric@archlinux.org>
 
 pkgname=youtube-dl
-pkgver=2013.02.22
+pkgver=2013.08.28.1
 pkgrel=1
 pkgdesc="A small command-line program to download videos from YouTube.com and a few more sites"
 arch=('any')
@@ -11,14 +11,18 @@ license=('custom')
 depends=('python')
 makedepends=('python-distribute')
 source=(http://youtube-dl.org/downloads/${pkgver}/${pkgname}-${pkgver}.tar.gz{,.sig})
-sha1sums=('d9c8a206ab402204772d6316653a81b0683b7b91'
-          '4f804cb0bd493f189d8596ffbafc62e4a6cbf403')
+sha1sums=('e93fb9db1cf8ea3082875a33dca3b06c056fe137'
+          'SKIP')
+
+prepare() {
+  cd ${pkgname}
+  gsed -i 's|etc/bash_completion.d|share/bash-completion/completions|' setup.py
+}
 
 package() {
   cd "${srcdir}/${pkgname}"
-  sed -i '' -e 's|etc/bash_completion.d|share/bash-completion/completions|' \
-            -e 's|youtube-dl.bash-completion|youtube-dl|' setup.py
   python setup.py install --root="${pkgdir}/" --optimize=1
+  mv "${pkgdir}/usr/share/bash-completion/completions/youtube-dl"{.bash-completion,}
   install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
   install -m644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
