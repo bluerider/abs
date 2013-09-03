@@ -1,6 +1,6 @@
 pkgname=libfm
-pkgver=1.1.0
-pkgrel=7
+pkgver=1.1.2
+pkgrel=1
 pkgdesc='Library for file management'
 url='http://pcmanfm.sourceforge.net/'
 arch=('i686' 'x86_64')
@@ -10,7 +10,7 @@ options=('!libtool')
 install=libfm.install
 depends=('gtk2' 'menu-cache' 'shared-mime-info' 'desktop-file-utils' 'vala')
 source=(http://downloads.sourceforge.net/pcmanfm/$pkgname-$pkgver.tar.gz)
-md5sums=('a5bc8b8291cf810c659bfb3af378b5de')
+md5sums=('c09072e26b9688a7d171843c0da9b33f')
 
 build() {
   cd $srcdir/$pkgname-$pkgver
