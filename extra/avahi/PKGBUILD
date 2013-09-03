@@ -4,7 +4,7 @@
 
 pkgname=avahi
 pkgver=0.6.31
-pkgrel=1
+pkgrel=2
 pkgdesc='Multicast/unicast DNS-SD framework'
 url='http://www.avahi.org/'
 license=('LGPL')
@@ -139,5 +139,7 @@ package() {
 	install -m644 freebsd/{avahi-daemon,avahi-dnsconfd} "${pkgdir}/etc/rc.d/"
 	
 	chmod +x "${pkgdir}"/etc/{rc.d,init.d}/{avahi-daemon,avahi-dnsconfd}
-	
+
+	sed -i '' 's|%%GNOME_SUBR%%|/etc/gnome_subr|g' "${pkgdir}/etc/rc.d/avahi-daemon"
+	sed -i '' 's|%%GNOME_SUBR%%|/etc/gnome_subr|g' "${pkgdir}/etc/rc.d/avahi-dnsconfd"
 }
