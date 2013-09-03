@@ -1,6 +1,6 @@
 pkgname=pcmanfm
-pkgver=1.1.0
-pkgrel=2
+pkgver=1.1.1
+pkgrel=1
 pkgdesc="An extremely fast and lightweight file manager"
 arch=('i686' 'x86_64')
 url="http://pcmanfm.sourceforge.net/"
@@ -10,7 +10,7 @@ depends=('gtk2' 'desktop-file-utils' 'libfm' 'lxmenu-data')
 makedepends=('intltool' 'pkgconf')
 install=$pkgname.install
 source=(http://downloads.sourceforge.net/${pkgname}/${pkgname}-$pkgver.tar.gz)
-md5sums=('af0cff78690e658f3c06ceabf27bc71a')
+md5sums=('853ef5e3eba6bf36e15985bfe3170456')
 
 build() {
   cd $srcdir/$pkgname-$pkgver
