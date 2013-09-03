@@ -7,7 +7,7 @@ license=('GPL2')
 url='http://lxde.org/'
 groups=('lxde')
 depends=('gtk2' 'menu-cache' 'lxmenu-data' 'libwnck')
-makedepends=('intltools' 'docbook-xml' 'docbook-xsl' 'git')
+makedepends=('intltool' 'docbook-xml' 'docbook-xsl' 'git')
 optdepends=('wireless_management: wifimgr')
 source=(http://downloads.sourceforge.net/lxde/$pkgname-$pkgver.tar.gz
 	patch-src__plugins__batt__batt.c
