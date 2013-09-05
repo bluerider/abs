@@ -94,7 +94,7 @@ package() {
     ftplugin/go/fmt.vim ftplugin/go/import.vim syntax/go.vim syntax/godoc.vim \
     plugin/godoc.vim;
   do
-    install -dm755 "$pkgdir/usr/share/vim/vimfiles/$f"
+    install -dm755 "$pkgdir/usr/share/vim/vimfiles"
     install -m644 "misc/vim/$f" "$pkgdir/usr/share/vim/vimfiles/$f"
   done
 
