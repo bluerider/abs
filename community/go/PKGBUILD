@@ -11,7 +11,7 @@
 # TODO: Create split packages for the crosscompilation versions? (maybe)
 
 pkgname=go
-pkgver=1.1.1
+pkgver=1.1.2
 pkgrel=1
 pkgdesc='Compiler and tools for the Go programming language from Google'
 arch=('x86_64' 'i686')
@@ -23,15 +23,15 @@ install="$pkgname.install"
 backup=('usr/lib/go/bin')
 
 if [ "$CARCH" == 'x86_64' ]; then
-source=("http://go.googlecode.com/files/${pkgname}$pkgver.freebsd-amd64.tar.gz"
+  source=("http://go.googlecode.com/files/${pkgname}$pkgver.freebsd-amd64.tar.gz"
           "$pkgname.sh")
-sha256sums=('4d53aaa085735058e12a92bf4b13e3d631efc62fbae2d1f2f5816c3a4a5238fd'
-            'a03db71d323ed2794123bb31b5c8ad5febd551c490b5c0b341052c8e5f0ba892')
+  sha256sums=('e4eaf094a1513da68cec1edb46ac0e952d57af93d0f2f39d809ed2a79fe1b9aa'
+              'a03db71d323ed2794123bb31b5c8ad5febd551c490b5c0b341052c8e5f0ba892')
 else
-  source=("http://go.googlecode.com/files/${pkgname}$pkgver.linux-386.tar.gz"
+  source=("http://go.googlecode.com/files/${pkgname}$pkgver.freebsd-386.tar.gz"
           "$pkgname.sh")
-  sha256sums=('fabb01f1b6a048280f4235c6d9be1cd7ed27a653ca0e011c393af23e40b54450'
-            'a03db71d323ed2794123bb31b5c8ad5febd551c490b5c0b341052c8e5f0ba892')
+  sha256sums=('d1da02ddcceee4f6b4060188f16c77ec8c9aec3953214adecc43df32b0b93347'
+              'a03db71d323ed2794123bb31b5c8ad5febd551c490b5c0b341052c8e5f0ba892')
 fi
 
 build() {
@@ -40,6 +40,10 @@ build() {
   export GOROOT_FINAL=/usr/lib/go
 
   bash make.bash
+
+  # We don't support SSE2 for i686, since many i686 CPUs don't have that.
+  # Build this package manually, build Go from AUR or use x86_64 instead.
+  export GO386=387
 
   # Crosscompilation for various platforms (including linux)
   for os in freebsd; do # darwin freebsd windows; do
@@ -71,30 +75,21 @@ check() {
 package() {
   cd "$srcdir/$pkgname"
 
-  install -dm755 \
-    "$pkgdir/usr/share/licenses/go"
-  install -m644 LICENSE \
-    "$pkgdir/usr/share/licenses/go/LICENSE"
-  install -dm755 \
-    "$pkgdir/usr/share/bash-completion/completions"
-  install -m644 misc/bash/go \
-    "$pkgdir/usr/share/bash-completion/completions/go"
-  install -dm755 \
-    "$pkgdir/usr/share/emacs/site-lisp"
-  install -m644 misc/emacs/go-mode-load.el \
-    "$pkgdir/usr/share/emacs/site-lisp/go-mode-load.el"
-  install -m644 misc/emacs/go-mode.el \
-    "$pkgdir/usr/share/emacs/site-lisp/go-mode.el"
-  install -dm755 \
-    "$pkgdir/usr/share/zsh/site-functions"
-  install -m644 misc/zsh/go \
-    "$pkgdir/usr/share/zsh/site-functions/_go"
+  install -dm755        "$pkgdir/usr/share/licenses/go"
+  install -m644 LICENSE "$pkgdir/usr/share/licenses/go/LICENSE"
+  install -dm755             "$pkgdir/usr/share/bash-completion/completions"
+  install -m644 misc/bash/go "$pkgdir/usr/share/bash-completion/completions/go"
+  install -dm755                           "$pkgdir/usr/share/emacs/site-lisp"
+  install -m644 misc/emacs/go-mode-load.el "$pkgdir/usr/share/emacs/site-lisp/go-mode-load.el"
+  install -m644 misc/emacs/go-mode.el      "$pkgdir/usr/share/emacs/site-lisp/go-mode.el"
+  install -dm755            "$pkgdir/usr/share/zsh/site-functions"
+  install -m644 misc/zsh/go "$pkgdir/usr/share/zsh/site-functions/_go"
 
+  install -dm755 "$pkgdir/usr/share/vim/vimfiles/"{,ftdetect,autoload/go,indent,ftplugin/go,syntax,plugin}
   for f in ftdetect/gofiletype.vim autoload/go/complete.vim indent/go.vim \
     ftplugin/go/fmt.vim ftplugin/go/import.vim syntax/go.vim syntax/godoc.vim \
     plugin/godoc.vim;
   do
-    install -dm755 "$pkgdir/usr/share/vim/vimfiles/$f"
     install -m644 "misc/vim/$f" "$pkgdir/usr/share/vim/vimfiles/$f"
   done
 
